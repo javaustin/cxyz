@@ -1,0 +1,303 @@
+# This file should be consistent throughout all servers, except for the `this-server` variable.
+
+
+# Constants
+#     The following variables will display in the servers messaging and UI.
+discord-url: https://discord.gg/minecraft
+server-name: '&6&lcarrot''s &r&aclub'
+server-ip: '&6cerrot.xyz'
+
+# API Endpoint
+#     This is the "home" URL of the database API the server needs to connect to.
+# API Timeout
+#     This is the amount of time (ms) before an async HTTP request should be timed out
+api-endpoint: http://localhost:5000
+api-timeout: 3000
+
+# Timezone
+#   The default timezone for the server. Accepts IANA format - "Region/City"
+timezone: America/Los_Angeles
+
+# The custom format for all dates used on the server.
+#     See https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+datetime-format: EEEE, MMMM d, yyyy, h:mma (z)
+datetime-short-format: MM/d/yy
+
+# This server:
+#     We need to know what specific server (in the network) that this plugin is running on.
+#     This variable must be unique to this server. Use underscores for spaces.
+this-server: HUB_1
+
+# This port:
+#     We need to know which port should accept requests on THIS server. To avoid port conflicts, you should choose a number in the range of 49152 to 65535.
+this-port: 59152
+
+# Servers:
+#     We need to know the name (to identify) and the IP of each server hosted on the network.
+
+servers: # Server names use underscores
+  # This plugin hosts an endpoint that allows functions to be called remotely through HTTP requests. To call these, you must provide
+  # ... the server IP and the port that accepts requests.
+
+    # The port should not be the server's default minecraft port, it should be the same value as this-port in your destination server.
+  # This is so we can ensure the endpoint server can receive and process our requests.
+  HUB_1: http://localhost:59152
+#  SG_1: "sampleIP"
+#  TDM_1: "sampleIP"
+#  EXAMPLE_NAME: "exampleIP"
+
+# This plugin cannot alone send players to another server, you should have BungeeCord, Velocity, or a similar technology set up.
+
+# Ranks:
+#     You can create custom ranks stored inside the user database. These ranks will be applied across the network.
+#     Rank permissions are stored as "cxyz.rank.{rankName}" so you may use that as reference, but note that ranks can only be assigned through this plugin.
+ranks:
+  # [!] Do NOT delete the row entitled "default".
+  # [!] Beware, if players own a rank, and that rank is deleted in the config.
+  # [!] Ranks do not stack. If you wish to inherit permissions , use the hierarchy value to specify which are above
+
+  default:
+    # A prefix used before the player name. Details the rank name. (e.g.: "[VIP] username").
+    prefix: '&7'
+    
+    # The color of the username displayed in chat messages or other UI elements. Accepts a color format code (e.g.: "&a"), but can also include any non-coloring codes (e.g.: "&l", "&k")
+    color: '&7'
+    
+    # The default value of the player's chat color
+    defaultChatColor: '&f'
+    
+    # The time in seconds before a player can send another message
+    chat-cooldown: 3
+    
+    # The hierarchy of the rank compared to others. A higher rank will inherit permissions and perks of the lower ones.
+    # If hierarchy values are the same between two ranks, then neither will inherit permissions.
+    hierarchy: 0
+  
+  vip:
+    prefix: '&f[&aVIP&f] '
+    color: '&a'
+    default-chat-color: '&f'
+    chat-cooldown: 1
+    hierarchy: 1
+  
+  mvp:
+    prefix: '&f[&bMVP&f] '
+    color: '&b'
+    default-chat-color: '&f'
+    chat-cooldown: 1
+    hierarchy: 2
+  
+  mod:
+    prefix: '&f[&eMod&f] '
+    color: '&e'
+    default-chat-color: '&f'
+    chat-cooldown: 1
+    hierarchy: 3
+  
+  admin:
+    prefix: '&f[&cAdmin&f] '
+    color: '&c'
+    default-chat-color: '&f'
+    chat-cooldown: 1
+    hierarchy: 4
+
+
+# Private chats:
+#    You can create custom private channels for chatting across servers. Chats are mutable player-side.
+chat:
+  
+  # Tip: When setting your prefix, it is always good practice to leave a space after.
+  # So if you choose to have a blank prefix like: "", messages will ignore it, and not leave an extra space.
+
+  # To access any channel private or public, players need the "cxyz.chat.{channel}" permission, where {channel} is the defined name of the channel.
+  # To override a read-only channel, players need the "cxyz.chat.{channel}.read-only-override" permission, where {channel} is the defined name of the channel.
+
+  # Do not duplicate any channel names, even if they are in different sections like core-channel or custom-channel, this will lead to unpredictable behavior!
+  # YAML supports case sensitivity, but this plugin does not respect that, it will get any channel that matches.
+  # Example: A channel named "public" and a channel named "PUBLIC" will conflict with each-other and will be used interchangibly.
+
+  # A BaseChannel has the following fields:
+  #    private String channelName;
+  #    private String channelPrefix;
+  #    private String chatFormat;
+  #    private String webhookURL;
+  #    private String triggerPrefix;
+  #    private boolean console;
+  #    private boolean ignorable;
+  #    private boolean lockable;
+  #    private boolean locked;
+  #    private boolean readOnly;
+  #    private List<String> aliases;
+
+  # CustomChannel(s) extends BaseChannel and all of its functionalities, and acts as a custom private channel that can be restricted to certain permissions.
+  # CoreChannel(s) also extends BaseChannel but is for essential server channels like all chat, party chat, messages, and announcements.
+  # Some attributes listed aren't used in core-channels because they are already defined by messages.yml which provides most of the functions.
+
+  core-channels:
+
+    # Creating new public channels are not supported, try using custom private channels instead.
+
+    public:
+      prefix: '&ePUBLIC' # Only used for chat channel GUI's like /channel <set | ignore | lock>. NOT used for prefixing the chat format, you must do that manually.
+      read-only: false
+      console: true
+      ignorable: false # Can this channel be ignored? Probably not
+      webhook-url: ''
+      chat-format: '{player-tag}{player-prefix}{player-color}{player-display-name}: {player-chat-color}{message}' # Directly applicable to player chat
+      trigger-prefix: ""
+      aliases: [all, a]
+      lockable: true
+      locked: false
+
+    party:
+      prefix: '&9PARTY' # Also not used for anything but channel GUI's. NOT used for prefixing the chat format, as chat format is defined in many messages in messages.yml.
+      read-only: false
+      console: true
+      ignorable: true
+      webhook-url: ''
+      chat-format: '' # Not ever applicable as there are 20+ custom messages but defined in messages.yml
+      trigger-prefix: ""
+      aliases: [p]
+      lockable: true
+      locked: false
+
+    message:
+      prefix: '&dMESSAGE'
+      read-only: false
+      console: true
+      ignorable: true
+      webhook-url: ''
+      chat-format: '' # Not ever applicable as there are also many custom messages but defined in messages.yml
+      trigger-prefix: ""
+      aliases: [msg, m]
+      lockable: true
+      locked: false
+
+
+  custom-channels:
+    # Custom channels!
+
+    # Available placeholders
+    #     {channel-prefix}: The set prefix of the chat channel (formatted).
+    #     {channel-name}: The set name of the chat channel (unformatted).
+    #     {message} or {content}: The content of the message.
+    #     playerFormatter (only for chat-format)
+
+
+    logs:
+      chat-format: '{channel-prefix}&7{content}'
+      console: true
+      ignorable: false
+      prefix: '&e[Logger] '
+      read-only: true
+      trigger-prefix: ''
+      webhook-url: ''
+      aliases: []
+      lockable: true
+      locked: false
+
+    staff:
+      prefix: '&c[Staff] '
+      read-only: false
+      console: true
+      ignorable: false
+      webhook-url: ''
+      chat-format: '{channel-prefix}{player-color}{player-display-name}: &f{content}'
+      trigger-prefix: '#' # Do not use the same value across channels for trigger prefixes, or you the plugin won't know what channel you want!
+      aliases: [s]
+      lockable: true
+      locked: false
+    
+    manager:
+      prefix: '&4[Manager] '
+      read-only: false
+      console: true
+      ignorable: false
+      webhook-url: ''
+      chat-format: '{channel-prefix}{player-color}{player-display-name}: &f{content}'
+      trigger-prefix: '$'
+      aliases: [m]
+      lockable: true
+      locked: false
+
+    announcement:
+      prefix: '&6Announcement'
+      read-only: true
+      console: true
+      ignorable: true
+      webhook-url: ''
+      chat-format: '{message}' # Applicable because you can add a manual prefix like so "ANNOUNCEMENT: {message}"
+      trigger-prefix: ""
+      aliases: [ ]
+      lockable: true
+      locked: false
+  
+  defaults: # You can configure server logs and alerts to be sent in your predefined channels
+    announcement: announcement
+    errors: logs # Errors may still be sent in console regardless of this setting.
+    punishment: staff
+    xray: logs
+
+    message: message
+    party: party
+    public: public
+
+
+announcements:
+  # Announcements are general info messages that broadcast across servers.
+
+  example-2:
+    enabled: true
+    content: '&3hecking is forbidden on the server {player}. &4do not heck.' # They also support playerFormatter placeholders. pretty snazzy!
+    delay: 1800
+    interval: 3600 # The time in between . An interval of 0 means the message will never repeat.
+    servers:
+    - HUB_1
+    to-console: true # Should this message broadcast to the console of the server it is sent in?
+
+parties:
+  autokick-after: 300 # The amount of seconds to wait before auto-kicking a player from a party after they leave the server. Set to -1 to disable.
+  invites-expire-after: 60 # The amount of seconds to wait before a party invite to a player expires
+
+friends:
+  requests-expire-after: 300 # The amount of seconds to wait before a friend request to another player expires.
+
+punishments:
+  defaults:
+    
+    reasons:
+      warn: Bad Behavior
+      mute: Chat Abuse
+      kick: Unspecified
+      ban: Hacking
+    
+    durations: # Enter times in SECONDS
+      permanent: Permanently # If the duration is permanent, this text will replace the strings.
+      
+      effective-until: # The time until the punishment is no longer effective.
+        warn: 604800 # 1 week (warns are stored but do not affect the player - to control records - modify the expiry value)
+        mute: 3600 # 1 hour
+        kick: 0 # Expires immediately (kicks are not persistent by design, any value will be ignored)
+        ban: -1 # Permanent
+      
+      expire: # The time until the record of the punishment is cleared.
+        warn: -1 # Record never expires
+        mute: 2622600 # Record expires after a month of the issuing
+        kick: 0 # Record expires immediately
+        ban: -1 # Record never expires
+  
+  
+  mute-restrictions:
+  - msg
+  - message
+  - r
+  - party chat
+  - null
+
+command-restrictions:
+  # Note: Players must still have the standard command permission to access these commands, this is just another layer of security.
+
+  chatcolor: # This should be the registered name of the command (No aliases.)
+    minimum-rank: vip # Must be a rank defined under ranks in config.yml
+    minimum-level: 0 # Any level below this one defined will be denied access.
+    message: You can't use this unless you are a VIP! # Optional message you want sent to the player when denied access. If left blank the plugin will fallback to NO_ACCESS in messages.yml

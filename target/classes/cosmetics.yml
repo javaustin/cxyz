@@ -1,0 +1,25 @@
+# If no cosmetic types are listed below, no cosmetics will work on the server.
+# Types: CHAT_TAG, CHAT_COLOR, RANK_PLATE, WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT
+
+enabled: [CHAT_TAG, CHAT_COLOR, RANK_PLATE, WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT]
+
+cosmetics:
+
+  example-tag:
+    display: "&d[fat] " # Display of the item
+    lore: # Description of the item. Displays in lore if material. displays on hover if a tag or rank plate.
+    type: CHAT_TAG # Must be fully uppercase, and be a valid type.
+    enabled: true # If enabled, the cosmetic is available to purchase for the server. If disabled, it is hidden and not available to purchase.
+    price: 0 # Required price to buy this item
+    level_requirement: 0 # Required network level to buy this item
+    rank_requirement: default # Required network rank to buy this item
+
+  rainbow-armor:
+    display: "&cR&6a&ei&an&bb&9o&dw &cA&6r&em&ao&br"
+    lore: "&eShow off all your colors!"
+    type: WEARABLE
+    enabled: true
+    price: 0
+    level_requirement: 0
+    rank_requirement: default
+

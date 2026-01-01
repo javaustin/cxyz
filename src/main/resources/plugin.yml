@@ -1,0 +1,141 @@
+name: cxyz
+version: '0.0'
+main: com.carrotguy69.cxyz.CXYZ
+api-version: '1.21'
+
+commands:
+  # admin
+  coins:
+    description: Add, set, remove, or view coins of a player
+    aliases: [coin]
+    usage: /<command> <add | remove | set | view> {amount} {player}
+  rank:
+    description: Set or view a player rank. Or view the list of all server ranks.
+    aliases: []
+    usage: /<command> <set | list | view> {rank} {player}
+  broadcast:
+    description: Broadcast a message to the entire network
+    aliases: [announce, bc]
+    usage: /<command> <message>
+  port:
+    description: Set the port for accepting network HTTP requests
+    aliases: [bind]
+    usage: /<port> <port>
+  test:
+    description: Test something
+    aliases: []
+    usage: /<command> <subcommand>
+  lock:
+    description: Lock a chat channel
+    usage: /<command> <channel>
+  motd:
+    description: Set the server MOTD
+    usage: /<command> <motd>
+  parse:
+    description: Parse an interactive message
+    aliases: []
+    usage: /<command> <message>
+  print:
+    description: Allows admins to view cached database content.
+    usage: /<command> <table>
+  unlock:
+    description: Unlock a chat channel
+    usage: /<command> <channel>
+  xp:
+    description: Add, set, remove, or view coins of a player
+    aliases: [xp]
+    usage: /<command> <add | remove | set | view> {amount} {player}
+
+  # general
+
+  channel:
+    description: Set, ignore, or unignore, your preferred chat channel
+    aliases: [chat, channel]
+    usage: /<command> <subcommand> <channel>
+  party:
+    description: Manage your party
+    aliases: [ p ]
+    usage: /<command> <subcommand>
+  message:
+    description: Message any player on the network
+    aliases: [msg, send, dm, pm]
+    usage: /<command> <player> <content>
+  reply:
+    description: Reply to a message
+    aliases: [re, r]
+    usage: /<command> <content>
+  buy:
+    description: Buy any item from the shop
+    aliases: [b]
+    usage: /<command> <item>
+  chatcolor:
+    description: Set your preferred chat color
+    aliases: [color]
+    usage: /<command> <color>
+  discord:
+    description: Get the discord link for the server
+    aliases: [disc]
+    usage: /<command>
+
+  info:
+    description: Get a players server info
+    aliases: [whois]
+    usage: /<command> [player]
+  equip:
+    description: Equip a cosmetic
+    usage: /<command> <cosmetic>
+  friend:
+    description: Create or accept a friend request
+    aliases: [f]
+    usage: /<command> <add | accept | deny | list | remove> [player]
+  nickname:
+    description: Set your server nickname
+    aliases: [nick]
+    usage: /<command>
+  timezone:
+    description: Set your timezone preference
+    aliases: [tz]
+    usage: /<command> [timezone]
+  unequip:
+    description: Unequip a cosmetic
+    usage: /<command> <cosmetic>
+  messageprivacy:
+    description: Set or view your message privacy settings
+    usage: /<command> [value]
+  partyprivacy:
+    description: Set or view your party privacy settings
+    usage: /<command> [value]
+  friendprivacy:
+    description: Set or view your friend privacy settings
+    usage: /<command> [value]
+  ignore:
+    description: Ignore a player
+    usage: /<command> <player>
+  unignore:
+    description: Unignore a player
+    usage: /<command> player
+
+
+  ban:
+    description: Ban a player from the network
+    aliases: [banish]
+    usage: /<command> <player> [duration] [reason]
+  kick:
+    description: Kick a player from the network
+    usage: /<command> <player> [reason]
+  mute:
+    description: Mute a player on the network
+    usage: /<command> <player> [duration] [reason]
+  unban:
+    description: Remove a player's network ban
+    aliases: [pardon]
+    usage: /<command> <player>
+  unmute:
+    description: Remove a player's network mute
+    usage: /<command> <player>
+  warn:
+    description: Warn a player on the network
+    usage: /<command> <player> [reason]
+  punishment:
+    description: View, edit, delete a punishment, or view a players punishment history
+    usage: /<command> <player> [reason]

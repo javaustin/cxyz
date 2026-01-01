@@ -1,0 +1,163 @@
+package com.carrotguy69.cxyz.cmd.mod;
+
+import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.classes.models.db.Punishment;
+import com.carrotguy69.cxyz.cmd.admin.Broadcast;
+import com.carrotguy69.cxyz.template.CommandRestrictor;
+import com.carrotguy69.cxyz.template.MapFormatters;
+import com.carrotguy69.cxyz.other.*;
+import com.carrotguy69.cxyz.other.messages.MessageGrabber;
+import com.carrotguy69.cxyz.other.messages.MessageKey;
+import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.other.messages.MessageParser.unescape;
+
+public class Kick implements CommandExecutor {
+
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
+        if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
+            return true;
+
+        String node = "cxyz.mod.kick";
+        if (!sender.hasPermission(node)) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
+            return true;
+        }
+
+        boolean silent = false;
+        boolean force = false; // In the future we will use this to skip a GUI menu
+
+        if (List.of(args).contains("-s")) {
+            args = ObjectUtils.removeItem(args, "-s");
+            silent = true;
+        }
+
+        if (List.of(args).contains("-f")) {
+            args = ObjectUtils.removeItem(args, "-f");
+            force = true;
+        }
+
+        if (args.length == 0) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player, reason"));
+            return true;
+        }
+
+        String defaultReason = configYaml.getString("punishments.defaults.reasons.ban");
+
+        if (args.length == 1) {
+            // Only the player was provided - we still can execute with this
+            String targetPlayer = args[0];
+
+            kick(sender, targetPlayer, defaultReason, silent, force);
+            return true;
+        }
+
+        if (args.length >= 2) {
+            // All necessary args are provided
+
+            String targetPlayer = args[0];
+            String reason = Arrays.toString(ObjectUtils.slice(args, 2, args.length));
+
+            kick(sender, targetPlayer, reason, silent, force);
+        }
+
+        return true;
+    }
+
+    private void kick(CommandSender sender, String targetPlayer, String reason, boolean silent, boolean force) {
+
+
+
+        NetworkPlayer player = NetworkPlayer.getPlayerByUsername(targetPlayer);
+
+        if (player == null) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", targetPlayer));
+            return;
+        }
+
+        if (!player.isOnline() || !player.getPlayer().isOnline()) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(player));
+            return;
+        }
+
+        String modUUID;
+        String modUsername;
+
+        if (!(sender instanceof Player)) {
+            modUUID = "Console";
+            modUsername = "Console";
+        }
+        else {
+            Player modPlayer = (Player) sender;
+
+            NetworkPlayer moderator = NetworkPlayer.getPlayerByUUID(modPlayer.getUniqueId());
+
+            if (moderator.getRank().getHierarchy() <= player.getRank().getHierarchy()) {
+                MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_OUTRANKS_SENDER, MapFormatters.playerSenderFormatter(player, moderator));
+                return;
+            }
+
+            // This is just for logging purposes, when a player tries to talk or reconnect,
+            // the server generates the message based off of the NetworkPlayer information it has right now.
+            modUUID = moderator.getUUID().toString();
+            modUsername = moderator.getUsername();
+        }
+
+        Punishment punishment = new Punishment();
+
+
+        // We are 99% sure that our ID is correct. In the case that it isn't, it is corrected by the backend.
+        // When a player joins again or a mod looks up the punishment after the original event, the message is generated with the updated value.
+        punishment.setID(Punishment.generateID());
+
+        punishment.setUUID(player.getUUID().toString());
+        punishment.setUsername(player.getUsername());
+        punishment.setModUUID(modUUID);
+        punishment.setModUsername(modUsername);
+        punishment.setType(String.valueOf(Punishment.PunishmentType.KICK));
+        punishment.setEffectiveUntilTimestamp(configYaml.getLong("punishments.defaults.durations.effective-until.kick", -1));
+        punishment.setExpireTimestamp(configYaml.getLong("punishments.defaults.durations.expire.kick", -1));
+        punishment.setIssuedTimestamp(TimeUtils.unixTimeNow());
+        punishment.setReason(reason);
+        punishment.setEnforced(true);
+
+        punishment.create();
+
+        punishmentIDMap.put(punishment.getID(), punishment);
+
+        Map<String, Object> commonMap = MapFormatters.punishmentFormatter(sender, punishment);
+
+        String playerMessage = MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_PLAYER_MESSAGE, commonMap);
+        String modMessage = MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_MOD_MESSAGE, commonMap);
+        String logMessage = MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_LOG_MESSAGE, commonMap);
+        String announcement = MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_ANNOUNCEMENT, commonMap);
+
+
+        player.kick(String.join("\n", unescape(playerMessage)));
+
+        if (!modMessage.isEmpty()) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_KICK_MOD_MESSAGE, commonMap);
+        }
+
+        if (!logMessage.isEmpty())
+            Logger.punishment(logMessage);
+
+        if (!silent && !announcement.isEmpty())
+            Broadcast.broadcast(announcement, true, commonMap);
+    }
+
+}
