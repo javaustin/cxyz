@@ -1,24 +1,32 @@
 # CXYZ
-<p>Named after my abbreviated server IP (cerrot.xyz), this is a core plugin that provides all non-negotiable features for any serious [Bukkit](https://dev.bukkit.org/) or [Spigot](https://hub.spigotmc.org) based server. Rather than weakly stitching together features from various plugins, allow CXYZ to authoritively handle chat, ranks, parties, custom commands, moderation, and cosmetics across multiple servers.</p>
   
+Named after my abbreviated Minecraft server IP (cerrot.xyz), this is a core plugin that provides all non-negotiable features for any serious [Bukkit](https://dev.bukkit.org/) or [Spigot](https://hub.spigotmc.org) based server. Rather than weakly stitching together features from various plugins, allow CXYZ to authoritively handle chat, ranks, parties, custom commands, moderation, and cosmetics across multiple servers.
+  
+This plugin is built to integrate with an external API [(see here)](https://github.com/javaustin/cxyz/edit/main/README.md#%EF%B8%8F-important-notes) because many of its systems are network-wide by nature, not tied to a single server instance. Using an API allows the plugin to remain fast, consistent, and scalable without sacrificing simplicity.
+<br></br>
+#### ⚠️ Important Notes
+- This plugin is meant to work with a custom API and database setup. Please refer to my [cxyzAPI](https://github.com/javaustin/cxyzAPI) project.
+- This plugin is IN PROGRESS as of January 2026. Please do not expect support as the plugin has not reached a finalized state.
+<br></br>
 ---
-  
-### Design Philosophy
-<br />
-Everything works together - chat knows ranks, commands know chat, parties know players. No ambiguity  
-Commands first- no feature is locked down with a GUI  
-Player-friendly, Admin-friendly, Developer-friendly: fast interactions, powerful configuration, predictable behavior, native extensibility  
-<br />
+## Design Philosophy
+##### Cohesion over modularity
+- Systems rely on each other internally (e.g.: chat must know ranks, parties must know players, player must know chat channel)
+##### Safe defaults
+- Core objects (player, ranks, channels) always exist. Even when not defined in config, the plugin creates safe defaults to prevent breakage.
+##### Cachce locally, own data centrally
+- All game servers cache the API and recieve copies of all relevant tables. When values are modified on game servers, they are pushed to the API and back.
+##### Player-friendly, admin-friendly, and developer-friendly
+- The plugin is designed for fast interactions, powerful configuration and infinite customization, predictable behavior, and native extensibility for developers
 ---     
-<br />
-# Key Features
-<br />
+## Key Features
+
 #### Player identity
 - Native support for persistent network-wide player profiles allows for more flexibility when players are offline
 - A single NetworkPlayer object represents a player across all servers no matter if they are online or not
-- NetworkPlayer handles an individual players UUID, username, nickname, ranks, coins, xp, level, privacy settings, cosmetics, and much more  
+- NetworkPlayer handles an individual players UUID, username, nickname, ranks, coins, xp, level, privacy settings, cosmetics, and many more attributes  
 ![/whois command](https://i.imgur.com/Tln0qRu.png "Plugin /whois command")
-<br />
+
 ---
     
 #### Ranks
@@ -59,7 +67,38 @@ Player-friendly, Admin-friendly, Developer-friendly: fast interactions, powerful
 - Core channels (public, party, and message) work out of the box.
 - Custom channels can be created just by opening the config and defining a channel.
 - Great for private staff channels, or even server announcements with a read-only channel
+```yml
+# config.yml
+chat:
+  core-channels:
+    # Creating new public channels are not supported, try using custom private channels instead.
+    all:
+      prefix: '&ePUBLIC' # Only used for chat channel GUI's like /channel <set | ignore | lock>. NOT used for prefixing the chat format, you must do that manually.
+      read-only: false
+      console: true
+      ignorable: false # Can this channel be ignored? Probably not
+      webhook-url: ''
+      chat-format: '{player-tag}{player-rank-prefix}{player-rank-color}{player-display-name}: {player-chat-color}{message}' # Directly applicable to player chat
+      trigger-prefix: ""
+      aliases: [public, pub, a]
+      lockable: true
+      locked: false
 
+  custom-channels:
+
+    staff:
+      prefix: '&c[Staff] '
+      read-only: false
+      console: true
+      ignorable: true
+      webhook-url: ''
+      chat-format: '{channel-prefix}{player-rank-color}{player-display-name}: &f{content}'
+      trigger-prefix: '#' # Do not use the same value across channels for trigger prefixes, or you the plugin won't know what channel you want!
+      aliases: [s]
+      lockable: true
+      locked: false
+
+```
 ---
   
 #### Shorthand Commands
@@ -105,24 +144,23 @@ shorthand-commands:
 - Automatic cleanup for offline players and expired invites
 - Designed to be simple, fast, predictable, and power-user friendly
 - Configure admin settings by enabling/disabling parties, setting party size limits, or setting expire/autokick times
-
+![Plugin party system](https://i.imgur.com/awZj8Yt.png "Plugin party system")
 ---
 
 #### Unlimited customization
 - Control every plugin message using messages.yml
 - Support for 1.16+ RGB colors and legacy colors in the same string
 - Natively support placeholders (players, ranks, channels, etc.) in every command message
-- Add hover text and click actions while keeping the config line readable.
+- Add hover text and click actions while keeping the text readable.
 ```yml
 commands:
   party:
-    invite-sent: "&9Party> {player-rank-prefix}{player-rank-color}{player-display-name} &r&7has been invited to the party. They have 60 seconds to accept."
     invite-received: |
       (&f----------------------------------------------------
       {inviter-rank-prefix}{inviter-rank-color}{inviter-display-name} &r&7has invited you to their party.
       &e&lClick to accept!
-      &f----------------------------------------------------)[HOVER:&7Click to join {inviter-rank-color}{inviter-display-name}'s &r&7party!][RUN_COMMAND:/party join {inviter-display-name}]
-  ...
+      &f----------------------------------------------------)[HOVER:&eClick to join!][RUN_COMMAND:/party join {inviter-display-name}]
+  # ...
 
   punishment:
     ban:
@@ -139,3 +177,48 @@ commands:
         &4You cannot rejoin until your ban expires in {effective-until-countdown}.
         &rAppeal at: https://example.com/appeal
 ```
+![Plugin party invite message](https://i.imgur.com/lHhs25E.png "Plugin party invite message")
+![Plugin ban message](https://i.imgur.com/IrYNJf8.png "Plugin ban message")
+
+---
+## Message syntax help
+CXYZ uses a custom message parser that supports both legacy and 1.16+ colors, custom text components, and tons of native placeholders.
+
+### Syntax examples
+---
+
+#### Placeholder example
+Almost all plugin messages support placeholders for messaging, allowing you to fully customize messaging. This message uses the {sender} placeholder to represent the sending player.
+```yml
+example-message: "&aAn example legacy color message that is green. {sender-rank-color}{sender}&a will see their name when it is sent."
+```
+![Plugin example message](https://i.imgur.com/oZX5cwf.png "Plugin example message")
+
+---
+#### RGB code example
+The plugin supports RGB colors in the default Bukkit message format. An RGB code is prepended by the code `&x`, and each bit is separated by `&` (e.g., #FF0000 -> &x&F&F&0&0&0&0). 
+```yml
+example-message-2: "&x&8&F&F&B&9&6An example message with the custom RGB code: #8FFB96"
+```
+![Plugin example message 2](https://i.imgur.com/lXMDzZj.png "Plugin example message 2")
+
+---
+
+#### Clickable component example
+Brackets followed by parenthesis are assumed to be text component blocks. A text component block follows the format `[text](ACTION:actionText)`.   
+If you wish to use brackets or parenthesis outside of this, you should double them ("[" -> "[[") so the parser ignores them.   
+Valid actions are `RUN_COMMAND`, `SUGGEST_COMMAND`, `COPY_TO_CLIPBOARD`, `OPEN_URL`, `HOVER`.   
+```yml
+example-message-3: "[&x&3&E&4&C&F&BAn RGB clickable example message](HOVER:&eClick me)"
+```
+![Plugin example message 3](https://i.imgur.com/lF3HmFF.png "Plugin example message 3")
+
+---
+#### Gradient example
+Gradients are supported by the legacy parser by appending each color code before each character. [Here](https://minecraft.menu/minecraft-rgb-generator) is a handy tool to generate gradients easily.  
+```yml
+example-message-4: "&x&F&B&C&4&1&Eg&x&F&B&B&E&2&2r&x&F&B&B&9&2&6a&x&F&B&B&3&2&9d&x&F&B&A&D&2&Di&x&F&B&A&7&3&1e&x&F&B&A&2&3&5n&x&F&B&9&C&3&9t&x&F&B&9&6&3&Cs &x&F&B&9&0&4&0a&x&F&B&8&B&4&4r&x&F&B&8&5&4&8e &x&F&B&7&F&4&Cs&x&F&B&7&9&4&Fu&x&F&B&7&4&5&3p&x&F&B&6&E&5&7p&x&F&B&6&8&5&Bo&x&F&B&6&2&5&Er&x&F&B&5&D&6&2t&x&F&B&5&7&6&6e&x&F&B&5&1&6&Ad &x&F&B&4&B&6&Et&x&F&B&4&6&7&1o&x&F&B&4&0&7&5o&x&F&B&3&A&7&9!"
+```
+![Plugin example message 4](https://i.imgur.com/lFeFJqi.png "Plugin example message 4")
+
+---
