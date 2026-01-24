@@ -1,14 +1,16 @@
 package com.carrotguy69.cxyz.cmd.mod;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.classes.models.db.Punishment;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.cmd.admin.Broadcast;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.template.MapFormatters;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.other.*;
-import com.carrotguy69.cxyz.other.messages.MessageGrabber;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.other.utils.ObjectUtils;
+import com.carrotguy69.cxyz.other.utils.TimeUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,36 +21,22 @@ import java.util.List;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
-import static com.carrotguy69.cxyz.other.TimeUtils.validTimeString;
+import static com.carrotguy69.cxyz.other.utils.TimeUtils.validTimeString;
 
 public class Mute implements CommandExecutor {
 
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        /*
+        SYNTAX:
+            /mute <player> [duration] [reason] [-f | -s]
+            /mute LoudAlex 24h being very loud
+        */
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
         if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
-
-        /*
-        ex: "/ban player 1h20m hacking"
-        args[0] is always the player
-        args[1] is always the duration (can be "permanent")
-        args[2] is always the reason (if present)
-        ^ enforce these with tab completers
-
-        - if not all args are present, we can make a cool inventory gui system
-        - we need the player at the minimum
-        - for other args
-
-        flags:
-        -s: silent, do not announce to chat
-        -f: force, skip the gui menu
-        */
-
-        // we will code the base command first and then add gui support later
-        // we don't to get stuck into the "infinitely detailed" trap
 
         String node = "cxyz.mod.mute";
         if (!sender.hasPermission(node)) {
@@ -158,7 +146,7 @@ public class Mute implements CommandExecutor {
 
             NetworkPlayer moderator = NetworkPlayer.getPlayerByUUID(modPlayer.getUniqueId());
 
-            if (moderator.getRank().getHierarchy() <= player.getRank().getHierarchy()) {
+            if (moderator.getTopRank().getHierarchy() <= player.getTopRank().getHierarchy()) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_OUTRANKS_SENDER, MapFormatters.playerSenderFormatter(player, moderator));
                 return;
             }
@@ -168,6 +156,12 @@ public class Mute implements CommandExecutor {
             modUUID = moderator.getUUID().toString();
             modUsername = moderator.getUsername();
         }
+
+        if (modUUID.equalsIgnoreCase(player.getUUID().toString())) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_SELF, Map.of());
+            return;
+        }
+
 
         Punishment punishment = new Punishment();
 

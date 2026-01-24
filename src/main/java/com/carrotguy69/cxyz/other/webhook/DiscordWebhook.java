@@ -1,5 +1,5 @@
 package com.carrotguy69.cxyz.other.webhook;
-import com.carrotguy69.cxyz.classes.http.Requests;
+import com.carrotguy69.cxyz.http.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +53,6 @@ public class DiscordWebhook {
                 )
         );
 
-        Requests.postRequest(url, postData);
+        Request.postRequest(url, postData);
     }
 }

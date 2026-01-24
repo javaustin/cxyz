@@ -1,8 +1,8 @@
 package com.carrotguy69.cxyz.cmd.admin;
 
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,6 +15,12 @@ import static com.carrotguy69.cxyz.CXYZ.*;
 public class Port implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /port <value>
+            /port 25565
+        */
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
         if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
@@ -36,7 +42,10 @@ public class Port implements CommandExecutor {
             int newValue = Integer.parseInt(args[0]);
 
             configYaml.set("port", newValue);
-            instance.saveConfig();
+            plugin.saveConfig();
+
+            this_port = newValue;
+
             MessageUtils.sendParsedMessage(sender, MessageKey.PORT_SET, Map.of("port", String.valueOf(newValue)));
         }
 

@@ -1,7 +1,8 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.classes.models.config.GameServer;
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.config.GameServer;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.PartyInvite;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -32,7 +33,7 @@ public class Party implements TabCompleter {
 
         Player p = (Player) commandSender;
         np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
-        com.carrotguy69.cxyz.classes.models.db.Party party = com.carrotguy69.cxyz.classes.models.db.Party.getPlayerParty(np.getUUID());
+        com.carrotguy69.cxyz.models.db.Party party = com.carrotguy69.cxyz.models.db.Party.getPlayerParty(np.getUUID());
 
 
 
@@ -83,6 +84,7 @@ public class Party implements TabCompleter {
 
 
                 case "invite":
+
                     for (NetworkPlayer pl : users.values()) {
 
                         if (pl.getDisplayName().toLowerCase().startsWith(args[1].toLowerCase())) {
@@ -97,12 +99,16 @@ public class Party implements TabCompleter {
                     return results;
 
                 case "join":
-                    for (UUID uuid : parties.keySet()) {
-                        NetworkPlayer pl = NetworkPlayer.getPlayerByUUID(uuid); // A player who owns a party.
+                    for (PartyInvite inv : partyInvites.values()) {
 
-                        if (pl.getDisplayName().toLowerCase().startsWith(args[1].toLowerCase())) {
-                            if (pl.isOnline() && pl.isVisibleTo(np)) {
-                                results.add(pl.getDisplayName());
+                        if (inv.getRecipientUUID().equals(np.getUUID())) {
+
+                            NetworkPlayer pl = inv.getInviter(); // A player who owns a party.
+
+                            if (pl.getDisplayName().toLowerCase().startsWith(args[1].toLowerCase())) {
+                                if (pl.isOnline() && pl.isVisibleTo(np)) {
+                                    results.add(pl.getDisplayName());
+                                }
                             }
                         }
                     }
@@ -116,6 +122,10 @@ public class Party implements TabCompleter {
                 case "transfer":
                 case "promote":
                     if (party == null || party.getPlayers() == null) {
+                        return List.of();
+                    }
+
+                    if (!com.carrotguy69.cxyz.models.db.Party.isPartyOwner(np.getUUID())) {
                         return List.of();
                     }
 
@@ -134,6 +144,10 @@ public class Party implements TabCompleter {
 
 
                 case "warp":
+                    if (!com.carrotguy69.cxyz.models.db.Party.isPartyOwner(np.getUUID())) {
+                        return List.of();
+                    }
+
                     for (GameServer server : servers) {
                         if (server.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
                             results.add(server.getName());

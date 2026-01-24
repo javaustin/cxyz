@@ -1,10 +1,10 @@
 package com.carrotguy69.cxyz.cmd.admin.xp;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.template.MapFormatters;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +17,14 @@ import java.util.Map;
 public class XPView implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /xp view [player]
+            /xp view Steve
+            /xp
+        */
+
         // Surprisingly, this whole thing is a little tricky for a simple command.
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
@@ -72,7 +80,6 @@ public class XPView implements CommandExecutor {
         // No need to await a request anymore!
 
         Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
-        commonMap.put("xp", np.getXP());
         commonMap.put("amount", np.getXP());
 
         MessageUtils.sendParsedMessage(sender, MessageKey.XP_VIEW, commonMap);

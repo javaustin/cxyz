@@ -1,7 +1,7 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.classes.models.config.channel.channelTypes.BaseChannel;
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -11,6 +11,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.carrotguy69.cxyz.CXYZ.channels;
+import static com.carrotguy69.cxyz.CXYZ.users;
 
 public class ChatChannel implements TabCompleter {
     @Override
@@ -126,5 +129,28 @@ public class ChatChannel implements TabCompleter {
         }
 
         return List.of();
+    }
+
+    public static List<String> getVisibleChannels(CommandSender sender, NetworkPlayer np) {
+        List<String> visibleChannels = new ArrayList<>();
+
+
+        for (BaseChannel channel : channels) {
+
+            if (!(sender instanceof Player) || np == null) {
+                visibleChannels.add(channel.getName());
+            }
+
+            else {
+                if (np.canAccessChannel(channel)) {
+                    visibleChannels.add(channel.getName());
+                }
+            }
+        }
+
+        visibleChannels.sort(String.CASE_INSENSITIVE_ORDER);
+
+        return visibleChannels;
+
     }
 }

@@ -1,17 +1,17 @@
 package com.carrotguy69.cxyz.cmd.general.message;
 
-import com.carrotguy69.cxyz.classes.models.config.channel.coreChannels.MessageChannel;
-import com.carrotguy69.cxyz.classes.models.config.channel.utils.ChannelRegistry;
-import com.carrotguy69.cxyz.classes.models.config.channel.utils.ChannelFunction;
-import com.carrotguy69.cxyz.classes.models.db.Message;
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.classes.models.db.Punishment;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.template.MapFormatters;
-import com.carrotguy69.cxyz.other.*;
-import com.carrotguy69.cxyz.other.messages.MessageGrabber;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.models.config.channel.coreChannels.MessageChannel;
+import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
+import com.carrotguy69.cxyz.models.db.Message;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.Punishment;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,8 +27,15 @@ import static com.carrotguy69.cxyz.CXYZ.messageMap;
 public class MessageSend implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        String node = "cxyz.general.message.send";
 
+        /*
+        SYNTAX:
+            /msg <player> [message]
+            /msg Steve hello!
+            /msg Steve
+        */
+
+        String node = "cxyz.general.message.send";
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
         if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
@@ -95,12 +102,18 @@ public class MessageSend implements CommandExecutor {
             return;
         }
 
+        if (Objects.equals(sender.getUUID(), recipient.getUUID())) {
+            MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.PLAYER_IS_SELF, Map.of());
+            return;
+        }
+
         Map<String, Object> commonMap = MapFormatters.playerSenderFormatter(recipient, sender);
 
         if (!recipient.isOnline() || (recipient.isOnline() && !recipient.isVisibleTo(sender))) {
             MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(recipient));
             return;
         }
+
 
         if (sender.isMuted()) {
             Punishment mute = Punishment.getActivePunishment(sender, Punishment.PunishmentType.MUTE);
@@ -110,7 +123,7 @@ public class MessageSend implements CommandExecutor {
         }
 
 
-        if (Objects.equals(sender.getRank().getName(), defaultRank.getName())) { // update when more robust perks/permissions happen
+        if (Objects.equals(sender.getTopRank().getName(), defaultRank.getName())) { // update when more robust perks/permissions happen
             String stripped = ChatColor.stripColor(content);
             commonMap.put("content", stripped);
         }
@@ -138,7 +151,7 @@ public class MessageSend implements CommandExecutor {
 
         else { // Content is null
 
-            sender.setChatChannel("MESSAGE");
+            sender.setChatChannel(Objects.requireNonNull(ChannelRegistry.getChannelByFunction(ChannelFunction.MESSAGE)));
             sender.sendParsedMessage(MessageGrabber.grab(MessageKey.MESSAGE_OPENED), commonMap);
 
             sender.sync();

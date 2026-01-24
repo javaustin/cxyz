@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -32,7 +32,7 @@ public class Privacy implements TabCompleter {
                 // if args.length >= 1
 
                 for (String s : values) {
-                    if (s.startsWith(args[1])) {
+                    if (s.startsWith(args[0])) {
                         results.add(s);
                     }
                 }
@@ -52,7 +52,7 @@ public class Privacy implements TabCompleter {
                 // if args.length >= 1
 
                 for (String s : values) {
-                    if (s.startsWith(args[1])) {
+                    if (s.startsWith(args[0])) {
                         results.add(s);
                     }
                 }
@@ -72,7 +72,7 @@ public class Privacy implements TabCompleter {
                 // if args.length >= 1
 
                 for (String s : values) {
-                    if (s.startsWith(args[1])) {
+                    if (s.startsWith(args[0])) {
                         results.add(s);
                     }
                 }

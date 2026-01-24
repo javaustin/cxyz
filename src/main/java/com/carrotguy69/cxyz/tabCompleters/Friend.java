@@ -1,8 +1,8 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.classes.models.db.FriendRequest;
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.other.TimeUtils;
+import com.carrotguy69.cxyz.models.db.FriendRequest;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.utils.TimeUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -26,7 +26,7 @@ public class Friend implements TabCompleter {
 
         List<String> visibleUsernames = OnlinePlayer.getVisibleUsernames(sender, np);
 
-        List<String> subcommands = List.of("add", "accept", "deny", "list");
+        List<String> subcommands = List.of("add", "accept", "deny", "list", "remove");
 
         if (args.length == 0) {
             // assume they want a player

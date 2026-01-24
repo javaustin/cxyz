@@ -1,8 +1,8 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.other.ObjectUtils;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.carrotguy69.cxyz.CXYZ.allPlayers;
 
 public class Ban implements TabCompleter {
     @Override
@@ -23,7 +22,7 @@ public class Ban implements TabCompleter {
         args[0] is always the player
         args[1] is always the duration (can be "permanent")
         args[2] is always the reason (if present)
-        ^ enforce these with tab completers
+        ^ enforce these with tab completer
 
         - if not all args are present, we can make a cool inventory gui system. this can be rolled out in a future version (v1.2)
 
@@ -40,6 +39,9 @@ public class Ban implements TabCompleter {
             return List.of();
         }
 
+        if (args.length == 0) {
+            return AnyPlayer.getAllUsernames();
+        }
 
         if (List.of(args).contains("-s")) {
             args = ObjectUtils.removeItem(args, "-s");
@@ -54,19 +56,23 @@ public class Ban implements TabCompleter {
             np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
         }
 
-        if (args.length == 1) {
-            List<String> results = AnyPlayer.getAllUsernames();
 
-            for (String username : allPlayers) {
+        if (args.length == 1) {
+            List<String> results = new ArrayList<>();
+
+            for (String username : AnyPlayer.getAllUsernames()) {
                 if (username.toLowerCase().startsWith(args[0].toLowerCase())) {
                     results.add(username);
                 }
             }
 
-            if (np != null) {
-                results.remove(np.getNickname());
-                results.remove(np.getUsername());
-            }
+//            if (np != null) {
+//                results.add(np.getUsername());
+//
+//                if (np.getNickname() != null) {
+//                    results.add(np.getNickname());
+//                }
+//            }
 
             results.sort(String.CASE_INSENSITIVE_ORDER);
             return results;

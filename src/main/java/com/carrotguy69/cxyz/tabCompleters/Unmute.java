@@ -1,7 +1,7 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.classes.models.db.Punishment;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
+import com.carrotguy69.cxyz.models.db.Punishment;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

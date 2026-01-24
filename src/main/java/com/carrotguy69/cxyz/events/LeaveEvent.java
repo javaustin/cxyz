@@ -1,12 +1,19 @@
 package com.carrotguy69.cxyz.events;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.classes.models.db.PartyExpire;
-import com.carrotguy69.cxyz.other.TimeUtils;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.Party;
+import com.carrotguy69.cxyz.models.db.PartyExpire;
+import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.other.utils.TimeUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import static com.carrotguy69.cxyz.CXYZ.partyInvitesExpireAfter;
-import static com.carrotguy69.cxyz.CXYZ.users;
+import java.util.Map;
+
+import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class LeaveEvent {
 
@@ -21,10 +28,6 @@ public class LeaveEvent {
         long currentPlaytime = np.getPlaytime();
         long playtimeSession = TimeUtils.unixTimeNow() - np.getLastJoin();
 
-        if (np.isInParty()) {
-            PartyExpire expire = new PartyExpire(p.getUniqueId().toString(), TimeUtils.unixTimeNow() + partyInvitesExpireAfter);
-            expire.create();
-        }
 
         np.setPlaytime(currentPlaytime + playtimeSession);
         np.setOnline(false);
@@ -32,8 +35,36 @@ public class LeaveEvent {
 
         np.sync();
 
+        // Create a party expire (task). Only if the plugin is enabled still (not shutting down)
+        if (plugin.isEnabled()) {
+            new BukkitRunnable() {
+                public void run() {
 
-        // update to send out a partyExpire
+                    Logger.log("isInParty: " + np.isInParty());
+                    Logger.log("isOnline: " + np.isOnline());
+                    Logger.log("partyAutoKickAfter (? > 0): " + partyAutoKickAfter);
+
+                    if (np.isInParty() && !np.isOnline() && partyAutoKickAfter > 0) {
+                        PartyExpire expire = new PartyExpire(np.getUUID().toString(), TimeUtils.unixTimeNow() + partyAutoKickAfter);
+                        partyExpires.put(np.getUUID(), expire);
+                        expire.create();
+
+                        Party party = Party.getPlayerParty(np.getUUID());
+
+                        if (party == null) {
+                            throw new RuntimeException("Party.getPlayerParty(np.getUUID()) should not be null if np.isInParty() is true.");
+                        }
+
+                        Map<String, Object> commonMap = MapFormatters.partyFormatter(party);
+                        commonMap.putAll(MapFormatters.playerFormatter(np));
+
+                        party.announce(MessageGrabber.grab(MessageKey.PARTY_PLAYER_DISCONNECT), commonMap);
+                    }
+                }
+            }
+                    .runTaskLater(plugin, 5L);
+        }
+
     }
 
 }

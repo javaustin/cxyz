@@ -1,10 +1,10 @@
 package com.carrotguy69.cxyz.cmd.general;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.template.MapFormatters;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,6 +16,13 @@ import java.util.*;
 public class ChatColor implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /chatcolor <color>
+            /chatcolor GREEN
+        */
+
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
         if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
@@ -47,10 +54,16 @@ public class ChatColor implements CommandExecutor {
             String colorCode = getMap().get(args[0].toUpperCase());
             String colorName = args[0].toUpperCase();
 
-            np.setChatColor(colorCode);
-
             commonMap.put("code", colorCode);
             commonMap.put("color", colorName);
+
+            if (np.getChatColor().equalsIgnoreCase(colorCode)) {
+                MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.CHAT_COLOR_DUPLICATE_STATE, commonMap);
+                return true;
+            }
+
+            np.setChatColor(colorCode);
+
 
             MessageUtils.sendParsedMessage(p, MessageKey.CHAT_COLOR_SET, commonMap);
         }
@@ -60,17 +73,23 @@ public class ChatColor implements CommandExecutor {
             String colorCode = args[0].toUpperCase();
             String colorName = getReverseMap().get(args[0].toUpperCase());
 
-            np.setChatColor(colorCode);
-
 
             commonMap.put("code", colorCode);
             commonMap.put("color", colorName);
+
+            if (np.getChatColor().equalsIgnoreCase(colorCode)) {
+                MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.CHAT_COLOR_DUPLICATE_STATE, commonMap);
+                return true;
+            }
+
+            np.setChatColor(colorCode);
+
 
             MessageUtils.sendParsedMessage(p, MessageKey.CHAT_COLOR_SET, commonMap);
         }
 
         else {
-            MessageUtils.sendParsedMessage(p, MessageKey.CHAT_COLOR_INVALID_COLOR, commonMap);
+            MessageUtils.sendParsedMessage(p, MessageKey.INVALID_COLOR, Map.of("input", args[0]));
             return true;
         }
 

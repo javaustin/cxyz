@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -59,13 +59,17 @@ public class OnlinePlayer implements TabCompleter {
             if (!user.isOnline())
                 continue;
 
-            if (!(sender instanceof Player)) {
+            if (!(sender instanceof Player) || np == null) {
                 visibleUsernames.add(user.getDisplayName());
+                if (!user.getDisplayName().equalsIgnoreCase(user.getUsername()))
+                    visibleUsernames.add(user.getUsername());
             }
 
             else {
-                if (np != null && user.isVisibleTo(np)) {
+                if (user.isVisibleTo(np)) {
                     visibleUsernames.add(user.getDisplayName());
+                    if (!user.getDisplayName().equalsIgnoreCase(user.getUsername()))
+                        visibleUsernames.add(user.getUsername());
                 }
             }
         }

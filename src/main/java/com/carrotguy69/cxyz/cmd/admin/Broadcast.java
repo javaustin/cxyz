@@ -1,11 +1,11 @@
 package com.carrotguy69.cxyz.cmd.admin;
 
-import com.carrotguy69.cxyz.classes.models.config.GameServer;
+import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.models.config.GameServer;
 
-import com.carrotguy69.cxyz.classes.http.Requests;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +20,12 @@ public class Broadcast implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /broadcast <message>
+            /broadcast &eHello world!
+        */
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
         if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
@@ -62,7 +68,7 @@ public class Broadcast implements CommandExecutor {
 
             Map<String, Object> map = Map.of("content", content, "parsed", parsed, "formatMap", formatMap);
 
-            Requests.postRequest(server.getIP() + "/sendPublicMessage", gson.toJson(map));
+            Request.postRequest(server.getIP() + "/sendPublicMessage", gson.toJson(map));
         }
     }
 }

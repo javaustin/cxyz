@@ -1,6 +1,6 @@
-# If no cosmetic types are listed below, no cosmetics will work on the server.
 # Types: CHAT_TAG, CHAT_COLOR, RANK_PLATE, WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT
 
+# If no cosmetic types are listed below, no cosmetics will work on the server.
 enabled: [CHAT_TAG, CHAT_COLOR, RANK_PLATE, WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT]
 
 cosmetics:
@@ -15,6 +15,7 @@ cosmetics:
     rank_requirement: default # Required network rank to buy this item
 
   rainbow-armor:
+    # Any of these cosmetic types [WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT], must be implemented using ActiveCosmetic methods.
     display: "&cR&6a&ei&an&bb&9o&dw &cA&6r&em&ao&br"
     lore: "&eShow off all your colors!"
     type: WEARABLE

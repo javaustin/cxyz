@@ -1,11 +1,11 @@
 package com.carrotguy69.cxyz.cmd.general;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.template.MapFormatters;
-import com.carrotguy69.cxyz.other.TimeUtils;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.other.utils.TimeUtils;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +20,13 @@ public class Timezone implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /timezone <timezone>
+            /timezone America/Los_Angeles
+        */
+
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
         if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
@@ -59,12 +66,18 @@ public class Timezone implements CommandExecutor {
 
             for (String tz : ZoneId.getAvailableZoneIds()) {
                 if (tz.equalsIgnoreCase(args[0])) {
-                    np.setTimezone(tz);
 
                     Map<String, Object> commonMap = new HashMap<>(MapFormatters.playerFormatter(np));
 
                     commonMap.put("timezone-id", tz);
                     commonMap.put("timezone-id-short", TimeUtils.getTimezoneShort(tz));
+
+                    if (np.getTimezone().equalsIgnoreCase(tz)) {
+                        MessageUtils.sendParsedMessage(p, MessageKey.TIMEZONE_ERROR_DUPLICATE_STATE, commonMap);
+                        return true;
+                    }
+
+                    np.setTimezone(tz);
 
                     MessageUtils.sendParsedMessage(sender, MessageKey.TIMEZONE_SET, commonMap);
 

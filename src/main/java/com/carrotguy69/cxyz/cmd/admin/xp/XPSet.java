@@ -1,10 +1,10 @@
 package com.carrotguy69.cxyz.cmd.admin.xp;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.template.MapFormatters;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,11 +13,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-import static com.carrotguy69.cxyz.other.messages.MessageKey.PLAYER_NOT_FOUND;
+import static com.carrotguy69.cxyz.messages.MessageKey.PLAYER_NOT_FOUND;
 
 public class XPSet implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /xp set <amount> [player]
+            /xp set 50 Steve
+        */
+
         // Surprisingly, this whole thing is a little tricky for a simple command.
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
@@ -94,14 +101,15 @@ public class XPSet implements CommandExecutor {
     }
 
     public static void set(CommandSender sender, NetworkPlayer np, long amt) {
-        long absoluteAmount = Math.abs(amt);
+        amt = Math.abs(amt);
 
-        np.setXP(absoluteAmount);
+        np.setCoins(amt);
+
         np.sync();
 
         Map<String, Object> formatted = MapFormatters.playerFormatter(np);
-        formatted.put("xp", absoluteAmount);
-        formatted.put("amount", absoluteAmount);
+        formatted.put("xp", amt);
+        formatted.put("amount", amt);
 
         MessageUtils.sendParsedMessage(sender, MessageKey.XP_SET, formatted);
 

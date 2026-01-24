@@ -1,11 +1,12 @@
 package com.carrotguy69.cxyz.cmd.admin;
 
-import com.carrotguy69.cxyz.classes.models.config.ActiveCosmetic;
-import com.carrotguy69.cxyz.classes.models.config.channel.utils.ChannelRegistry;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.ActiveCosmetic;
+import com.carrotguy69.cxyz.models.config.Announcement;
+import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,6 +20,13 @@ public class Print implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /print <users | parties | partyinvites | partyexpires | punishments | messages | cosmetics | channels>
+            /xp add 50 Steve
+        */
+
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
         if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
@@ -64,6 +72,13 @@ public class Print implements CommandExecutor {
                 case "channels":
                     Logger.info(channels.toString());
                     Logger.info(ChannelRegistry.functionalChannels.toString());
+                case "announcements":
+                case "announcement":
+                    Logger.info(Announcement.getAnnouncements().toString());
+                case "friendrequest":
+                case "friendrequests":
+                    Logger.info(friendRequests.toString());
+
             }
         }
 

@@ -1,10 +1,11 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.classes.models.config.PlayerRank;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.config.PlayerRank;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,13 +20,13 @@ public class Rank implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
+        List<String> all = List.of("add", "remove", "list");
+
         if (args.length == 0) {
-            // suggest set or view
-            return List.of("set", "view", "list");
+            return all;
         }
 
         if (args.length == 1) {
-            List<String> all = List.of("set", "view", "list");
             List<String> results = new ArrayList<>();
 
             for (String s : all) {
@@ -39,20 +40,39 @@ public class Rank implements TabCompleter {
 
         if (args.length == 2) {
 
+            List<String> results = new ArrayList<>();
+
             switch (args[0]) {
-                case "set":
-                    List<String> rankList = new ArrayList<>();
+                case "add":
 
                     for (PlayerRank rank : ranks) {
                         if (rank.getName().toLowerCase().startsWith(args[1].toLowerCase()))
-                            rankList.add(rank.getName().toLowerCase());
+                            results.add(rank.getName().toLowerCase());
                     }
 
-                    return rankList;
+                    return results;
 
-                    case "view":
+                case "remove":
 
-                    List<String> results = new ArrayList<>();
+                    if (!(sender instanceof Player)) {
+                        for (PlayerRank rank : ranks) {
+                            if (rank.getName().toLowerCase().startsWith(args[1].toLowerCase()))
+                                results.add(rank.getName().toLowerCase());
+                        }
+                    }
+
+                    else {
+                        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+
+                        for (PlayerRank rank : np.getRanks()) {
+                            if (rank.getName().toLowerCase().startsWith(args[1].toLowerCase()))
+                                results.add(rank.getName().toLowerCase());
+                        }
+                    }
+
+                    return results;
+
+                case "list":
 
                     for (NetworkPlayer np : users.values()) {
                         // No need to check for online or vanish status, because this command accepts all players anyway, regardless of those statuses.
@@ -62,32 +82,6 @@ public class Rank implements TabCompleter {
                     }
 
                     return results;
-
-                case "list":
-                    return List.of();
-            }
-
-
-        }
-
-        if (args.length == 3) {
-
-
-            if (args[0].equals("set")) {
-                List<String> results = new ArrayList<>();
-
-                for (NetworkPlayer np : users.values()) {
-                    // No need to check for online or vanish status, because this command accepts all players anyway, regardless of those statuses.
-                    if (np.getDisplayName().toLowerCase().startsWith(args[2].toLowerCase())) {
-                        results.add(np.getDisplayName());
-                    }
-                }
-
-                return results;
-            }
-
-            else {
-                return List.of();
             }
         }
 

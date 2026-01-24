@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -48,10 +48,10 @@ public class AnyPlayer implements TabCompleter {
 
 
         for (NetworkPlayer user : users.values()) {
-            if (user.isBanned())
-                continue;
 
             visibleUsernames.add(user.getDisplayName());
+            if (!user.getDisplayName().equalsIgnoreCase(user.getUsername()))
+                visibleUsernames.add(user.getUsername());
         }
 
         visibleUsernames.sort(String.CASE_INSENSITIVE_ORDER);

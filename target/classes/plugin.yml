@@ -25,9 +25,19 @@ commands:
     description: Test something
     aliases: []
     usage: /<command> <subcommand>
+  level:
+    description: Add, set, remove, or view the level of a player
+    aliases: []
+    usage: /<command> <add | remove | set | view> {amount} {player}
   lock:
     description: Lock a chat channel
     usage: /<command> <channel>
+  show:
+    description: Show a player some cool parsed text!
+    usage: /<command> <player> <text>
+  debug:
+    description: Enable or disable debuggers
+    usage: /<command> <value>
   motd:
     description: Set the server MOTD
     usage: /<command> <motd>
@@ -35,8 +45,11 @@ commands:
     description: Parse an interactive message
     aliases: []
     usage: /<command> <message>
+  ping:
+    description: View a players ping
+    usage: /<command> <player>
   print:
-    description: Allows admins to view cached database content.
+    description: View cached db or config models content for debug purposes
     usage: /<command> <table>
   unlock:
     description: Unlock a chat channel

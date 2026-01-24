@@ -1,10 +1,10 @@
 package com.carrotguy69.cxyz.cmd.admin.coins;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.template.MapFormatters;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +17,13 @@ import java.util.Map;
 public class CoinsRemove implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /coins remove <amount> [player]
+            /coins remove 50 Steve
+        */
+
         // Surprisingly, this whole thing is a little tricky for a simple command.
 
         if (CommandRestrictor.handleRestricted(command, sender))
@@ -94,15 +101,20 @@ public class CoinsRemove implements CommandExecutor {
     }
 
     public static void remove(CommandSender sender, NetworkPlayer np, long amt) {
-        long absoluteAmount = Math.abs(amt);
+        amt = Math.abs(amt);
 
-        np.removeCoins(amt);
+        int currentCoins = np.getLevel();
+
+        if (currentCoins - amt < 0)
+            np.setCoins(0);
+
+        else
+            np.setCoins(currentCoins - amt);
 
         np.sync();
 
         Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
-        commonMap.put("coins", absoluteAmount);
-        commonMap.put("amount", absoluteAmount);
+        commonMap.put("amount", amt);
 
         MessageUtils.sendParsedMessage(sender, MessageKey.COINS_REMOVED, commonMap);
 

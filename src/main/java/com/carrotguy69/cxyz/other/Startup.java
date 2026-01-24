@@ -1,21 +1,25 @@
 package com.carrotguy69.cxyz.other;
 
-import com.carrotguy69.cxyz.classes.http.Listener;
-import com.carrotguy69.cxyz.classes.http.Requests;
+import com.carrotguy69.cxyz.cmd.admin.Debug;
+import com.carrotguy69.cxyz.http.Listener;
+import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.cmd.admin.*;
 import com.carrotguy69.cxyz.cmd.admin.Print;
-import com.carrotguy69.cxyz.cmd.admin.channel.Lock;
-import com.carrotguy69.cxyz.cmd.admin.channel.Unlock;
-import com.carrotguy69.cxyz.cmd.admin.coins.Coins;
+import com.carrotguy69.cxyz.cmd.admin.channel.ChannelLock;
+import com.carrotguy69.cxyz.cmd.admin.channel.ChannelUnlock;
+import com.carrotguy69.cxyz.cmd.admin.coins._CoinsExecutor;
+import com.carrotguy69.cxyz.cmd.admin.level._LevelExecutor;
 import com.carrotguy69.cxyz.cmd.admin.rank._RankExecutor;
-import com.carrotguy69.cxyz.cmd.admin.Parse;
-import com.carrotguy69.cxyz.cmd.admin.xp.XP;
+import com.carrotguy69.cxyz.cmd.general.Equip;
+import com.carrotguy69.cxyz.cmd.general.Parse;
+import com.carrotguy69.cxyz.cmd.admin.xp._XPExecutor;
 import com.carrotguy69.cxyz.cmd.general.*;
 import com.carrotguy69.cxyz.cmd.general.Buy;
 import com.carrotguy69.cxyz.cmd.general.ChatColor;
 import com.carrotguy69.cxyz.cmd.general.Ignore;
 import com.carrotguy69.cxyz.cmd.general.Nickname;
 import com.carrotguy69.cxyz.cmd.general.Timezone;
+import com.carrotguy69.cxyz.cmd.general.Unequip;
 import com.carrotguy69.cxyz.cmd.general.Unignore;
 import com.carrotguy69.cxyz.cmd.general.channel._ChannelExecutor;
 import com.carrotguy69.cxyz.cmd.general.friend._FriendExecutor;
@@ -65,128 +69,142 @@ public class Startup {
 
     public static void registerCommands() {
         // ADMIN //
-            Objects.requireNonNull(instance.getCommand("coins")).setExecutor(new Coins());
-            Objects.requireNonNull(instance.getCommand("coins")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Coins());
+            Objects.requireNonNull(plugin.getCommand("coins")).setExecutor(new _CoinsExecutor());
+            Objects.requireNonNull(plugin.getCommand("coins")).setTabCompleter(new CoinsXPLevel());
 
-            Objects.requireNonNull(instance.getCommand("rank")).setExecutor(new _RankExecutor());
-            Objects.requireNonNull(instance.getCommand("rank")).setTabCompleter(new Rank());
+            Objects.requireNonNull(plugin.getCommand("rank")).setExecutor(new _RankExecutor());
+            Objects.requireNonNull(plugin.getCommand("rank")).setTabCompleter(new Rank());
 
-            Objects.requireNonNull(instance.getCommand("broadcast")).setExecutor(new Broadcast());
-            Objects.requireNonNull(instance.getCommand("broadcast")).setTabCompleter(new Blank());
+            Objects.requireNonNull(plugin.getCommand("broadcast")).setExecutor(new Broadcast());
+            Objects.requireNonNull(plugin.getCommand("broadcast")).setTabCompleter(new Blank());
 
-            Objects.requireNonNull(instance.getCommand("port")).setExecutor(new Port());
-            Objects.requireNonNull(instance.getCommand("port")).setTabCompleter(new Blank());
+            Objects.requireNonNull(plugin.getCommand("port")).setExecutor(new Port());
+            Objects.requireNonNull(plugin.getCommand("port")).setTabCompleter(new Blank());
 
-            Objects.requireNonNull(instance.getCommand("test")).setExecutor(new Test());
-            Objects.requireNonNull(instance.getCommand("test")).setTabCompleter(new Blank());
+            Objects.requireNonNull(plugin.getCommand("debug")).setExecutor(new Debug());
+            Objects.requireNonNull(plugin.getCommand("debug")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Debug());
 
-            Objects.requireNonNull(instance.getCommand("lock")).setExecutor(new Lock());
-            Objects.requireNonNull(instance.getCommand("lock")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Lock());
+            Objects.requireNonNull(plugin.getCommand("ping")).setExecutor(new Ping());
+            Objects.requireNonNull(plugin.getCommand("ping")).setTabCompleter(new OnlinePlayer());
 
-            Objects.requireNonNull(instance.getCommand("motd")).setExecutor(new Motd());
-            Objects.requireNonNull(instance.getCommand("motd")).setTabCompleter(new Blank());
+            Objects.requireNonNull(plugin.getCommand("show")).setExecutor(new Show());
+            Objects.requireNonNull(plugin.getCommand("show")).setTabCompleter(new OnlinePlayer());
 
-            Objects.requireNonNull(instance.getCommand("parse")).setExecutor(new Parse());
-            Objects.requireNonNull(instance.getCommand("parse")).setTabCompleter(new Blank());
+            Objects.requireNonNull(plugin.getCommand("test")).setExecutor(new Test());
+            Objects.requireNonNull(plugin.getCommand("test")).setTabCompleter(new Blank());
 
-            Objects.requireNonNull(instance.getCommand("print")).setExecutor(new Print());
-            Objects.requireNonNull(instance.getCommand("print")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Print());
+            Objects.requireNonNull(plugin.getCommand("level")).setExecutor(new _LevelExecutor());
+            Objects.requireNonNull(plugin.getCommand("level")).setTabCompleter(new CoinsXPLevel());
 
-            Objects.requireNonNull(instance.getCommand("unlock")).setExecutor(new Unlock());
-            Objects.requireNonNull(instance.getCommand("unlock")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unlock());
+            Objects.requireNonNull(plugin.getCommand("lock")).setExecutor(new ChannelLock());
+            Objects.requireNonNull(plugin.getCommand("lock")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Lock());
 
-            Objects.requireNonNull(instance.getCommand("xp")).setExecutor(new XP());
-            Objects.requireNonNull(instance.getCommand("xp")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.XP());
+            Objects.requireNonNull(plugin.getCommand("motd")).setExecutor(new Motd());
+            Objects.requireNonNull(plugin.getCommand("motd")).setTabCompleter(new Blank());
+
+            Objects.requireNonNull(plugin.getCommand("parse")).setExecutor(new Parse());
+            Objects.requireNonNull(plugin.getCommand("parse")).setTabCompleter(new Blank());
+
+            Objects.requireNonNull(plugin.getCommand("print")).setExecutor(new Print());
+            Objects.requireNonNull(plugin.getCommand("print")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Print());
+
+            Objects.requireNonNull(plugin.getCommand("unlock")).setExecutor(new ChannelUnlock());
+            Objects.requireNonNull(plugin.getCommand("unlock")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unlock());
+
+            Objects.requireNonNull(plugin.getCommand("xp")).setExecutor(new _XPExecutor());
+            Objects.requireNonNull(plugin.getCommand("xp")).setTabCompleter(new CoinsXPLevel());
 
 
         // GENERAL //
-            Objects.requireNonNull(instance.getCommand("buy")).setExecutor(new Buy());
-            Objects.requireNonNull(instance.getCommand("buy")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Buy());
+            Objects.requireNonNull(plugin.getCommand("buy")).setExecutor(new Buy());
+            Objects.requireNonNull(plugin.getCommand("buy")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Buy());
 
-            Objects.requireNonNull(instance.getCommand("channel")).setExecutor(new _ChannelExecutor());
-            Objects.requireNonNull(instance.getCommand("channel")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatChannel());
+            Objects.requireNonNull(plugin.getCommand("channel")).setExecutor(new _ChannelExecutor());
+            Objects.requireNonNull(plugin.getCommand("channel")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatChannel());
 
-            Objects.requireNonNull(instance.getCommand("chatcolor")).setExecutor(new ChatColor());
-            Objects.requireNonNull(instance.getCommand("chatcolor")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatColor());
+            Objects.requireNonNull(plugin.getCommand("chatcolor")).setExecutor(new ChatColor());
+            Objects.requireNonNull(plugin.getCommand("chatcolor")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatColor());
 
-            Objects.requireNonNull(instance.getCommand("discord")).setExecutor(new Discord());
+            Objects.requireNonNull(plugin.getCommand("equip")).setExecutor(new Equip());
+            Objects.requireNonNull(plugin.getCommand("equip")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Equip());
 
-            Objects.requireNonNull(instance.getCommand("equip")).setExecutor(new Equip());
-            Objects.requireNonNull(instance.getCommand("equip")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Buy()); // just a cosmetic tab completer
+            Objects.requireNonNull(plugin.getCommand("info")).setExecutor(new Info());
+            Objects.requireNonNull(plugin.getCommand("info")).setTabCompleter(new AnyPlayer()); // just a cosmetic tab completer
 
-            Objects.requireNonNull(instance.getCommand("info")).setExecutor(new Info());
-            Objects.requireNonNull(instance.getCommand("info")).setTabCompleter(new AnyPlayer()); // just a cosmetic tab completer
+            Objects.requireNonNull(plugin.getCommand("friend")).setExecutor(new _FriendExecutor());
+            Objects.requireNonNull(plugin.getCommand("friend")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Friend());
 
-            Objects.requireNonNull(instance.getCommand("friend")).setExecutor(new _FriendExecutor());
-            Objects.requireNonNull(instance.getCommand("friend")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Friend());
+            Objects.requireNonNull(plugin.getCommand("message")).setExecutor(new MessageSend());
+            Objects.requireNonNull(plugin.getCommand("message")).setTabCompleter(new OnlinePlayer());
 
-            Objects.requireNonNull(instance.getCommand("message")).setExecutor(new MessageSend());
-            Objects.requireNonNull(instance.getCommand("message")).setTabCompleter(new OnlinePlayer());
+            Objects.requireNonNull(plugin.getCommand("nickname")).setExecutor(new Nickname());
+            Objects.requireNonNull(plugin.getCommand("nickname")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Nickname());
 
-            Objects.requireNonNull(instance.getCommand("nickname")).setExecutor(new Nickname());
-            Objects.requireNonNull(instance.getCommand("nickname")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Nickname());
-
-            Objects.requireNonNull(instance.getCommand("party")).setExecutor(new _PartyExecutor());
-            Objects.requireNonNull(instance.getCommand("party")).setTabCompleter(new Party());
+            Objects.requireNonNull(plugin.getCommand("party")).setExecutor(new _PartyExecutor());
+            Objects.requireNonNull(plugin.getCommand("party")).setTabCompleter(new Party());
 
             // privacy settings
-            Objects.requireNonNull(instance.getCommand("messageprivacy")).setExecutor(new MessagePrivacy());
-            Objects.requireNonNull(instance.getCommand("messageprivacy")).setTabCompleter(new Privacy());
-            Objects.requireNonNull(instance.getCommand("partyprivacy")).setExecutor(new PartyPrivacy());
-            Objects.requireNonNull(instance.getCommand("partyprivacy")).setTabCompleter(new Privacy());
-            Objects.requireNonNull(instance.getCommand("friendprivacy")).setExecutor(new FriendPrivacy());
-            Objects.requireNonNull(instance.getCommand("friendprivacy")).setTabCompleter(new Privacy());
+            Objects.requireNonNull(plugin.getCommand("messageprivacy")).setExecutor(new MessagePrivacy());
+            Objects.requireNonNull(plugin.getCommand("messageprivacy")).setTabCompleter(new Privacy());
+            Objects.requireNonNull(plugin.getCommand("partyprivacy")).setExecutor(new PartyPrivacy());
+            Objects.requireNonNull(plugin.getCommand("partyprivacy")).setTabCompleter(new Privacy());
+            Objects.requireNonNull(plugin.getCommand("friendprivacy")).setExecutor(new FriendPrivacy());
+            Objects.requireNonNull(plugin.getCommand("friendprivacy")).setTabCompleter(new Privacy());
 
-            Objects.requireNonNull(instance.getCommand("ignore")).setExecutor(new Ignore());
-            Objects.requireNonNull(instance.getCommand("ignore")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Ignore());
-            Objects.requireNonNull(instance.getCommand("unignore")).setExecutor(new Unignore());
-            Objects.requireNonNull(instance.getCommand("unignore")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unignore());
+            Objects.requireNonNull(plugin.getCommand("ignore")).setExecutor(new Ignore());
+            Objects.requireNonNull(plugin.getCommand("ignore")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Ignore());
+            Objects.requireNonNull(plugin.getCommand("unignore")).setExecutor(new Unignore());
+            Objects.requireNonNull(plugin.getCommand("unignore")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unignore());
 
 
 
-            Objects.requireNonNull(instance.getCommand("reply")).setExecutor(new MessageReply());
-            Objects.requireNonNull(instance.getCommand("reply")).setTabCompleter(new Blank()); // blank tab completer, to stop Bukkit from automatically filling arguments
+            Objects.requireNonNull(plugin.getCommand("reply")).setExecutor(new MessageReply());
+            Objects.requireNonNull(plugin.getCommand("reply")).setTabCompleter(new Blank()); // blank tab completer, to stop Bukkit from automatically filling arguments
 
-            Objects.requireNonNull(instance.getCommand("timezone")).setExecutor(new Timezone());
-            Objects.requireNonNull(instance.getCommand("timezone")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Timezone());
+            Objects.requireNonNull(plugin.getCommand("timezone")).setExecutor(new Timezone());
+            Objects.requireNonNull(plugin.getCommand("timezone")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Timezone());
 
-            Objects.requireNonNull(instance.getCommand("unequip")).setExecutor(new Unequip());
-            Objects.requireNonNull(instance.getCommand("unequip")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Buy()); // just a cosmetic tab completer
+            Objects.requireNonNull(plugin.getCommand("unequip")).setExecutor(new Unequip());
+            Objects.requireNonNull(plugin.getCommand("unequip")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unequip());
 
 
 
         // MOD //
-            Objects.requireNonNull(instance.getCommand("ban")).setExecutor(new Ban());
-            Objects.requireNonNull(instance.getCommand("ban")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Ban());
+            Objects.requireNonNull(plugin.getCommand("ban")).setExecutor(new Ban());
+            Objects.requireNonNull(plugin.getCommand("ban")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Ban());
 
-            Objects.requireNonNull(instance.getCommand("mute")).setExecutor(new Mute());
-            Objects.requireNonNull(instance.getCommand("mute")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Ban()); // ban command follows same syntax as mute
+            Objects.requireNonNull(plugin.getCommand("mute")).setExecutor(new Mute());
+            Objects.requireNonNull(plugin.getCommand("mute")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Ban()); // ban command follows same syntax as mute
 
-            Objects.requireNonNull(instance.getCommand("kick")).setExecutor(new Kick());
-            Objects.requireNonNull(instance.getCommand("kick")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.OnlinePlayer());
+            Objects.requireNonNull(plugin.getCommand("kick")).setExecutor(new Kick());
+            Objects.requireNonNull(plugin.getCommand("kick")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.OnlinePlayer());
 
-            Objects.requireNonNull(instance.getCommand("unban")).setExecutor(new Unban());
-            Objects.requireNonNull(instance.getCommand("unban")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unban());
+            Objects.requireNonNull(plugin.getCommand("unban")).setExecutor(new Unban());
+            Objects.requireNonNull(plugin.getCommand("unban")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unban());
 
-            Objects.requireNonNull(instance.getCommand("unmute")).setExecutor(new Unmute());
-            Objects.requireNonNull(instance.getCommand("unmute")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unmute());
+            Objects.requireNonNull(plugin.getCommand("unmute")).setExecutor(new Unmute());
+            Objects.requireNonNull(plugin.getCommand("unmute")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unmute());
 
-            Objects.requireNonNull(instance.getCommand("warn")).setExecutor(new Warn());
-            Objects.requireNonNull(instance.getCommand("warn")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.OnlinePlayer());
+            Objects.requireNonNull(plugin.getCommand("warn")).setExecutor(new Warn());
+            Objects.requireNonNull(plugin.getCommand("warn")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.OnlinePlayer());
 
-            Objects.requireNonNull(instance.getCommand("punishment")).setExecutor(new _PunishmentExecutor());
-            Objects.requireNonNull(instance.getCommand("punishment")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Punishment());
+            Objects.requireNonNull(plugin.getCommand("punishment")).setExecutor(new _PunishmentExecutor());
+            Objects.requireNonNull(plugin.getCommand("punishment")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Punishment());
 
     }
 
     public static void registerEvents() {
-        instance.getServer().getPluginManager().registerEvents(instance, instance);
+        plugin.getServer().getPluginManager().registerEvents(plugin, plugin);
     }
 
     public static void startTasks() {
         handlePartyExpires();
-        fixIgnorables();
+        handlePartyInvites();
+//        fixChannels();
         fixOnlinePlayers();
+        updateLastOnlineValues();
+        deleteOfflineParties();
+
     }
 //
 //    public static void setWorldDefaults(World w) {
@@ -200,7 +218,7 @@ public class Startup {
 //    }
 
     public static void requestCacheShipments() {
-        Requests.postRequest(api_endpoint + "/cache", gson.toJson(Map.of("body", "good morning inanimate server!"))); // The API does not even look at this body, it just wants the request in post because it feels nicer.
+        Request.postRequest(api_endpoint + "/cache", gson.toJson(Map.of("body", "good morning inanimate server!"))); // The API does not even look at this body, it just wants the request in post because it feels nicer.
      }
 
 }

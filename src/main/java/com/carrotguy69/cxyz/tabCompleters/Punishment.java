@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.template.CommandRestrictor;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -47,7 +47,7 @@ public class Punishment implements TabCompleter {
                 case "info":
 
                 case "edit":
-                    return null;
+                    return List.of();
 
                 case "history":
                     return AnyPlayer.getAllUsernames();
@@ -68,7 +68,7 @@ public class Punishment implements TabCompleter {
 
                 return results;
             }
-            return null;
+            return List.of();
         }
 
         if (args.length == 4) {

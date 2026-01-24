@@ -1,14 +1,16 @@
 package com.carrotguy69.cxyz.cmd.mod;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.classes.models.db.Punishment;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.cmd.admin.Broadcast;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.template.MapFormatters;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.other.*;
-import com.carrotguy69.cxyz.other.messages.MessageGrabber;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.other.utils.ObjectUtils;
+import com.carrotguy69.cxyz.other.utils.TimeUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,13 +22,19 @@ import java.util.List;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
-import static com.carrotguy69.cxyz.other.messages.MessageParser.unescape;
+import static com.carrotguy69.cxyz.messages.MessageParser.unescape;
 
 public class Kick implements CommandExecutor {
 
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /kick <player> [reason] [-f | -s]
+            /kick LoudSteve 24h too loud!
+        */
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
         if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
@@ -106,7 +114,7 @@ public class Kick implements CommandExecutor {
 
             NetworkPlayer moderator = NetworkPlayer.getPlayerByUUID(modPlayer.getUniqueId());
 
-            if (moderator.getRank().getHierarchy() <= player.getRank().getHierarchy()) {
+            if (moderator.getTopRank().getHierarchy() <= player.getTopRank().getHierarchy()) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_OUTRANKS_SENDER, MapFormatters.playerSenderFormatter(player, moderator));
                 return;
             }
@@ -115,6 +123,11 @@ public class Kick implements CommandExecutor {
             // the server generates the message based off of the NetworkPlayer information it has right now.
             modUUID = moderator.getUUID().toString();
             modUsername = moderator.getUsername();
+        }
+
+        if (modUUID.equalsIgnoreCase(player.getUUID().toString())) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_SELF, Map.of());
+            return;
         }
 
         Punishment punishment = new Punishment();
@@ -147,7 +160,7 @@ public class Kick implements CommandExecutor {
         String announcement = MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_ANNOUNCEMENT, commonMap);
 
 
-        player.kick(String.join("\n", unescape(playerMessage)));
+        player.kick(f(String.join("\n", unescape(playerMessage))));
 
         if (!modMessage.isEmpty()) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_KICK_MOD_MESSAGE, commonMap);

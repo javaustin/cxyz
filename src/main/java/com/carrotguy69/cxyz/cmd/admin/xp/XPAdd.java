@@ -1,10 +1,10 @@
 package com.carrotguy69.cxyz.cmd.admin.xp;
 
-import com.carrotguy69.cxyz.classes.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.template.CommandRestrictor;
-import com.carrotguy69.cxyz.template.MapFormatters;
-import com.carrotguy69.cxyz.other.messages.MessageKey;
-import com.carrotguy69.cxyz.other.messages.MessageUtils;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +17,13 @@ public class XPAdd implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /xp add <amount> [player]
+            /xp add 50 Steve
+        */
+
         // Surprisingly, this whole thing is a little tricky for a simple command.
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
@@ -92,15 +99,15 @@ public class XPAdd implements CommandExecutor {
     }
 
     public static void add(CommandSender sender, NetworkPlayer np, long amt) {
-        long absoluteAmount = Math.abs(amt);
+        amt = Math.abs(amt);
 
-        np.addXP(amt);
+        long currentCoins = np.getXP();
 
+        np.setCoins(currentCoins + amt);
         np.sync();
 
         Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
-        commonMap.put("xp", absoluteAmount);
-        commonMap.put("amount", absoluteAmount);
+        commonMap.put("amount", amt);
 
         MessageUtils.sendParsedMessage(sender, MessageKey.XP_ADDED, commonMap);
 

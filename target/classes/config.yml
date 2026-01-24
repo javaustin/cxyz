@@ -3,7 +3,6 @@
 
 # Constants
 #     The following variables will display in the servers messaging and UI.
-discord-url: https://discord.gg/minecraft
 server-name: '&6&lcarrot''s &r&aclub'
 server-ip: '&6cerrot.xyz'
 
@@ -39,7 +38,7 @@ servers: # Server names use underscores
   # This plugin hosts an endpoint that allows functions to be called remotely through HTTP requests. To call these, you must provide
   # ... the server IP and the port that accepts requests.
 
-    # The port should not be the server's default minecraft port, it should be the same value as this-port in your destination server.
+  # The port should not be the server's default minecraft port, it should be the same value as this-port in your destination server.
   # This is so we can ensure the endpoint server can receive and process our requests.
   HUB_1: http://localhost:59152
 #  SG_1: "sampleIP"
@@ -47,6 +46,13 @@ servers: # Server names use underscores
 #  EXAMPLE_NAME: "exampleIP"
 
 # This plugin cannot alone send players to another server, you should have BungeeCord, Velocity, or a similar technology set up.
+
+# Debugger
+#     A useful way to diagnose any issues with the plugin. You can enable the debugger for the custom message parser, and/or HTTP requests (either only the failed ones or all of them).
+#     Allowed values: MESSAGE_PARSER, ALL_REQUESTS, FAILED_REQUESTS
+debugger:
+  enabled-values: []
+
 
 # Ranks:
 #     You can create custom ranks stored inside the user database. These ranks will be applied across the network.
@@ -69,8 +75,8 @@ ranks:
     # The time in seconds before a player can send another message
     chat-cooldown: 3
     
-    # The hierarchy of the rank compared to others. A higher rank will inherit permissions and perks of the lower ones.
-    # If hierarchy values are the same between two ranks, then neither will inherit permissions.
+    # The hierarchy of the rank compared to others. A higher rank will overpower a lower rank.
+    # No two ranks can have the same hierarchy value.
     hierarchy: 0
   
   vip:
@@ -84,21 +90,21 @@ ranks:
     prefix: '&f[&bMVP&f] '
     color: '&b'
     default-chat-color: '&f'
-    chat-cooldown: 1
+    chat-cooldown: 0
     hierarchy: 2
   
   mod:
     prefix: '&f[&eMod&f] '
     color: '&e'
     default-chat-color: '&f'
-    chat-cooldown: 1
+    chat-cooldown: 0
     hierarchy: 3
   
   admin:
     prefix: '&f[&cAdmin&f] '
     color: '&c'
     default-chat-color: '&f'
-    chat-cooldown: 1
+    chat-cooldown: 0
     hierarchy: 4
 
 
@@ -114,7 +120,7 @@ chat:
 
   # Do not duplicate any channel names, even if they are in different sections like core-channel or custom-channel, this will lead to unpredictable behavior!
   # YAML supports case sensitivity, but this plugin does not respect that, it will get any channel that matches.
-  # Example: A channel named "public" and a channel named "PUBLIC" will conflict with each-other and will be used interchangibly.
+  # Example: A channel named "public" and a channel named "PUBLIC" will conflict with each-other and will be used interchangeably.
 
   # A BaseChannel has the following fields:
   #    private String channelName;
@@ -137,15 +143,15 @@ chat:
 
     # Creating new public channels are not supported, try using custom private channels instead.
 
-    public:
+    all:
       prefix: '&ePUBLIC' # Only used for chat channel GUI's like /channel <set | ignore | lock>. NOT used for prefixing the chat format, you must do that manually.
       read-only: false
       console: true
       ignorable: false # Can this channel be ignored? Probably not
       webhook-url: ''
-      chat-format: '{player-tag}{player-prefix}{player-color}{player-display-name}: {player-chat-color}{message}' # Directly applicable to player chat
+      chat-format: '{player-tag}{player-rank-prefix}{player-rank-color}{player-display-name}: {player-chat-color}{message}' # Directly applicable to player chat
       trigger-prefix: ""
-      aliases: [all, a]
+      aliases: [public, pub, a]
       lockable: true
       locked: false
 
@@ -183,11 +189,10 @@ chat:
     #     {message} or {content}: The content of the message.
     #     playerFormatter (only for chat-format)
 
-
     logs:
       chat-format: '{channel-prefix}&7{content}'
       console: true
-      ignorable: false
+      ignorable: true
       prefix: '&e[Logger] '
       read-only: true
       trigger-prefix: ''
@@ -200,9 +205,9 @@ chat:
       prefix: '&c[Staff] '
       read-only: false
       console: true
-      ignorable: false
+      ignorable: true
       webhook-url: ''
-      chat-format: '{channel-prefix}{player-color}{player-display-name}: &f{content}'
+      chat-format: '{channel-prefix}{player-rank-color}{player-display-name}: &f{content}'
       trigger-prefix: '#' # Do not use the same value across channels for trigger prefixes, or you the plugin won't know what channel you want!
       aliases: [s]
       lockable: true
@@ -212,9 +217,9 @@ chat:
       prefix: '&4[Manager] '
       read-only: false
       console: true
-      ignorable: false
+      ignorable: true
       webhook-url: ''
-      chat-format: '{channel-prefix}{player-color}{player-display-name}: &f{content}'
+      chat-format: '{channel-prefix}{player-rank-color}{player-display-name}: &f{content}'
       trigger-prefix: '$'
       aliases: [m]
       lockable: true
@@ -240,7 +245,14 @@ chat:
 
     message: message
     party: party
-    public: public
+    public: all
+
+  chat-filter: # Disallows certain words from being sent in the chat. This does not trigger punishment as of yet.
+    enabled-channels: [all]
+    blacklisted-words: [nigger, faggot]
+    action: # accepts playerFormatter for placeholders
+      - mute {player} 24h racial language
+
 
 
 announcements:
@@ -257,7 +269,7 @@ announcements:
 
 parties:
   autokick-after: 300 # The amount of seconds to wait before auto-kicking a player from a party after they leave the server. Set to -1 to disable.
-  invites-expire-after: 60 # The amount of seconds to wait before a party invite to a player expires
+  invites-expire-after: 60 # The amount of seconds to wait before a party invite to a player expires. Set to -1 to disable.
 
 friends:
   requests-expire-after: 300 # The amount of seconds to wait before a friend request to another player expires.
@@ -272,7 +284,7 @@ punishments:
       ban: Hacking
     
     durations: # Enter times in SECONDS
-      permanent: Permanently # If the duration is permanent, this text will replace the strings.
+      permanent: permanent # If the duration is permanent, this text will show instead of the durations.
       
       effective-until: # The time until the punishment is no longer effective.
         warn: 604800 # 1 week (warns are stored but do not affect the player - to control records - modify the expiry value)
@@ -292,10 +304,34 @@ punishments:
   - message
   - r
   - party chat
-  - null
+
+shorthand-commands:
+  sc:
+    description: "Enter the staff channel"
+    trigger: sc
+    actions:
+      - channel staff
+
+  permban:
+    description: "Permanently ban a player from the server"
+    trigger: permban {player} {reason}
+    actions:
+      - ban {player} permanent {reason}
+
+  rules:
+    description: "View the server rules"
+    trigger: rules
+    actions:
+      - "show {sender-username} &aHere are the rules for you {sender}:\n&c1. No hacking\n&62. No being frowny\n&e3. Have fun!"
+
+  hi:
+    description: "Say hi!"
+    trigger: hi
+    actions:
+      - show {sender-username} Hello!
 
 command-restrictions:
-  # Note: Players must still have the standard command permission to access these commands, this is just another layer of security.
+  # Note: Players must still have the standard command permission to access these commands, this is just an extra layer.
 
   chatcolor: # This should be the registered name of the command (No aliases.)
     minimum-rank: vip # Must be a rank defined under ranks in config.yml
