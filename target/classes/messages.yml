@@ -199,7 +199,7 @@ commands:
     view: "&aThe current MOTD is:&7 {motd}" # Format {motd}
 
   nickname: # player formatter
-    set: "&aYour nickname is now {player-rank-color}{player-nickname}"
+    set: "&aYour nickname is now {player-rank-color}{player-display-name}"
     reset: "&aCleared nickname!"
     view: "&7Your current display name is {player-display-name}."
 
@@ -415,9 +415,9 @@ commands:
   rank:
     available-subcommands: |
       &9Rank subcommands:
-      &6/rank add <rank> [player]
-      &6/rank remove <rank> [player]
-      &6/rank list [player]
+      &6/rank add <rank> [[player]]
+      &6/rank remove <rank> [[player]]
+      &6/rank list [[player]]
 
     error:
       has-rank: "&eThis player already has that rank!"

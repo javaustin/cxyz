@@ -66,7 +66,8 @@ ranks:
     # A prefix used before the player name. Details the rank name. (e.g.: "[VIP] username").
     prefix: '&7'
     
-    # The color of the username displayed in chat messages or other UI elements. Accepts a color format code (e.g.: "&a"), but can also include any non-coloring codes (e.g.: "&l", "&k")
+    # The color of the username displayed in chat messages or other UI elements.
+    # Accepts a color format code (e.g.: "&a"), but can also include any non-coloring codes (e.g.: "&l", "&k")
     color: '&7'
     
     # The default value of the player's chat color
@@ -250,7 +251,7 @@ chat:
   chat-filter: # Disallows certain words from being sent in the chat. This does not trigger punishment as of yet.
     enabled-channels: [all]
     blacklisted-words: [nigger, faggot]
-    action: # accepts playerFormatter for placeholders
+    action: # command action accepts playerFormatter for placeholders
       - mute {player} 24h racial language
 
 
