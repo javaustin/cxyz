@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.models.config.channel.channelTypes;
 
+import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
@@ -11,6 +12,7 @@ import net.md_5.bungee.api.ChatColor;
 
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -94,6 +96,28 @@ public class CustomChannel extends BaseChannel {
         Map<String, Object> commonMap = MapFormatters.channelFormatter(this);
         commonMap.putAll(MapFormatters.playerFormatter(np));
 
+        String content = ChatColor.stripColor(f(e.getMessage()));
+
+        commonMap.put("content", content);
+        commonMap.put("message", content);
+
+        if (chatFilterEnabled && !ChatFilterRule.getRulesForChannel(this).isEmpty()) {
+            List<ChatFilterRule> rules = ChatFilterRule.getRulesForChannel(this);
+
+            for (ChatFilterRule rule : rules) {
+                for (String word : rule.getBlacklistedWords()) {
+                    if (!content.contains(word)) {
+                        continue;
+                    }
+
+                    for (String action : rule.getActions()) {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtils.formatPlaceholders(action, commonMap));
+                    }
+                }
+            }
+        }
+
+
         if (np.isMutingChannel(this) && this.isIgnorable()) {
             MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_IS_MUTED, commonMap);
             return;
@@ -123,8 +147,6 @@ public class CustomChannel extends BaseChannel {
             }
         }
 
-        commonMap.put("content", ChatColor.stripColor(f(e.getMessage())));
-        commonMap.put("message", ChatColor.stripColor(f(e.getMessage())));
 
         this.sendChannelMessage(this.getChatFormat(), commonMap);
 

@@ -57,6 +57,7 @@ com\carrotguy69\cxyz\cmd\general\Ignore.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$MessageDeliveryWrapper.class
 com\carrotguy69\cxyz\tabCompleters\Nickname.class
 com\carrotguy69\cxyz\models\config\channel\coreChannels\PublicChannel.class
+com\carrotguy69\cxyz\models\config\ChatFilterRule.class
 com\carrotguy69\cxyz\tabCompleters\Unlock.class
 com\carrotguy69\cxyz\tabCompleters\Unban.class
 com\carrotguy69\cxyz\events\LeaveEvent$1.class

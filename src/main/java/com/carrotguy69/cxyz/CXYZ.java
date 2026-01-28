@@ -114,6 +114,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         return true;
     }
 
+    public static boolean chatFilterEnabled = false;
+
     public CommandMap commandMap = null;
 
     public static FileConfiguration cosmeticsYML = null;

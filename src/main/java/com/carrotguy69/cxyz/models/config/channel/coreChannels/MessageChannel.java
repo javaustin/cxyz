@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.models.config.channel.coreChannels;
 
+import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.db.Message;
@@ -12,10 +13,16 @@ import com.carrotguy69.cxyz.other.utils.TimeUtils;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.List;
 import java.util.Map;
+
+import static com.carrotguy69.cxyz.CXYZ.chatFilterEnabled;
+import static com.carrotguy69.cxyz.CXYZ.f;
 
 public class MessageChannel extends CoreChannel {
 
@@ -38,10 +45,33 @@ public class MessageChannel extends CoreChannel {
         Logger.debugMessage("called MessageChannel.onChat(...)");
 
         Player p = e.getPlayer();
-        String content = e.getMessage();
+
         NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
 
         Map<String, Object> commonMap = MapFormatters.channelFormatter(this);
+        commonMap.putAll(MapFormatters.playerFormatter(np));
+
+        String content = ChatColor.stripColor(f(e.getMessage()));
+
+        commonMap.put("content", content);
+        commonMap.put("message", content);
+
+        if (chatFilterEnabled && !ChatFilterRule.getRulesForChannel(this).isEmpty()) {
+            List<ChatFilterRule> rules = ChatFilterRule.getRulesForChannel(this);
+
+            for (ChatFilterRule rule : rules) {
+                for (String word : rule.getBlacklistedWords()) {
+                    if (!content.contains(word)) {
+                        continue;
+                    }
+
+                    for (String action : rule.getActions()) {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtils.formatPlaceholders(action, commonMap));
+                    }
+                }
+            }
+        }
+
 
         if (np.isMutingChannel(this) && this.isIgnorable()) {
             MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_IS_MUTED, commonMap);

@@ -1,6 +1,7 @@
 package com.carrotguy69.cxyz.models.config;
 
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
+import com.carrotguy69.cxyz.other.Logger;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
@@ -63,7 +64,8 @@ public class Announcement {
         ConfigurationSection section = configYaml.getConfigurationSection("announcements");
 
         if (section == null) {
-            throw new InvalidConfigException("config.yml", "announcements", "No announcements found!");
+            Logger.warning("No announcements found in config.yml! Ignoring...");
+            return List.of();
         }
 
         List<Announcement> results = new ArrayList<>();

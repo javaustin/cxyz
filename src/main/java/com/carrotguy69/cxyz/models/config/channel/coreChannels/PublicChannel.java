@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.models.config.channel.coreChannels;
 
+import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
@@ -14,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
@@ -38,12 +40,33 @@ public class PublicChannel extends CoreChannel {
     public void onChat(AsyncPlayerChatEvent e) {
         Logger.debugMessage("called PublicChannel.onChat(...)");
 
-
         Player p = e.getPlayer();
-        String content = e.getMessage();
+
         NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
 
         Map<String, Object> commonMap = MapFormatters.channelFormatter(this);
+        commonMap.putAll(MapFormatters.playerFormatter(np));
+
+        String content = ChatColor.stripColor(f(e.getMessage()));
+
+        commonMap.put("content", content);
+        commonMap.put("message", content);
+
+        if (chatFilterEnabled && !ChatFilterRule.getRulesForChannel(this).isEmpty()) {
+            List<ChatFilterRule> rules = ChatFilterRule.getRulesForChannel(this);
+
+            for (ChatFilterRule rule : rules) {
+                for (String word : rule.getBlacklistedWords()) {
+                    if (!content.contains(word)) {
+                        continue;
+                    }
+
+                    for (String action : rule.getActions()) {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtils.formatPlaceholders(action, commonMap));
+                    }
+                }
+            }
+        }
 
 
         if (np.isMutingChannel(this) && this.isIgnorable()) {
@@ -74,12 +97,6 @@ public class PublicChannel extends CoreChannel {
                 return;
             }
         }
-
-        commonMap.clear();
-        commonMap = MapFormatters.playerFormatter(np);
-
-        commonMap.put("message", ChatColor.stripColor(f(content)));
-        commonMap.put("content", ChatColor.stripColor(f(content)));
 
         if (lastMessage.containsKey(np.getUUID())) { // Cooldown checker
             long remainingSeconds = lastMessage.get(np.getUUID()) - TimeUtils.unixTimeNow() + np.getTopRank().getChatCooldown();

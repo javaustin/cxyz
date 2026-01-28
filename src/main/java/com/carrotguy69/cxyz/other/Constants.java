@@ -77,6 +77,7 @@ public class Constants {
         muteRestrictions = yaml.getStringList("punishments.mute-restrictions");
         ranks = PlayerRank.loadRanks();
 
+        chatFilterEnabled = yaml.getBoolean("chat.chat-filter.enabled", false);
 
         cosmetics = Cosmetic.getCosmetics();
         ActiveCosmetic.loadActiveCosmetics(); // Loading so Cosmetics can use this supplementary class.

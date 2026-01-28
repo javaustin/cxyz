@@ -248,11 +248,22 @@ chat:
     party: party
     public: all
 
-  chat-filter: # Disallows certain words from being sent in the chat. This does not trigger punishment as of yet.
-    enabled-channels: [all]
-    blacklisted-words: [nigger, faggot]
-    action: # command action accepts playerFormatter for placeholders
-      - mute {player} 24h racial language
+  chat-filter: # Disallows certain words from being sent in the chat.
+    enabled: true
+
+    rules:
+      example-rule:
+        enabled-channels: [all] # use the registered channel name, not alias
+        blacklisted-words: ["nigger", "faggot"] # any blacklisted words will automatically be canceled
+        actions: # command action accepts playerFormatter for placeholders
+          - mute {player} 24h racial language
+
+      example-rule2:
+        enabled-channels: [party]
+        blacklisted-words: ["party"]
+        actions:
+          - show {player} &4no partying allowed
+
 
 
 
@@ -263,12 +274,13 @@ announcements:
     enabled: true
     content: '&3hecking is forbidden on the server {player}. &4do not heck.' # They also support playerFormatter placeholders. pretty snazzy!
     delay: 1800
-    interval: 3600 # The time in between . An interval of 0 means the message will never repeat.
+    interval: 3600 # The time in between consecutive announcements. An interval of 0 means the message will never repeat.
     servers:
     - HUB_1
     to-console: true # Should this message broadcast to the console of the server it is sent in?
 
 parties:
+  enabled: true
   autokick-after: 300 # The amount of seconds to wait before auto-kicking a player from a party after they leave the server. Set to -1 to disable.
   invites-expire-after: 60 # The amount of seconds to wait before a party invite to a player expires. Set to -1 to disable.
 
