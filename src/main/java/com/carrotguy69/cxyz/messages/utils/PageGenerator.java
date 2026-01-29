@@ -1,5 +1,7 @@
 package com.carrotguy69.cxyz.messages.utils;
 
+import com.carrotguy69.cxyz.other.Logger;
+
 import java.util.List;
 
 public class PageGenerator {
@@ -75,6 +77,8 @@ public class PageGenerator {
 
         else
             endIndex = size - 1;
+
+        Logger.debugMessage(String.format("PageGenerator generating entries from startIndex=%d to endIndex=%d", startIndex, endIndex));
 
         return String.join(delimiter, entries.subList(startIndex, endIndex));
     }
