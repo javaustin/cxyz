@@ -135,6 +135,10 @@ public class Cosmetic {
 
                     Cosmetic csm = new Cosmetic(id, display, lore, type, price, levelRequirement, rankRequirement, enabled);
 
+                    if (enabledCosmeticTypes.contains(type)) {
+                        continue;
+                    }
+
                     results.add(csm);
                 }
 

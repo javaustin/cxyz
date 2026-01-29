@@ -79,6 +79,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
                                                                                    // (kind of backwards, but allows the recipient to get all their messages quickly).
 
     public static List<Cosmetic> cosmetics = new ArrayList<>();
+    public static List<Cosmetic.CosmeticType> enabledCosmeticTypes = new ArrayList<>();
 
     public static List<Shorthand> shorthandCommands = new ArrayList<>();
 
@@ -151,10 +152,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [➕] ADD/IMPLEMENT:
-   - ✅ Enable/disable parties
    - Use the static getObjects() (where "Object" is any config model object), ONLY once during startup and then map it to a constant in the main. It should not be called every time.
    - Detailed logging on startup, and do warning + continue on error instead of throwing InvalidConfigException. No null values in objects allowed, enforce it!
-   - Add party max size value
    - Ensure /debug actually changes and saves config values
    - A page generator class for long list commands. We will have a string list of entries, a max entries integer, a format for each page including the header and the footer,
      and the class should be able to generate a list page given the page # and using the header, footer, and entries.
@@ -163,10 +162,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Throw a config exception in startup if core default channels are not assigned.
    - More debuggers (shorthands, NetworkPlayer actions (move to here instead of living in shipmentdelivery), )
    - Ensure that TextComponents are not being re-created (create a single TextComponent for all targets)
-   - ✅ Create a ChatFilterRule class - a dumb chat filter class to block simple profanity.
-   - ✅ A rule has a list of enabled channels, a list of prohibited content, and a list of command actions that are triggered.
-   - ✅ A rule can be bypassed with a special permission like “chat.<channel>.bypass-filter” which bypasses filters for the entire channel.
-   - ✅ Messages that violate the rule are automatically cancelled, and you can specify command actions in config.yml.
    - Report command.
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa)
    - /skin command (could be external plugin), but we should have a functionality (maybe in users table) to store the skin name in order to apply it when joining other servers.
@@ -184,21 +179,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Levelup: Add a player level up message (and play the sound)
    - Implement shorthand commands, and then with this add (/rules, /help, /allow {channel} {player})
    - Events we can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
-
-   [💡] FEATURE IDEAS/LAYOUT:
-
-   Shorthand commands
-       Config schema:
-       permban:
-          command: “/permban {1} {…}”
-          tab-completer: "/permban {player} {...}"
-          executes:
-              - ban {1} permanent {…}
-
-      placeholders:
-      - {channel} (tab completes with channels)
-      - {rank} (tab completes with ranks)
-      - {player} (tab completes with all players)
 
 
    [🔥] v1.1 UPDATE:

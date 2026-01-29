@@ -1,7 +1,7 @@
 # Types: CHAT_TAG, CHAT_COLOR, RANK_PLATE, WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT
 
-# If no cosmetic types are listed below, no cosmetics will work on the server.
-enabled: [CHAT_TAG, CHAT_COLOR, RANK_PLATE, WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT]
+# If no cosmetic types are listed, no cosmetics will work on the server.
+enabled-types: [CHAT_TAG, CHAT_COLOR, RANK_PLATE, WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT]
 
 cosmetics:
 

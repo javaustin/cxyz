@@ -12,6 +12,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 
@@ -81,6 +83,8 @@ public class Constants {
         chatFilterEnabled = yaml.getBoolean("chat.chat-filter.enabled", false);
         partiesEnabled = yaml.getBoolean("parties.enabled", false);
 
+
+        enabledCosmeticTypes = cosmeticsYML.getStringList("enabled-types").stream().map(Cosmetic.CosmeticType::valueOf).collect(Collectors.toList());
         cosmetics = Cosmetic.getCosmetics();
         ActiveCosmetic.loadActiveCosmetics(); // Loading so Cosmetics can use this supplementary class.
 
