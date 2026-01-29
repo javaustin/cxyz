@@ -1,12 +1,14 @@
 package com.carrotguy69.cxyz.models.config.channel.channelTypes;
 
 import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.GameServer;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.webhook.DiscordWebhook;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -142,6 +144,30 @@ public abstract class BaseChannel {
 
     public void setAliases(List<String> aliases) {
         this.aliases = aliases;
+    }
+
+    public boolean evaluateContent(Player p, String content, Map<String, Object> commonMap) {
+        // Evaluates the message using the ChatFilterRules provided for the channel. Returns true if a rule was broken.
+
+        List<ChatFilterRule> rules = ChatFilterRule.getRulesForChannel(this);
+
+        for (ChatFilterRule rule : rules) {
+            for (String word : rule.getBlacklistedWords()) {
+                if (!content.contains(word))
+                    continue;
+
+                //
+                if (p.hasPermission("cxyz.chat-filter." + rule.getName() + ".bypass"))
+                    continue;
+
+                for (String action : rule.getActions()) {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtils.formatPlaceholders(action, commonMap));
+                }
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public String toString() {

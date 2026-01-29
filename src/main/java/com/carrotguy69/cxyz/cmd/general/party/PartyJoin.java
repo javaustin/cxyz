@@ -42,6 +42,11 @@ public class PartyJoin implements CommandExecutor {
             return true;
         }
 
+        if (!partiesEnabled) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.PARTY_DISABLED, Map.of());
+            return true;
+        }
+
         if (!(sender instanceof Player)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
             return true;

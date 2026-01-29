@@ -218,6 +218,7 @@ public enum MessageKey {
     PARTY_AVAILABLE_SUBCOMMANDS("commands.party.available-subcommands"),
     PARTY_CREATED("commands.party.created"),
     PARTY_DISBAND("commands.party.disband"),
+    PARTY_DISABLED("commands.party.disabled"),
     PARTY_DISBAND_INACTIVE("commands.party.disband-inactive"),
     PARTY_DISBAND_SOLO("commands.party.disband-solo"),
     PARTY_INVITE_EXPIRED("commands.party.invite-expired"),

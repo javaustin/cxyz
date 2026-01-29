@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.parties;
+import static com.carrotguy69.cxyz.CXYZ.partiesEnabled;
 
 public class PartyCreate implements CommandExecutor {
     @Override
@@ -33,6 +34,11 @@ public class PartyCreate implements CommandExecutor {
 
         if (!sender.hasPermission(node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
+            return true;
+        }
+
+        if (!partiesEnabled) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.PARTY_DISABLED, Map.of());
             return true;
         }
 

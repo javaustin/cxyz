@@ -41,6 +41,11 @@ public class PartyInvite implements CommandExecutor {
             return true;
         }
 
+        if (!partiesEnabled) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.PARTY_DISABLED, Map.of());
+            return true;
+        }
+
 
         if (!(sender instanceof Player)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
@@ -66,7 +71,7 @@ public class PartyInvite implements CommandExecutor {
 
         if (party == null) { // We seamlessly auto-create the party
             party = new Party(inviter.getUUID().toString(), "[]", 0);
-            party.create(); // Nothing is added to this party object in this sequence. We can safely create the object and not have to worry about adding a player.
+            party.create(); // Since inviting a player won't add them to the party (without them accepting it), we post the new empty party to the API.
         }
 
         Map<String, Object> commonMap = MapFormatters.partyFormatter(party);

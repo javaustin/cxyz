@@ -23,7 +23,7 @@ public class Constants {
         return (String) fc.get("servers." + gs.getName());
     }
 
-    public static void initThings() {
+    public static void loadConfigYMLs() {
 
         // messages.yml
         File dataFolder = plugin.getDataFolder();
@@ -47,8 +47,8 @@ public class Constants {
     }
 
 
-    public static void loadConstantsFromYAML() {
-        initThings();
+    public static void loadConstants() {
+        loadConfigYMLs();
 
         FileConfiguration yaml = plugin.getConfig();
 
@@ -78,6 +78,7 @@ public class Constants {
         ranks = PlayerRank.loadRanks();
 
         chatFilterEnabled = yaml.getBoolean("chat.chat-filter.enabled", false);
+        partiesEnabled = yaml.getBoolean("parties.enabled", false);
 
         cosmetics = Cosmetic.getCosmetics();
         ActiveCosmetic.loadActiveCosmetics(); // Loading so Cosmetics can use this supplementary class.

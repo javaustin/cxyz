@@ -73,9 +73,10 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static Map<UUID, Party> parties = new ConcurrentHashMap<>(); // <Owner, Party>
     public static Map<UUID, PartyExpire> partyExpires = new HashMap<>(); // <Player(UUID), PartyExpire>
 
-    public static Multimap<UUID, Message> messageMap = ArrayListMultimap.create(); // UUID in the message map represents the recipient UUID (kind of backwards).
     public static Multimap<UUID, PartyInvite> partyInvites = ArrayListMultimap.create(); // The UUID is the sender (the one who sent the invite)
     public static Multimap<UUID, FriendRequest> friendRequests = ArrayListMultimap.create(); // The UUID is the sender (the one who sent the friend request)
+    public static Multimap<UUID, Message> messageMap = ArrayListMultimap.create(); // UUID in the message map represents the recipient UUID
+                                                                                   // (kind of backwards, but allows the recipient to get all their messages quickly).
 
     public static List<Cosmetic> cosmetics = new ArrayList<>();
 
@@ -115,6 +116,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     }
 
     public static boolean chatFilterEnabled = false;
+    public static boolean partiesEnabled = false;
 
     public CommandMap commandMap = null;
 
@@ -127,8 +129,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    [❌] ISSUES:
 
    - Fix message parser actions:
-        - ✅ is: (text)[ACTION:actionText]
-        - ❌ Should be: [text](ACTION:actionText)
+        - should be: [text](ACTION:actionText)
+        - but is: (text)[ACTION:actionText]
 
    - Punishment edit tab completer does not work
 
@@ -145,14 +147,11 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Playtime value in /info is wrong
    - Playtime value in DB is likely wrong, we should look at that
 
-   [🧪] TEST:
-   - Shorthand commands (register with mismatching name, load with bad params {non-bracketed})
-   - Punishment info subcommands (/punishment ...)
-
 
 
    [➕] ADD/IMPLEMENT:
-   - Enable/disable parties
+   - ✅ Enable/disable parties
+   - Use the static getObjects() (where "Object" is any config model object), ONLY once during startup and then map it to a constant in the main. It should not be called every time.
    - Detailed logging on startup, and do warning + continue on error instead of throwing InvalidConfigException. No null values in objects allowed, enforce it!
    - Add party max size value
    - Ensure /debug actually changes and saves config values
@@ -163,10 +162,10 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Throw a config exception in startup if core default channels are not assigned.
    - More debuggers (shorthands, NetworkPlayer actions (move to here instead of living in shipmentdelivery), )
    - Ensure that TextComponents are not being re-created (create a single TextComponent for all targets)
-   - Create a ChatFilterRule class - a dumb chat filter class to block simple profanity.
-   - A rule has a list of enabled channels, a list of prohibited content, and a list of command actions that are triggered.
-   - A rule can be bypassed with a special permission like “chat.<channel>.bypass-filter” which bypasses filters for the entire channel.
-   - Messages that violate the rule are automatically cancelled, and you can specify command actions in config.yml.
+   - ✅ Create a ChatFilterRule class - a dumb chat filter class to block simple profanity.
+   - ✅ A rule has a list of enabled channels, a list of prohibited content, and a list of command actions that are triggered.
+   - ✅ A rule can be bypassed with a special permission like “chat.<channel>.bypass-filter” which bypasses filters for the entire channel.
+   - ✅ Messages that violate the rule are automatically cancelled, and you can specify command actions in config.yml.
    - Report command.
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa)
    - /skin command (could be external plugin), but we should have a functionality (maybe in users table) to store the skin name in order to apply it when joining other servers.
@@ -265,7 +264,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
         commandMap = getCommandMap();
 
-        Constants.loadConstantsFromYAML();
+        Constants.loadConstants();
 
         Startup.doThings();
 
@@ -283,6 +282,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         initializedMap.put("partyExpires", false);
         initializedMap.put("messages", false);
         initializedMap.put("punishments", false);
+        initializedMap.put("friendRequests", false);
 
         Bukkit.getScheduler().runTaskLater(plugin, Startup::requestCacheShipments, 1L);
 

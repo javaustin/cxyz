@@ -236,7 +236,7 @@ commands:
       &e/party setleader <player>
       &e/party warp <server>
       
-
+    disabled: "&cParties are not enabled on this server."
     created: "&eYou have created a party!"
     disband: "&eThe party has been disbanded."
     disband-inactive: "&eThe party has been disbanded since the owner has been offline too long!"

@@ -56,21 +56,10 @@ public class MessageChannel extends CoreChannel {
         commonMap.put("content", content);
         commonMap.put("message", content);
 
-        if (chatFilterEnabled && !ChatFilterRule.getRulesForChannel(this).isEmpty()) {
-            List<ChatFilterRule> rules = ChatFilterRule.getRulesForChannel(this);
+        boolean blocked = this.evaluateContent(p, content, commonMap);
 
-            for (ChatFilterRule rule : rules) {
-                for (String word : rule.getBlacklistedWords()) {
-                    if (!content.contains(word)) {
-                        continue;
-                    }
-
-                    for (String action : rule.getActions()) {
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtils.formatPlaceholders(action, commonMap));
-                    }
-                }
-            }
-        }
+        if (blocked)
+            return;
 
 
         if (np.isMutingChannel(this) && this.isIgnorable()) {
