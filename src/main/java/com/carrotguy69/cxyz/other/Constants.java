@@ -69,6 +69,7 @@ public class Constants {
         this_port = yaml.getInt("this-port");
         timezone = yaml.getString("timezone");
         partyInvitesExpireAfter = yaml.getInt("parties.invites-expire-after", 60);
+        partyMaxSize = Math.max(yaml.getInt("parties.max-players", 9999), 1);
         partyAutoKickAfter = yaml.getInt("parties.autokick-after", 60);
         friendRequestsExpireAfter = yaml.getInt("friends.requests-expire-after", 300);
         dateTimeFormat = yaml.getString("datetime-format");

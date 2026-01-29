@@ -227,6 +227,8 @@ public enum MessageKey {
     PARTY_INVITE_RECEIVED("commands.party.invite-received"),
     PARTY_PLAYER_DISCONNECT("commands.party.player-disconnect"),
     PARTY_PLAYER_RECONNECT("commands.party.player-reconnect"),
+    PARTY_FULL("commands.party.party-full"),
+    PARTY_FULL_ANNOUNCEMENT("commands.party.party-full-announcement"),
     PARTY_LIST("commands.party.list.format"),
     PARTY_LIST_PLAYER_FORMAT("commands.party.list.player-format"),
     PARTY_LIST_PLAYER_SEPARATOR("commands.party.list.player-separator"),

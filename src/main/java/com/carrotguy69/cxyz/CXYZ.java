@@ -88,6 +88,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static int partyInvitesExpireAfter;
     public static int partyAutoKickAfter;
     public static int friendRequestsExpireAfter;
+    public static int partyMaxSize;
 
     public static String timezone;
     public static String dateTimeFormat;

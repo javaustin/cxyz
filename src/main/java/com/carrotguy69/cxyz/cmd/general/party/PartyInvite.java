@@ -132,14 +132,19 @@ public class PartyInvite implements CommandExecutor {
             }
         }
 
+        if (party.size() + 1 >= partyMaxSize) {
+            MessageUtils.sendParsedMessage(inviter.getPlayer(), MessageKey.PARTY_FULL, commonMap);
+            return;
+        }
+
         partyInvite.create();
         partyInvites.put(inviter.getUUID(), partyInvite);
 
-        Map<String, Object> inviterRecipientMap = MapFormatters.inviterRecipientFormat(inviter, recipient);
+        commonMap.putAll(MapFormatters.inviterRecipientFormat(inviter, recipient));
 
-        recipient.sendParsedMessage(MessageGrabber.grab(MessageKey.PARTY_INVITE_RECEIVED), inviterRecipientMap); // Sends the party invite message cross-server (if necessary.)
+        recipient.sendParsedMessage(MessageGrabber.grab(MessageKey.PARTY_INVITE_RECEIVED), commonMap); // Sends the party invite message cross-server (if necessary.)
 
-        party.announce(MessageGrabber.grab(MessageKey.PARTY_INVITE_SENT), inviterRecipientMap); // New parse-friendly way to send messages. Send the content without placeholders applied, pass the formatMap as a parameter, it is handled by the parser automatically.
+        party.announce(MessageGrabber.grab(MessageKey.PARTY_INVITE_SENT), commonMap); // New parser-friendly way to send messages. Send the content without placeholders applied, pass the formatMap as a parameter, it is handled by the parser automatically.
     }
 
 }

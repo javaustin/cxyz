@@ -114,6 +114,12 @@ public class PartyJoin implements CommandExecutor {
             return;
         }
 
+        if (inviterParty.size() + 1 >= partyMaxSize) {
+            MessageUtils.sendParsedMessage(p, MessageKey.PARTY_FULL, commonMap);
+            inviterParty.announce(MessageGrabber.grab(MessageKey.PARTY_FULL_ANNOUNCEMENT), commonMap);
+            return;
+        }
+
         MessageUtils.sendParsedMessage(p, MessageKey.PARTY_JOIN, commonMap);
 
         inviterParty.announce(MessageGrabber.grab(MessageKey.PARTY_JOIN_ANNOUNCEMENT), commonMap);

@@ -253,7 +253,7 @@ commands:
       format: |
         &f--------------- {owner-rank-color}{owner-display-name}'s party &r&f---------------
         &6Owner: {owner-rank-color}{owner-display-name}
-        &6Players [[{player-count}]]: {players}
+        &6Players [[{player-count}/{max-player-count}]]: {players}
         &6Type: {type}
         &f---------------------------------------------
       player-format: "({player-rank-color}{player-display-name})[HOVER:This is {player-display-name}!]"
@@ -261,8 +261,11 @@ commands:
       type-public: "&aPublic" # Text that is shown when the party is open to the public
       type-private: "&cPrivate" # Text that is shown when party is private.
 
-    player-disconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7disconnected."
+    party-full: "&cThis party is full! ((&c{player-count}/{max-player-count}))"
+    party-full-announcement: "&c{player} attempted to join but the party is full ((&c{player-count}/{max-player-count}))"
+
     player-reconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7reconnected."
+    player-disconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7disconnected."
 
     join: "&eYou have joined the party!"
     join-announcement: "&9Party> {player-rank-prefix}{player-rank-color}{player} &r&7has joined the party."

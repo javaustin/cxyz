@@ -283,6 +283,7 @@ parties:
   enabled: true
   autokick-after: 300 # The amount of seconds to wait before auto-kicking a player from a party after they leave the server. Set to -1 to disable.
   invites-expire-after: 60 # The amount of seconds to wait before a party invite to a player expires. Set to -1 to disable.
+  max-players: 10000
 
 friends:
   requests-expire-after: 300 # The amount of seconds to wait before a friend request to another player expires.

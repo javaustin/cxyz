@@ -490,6 +490,7 @@ public class MapFormatters {
         Map<String, Object> commonMap = cloneFormaterToNewKey(playerFormatter(owner), "player", "owner");
 
         commonMap.put("player-count", party.size() + 1);
+        commonMap.put("max-player-count", partyMaxSize);
         // {players} is fulfilled in the code of the /party list command, not here.
 
         commonMap.put("type", party.isPublic() ? MessageGrabber.grab(MessageKey.PARTY_LIST_TYPE_PUBLIC) : MessageGrabber.grab(MessageKey.PARTY_LIST_TYPE_PRIVATE));
