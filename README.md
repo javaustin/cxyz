@@ -168,7 +168,7 @@ commands:
       player-message: |
         &cYou have been banned from this server for: {reason}!
     
-        &r&fID: #&7{case-id}
+        &r&fID: &7{case-id}
         &r&fPlayer: {player-rank-color}{player} 
         &r&fModerator: {mod-rank-color}{mod}
         &r&fIssued on: &7{date}
