@@ -19,11 +19,11 @@ public class FriendRequest {
     }
 
     public void delete() {
-        Request.postRequest(api_endpoint + "/friendRequest/delete", gson.toJson(Map.of("sender", sender, "recipient", recipient, "expireTimestamp", expireTimestamp)));
+        Request.postRequest(apiEndpoint + "/friendRequest/delete", gson.toJson(Map.of("sender", sender, "recipient", recipient, "expireTimestamp", expireTimestamp)));
     }
 
     public void create() {
-        Request.postRequest(api_endpoint + "/friendRequest/create", gson.toJson(Map.of("sender", sender, "recipient", recipient, "expireTimestamp", expireTimestamp)));
+        Request.postRequest(apiEndpoint + "/friendRequest/create", gson.toJson(Map.of("sender", sender, "recipient", recipient, "expireTimestamp", expireTimestamp)));
     }
 
     public NetworkPlayer getSender() {

@@ -45,17 +45,18 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     public static FileConfiguration configYaml;
 
-    public static String server_name;
-    public static String server_ip;
-    public static String api_endpoint;
+
+    public static String apiEndpoint;
+    public static String apiKey;
+    public static int apiTimeoutMillis;
     public static String webhook_endpoint;
     public static GameServer this_server;
 
-    // Even though these ranks are not defined yet, they will almost never be null (excluding first few milliseconds of server startup)
-    public static int api_timeout;
-    public static int this_port;
 
+    // Even though these ranks are not defined yet, they will almost never be null (excluding first few milliseconds of server startup)
     public static PlayerRank defaultRank;
+
+    public static int this_port;
 
     public static List<PlayerRank> ranks = new ArrayList<>();
     public static List<GameServer> servers = new ArrayList<>();
@@ -130,6 +131,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    [❌] ISSUES:
 
+   - cosmetics wont load when enabled
+
    - Fix message parser actions:
         - should be: [text](ACTION:actionText)
         - but is: (text)[ACTION:actionText]
@@ -152,6 +155,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [➕] ADD/IMPLEMENT:
+   - Use environment variables for api keys (just in development)
    - Use the static getObjects() (where "Object" is any config model object), ONLY once during startup and then map it to a constant in the main. It should not be called every time.
    - Detailed logging on startup, and do warning + continue on error instead of throwing InvalidConfigException. No null values in objects allowed, enforce it!
    - Ensure /debug actually changes and saves config values
@@ -282,7 +286,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     @Override
     public void onDisable() {
         if (this_server != null) {
-            Request.postRequest(api_endpoint + "/sql", String.format("{\"query\" : \"UPDATE users SET online = false WHERE server = '%s'\", \"table\" : \"users\"}", this_server.getName()));
+            Request.postRequest(apiEndpoint + "/sql", String.format("{\"query\" : \"UPDATE users SET online = false WHERE server = '%s'\", \"table\" : \"users\"}", this_server.getName()));
         }
 
         for (Player p : Bukkit.getOnlinePlayers()) {

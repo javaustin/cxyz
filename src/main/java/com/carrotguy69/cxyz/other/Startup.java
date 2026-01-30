@@ -218,7 +218,7 @@ public class Startup {
 //    }
 
     public static void requestCacheShipments() {
-        Request.postRequest(api_endpoint + "/cache", gson.toJson(Map.of("body", "good morning inanimate server!"))); // The API does not even look at this body, it just wants the request in post because it feels nicer.
+        Request.postRequest(apiEndpoint + "/cache", gson.toJson(Map.of("body", "good morning inanimate server!"))); // The API does not even look at this body, it just wants the request in post because it feels nicer.
      }
 
 }

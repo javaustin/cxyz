@@ -6,7 +6,7 @@ enabled-types: [CHAT_TAG, CHAT_COLOR, RANK_PLATE, WEARABLE, GADGET, MOVEMENT_TRA
 cosmetics:
 
   example-tag:
-    display: "&d[fat] " # Display of the item
+    display: "&d[phat] " # Display of the item
     lore: # Description of the item. Displays in lore if material. displays on hover if a tag or rank plate.
     type: CHAT_TAG # Must be fully uppercase, and be a valid type.
     enabled: true # If enabled, the cosmetic is available to purchase for the server. If disabled, it is hidden and not available to purchase.

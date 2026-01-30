@@ -68,16 +68,52 @@ public class Print implements CommandExecutor {
                 case "cosmetics":
                     Logger.info(cosmetics.toString());
                     Logger.info(ActiveCosmetic.activeCosmeticMap.toString());
+                    return true;
+
                 case "channel":
                 case "channels":
                     Logger.info(channels.toString());
                     Logger.info(ChannelRegistry.functionalChannels.toString());
+                    return true;
+
                 case "announcements":
                 case "announcement":
                     Logger.info(Announcement.getAnnouncements().toString());
+                    return true;
+
                 case "friendrequest":
                 case "friendrequests":
                     Logger.info(friendRequests.toString());
+                    return true;
+
+                case "configyml":
+                case "config":
+
+                    if (args.length == 1)
+                        Logger.info(configYaml.getKeys(true).toString());
+                    else
+                        Logger.info(configYaml.get(args[1]) != null ? configYaml.get(args[1]).toString() : "Key not found");
+
+
+                    return true;
+
+                case "msgyml":
+                case "msgconfig":
+                    if (args.length == 1)
+                        Logger.info(msgYML.getKeys(true).toString());
+                    else
+                        Logger.info(msgYML.get(args[1]) != null ? msgYML.get(args[1]).toString() : "Key not found");
+
+                    return true;
+
+                case "cosmeticsyml":
+                case "cosmeticyml":
+                    if (args.length == 1)
+                        Logger.info(cosmeticsYML.getKeys(true).toString());
+                    else
+                        Logger.info(cosmeticsYML.get(args[1]) != null ? cosmeticsYML.get(args[1]).toString() : "Key not found");
+
+                    return true;
 
             }
         }

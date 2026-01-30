@@ -737,11 +737,11 @@ public class NetworkPlayer {
     }
 
     public void sync() {
-        Request.postRequest(api_endpoint + "/user/modify", gson.toJson(this));
+        Request.postRequest(apiEndpoint + "/user/modify", gson.toJson(this));
     }
 
     public void create() {
-        Request.postRequest(api_endpoint + "/user/create", gson.toJson(this));
+        Request.postRequest(apiEndpoint + "/user/create", gson.toJson(this));
     }
 
     public boolean isMuted() {

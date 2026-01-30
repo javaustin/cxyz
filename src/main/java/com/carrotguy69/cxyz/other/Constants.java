@@ -12,7 +12,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
@@ -55,10 +54,9 @@ public class Constants {
         FileConfiguration yaml = plugin.getConfig();
 
         configYaml = yaml;
-        server_name = (String) yaml.get(f("server-name"));
-        server_ip = (String) yaml.get(f("server-ip"));
-        api_endpoint = (String) yaml.get("api-endpoint");
-        api_timeout = yaml.getInt("api-timeout", 3000);
+        apiEndpoint = (String) yaml.get("api-endpoint");
+        apiKey = (String) yaml.get("api-key");
+        apiTimeoutMillis = yaml.getInt("api-timeout", 3000);
         webhook_endpoint = (String) yaml.get("webhook-endpoint");
         servers = GameServer.loadServers();
 
@@ -78,7 +76,7 @@ public class Constants {
         dateTimeShortFormat = yaml.getString("datetime-short-format");
         permanentString = yaml.getString("punishments.defaults.durations.permanent");
         muteRestrictions = yaml.getStringList("punishments.mute-restrictions");
-        ranks = PlayerRank.loadRanks();
+        ranks = PlayerRank.getRanks();
 
         chatFilterEnabled = yaml.getBoolean("chat.chat-filter.enabled", false);
         partiesEnabled = yaml.getBoolean("parties.enabled", false);

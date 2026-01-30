@@ -51,7 +51,7 @@ public class PartyExpire {
     public void create() {
         if (!partyExpires.containsKey(UUID.fromString(uuid))) { // Must uphold unique constraint
 
-            Request.postRequest(api_endpoint + "/partyExpire/create", gson.toJson(Map.of("uuid", uuid, "timestamp", timestamp)));
+            Request.postRequest(apiEndpoint + "/partyExpire/create", gson.toJson(Map.of("uuid", uuid, "timestamp", timestamp)));
         }
 
         else {
@@ -61,11 +61,11 @@ public class PartyExpire {
     }
 
     public void sync() {
-        Request.postRequest(api_endpoint + "/partyExpire/sync", gson.toJson(Map.of("uuid", uuid, "timestamp", timestamp)));
+        Request.postRequest(apiEndpoint + "/partyExpire/sync", gson.toJson(Map.of("uuid", uuid, "timestamp", timestamp)));
     }
 
     public void delete() {
-        Request.postRequest(api_endpoint + "/partyExpire/delete", gson.toJson(Map.of("uuid", uuid)));
+        Request.postRequest(apiEndpoint + "/partyExpire/delete", gson.toJson(Map.of("uuid", uuid)));
     }
 
     public UUID getUUID() {

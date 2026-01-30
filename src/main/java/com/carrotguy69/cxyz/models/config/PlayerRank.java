@@ -24,7 +24,7 @@ public class PlayerRank {
         this.defaultChatColor = defaultChatColor;
     }
 
-    public static List<PlayerRank> loadRanks() {
+    public static List<PlayerRank> getRanks() {
         ConfigurationSection section = configYaml.getConfigurationSection("ranks");
 
         List<PlayerRank> results = new ArrayList<>();

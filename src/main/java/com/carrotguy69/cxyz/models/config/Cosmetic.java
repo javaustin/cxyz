@@ -135,11 +135,15 @@ public class Cosmetic {
 
                     Cosmetic csm = new Cosmetic(id, display, lore, type, price, levelRequirement, rankRequirement, enabled);
 
-                    if (enabledCosmeticTypes.contains(type)) {
+                    if (!enabledCosmeticTypes.contains(type)) {
                         continue;
                     }
 
                     results.add(csm);
+                }
+
+                else {
+                    Logger.warning(String.format("Cosmetic %s did not load (configuration section not found).", id));
                 }
 
                 } catch (Exception ex) {throw new InvalidConfigException("cosmetics.yml", id, ex.getMessage());}

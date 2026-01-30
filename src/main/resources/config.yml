@@ -3,14 +3,15 @@
 
 # Constants
 #     The following variables will display in the servers messaging and UI.
-server-name: '&6&lcarrot''s &r&aclub'
-server-ip: '&6cerrot.xyz'
 
 # API Endpoint
 #     This is the "home" URL of the database API the server needs to connect to.
+# API Key
+#     This is the required API key ("X-API-KEY") to access the database API.
 # API Timeout
 #     This is the amount of time (ms) before an async HTTP request should be timed out
 api-endpoint: http://localhost:5000
+api-key: dgKP3ykuSXviIljh
 api-timeout: 3000
 
 # Timezone
@@ -29,6 +30,7 @@ this-server: HUB_1
 
 # This port:
 #     We need to know which port should accept requests on THIS server. To avoid port conflicts, you should choose a number in the range of 49152 to 65535.
+#     It should NOT be the default server port, it should be a unique port that only accepts HTTP requests.
 this-port: 59152
 
 # Servers:

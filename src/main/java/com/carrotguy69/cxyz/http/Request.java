@@ -22,7 +22,6 @@ public class Request {
     public final String requestBody;
     private int attempt = 0;
 
-    public static String apiKey = "TSmTS2us5INUfhw2";
     public static HttpClient client = HttpClient.newHttpClient();
     private static final int maxAttempts = 3;
 
@@ -52,7 +51,7 @@ public class Request {
 
         attempt++;
 
-        long timeout = api_timeout * (long) Math.max(1, attempt); // Increases timeout time for failed attempts
+        long timeout = apiTimeoutMillis * (long) Math.max(1, attempt); // Increases timeout time for failed attempts
 
         HttpRequest request;
         try {

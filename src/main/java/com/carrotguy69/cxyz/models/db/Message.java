@@ -75,7 +75,7 @@ public class Message {
     }
 
     public void submit() {
-        Request.postRequest(api_endpoint + "/message/submit", gson.toJson(this));
+        Request.postRequest(apiEndpoint + "/message/submit", gson.toJson(this));
     }
 
     public UUID getSenderUUID() {

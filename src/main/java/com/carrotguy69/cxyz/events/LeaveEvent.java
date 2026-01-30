@@ -2,6 +2,7 @@ package com.carrotguy69.cxyz.events;
 
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.models.config.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.db.PartyExpire;
@@ -34,6 +35,9 @@ public class LeaveEvent {
         np.setLastOnline(TimeUtils.unixTimeNow());
 
         np.sync();
+
+        np.unEquipAllCosmetics();
+
 
         // Create a party expire (task). Only if the plugin is enabled still (not shutting down)
         if (plugin.isEnabled()) {

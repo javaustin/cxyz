@@ -129,20 +129,20 @@ public class Party {
 
     public void sync() {
         // For party transferring: do not change the owner UUID and sync. The database will not know which value to update. Delete the party and create a new one.
-        Request.postRequest(api_endpoint + "/party/sync", gson.toJson(Map.of("sender_uuid", this.ownerUUID, "players", this.players, "public", this.public_)));
+        Request.postRequest(apiEndpoint + "/party/sync", gson.toJson(Map.of("sender_uuid", this.ownerUUID, "players", this.players, "public", this.public_)));
 
         
     }
 
     public void create() {
-        Request.postRequest(api_endpoint + "/party/create", gson.toJson(Map.of("sender_uuid", this.ownerUUID, "players", this.players, "public", this.public_)));
+        Request.postRequest(apiEndpoint + "/party/create", gson.toJson(Map.of("sender_uuid", this.ownerUUID, "players", this.players, "public", this.public_)));
     }
 
     public void delete() {
         parties.remove(UUID.fromString(this.ownerUUID), this);
         partyInvites.removeAll(UUID.fromString(this.ownerUUID));
 
-        Request.postRequest(api_endpoint + "/party/delete", gson.toJson(Map.of("sender_uuid", this.ownerUUID)));
+        Request.postRequest(apiEndpoint + "/party/delete", gson.toJson(Map.of("sender_uuid", this.ownerUUID)));
 
         
     }

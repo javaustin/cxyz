@@ -33,11 +33,11 @@ public class PartyInvite {
     }
 
     public void delete() {
-        Request.postRequest(api_endpoint + "/partyInvite/delete", gson.toJson(Map.of("inviter", inviter, "recipient", recipient, "expireTimestamp", expireTimestamp)));
+        Request.postRequest(apiEndpoint + "/partyInvite/delete", gson.toJson(Map.of("inviter", inviter, "recipient", recipient, "expireTimestamp", expireTimestamp)));
     }
 
     public void create() {
-        Request.postRequest(api_endpoint + "/partyInvite/create", gson.toJson(Map.of("inviter", inviter, "recipient", recipient, "expireTimestamp", expireTimestamp)));
+        Request.postRequest(apiEndpoint + "/partyInvite/create", gson.toJson(Map.of("inviter", inviter, "recipient", recipient, "expireTimestamp", expireTimestamp)));
     }
 
 //    public void sync() {

@@ -192,7 +192,7 @@ public class Punishment {
         body.put("punishment", this);
         // Hassle-free "wrapper" ^
 
-        Request.postRequest(api_endpoint + "/punishment/set", gson.toJson(body));
+        Request.postRequest(apiEndpoint + "/punishment/set", gson.toJson(body));
     }
 
     public void edit() {
@@ -202,13 +202,13 @@ public class Punishment {
         body.put("punishment", this);
         // Hassle-free "wrapper" ^
 
-        Request.postRequest(api_endpoint + "/punishment/edit", gson.toJson(body));
+        Request.postRequest(apiEndpoint + "/punishment/edit", gson.toJson(body));
     }
 
     public void delete() {
         punishmentIDMap.remove(this.getID(), this);
 
-        Request.postRequest(api_endpoint + "/punishment/delete", gson.toJson(Map.of("id", this.id)));
+        Request.postRequest(apiEndpoint + "/punishment/delete", gson.toJson(Map.of("id", this.id)));
     }
 
     // Static methods
