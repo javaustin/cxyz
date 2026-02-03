@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.cmd.general;
 
-import com.carrotguy69.cxyz.models.config.Cosmetic;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
@@ -71,6 +71,7 @@ public class Equip implements CommandExecutor {
         }
 
         np.equipCosmetic(cosmetic);
+        np.sync();
 
         MessageUtils.sendParsedMessage(p, MessageKey.EQUIP_COSMETIC_SUCCESS, MapFormatters.cosmeticFormatter(cosmetic));
 

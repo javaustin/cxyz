@@ -213,24 +213,21 @@ public class Punishment {
 
     // Static methods
     public static Punishment getLastGlobalPunishment() {
-//        List<Punishment> punishments = new ArrayList<>(punishmentIDMap.values());
-//
-//        punishments.sort(Comparator.comparing(Punishment::getIssuedTimestamp));
-//
-//        if (punishments.isEmpty()) {
-//            Logger.warning("No previous punishments were detected by the API. If you haven't assigned punishments on this server before, you may ignore this message.");
-//            return null;
-//        }
-//
-//        return punishments.getFirst();
-
-        return punishmentIDMap.values().stream()
+        List<Punishment> punishments = punishmentIDMap.values().stream()
                 .sorted(
                         Comparator.comparingLong(Punishment::getIssuedTimestamp)
                         .thenComparing(Punishment::getID)
                 )
-                .collect(Collectors.toList())
-                .getFirst();
+                .collect(Collectors.toList());
+
+        if (punishments.isEmpty()) {
+            Logger.warning("No previous punishments were detected by the API. If you haven't assigned punishments on this server before, you may ignore this message.");
+            return null;
+        }
+
+        Logger.debugPunishment(punishments.toString());
+
+        return punishments.getLast();
     }
 
     // We are 99% sure that our ID is correct. In the case that it isn't, it is corrected by the backend.
@@ -245,8 +242,6 @@ public class Punishment {
             Logger.debugPunishment("No last punishment found (returns 1)");
             return 1;
         }
-
-        Logger.debugPunishment("lastGlobalPunishment: " + lastPunishment.toString());
 
         return lastPunishment.getID() + 1;
     }

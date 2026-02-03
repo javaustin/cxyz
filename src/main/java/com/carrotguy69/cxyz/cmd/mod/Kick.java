@@ -78,7 +78,7 @@ public class Kick implements CommandExecutor {
             // All necessary args are provided
 
             String targetPlayer = args[0];
-            String reason = Arrays.toString(ObjectUtils.slice(args, 2, args.length));
+            String reason = String.join(" ", ObjectUtils.slice(args, 1, args.length));
 
             kick(sender, targetPlayer, reason, silent, force);
         }

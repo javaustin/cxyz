@@ -7,12 +7,12 @@ cosmetics:
 
   example-tag:
     display: "&d[phat] " # Display of the item
-    lore: # Description of the item. Displays in lore if material. displays on hover if a tag or rank plate.
+    lore: "" # Description of the item. Displays in lore if material. displays on hover if a tag or rank plate.
     type: CHAT_TAG # Must be fully uppercase, and be a valid type.
     enabled: true # If enabled, the cosmetic is available to purchase for the server. If disabled, it is hidden and not available to purchase.
     price: 0 # Required price to buy this item
-    level_requirement: 0 # Required network level to buy this item
-    rank_requirement: default # Required network rank to buy this item
+    level-requirement: 0 # Required network level to buy this item
+    rank-requirement: default # Required network rank to buy this item
 
   rainbow-armor:
     # Any of these cosmetic types [WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT], must be implemented using ActiveCosmetic methods.
@@ -21,6 +21,14 @@ cosmetics:
     type: WEARABLE
     enabled: true
     price: 0
-    level_requirement: 0
-    rank_requirement: default
+    level-requirement: 0
+    rank-requirement: default
 
+  grapple-rod:
+    display: "&eGrapple Rod"
+    lore: "&6Jump around!"
+    type: GADGET
+    enabled: true
+    price: 0
+    level-requirement: 0
+    rank-requirement: default

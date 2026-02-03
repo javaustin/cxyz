@@ -30,8 +30,8 @@ public class MessageParser {
         }
 
         public MessageParseException(String description) {
-            this.index = -1;
             this.description = description;
+            this.index = -1;
         }
 
         public String getOriginalText() {
@@ -55,7 +55,14 @@ public class MessageParser {
     private final Map<String, Object> formatMap;
 
     public MessageParser(String s, Map<String, Object> formatMap) {
-        this.unparsed = s;
+
+        if (s.endsWith("\n"))
+            this.unparsed = s.substring(0, s.length() - 1);
+
+        else
+            this.unparsed = s;
+
+
         this.formatMap = formatMap;
     }
 
@@ -251,8 +258,8 @@ public class MessageParser {
         }
 
         Logger.debugMessage("unparsed:" + unparsed.replace("\n", "\\n"));
-        Logger.debugMessage("components:" + components.toString().replace("\n", "\\n"));
         Logger.debugMessage("formatMap(size):" + formatMap.size());
+        Logger.debugMessage("components:" + components.toString().replace("\n", "\\n"));
 
 
         return components;
@@ -404,9 +411,6 @@ public class MessageParser {
 
             }
 
-            Logger.debugMessage("colorSTCMap: " + colorSTCMap.toString().replace("\n", "\\n"));
-
-
             for (Map.Entry<SimpleTextComponent, ChatColor> entry : colorSTCMap.entrySet()) {
                 SimpleTextComponent simple = entry.getKey();
 
@@ -425,9 +429,7 @@ public class MessageParser {
 
                     String[] lines = content.split("\n");
 
-                    for (int i = 0; i < lines.length; i++) {
-                        String split = lines[i];
-
+                    for (String split : lines) {
                         TextComponent component = new TextComponent(f(forceColor(formatPlaceholders(split, formatMap))));
 
                         for (SimpleTextComponent.Action action : simple.getActions()) {
@@ -444,22 +446,17 @@ public class MessageParser {
                         component.setColor(color);
                         tc.addExtra(component);
 
-                        if (i != lines.length - 1) {
-                            tc.addExtra("\n");
-                        }
                     }
 
                 }
             }
-
-            Logger.debugMessage("final tc: "  + tc.toString().replace("\n", "\\n"));
 
             return tc;
         }
 
         catch (Exception ex) {
             Logger.warning("Failed to parse message! Perhaps you've inputted a bad RGB code or blank text after a color code! " + ex.getMessage());
-            Logger.debugMessage(Arrays.toString(ex.getStackTrace()));
+            Logger.logStackTrace(ex);
             return new TextComponent(unparsed);
         }
     }

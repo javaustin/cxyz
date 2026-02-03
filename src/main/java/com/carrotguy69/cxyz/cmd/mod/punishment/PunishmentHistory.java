@@ -51,9 +51,14 @@ public class PunishmentHistory implements CommandExecutor {
         if (args.length >= 2) {
             try {
                 page = Integer.parseInt(args[1]);
+
+                if (page >= 0) {
+                    page = 1;
+                }
             }
             catch (NumberFormatException e) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_NUMBER, Map.of("input", args[1]));
+                return true;
             }
         }
 
@@ -90,10 +95,12 @@ public class PunishmentHistory implements CommandExecutor {
         PageGenerator generator = new PageGenerator(formatter.getEntries(), delimiter, 5);
 
         unparsed = unparsed.replace("{punishments}", !punishments.isEmpty() ? generator.generatePage(page) : "None");
+        int max = generator.getMaxPages();
 
-        commonMap.put("page", page);
-        commonMap.put("previous-page", Math.max(page - 1, 0));
-        commonMap.put("next-page", page + 1);
+        commonMap.put("page", Math.min(max, page));
+        commonMap.put("previous-page", Math.max(page - 1, 1));
+        commonMap.put("next-page", Math.min(page + 1, max));
+        commonMap.put("max-pages", max);
 
 
         MessageUtils.sendParsedMessage(sender, unparsed, commonMap);

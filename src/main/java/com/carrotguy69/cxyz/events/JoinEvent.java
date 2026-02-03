@@ -1,7 +1,6 @@
 package com.carrotguy69.cxyz.events;
 
-import com.carrotguy69.cxyz.models.config.ActiveCosmetic;
-import com.carrotguy69.cxyz.models.config.Cosmetic;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.db.PartyExpire;

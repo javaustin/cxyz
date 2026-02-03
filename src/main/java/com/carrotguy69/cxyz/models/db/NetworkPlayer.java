@@ -2,8 +2,8 @@ package com.carrotguy69.cxyz.models.db;
 
 import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.http.Request;
-import com.carrotguy69.cxyz.models.config.ActiveCosmetic;
-import com.carrotguy69.cxyz.models.config.Cosmetic;
+import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.GameServer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
@@ -87,7 +87,7 @@ public class NetworkPlayer {
         this.uuid = p.getUniqueId().toString();
         this.username = p.getName();
         this.nickname = "";
-        this.ranks = defaultRank.getName();
+        this.ranks = "[\"" + defaultRank.getName() + "\"]";
         this.server = this_server.getName();
         this.online = p.isOnline() ? 1 : 0;
         this.first_join = TimeUtils.unixTimeNow();
@@ -98,7 +98,7 @@ public class NetworkPlayer {
         this.xp = 0;
         this.level = 0;
         this.playtime = 0; // We'll measure playtime in seconds. So we can easily convert with our Time helpers.
-        this.timezone = timezone;
+        this.timezone = CXYZ.timezone;
         this.vanish = 0;
         this.message_privacy = MessagePrivacy.ALLOWED.name();
         this.friend_request_privacy = FriendRequestPrivacy.ALLOWED.name();
@@ -232,7 +232,6 @@ public class NetworkPlayer {
     public List<PlayerRank> getRanks() {
         List<PlayerRank> result = new ArrayList<>();
 
-
         List<String> list = JsonConverters.toList(this.ranks);
 
         for (String rankName : list) {
@@ -241,7 +240,7 @@ public class NetworkPlayer {
                 result.add(rank);
             }
             catch (Exception ex) {
-                Logger.warning(String.format("Rank %s seems to no longer exist! It will be removed from player %s", rankName, this.getUsername()));
+                Logger.warning(String.format("Rank %s seems to no longer exist! It will remain attached to %s but will not be functional on this server.", rankName, this.getUsername()));
             }
         }
 
@@ -672,7 +671,7 @@ public class NetworkPlayer {
     }
 
     public void equipCosmetic(Cosmetic cosmetic) {
-        // Functionally different from addEquippedCosmetic(); This function physically creates and runs the (un)equipActions with the current NetworkPlayer.
+        // Functionally different from addEquippedCosmetic(); This function physically creates and runs the equipActions with the current NetworkPlayer.
         ActiveCosmetic ac = new ActiveCosmetic(cosmetic, this);
 
         ac.equip();
@@ -700,7 +699,8 @@ public class NetworkPlayer {
         removeEquippedCosmetic(cosmetic);
     }
 
-    public void unEquipAllCosmetics() {
+    public void unEquipActiveCosmetics() {
+
 
         List<ActiveCosmetic> activeCosmetics = ActiveCosmetic.activeCosmeticMap.get(this.getUUID());
 
@@ -716,8 +716,6 @@ public class NetworkPlayer {
 
         this.getEquippedCosmetics().clear();
     }
-
-
 
 
     public String getCustomRankPlate() {

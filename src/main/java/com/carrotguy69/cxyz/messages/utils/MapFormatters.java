@@ -1,7 +1,7 @@
 package com.carrotguy69.cxyz.messages.utils;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
-import com.carrotguy69.cxyz.models.config.Cosmetic;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
@@ -402,7 +402,7 @@ public class MapFormatters {
         if (punishment.getEditorModUsername() != null && !punishment.getEditorModUsername().isBlank()) {
             NetworkPlayer editorMod = NetworkPlayer.getPlayerByUUID(UUID.fromString(punishment.getModUUID()));
 
-            commonMap.putAll(cloneFormaterToNewKey(playerFormatter(editorMod), "player", "editor-mod")); // [1/15/26 6:45PM] i just changed this
+            commonMap.putAll(cloneFormaterToNewKey(playerFormatter(editorMod), "player", "editor-mod"));
             commonMap.putAll(cloneFormaterToNewKey(playerFormatter(editorMod), "player", "editor-moderator"));
         }
 

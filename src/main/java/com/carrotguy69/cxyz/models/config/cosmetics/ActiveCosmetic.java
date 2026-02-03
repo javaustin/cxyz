@@ -1,15 +1,19 @@
-package com.carrotguy69.cxyz.models.config;
+package com.carrotguy69.cxyz.models.config.cosmetics;
 
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.util.Vector;
 
 import java.util.*;
 
@@ -38,6 +42,10 @@ public class ActiveCosmetic extends Cosmetic {
         this.originalCosmetic = cosmetic;
         this.tasks = new ArrayList<>();
         this.player = player;
+
+        cosmetic.listeners.forEach((eventClass, list) ->
+                listeners.put(eventClass, new ArrayList<>(list))
+        );
     }
 
     @Override
@@ -47,6 +55,17 @@ public class ActiveCosmetic extends Cosmetic {
                 ", player(UUID)='" + player.getUUID() + '\'' +
                 ", tasks=" + tasks.toString() +
                 "}";
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Event> void handleEvent(T event) {
+        List<CosmeticListener<?>> list = listeners.get(event.getClass());
+
+        if (list == null) return;
+
+        for (CosmeticListener<?> raw : list) {
+            ((CosmeticListener<T>) raw).handle(event, this);
+        }
     }
 
     public List<BukkitTask> getTasks() {
@@ -141,7 +160,7 @@ public class ActiveCosmetic extends Cosmetic {
         // I think it would actually be okay to call this from the Startup class.
 
 
-        // RAINBOW-ARMOR
+        // ------------------------------------------------------- RAINBOW-ARMOR -------------------------------------------------------
 
 
         Cosmetic rainbowArmor = Cosmetic.getCosmetic("rainbow-armor");
@@ -222,11 +241,10 @@ public class ActiveCosmetic extends Cosmetic {
                     p.getInventory().setBoots(boots);
 
                     // Increment hue
-                    hue[0]++;
+                    hue[0] += 2;
                     if (hue[0] > 255) hue[0] = 0; // wrap around
                 }
             }.runTaskTimer(plugin, 0L, 2L);
-            Logger.log("task added");
 
 
             taskIDs.add(task.getTaskId()); // adds task id to the core task manager for it to be canceled upon restart/plugin reload.
@@ -243,9 +261,70 @@ public class ActiveCosmetic extends Cosmetic {
             // The class cancels the original tasks for us, provided we add it to the list. This should be all?
         });
 
-        // With this, our actions are registered and will be called by NetworkPlayer::equipCosmetic(Cosmetic cosmetic); when prompted (by command or server join)
+        // With this, our actions are registered and will be called by NetworkPlayer.equipCosmetic(Cosmetic cosmetic); when prompted (by command or server join)
         // For simple cosmetics (chat tag, chat color, rank nameplate), we simply won't include them in this driver, we won't set actions.
         // The simple equip/unequip logic doesn't even touch the consumers.
+
+
+        // ------------------------------------------------------- GRAPPLE-ROD -------------------------------------------------------
+
+        Cosmetic grappleRod = Cosmetic.getCosmetic("grapple-rod");
+
+        if (grappleRod == null) {
+            Logger.warning("grappleRod could not be equipped. (null)");
+            return;
+        }
+
+        grappleRod.setEquipAction(ac -> {
+            Player p = ac.getPlayer().getPlayer();
+
+            ItemStack rod = new ItemStack(Material.FISHING_ROD, 1);
+
+            ItemMeta rodMeta = rod.getItemMeta();
+
+            if (rodMeta != null) {
+                rodMeta.setDisplayName(f(ac.getDisplay()));
+                rodMeta.setLore(Arrays.asList(f(ac.getLore()).split(" ")));
+            }
+
+            rod.setItemMeta(rodMeta);
+
+            p.getInventory().addItem(rod);
+        });
+
+        grappleRod.setUnequipAction(ac -> {
+            Player p = ac.getPlayer().getPlayer();
+
+            for (int i = 0; i < p.getInventory().getSize(); i++) {
+                ItemStack is = p.getInventory().getItem(i);
+
+                if (is != null && is.getItemMeta() != null && is.getItemMeta().getDisplayName().equalsIgnoreCase(f(ac.getDisplay()))) {
+                    p.getInventory().setItem(i, null);
+                }
+            }
+        });
+
+        grappleRod.on(PlayerFishEvent.class, ((event, ac) -> {
+            if (event.getState() != PlayerFishEvent.State.REEL_IN)
+                return;
+
+            Player p = ac.getPlayer().getPlayer();
+
+            Vector pull = event.getHook()
+                    .getLocation()
+                    .toVector()
+                    .subtract(p.getLocation().toVector())
+                    .normalize()
+                    .multiply(2);
+
+            p.playSound(p, Sound.ENTITY_BLAZE_SHOOT, 0.5f, 1.0f);
+            p.setVelocity(pull);
+
+
+
+        }));
+
+
     }
 
 }

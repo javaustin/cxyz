@@ -144,7 +144,7 @@ chat:
 
   core-channels:
 
-    # Creating new public channels are not supported, try using custom private channels instead.
+    # Creating new core channels are not supported, try using custom private channels instead.
 
     all:
       prefix: '&ePUBLIC' # Only used for chat channel GUI's like /channel <set | ignore | lock>. NOT used for prefixing the chat format, you must do that manually.
@@ -258,7 +258,7 @@ chat:
         enabled-channels: [all] # use the registered channel name, not alias
         blacklisted-words: ["nigger", "faggot"] # any blacklisted words will automatically be canceled
         actions: # command action accepts playerFormatter for placeholders
-          - mute {player} 24h racial language
+          - mute {player} 24h discriminatory language
 
       example-rule2:
         enabled-channels: [party]

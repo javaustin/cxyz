@@ -1,8 +1,10 @@
 package com.carrotguy69.cxyz;
 
+import com.carrotguy69.cxyz.events.InteractEvent;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
-import com.carrotguy69.cxyz.models.config.Cosmetic;
+import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.GameServer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
@@ -21,9 +23,7 @@ import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,6 +34,8 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.carrotguy69.cxyz.events.FishEvent.onFish;
+import static com.carrotguy69.cxyz.events.InteractEvent.onInteract;
 import static com.carrotguy69.cxyz.events.LeaveEvent.onLeave;
 import static com.carrotguy69.cxyz.events.ChatEvent.handleChat;
 import static com.carrotguy69.cxyz.events.JoinEvent.onJoin;
@@ -131,22 +133,22 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    [❌] ISSUES:
 
-   - cosmetics wont load when enabled
-
    - Fix message parser actions:
         - should be: [text](ACTION:actionText)
         - but is: (text)[ACTION:actionText]
 
+    - "You purchased Grapple Rodfor 0 coins!" (coloring messed up too)
+
+    - effective until "01/7/70 ??"
+
    - Punishment edit tab completer does not work
 
+   - i cant unequip a tag
+
    - What the hell is wrong with my coins system, level and xp?
-   - So why do I have to buy the cosmetics every time I get on the server? is something not registering properly or is something not getting saved?
-
-   - Editor mod not formatting in any messages
-
    - The way the punishment message interacts with the staff channel is odd.
 
-   - MessageParser issue where these multiple line messages have a trailing new line and I can't figure it out
+   - ✅✅✅✅✅✅ MessageParser issue where these multiple line messages have a trailing new line and I can't figure it out
    - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
 
    - Playtime value in /info is wrong
@@ -155,7 +157,11 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [➕] ADD/IMPLEMENT:
+   - A total duration value (effectiveUntil - issued)
+   - Unescape console messages in Logger
    - Use environment variables for api keys (just in development)
+   - Standardize and/or document permissions to access commands, channels...
+   - When making permissions for commands, most of them should be enabled by default
    - Use the static getObjects() (where "Object" is any config model object), ONLY once during startup and then map it to a constant in the main. It should not be called every time.
    - Detailed logging on startup, and do warning + continue on error instead of throwing InvalidConfigException. No null values in objects allowed, enforce it!
    - Ensure /debug actually changes and saves config values
@@ -269,6 +275,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         initializedMap.put("punishments", false);
         initializedMap.put("friendRequests", false);
 
+        Logger.info("🔁 Requesting cached data from API...");
         Bukkit.getScheduler().runTaskLater(plugin, Startup::requestCacheShipments, 1L);
 
         // Maybe should wait until far later, but need to account for plugin restarts with plugman.
@@ -327,7 +334,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     }
 
     @EventHandler
-    public void join(PlayerJoinEvent e) {
+    public void onPlayerJoin(PlayerJoinEvent e) {
         // REMINDER: The purpose of this plugin is only to perform basic essential functions related to player data and network operations.
         // Per server and per game operations should be handled by the game plugins.
 
@@ -339,7 +346,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     }
 
     @EventHandler
-    public void leave(PlayerQuitEvent e) {
+    public void onPlayerQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
 
         onLeave(p);
@@ -347,8 +354,18 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     }
 
     @EventHandler
-    public void chat(AsyncPlayerChatEvent e) {
+    public void onAsyncPlayerChat(AsyncPlayerChatEvent e) {
         handleChat(e);
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        onInteract(event);
+    }
+
+    @EventHandler
+    public void onPlayerFish(PlayerFishEvent event) {
+        onFish(event);
     }
 
 }

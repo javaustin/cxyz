@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.cmd.general;
 
-import com.carrotguy69.cxyz.models.config.Cosmetic;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
@@ -84,6 +84,7 @@ public class Unequip implements CommandExecutor {
         }
 
         np.unEquipCosmetic(cosmetic);
+        np.sync();
 
         MessageUtils.sendParsedMessage(p, MessageKey.UNEQUIP_COSMETIC_SUCCESS, MapFormatters.cosmeticFormatter(cosmetic));
 

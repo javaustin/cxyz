@@ -26,7 +26,7 @@ errors:
       channel: "&cPlease provide a valid channel!"
       color: "&cPlease provide a valid color!"
       cosmetic: "&cPlease provide a valid cosmetic!"
-      debug: "&cPlease provide a valid debug value!"
+      debug: "&cPlease provide a valid debugger!"
       duration: "&cPlease provide a valid duration!"
       item: "&cPlease provide a valid item to buy!"
       number: "&cPlease provide a valid number!"
@@ -121,7 +121,7 @@ commands:
   equip: # Accepts cosmeticFormatter
     error.already-equipped: "&cThis cosmetic is already equipped!"
     error.not-owned: "&cYou do not own this cosmetic!"
-    success: "&aYou have equipped ({display})[HOVER:{lore}]."
+    success: "&aYou have equipped ({display})[HOVER:{lore}]"
 
   unequip: # Accepts cosmeticFormatter
     error.not-equipped: "&cThis cosmetic is not equipped!"
@@ -372,7 +372,7 @@ commands:
 
     mute:
       mod-message: "&aSuccessfully applied mute to {player}!"
-      initial-player-message: "&cYou have been muted for the reason: &f{reason}. &cYou cannot use chat until your mute expires in &f{expire-time}."
+      initial-player-message: "&cYou have been muted for the reason: &f{reason}. &cYou cannot use chat until your mute expires in &f{effective-until-countdown}."
       player-message: "&cYou are muted!"
       log-message: "&f[[&4Punishment&f]] &c{player-rank-color}{player} &7was muted by {mod-rank-color}{mod} &7for duration {effective-until-countdown} &7for {reason}."# Displayed to moderators and in server logs.
       announcement: ""
@@ -394,21 +394,22 @@ commands:
     info: |
       &cPunishment #{case-id}
       &eOffender: ({player-rank-color}{player-username})[HOVER:UUID:{player-uuid}][COPY_TO_CLIPBOARD:{player-uuid}]
-      &eModerator: ({mod-prefix}{mod-rank-color}{mod-username})[HOVER:UUID:{mod-uuid}][COPY_TO_CLIPBOARD:{mod-uuid}]
+      &eModerator: ({mod-rank-prefix}{mod-rank-color}{mod-username})[HOVER:UUID:{mod-uuid}][COPY_TO_CLIPBOARD:{mod-uuid}]
       &eType: {type}
       &eIssue date: {date}
       &eEffective until: {effective-until-short}
       &eExpires on: {expire-time-short}
       &eReason: {reason}
       &eEnforced: {enforced}
-      &eEdited by {editor-mod-prefix}{editor-mod-rank-color}{editor-mod-username}
+      &eEdited by {editor-mod-rank-prefix}{editor-mod-rank-color}{editor-mod-username}
 
     history:
       list: |
         &f---------- {player-rank-color}{player}'s punishment history &r&f----------
         {punishments}
+        (&f< Previous)[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext Page >)[RUN_COMMAND:/punishment history {player} {next-page}]
       none: "&eNo punishments found for this player!"
-      format: "&e[[{case-id}]] ({type} (({effective-until-countdown-short})) for {reason} on {date-short})[HOVER:Issued on {date} by {mod-rank-color}{mod}]"
+      format: "&e#[[{case-id}]] ({type} (({effective-until-countdown-short})) for {reason} on {date-short})[HOVER:Issued on {date} by {mod-rank-color}{mod}]"
       separator: "\n"
 
   port:

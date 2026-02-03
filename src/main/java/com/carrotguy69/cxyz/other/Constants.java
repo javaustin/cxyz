@@ -1,8 +1,8 @@
 package com.carrotguy69.cxyz.other;
 
 import com.carrotguy69.cxyz.models.config.GameServer;
-import com.carrotguy69.cxyz.models.config.ActiveCosmetic;
-import com.carrotguy69.cxyz.models.config.Cosmetic;
+import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CustomChannel;

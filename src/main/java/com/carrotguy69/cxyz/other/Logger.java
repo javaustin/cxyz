@@ -70,7 +70,7 @@ public class Logger {
         }
 
         if (channel == null) { // The config provided a non-existent channel
-            Logger.warning(String.format("Attempted to log a %s, but there was no channel defined for it in config.yml (chat.defaults.)! Ignoring...", type.name()));
+            Logger.warning(String.format("Attempted to log %s, but there was no channel defined for it in config.yml (chat.defaults.)! Ignoring...", type.name()));
             return;
         }
 
@@ -146,6 +146,13 @@ public class Logger {
         Logger.info("[DEBUG] " + content);
     }
 
+    public static void debugUser(String content) {
+        if (!ObjectUtils.containsIgnoreCase(enabledDebugs, "user")) {
+            return;
+        }
+
+        Logger.info("[USER] " + content);
+    }
 
 
     public static void info(String content) {

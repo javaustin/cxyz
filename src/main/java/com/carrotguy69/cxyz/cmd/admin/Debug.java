@@ -20,7 +20,8 @@ public class Debug implements CommandExecutor {
         FAILED_REQUESTS,
         ALL_REQUESTS,
         SHORTHAND_COMMANDS,
-        PUNISHMENT
+        PUNISHMENT,
+        USER
     }
 
     @Override
@@ -28,7 +29,7 @@ public class Debug implements CommandExecutor {
 
         /*
         SYNTAX:
-            /debug <message_parser | failed_requests | all_requests>
+            /debug <message_parser | failed_requests | all_requests | shorthand_commands | punishment | user>
             /debug message_parser
             /debug
         */

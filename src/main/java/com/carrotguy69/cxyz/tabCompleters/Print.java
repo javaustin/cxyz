@@ -25,7 +25,7 @@ public class Print implements TabCompleter {
             return List.of();
         }
 
-        List<String> options = Arrays.asList("users", "parties", "partyinvites", "partyexpires", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml");
+        List<String> options = Arrays.asList("users", "parties", "partyinvites", "partyexpires", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml", "chatfilter");
 
         options.sort(String.CASE_INSENSITIVE_ORDER);
 

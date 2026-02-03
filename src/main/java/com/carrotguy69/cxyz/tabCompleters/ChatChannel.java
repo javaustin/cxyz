@@ -103,7 +103,7 @@ public class ChatChannel implements TabCompleter {
                     results = new ArrayList<>();
 
                     for (String s : np.getUnmutedChannels()) {
-                        if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
+                        if (s.toLowerCase().startsWith(args[1].toLowerCase()) && allowedChannels.contains(s)) {
                             results.add(s);
                         }
                     }
@@ -114,7 +114,7 @@ public class ChatChannel implements TabCompleter {
                     results = new ArrayList<>();
 
                     for (String s : np.getMutedChannels()) {
-                        if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
+                        if (s.toLowerCase().startsWith(args[1].toLowerCase()) && allowedChannels.contains(s)) {
                             results.add(s);
                         }
                     }

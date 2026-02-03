@@ -2,7 +2,6 @@ package com.carrotguy69.cxyz.events;
 
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
-import com.carrotguy69.cxyz.models.config.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.db.PartyExpire;
@@ -36,17 +35,13 @@ public class LeaveEvent {
 
         np.sync();
 
-        np.unEquipAllCosmetics();
+        np.unEquipActiveCosmetics();
 
 
         // Create a party expire (task). Only if the plugin is enabled still (not shutting down)
         if (plugin.isEnabled()) {
             new BukkitRunnable() {
                 public void run() {
-
-                    Logger.log("isInParty: " + np.isInParty());
-                    Logger.log("isOnline: " + np.isOnline());
-                    Logger.log("partyAutoKickAfter (? > 0): " + partyAutoKickAfter);
 
                     if (np.isInParty() && !np.isOnline() && partyAutoKickAfter > 0) {
                         PartyExpire expire = new PartyExpire(np.getUUID().toString(), TimeUtils.unixTimeNow() + partyAutoKickAfter);

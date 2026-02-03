@@ -5,6 +5,7 @@ import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.GameServer;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.webhook.DiscordWebhook;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -148,21 +149,31 @@ public abstract class BaseChannel {
 
     public boolean evaluateContent(Player p, String content, Map<String, Object> commonMap) {
         // Evaluates the message using the ChatFilterRules provided for the channel. Returns true if a rule was broken.
+        Logger.log(String.format("Evaluating message from %s", p.getName()));
 
         List<ChatFilterRule> rules = ChatFilterRule.getRulesForChannel(this);
 
+        Logger.log(String.format("Rules for channel %s: %s", this.getName(), rules));
+
         for (ChatFilterRule rule : rules) {
             for (String word : rule.getBlacklistedWords()) {
-                if (!content.contains(word))
+                if (!content.toLowerCase().contains(word.toLowerCase()))
                     continue;
 
-                //
                 if (p.hasPermission("cxyz.chat-filter." + rule.getName() + ".bypass"))
                     continue;
 
-                for (String action : rule.getActions()) {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtils.formatPlaceholders(action, commonMap));
-                }
+                Logger.log(String.format("Blocked word: %s. Dispatching actions...", word));
+
+
+                // was getting async errors so i wrapped this in a task
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    for (String action : rule.getActions()) {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtils.formatPlaceholders(action, commonMap));
+                    }
+                });
+
+
                 return true;
             }
         }
