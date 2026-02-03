@@ -6,7 +6,7 @@ This plugin is built to integrate with an external API [(see here)](https://gith
 <br></br>
 #### ⚠️ Important Notes
 - This plugin is meant to work with a custom API and database setup. Please refer to my [cxyzAPI](https://github.com/javaustin/cxyzAPI) project.
-- This plugin is IN PROGRESS as of January 2026. Please do not expect support as the plugin has not reached a finalized state.
+- This plugin is IN PROGRESS as of February 2026. Please do not expect support as the plugin has not reached a finalized state.
 <br></br>
 ---
 ## Design Philosophy
