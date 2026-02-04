@@ -112,4 +112,13 @@ public class ObjectUtils {
                 ));
     }
 
+    public static Map<String, String> invertMap(Map<String, String> map) {
+        Map<String, String> reversedMap = new HashMap<>();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            reversedMap.put(entry.getValue(), entry.getKey());
+        }
+
+        return reversedMap;
+    }
+
 }

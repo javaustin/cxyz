@@ -3,20 +3,34 @@
 # If no cosmetic types are listed, no cosmetics will work on the server.
 enabled-types: [CHAT_TAG, CHAT_COLOR, RANK_PLATE, WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT]
 
+# Each cosmetic should have its own implementation
+
 cosmetics:
 
+  # Each cosmetic will display the `display` value a bit differently. For example wearables, gadgets, trails and kill effects will display it as is,
+  # while chat color cosmetics only accept a color name or its corresponding code (which must be defined in config.yml).
+
   example-tag:
-    display: "&d[phat] " # Display of the item
-    lore: "" # Description of the item. Displays in lore if material. displays on hover if a tag or rank plate.
+    display: "&d[phat] " # Display of the item, shows the exact text in chat.
+    lore: "&eA tag for the people" # Description of the item. Displays in lore if material. displays on hover if a tag or rank plate.
     type: CHAT_TAG # Must be fully uppercase, and be a valid type.
-    enabled: true # If enabled, the cosmetic is available to purchase for the server. If disabled, it is hidden and not available to purchase.
+    enabled: true # If enabled, the cosmetic is available to purchase and equip for the server. If disabled, it is hidden and not available to purchase nor equip.
     price: 0 # Required price to buy this item
     level-requirement: 0 # Required network level to buy this item
     rank-requirement: default # Required network rank to buy this item
 
+  darker-green:
+    display: "&x&2&f&a&5&2&b" # This `display` value must be the exact color or the corresponding name of the color as defined in config.yml.
+    lore: "&x&2&f&a&5&2&bThis is a custom chat color"
+    type: CHAT_COLOR
+    enabled: true
+    price: 0
+    level-requirement: 0
+    rank-requirement: default
+
   rainbow-armor:
     # Any of these cosmetic types [WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT], must be implemented using ActiveCosmetic methods.
-    display: "&cR&6a&ei&an&bb&9o&dw &cA&6r&em&ao&br"
+    display: "&cR&6a&ei&an&bb&9o&dw &cA&6r&em&ao&br " # This display will only show when buying, or equipping. The physical item names are custom implemented, and don't rely on this.
     lore: "&eShow off all your colors!"
     type: WEARABLE
     enabled: true
@@ -25,7 +39,7 @@ cosmetics:
     rank-requirement: default
 
   grapple-rod:
-    display: "&eGrapple Rod"
+    display: "&eGrapple Rod "
     lore: "&6Jump around!"
     type: GADGET
     enabled: true

@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.models.config.channel.channelTypes;
 
-import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
@@ -12,7 +11,6 @@ import net.md_5.bungee.api.ChatColor;
 
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -41,7 +39,7 @@ public class CustomChannel extends BaseChannel {
         super(name, prefix, chatFormat, webhookURL, triggerPrefix, console, ignorable, lockable, locked, readOnly, aliases);
     }
 
-    public static List<CustomChannel> loadCustomChannels() {
+    public static List<CustomChannel> getCustomChannels() {
         try {
             List<CustomChannel> customChannels = new ArrayList<>();
 

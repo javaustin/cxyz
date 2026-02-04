@@ -15,47 +15,9 @@ import java.util.function.Consumer;
 import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class Cosmetic {
-    /*
-    we are in a pickle with ActiveCosmetic event handling. i am already unfamiliar with this as we go so this should be done simply and effectively.
-    so in a script, i like this functionality where we can register an event to the ActiveCosmetic. this should stay as is, similar to format as equip and unequip actions:
-
-        // this works
-        grappleRod.setEquipAction((ac -> {
-            Player p = ac.getPlayer().getPlayer();
-            ...
-        }));
-
-        // this does not
-        grappleRod.on(PlayerFishEvent.class, ((event, ac) -> {
-            if (event.getState() != PlayerFishEvent.State.REEL_IN)
-                return;
-
-            Player p = ac.getPlayer().getPlayer();
-
-            Vector pull = event.getHook()
-                    .getLocation()
-                    .toVector()
-                    .subtract(p.getLocation().toVector())
-                    .normalize()
-                    .multiply(2);
-
-            p.playSound(p, Sound.ENTITY_BLAZE_SHOOT, 0.5f, 1.0f);
-            p.setVelocity(pull);
-
-        }));
-
-        however grappleRod is a Cosmetic, not an ActiveCosmetic, and it must stay that way because we cannot use ActiveCosmetic in the loader script, a player just does not exist, thats why the previous ocnsumer for setEquipAction() exists.
-        if we refactor our listener (public interface CosmeticListener<T extends Event> {void handle(T event, Cosmetic cosmetic);}) to accept ActiveCosmetic instead of Cosmetic it seems like we wont be able to register it either (because then we would have to cast in the Cosmetic class - still no player)
-
-        what is a possible solution to this that also allows:
-        1) a similar format to the former .setEquipAction()
-        2) functionality to add listeners to a cosmetic
-        3) lives in Cosmetic, ActiveCosmetic is only used when a player joins or equips a cosmetic
-
-     */
 
     private final String id;
-    private final String display;
+    private String display;
     private final String lore;
     private final CosmeticType type;
     private final PlayerRank rankRequirement;
@@ -109,7 +71,7 @@ public class Cosmetic {
     }
 
     public String getDisplay() {
-        return f(display);
+        return display;
     }
 
     public String getId() {

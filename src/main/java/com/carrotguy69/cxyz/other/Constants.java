@@ -8,6 +8,7 @@ import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CustomChannel;
 import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
 import com.carrotguy69.cxyz.models.config.shorthand.Shorthand;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -82,12 +83,27 @@ public class Constants {
         partiesEnabled = yaml.getBoolean("parties.enabled", false);
 
 
+        ConfigurationSection colors = yaml.getConfigurationSection("colors");
+
+        if (colors != null) {
+            for (String key : colors.getKeys(false)) {
+                String value = colors.getString(key);
+
+                if (value == null) {
+                    continue;
+                }
+
+                colorMap.put(key.toUpperCase(), value.toLowerCase());
+            }
+        }
+
+
         enabledCosmeticTypes = cosmeticsYML.getStringList("enabled-types").stream().map(Cosmetic.CosmeticType::valueOf).collect(Collectors.toList());
         cosmetics = Cosmetic.getCosmetics();
         ActiveCosmetic.loadActiveCosmetics(); // Loading so Cosmetics can use this supplementary class.
 
-        channels.addAll(CustomChannel.loadCustomChannels());
-        channels.addAll(CoreChannel.loadCoreChannels());
+        channels.addAll(CustomChannel.getCustomChannels());
+        channels.addAll(CoreChannel.getCoreChannels());
 
         ChannelRegistry.loadAssociations();
 

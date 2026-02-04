@@ -87,6 +87,14 @@ public class TimeUtils {
         return result;
     }
 
+    public static String countdown(long duration) {
+        return unixCountdown(unixTimeNow() + duration);
+    }
+
+    public static String countdownShort(long duration) {
+        return unixCountdownShort(unixTimeNow() + duration);
+    }
+
     public static String unixCountdown(long timestamp) {
         if (timestamp == -1) {
             return permanentString;

@@ -170,6 +170,7 @@ com\carrotguy69\cxyz\cmd\admin\level\LevelSet.class
 com\carrotguy69\cxyz\tabCompleters\Friend.class
 com\carrotguy69\cxyz\other\Startup.class
 com\carrotguy69\cxyz\cmd\general\channel\_ChannelExecutor.class
+com\carrotguy69\cxyz\cmd\general\ChatColor$Color.class
 com\carrotguy69\cxyz\tabCompleters\AnyPlayer.class
 com\carrotguy69\cxyz\cmd\general\party\PartyWarp$1.class
 com\carrotguy69\cxyz\cmd\general\channel\ChannelUnignore.class
@@ -187,6 +188,7 @@ com\carrotguy69\cxyz\models\config\GameServer.class
 com\carrotguy69\cxyz\models\db\Message.class
 com\carrotguy69\cxyz\cmd\general\friend\_FriendExecutor.class
 com\carrotguy69\cxyz\cmd\admin\rank\RankAdd.class
+com\carrotguy69\cxyz\CXYZ$1.class
 com\carrotguy69\cxyz\http\Request.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PunishmentDeliveryWrapper.class
 com\carrotguy69\cxyz\messages\utils\MessageGrabber.class

@@ -8,6 +8,7 @@ import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.db.Punishment;
 
+import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import com.carrotguy69.cxyz.other.utils.TimeUtils;
 import org.bukkit.ChatColor;
@@ -19,6 +20,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.cmd.general.ChatColor.getColor;
 
 public class MapFormatters {
 
@@ -207,7 +209,7 @@ public class MapFormatters {
         result.put("player-last-online-short", TimeUtils.dateOfShort(TimeUtils.unixTimeNow(), timezone));
 
         result.put("player-timezone", timezone);
-        result.put("player-playtime", TimeUtils.unixCountdownShort(0));
+        result.put("player-playtime", TimeUtils.countdownShort(0));
         result.put("player-last-ip", this_server.getIP());
 
         result.put("player-coins", 0);
@@ -315,7 +317,7 @@ public class MapFormatters {
         commonMap.put("player-last-online-short", TimeUtils.dateOfShort(player.getLastOnline(), player.getTimezone()));
 
         commonMap.put("player-timezone", player.getTimezone());
-        commonMap.put("player-playtime", TimeUtils.unixCountdownShort(player.getPlaytime()));
+        commonMap.put("player-playtime", TimeUtils.countdownShort(player.getPlaytime()));
         commonMap.put("player-last-ip", player.getLastIP());
 
         commonMap.put("player-coins", player.getCoins());
@@ -332,8 +334,8 @@ public class MapFormatters {
         commonMap.put("player-owned-cosmetics-list-size", player.getOwnedCosmetics().size());
         commonMap.put("player-equipped-cosmetics-list-size", player.getEquippedCosmetics().size());
 
-        commonMap.put("player-muted-channels-list-size", player.getEquippedCosmetics().size());
-        commonMap.put("player-ignored-channels-list-size", player.getEquippedCosmetics().size());
+        commonMap.put("player-muted-channels-list-size", player.getMutedChannels().size());
+        commonMap.put("player-ignored-channels-list-size", player.getMutedChannels().size());
 
 
         return commonMap;
@@ -399,7 +401,7 @@ public class MapFormatters {
 
         // Editor mod logic (possibly null)
 
-        if (punishment.getEditorModUsername() != null && !punishment.getEditorModUsername().isBlank()) {
+        if (punishment.getEditorModUsername() != null && !punishment.getEditorModUsername().isBlank() && !ObjectUtils.equalsIgnoreCaseNullSafe(punishment.getEditorModUsername(), "console")) {
             NetworkPlayer editorMod = NetworkPlayer.getPlayerByUUID(UUID.fromString(punishment.getModUUID()));
 
             commonMap.putAll(cloneFormaterToNewKey(playerFormatter(editorMod), "player", "editor-mod"));
@@ -452,10 +454,31 @@ public class MapFormatters {
 
         commonMap.put("id", cosmetic.getId());
         commonMap.put("lore", cosmetic.getLore());
-        commonMap.put("display", cosmetic.getDisplay());
+
+        // See ActiveCosmetic::equip for CHAT_COLOR methodology/explanation
+
+        if (cosmetic.getType().equals(Cosmetic.CosmeticType.CHAT_COLOR)) {
+            String value = cosmetic.getDisplay().strip();
+
+            com.carrotguy69.cxyz.cmd.general.ChatColor.Color color = getColor(value);
+
+            if (color == null) {
+                color = new com.carrotguy69.cxyz.cmd.general.ChatColor.Color("reset", "&r");
+            }
+
+            Logger.debugUser("setChatColor:"  + color.code);
+
+            commonMap.put("display", color.code + color.name);
+        }
+
+        else {
+            commonMap.put("display", cosmetic.getDisplay());
+        }
+
         commonMap.put("rank-requirement", cosmetic.getRankRequirement().getPrefix());
         commonMap.put("level-requirement", String.valueOf(cosmetic.getLevelRequirement()));
         commonMap.put("price", String.valueOf(cosmetic.getPrice()));
+        commonMap.put("type", cosmetic.getType().name());
 
         return commonMap;
     }

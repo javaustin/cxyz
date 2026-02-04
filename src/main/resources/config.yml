@@ -21,7 +21,7 @@ timezone: America/Los_Angeles
 # The custom format for all dates used on the server.
 #     See https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
 datetime-format: EEEE, MMMM d, yyyy, h:mma (z)
-datetime-short-format: MM/d/yy
+datetime-short-format: M/d/yy h:mma (z)
 
 # This server:
 #     We need to know what specific server (in the network) that this plugin is running on.
@@ -266,6 +266,31 @@ chat:
         actions:
           - show {player} &4no partying allowed
 
+colors:
+  # Bukkit uses color codes that map to standard legacy Minecraft colors, the plugin supports this natively.
+  # This module allows you to add your own colors for the plugin to natively support (e.g., setting custom chat colors).
+  # You can add your own colors for the plugin to use by defining the name and the color code (in &x&F&F&F&F&0&0 format).
+
+  # LEGACY COLORS
+  black: "&0"
+  dark_blue: "&1"
+  dark_green: "&2"
+  dark_aqua: "&3"
+  dark_red: "&4"
+  dark_purple: "&5"
+  gold: "&6"
+  gray: "&7"
+  dark_gray: "&8"
+  blue: "&9"
+  green: "&a"
+  aqua: "&b"
+  red: "&c"
+  light_purple: "&d"
+  yellow: "&e"
+  white: "&f"
+
+  # CUSTOM COLORS
+  darker_green: "&x&2&f&a&5&2&b" # <--- This is a color I just made up. Since it is now defined in this module, any plugin command that involves color will allow lookup by 'grass-green'.
 
 
 

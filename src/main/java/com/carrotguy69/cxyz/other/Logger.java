@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.other;
 
+import com.carrotguy69.cxyz.cmd.admin.Debug;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -106,52 +107,48 @@ public class Logger {
         Logger.internalLog(DefaultChannelType.ERROR, content);
     }
 
-    public static void debugMessage(String content) {
-        if (!ObjectUtils.containsIgnoreCase(enabledDebugs, "message_parser")) {
+    public static void debug(Debug.DebugValue debugValue, String content) {
+        if (!ObjectUtils.containsIgnoreCase(enabledDebugs, debugValue.name())) {
             return;
         }
 
         Logger.info("[DEBUG] " + content);
+    }
+
+    public static void debugMessage(String content) {
+        debug(Debug.DebugValue.MESSAGE_PARSER, content);
     }
 
     public static void debugFailedRequest(String content) {
-        if (!ObjectUtils.containsIgnoreCase(enabledDebugs, "failed_requests")) {
-            return;
-        }
-
-        Logger.warning("[DEBUG] " + content);
+        debug(Debug.DebugValue.FAILED_REQUESTS, content);
     }
 
     public static void debugAllRequest(String content) {
-        if (!ObjectUtils.containsIgnoreCase(enabledDebugs, "all_requests")) {
-            return;
-        }
-
-        Logger.info("[DEBUG] " + content);
+        debug(Debug.DebugValue.ALL_REQUESTS, content);
     }
 
     public static void debugShorthand(String content) {
-        if (!ObjectUtils.containsIgnoreCase(enabledDebugs, "shorthand_commands")) {
-            return;
-        }
-
-        Logger.info("[DEBUG] " + content);
+        debug(Debug.DebugValue.SHORTHAND_COMMANDS, content);
     }
 
     public static void debugPunishment(String content) {
-        if (!ObjectUtils.containsIgnoreCase(enabledDebugs, "punishment")) {
-            return;
-        }
-
-        Logger.info("[DEBUG] " + content);
+        debug(Debug.DebugValue.PUNISHMENT, content);
     }
 
     public static void debugUser(String content) {
-        if (!ObjectUtils.containsIgnoreCase(enabledDebugs, "user")) {
-            return;
-        }
+        debug(Debug.DebugValue.USER, content);
+    }
 
-        Logger.info("[USER] " + content);
+    public static void debugParty(String content) {
+        debug(Debug.DebugValue.PARTY, content);
+    }
+
+    public static void debugPlayerMessage(String content) {
+        debug(Debug.DebugValue.PLAYER_MESSAGE, content);
+    }
+
+    public static void debugFriendRequest(String content) {
+        debug(Debug.DebugValue.FRIEND_REQUEST, content);
     }
 
 

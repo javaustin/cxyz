@@ -1,7 +1,12 @@
 package com.carrotguy69.cxyz.models.config.cosmetics;
 
+import com.carrotguy69.cxyz.cmd.admin.Debug;
+import com.carrotguy69.cxyz.cmd.general.ChatColor;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -18,6 +23,7 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.cmd.general.ChatColor.getColor;
 
 public class ActiveCosmetic extends Cosmetic {
 
@@ -76,10 +82,9 @@ public class ActiveCosmetic extends Cosmetic {
         return player;
     }
 
-    public ActiveCosmetic addTask(BukkitTask task) {
+    public void addTask(BukkitTask task) {
         tasks.add(task);
 
-        return this;
     }
 
     public ActiveCosmetic removeTask(BukkitTask task) {
@@ -88,9 +93,10 @@ public class ActiveCosmetic extends Cosmetic {
         return this;
     }
 
-    public ActiveCosmetic equip() {
+    public void equip() {
 
         activeCosmeticMap.computeIfAbsent(this.player.getUUID(), k -> new ArrayList<>()).add(this);
+        originalCosmetic.getEquipAction().accept(this);
 
         switch (this.getType()) {
             case CHAT_TAG:
@@ -98,7 +104,27 @@ public class ActiveCosmetic extends Cosmetic {
                 break;
 
             case CHAT_COLOR:
-                this.player.setChatColor(this.getDisplay());
+                // The Cosmetic class is limited because it only accepts one parameter to define the display of an object.
+                // In almost all other cosmetic types, the display of the cosmetic equipped can be functionally equal to the shop interface name (if you will).
+                // But for cosmetics of the CHAT_COLOR type particularly, the singular `display` variable cannot capture the actual color code, as well as the name,
+                // or else the name of the color would display every time you typed something.
+
+                // So to work around this issue, we use the color map as defined in config.yml. Its keys are the registered names of the colors (e.g. 'blue', 'dark_red'), and the values are the corresponding color codes.
+                // This map also supports custom colors to be integrated with the plugin, so you can define 'fancy_purple' and map that value to '&x&a&b&6&5&c&e'.
+                // Then you can look up colors by that custom name, an extension of already existing legacy colors.
+
+                String value = this.getDisplay().strip();
+
+
+                ChatColor.Color color = getColor(value);
+
+                if (color == null) {
+                    this.player.setChatColor("");
+                    break;
+                }
+
+                this.player.setChatColor(color.code);
+
                 break;
 
             case RANK_PLATE:
@@ -109,10 +135,9 @@ public class ActiveCosmetic extends Cosmetic {
                 originalCosmetic.getEquipAction().accept(this);
         }
 
-        return this;
     }
 
-    public ActiveCosmetic unEquip() {
+    public void unEquip() {
 
         switch (this.getType()) {
             case CHAT_TAG:
@@ -142,7 +167,6 @@ public class ActiveCosmetic extends Cosmetic {
         List<ActiveCosmetic> list = activeCosmeticMap.get(this.player.getUUID());
         if (list != null) list.remove(this);
 
-        return this;
     }
 
     public static boolean isEquippedTo(ActiveCosmetic activeCosmetic, NetworkPlayer np) {
@@ -156,7 +180,7 @@ public class ActiveCosmetic extends Cosmetic {
 
 
     public static void loadActiveCosmetics() {
-        // We will likely use this script to register behavior for each custom cosmetic.
+        // We will use this script to register behavior for each custom cosmetic.
         // I think it would actually be okay to call this from the Startup class.
 
 
@@ -192,7 +216,7 @@ public class ActiveCosmetic extends Cosmetic {
             }
 
             for (ItemMeta meta : List.of(helmetMeta, chestMeta, legsMeta, bootsMeta)) {
-                meta.setLore(List.of(f(ac.originalCosmetic.getLore()).split("\n")));
+                meta.setLore(List.of(f(MessageUtils.forceColor(ac.getLore())).split("\n")));
             }
 
             helmetMeta.setDisplayName(f("&cR&6a&ei&an&bb&9o&dw &cH&6e&el&am&be&9t")); // In practice, we will not allow players to remove their armor when applied as a cosmetic. (update)
@@ -276,7 +300,18 @@ public class ActiveCosmetic extends Cosmetic {
         }
 
         grappleRod.setEquipAction(ac -> {
+
+
             Player p = ac.getPlayer().getPlayer();
+
+            // remove any existing rod
+            for (int i = 0; i < p.getInventory().getSize(); i++) {
+                ItemStack is = p.getInventory().getItem(i);
+
+                if (is != null && is.getItemMeta() != null && is.getItemMeta().getDisplayName().equalsIgnoreCase(f(ac.getDisplay()))) {
+                    p.getInventory().setItem(i, null);
+                }
+            }
 
             ItemStack rod = new ItemStack(Material.FISHING_ROD, 1);
 
@@ -284,7 +319,7 @@ public class ActiveCosmetic extends Cosmetic {
 
             if (rodMeta != null) {
                 rodMeta.setDisplayName(f(ac.getDisplay()));
-                rodMeta.setLore(Arrays.asList(f(ac.getLore()).split(" ")));
+                rodMeta.setLore(Arrays.asList(f(MessageUtils.forceColor(ac.getLore())).split(" ")));
             }
 
             rod.setItemMeta(rodMeta);
@@ -308,7 +343,7 @@ public class ActiveCosmetic extends Cosmetic {
             if (event.getState() != PlayerFishEvent.State.REEL_IN)
                 return;
 
-            Player p = ac.getPlayer().getPlayer();
+            Player p = event.getPlayer();
 
             Vector pull = event.getHook()
                     .getLocation()

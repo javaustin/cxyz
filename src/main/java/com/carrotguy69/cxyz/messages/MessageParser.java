@@ -257,9 +257,9 @@ public class MessageParser {
             components.add(new SimpleTextComponent(stringBuilder.toString(), List.of()));
         }
 
-        Logger.debugMessage("unparsed:" + unparsed.replace("\n", "\\n"));
-        Logger.debugMessage("formatMap(size):" + formatMap.size());
-        Logger.debugMessage("components:" + components.toString().replace("\n", "\\n"));
+        Logger.debugMessage("unparsed: " + unparsed.replace("\n", "\\n"));
+        Logger.debugMessage("formatMap: " + formatMap);
+        Logger.debugMessage("components: " + components.toString().replace("\n", "\\n"));
 
 
         return components;
@@ -375,7 +375,7 @@ public class MessageParser {
                         ChatColor color;
 
                         try {
-                            Logger.log(hexBuilder.toString());
+                            Logger.debugMessage(hexBuilder.toString());
                             color = ChatColor.of("#" + hexBuilder);
 
                             if (color == null)
@@ -450,6 +450,9 @@ public class MessageParser {
 
                 }
             }
+
+            Logger.debugMessage("colorSTCMap: " + colorSTCMap);
+            Logger.debugMessage("final textComponent: " + tc);
 
             return tc;
         }

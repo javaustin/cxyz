@@ -29,7 +29,7 @@ public class CoreChannel extends BaseChannel {
     }
 
 
-    public static List<CoreChannel> loadCoreChannels() {
+    public static List<CoreChannel> getCoreChannels() {
         try {
             List<CoreChannel> coreChannels = new ArrayList<>();
 

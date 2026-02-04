@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.cmd.admin;
 
+import com.carrotguy69.cxyz.cmd.general.ChatColor;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
@@ -118,6 +119,10 @@ public class Print implements CommandExecutor {
 
                 case "chatfilter":
                     Logger.info(ChatFilterRule.getChatFilterRules().toString());
+                    return true;
+
+                case "colors":
+                    Logger.info(colorMap.toString());
                     return true;
             }
         }

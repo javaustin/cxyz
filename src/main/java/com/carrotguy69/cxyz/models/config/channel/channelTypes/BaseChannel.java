@@ -149,11 +149,7 @@ public abstract class BaseChannel {
 
     public boolean evaluateContent(Player p, String content, Map<String, Object> commonMap) {
         // Evaluates the message using the ChatFilterRules provided for the channel. Returns true if a rule was broken.
-        Logger.log(String.format("Evaluating message from %s", p.getName()));
-
         List<ChatFilterRule> rules = ChatFilterRule.getRulesForChannel(this);
-
-        Logger.log(String.format("Rules for channel %s: %s", this.getName(), rules));
 
         for (ChatFilterRule rule : rules) {
             for (String word : rule.getBlacklistedWords()) {

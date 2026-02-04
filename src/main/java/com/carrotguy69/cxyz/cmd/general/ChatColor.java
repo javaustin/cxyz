@@ -1,10 +1,12 @@
 package com.carrotguy69.cxyz.cmd.general;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,18 +16,32 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class ChatColor implements CommandExecutor {
+
+    public static final Map<String, String> map = new HashMap<>(CXYZ.colorMap);
+    public static final Map<String, String> reverseMap = ObjectUtils.invertMap(map);
+
+    public static class Color {
+        public String name;
+        public String code;
+
+        public Color(String name, String code) {
+            this.name = name;
+            this.code = code;
+        }
+
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-
         /*
         SYNTAX:
             /chatcolor <color>
             /chatcolor GREEN
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
+        if (CommandRestrictor.handleRestricted(command, sender)) {
             return true;
+        }
 
         String node = "cxyz.general.chatcolor";
 
@@ -39,115 +55,80 @@ public class ChatColor implements CommandExecutor {
             return true;
         }
 
+
         Player p = (Player) sender;
         NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
 
         Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
 
-        if (args.length > 0 && (args[0].equalsIgnoreCase("reset") || args[0].equalsIgnoreCase("none"))) {
+
+        if (args.length == 0) {
+            MessageUtils.sendParsedMessage(p, MessageKey.MISSING_GENERAL, Map.of("missing-args", "color"));
+            return true;
+        }
+
+        Color color = getColor(args[0]);
+
+        if (color == null) {
             np.setChatColor("");
             MessageUtils.sendParsedMessage(p, MessageKey.CHAT_COLOR_RESET, commonMap);
+            return true;
         }
 
-        else if (args.length > 0 && getMap().containsKey(args[0].toUpperCase())) {
-            // If the args[0].toUpperCase() matches any color name e.g., "BLACK"
-            String colorCode = getMap().get(args[0].toUpperCase());
-            String colorName = args[0].toUpperCase();
-
-            commonMap.put("code", colorCode);
-            commonMap.put("color", colorName);
-
-            if (np.getChatColor().equalsIgnoreCase(colorCode)) {
-                MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.CHAT_COLOR_DUPLICATE_STATE, commonMap);
-                return true;
-            }
-
-            np.setChatColor(colorCode);
-
-
-            MessageUtils.sendParsedMessage(p, MessageKey.CHAT_COLOR_SET, commonMap);
-        }
-
-        else if (args.length > 0 && getReverseMap().containsKey(args[0].toUpperCase())) {
-            // If the args[0].toUpperCase() matches any color name e.g., "BLACK"
-            String colorCode = args[0].toUpperCase();
-            String colorName = getReverseMap().get(args[0].toUpperCase());
-
-
-            commonMap.put("code", colorCode);
-            commonMap.put("color", colorName);
-
-            if (np.getChatColor().equalsIgnoreCase(colorCode)) {
-                MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.CHAT_COLOR_DUPLICATE_STATE, commonMap);
-                return true;
-            }
-
-            np.setChatColor(colorCode);
-
-
-            MessageUtils.sendParsedMessage(p, MessageKey.CHAT_COLOR_SET, commonMap);
-        }
-
-        else {
+        if (color.name.equalsIgnoreCase("unknown")) {
             MessageUtils.sendParsedMessage(p, MessageKey.INVALID_COLOR, Map.of("input", args[0]));
             return true;
         }
 
+        commonMap.put("code", color.code);
+        commonMap.put("color", color.name);
+
+        if (np.getChatColor().equalsIgnoreCase(color.code)) {
+            MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.CHAT_COLOR_DUPLICATE_STATE, commonMap);
+            return true;
+        }
+
+        np.setChatColor(color.code);
         np.sync();
+
+        MessageUtils.sendParsedMessage(p, MessageKey.CHAT_COLOR_SET, commonMap);
 
         return true;
     }
 
-    public static String getColorByName(String colorName) {
-        String possibleValue = getMap().get(colorName.toUpperCase());
-
-        if (possibleValue == null) {
-            return colorName;
+    public static Color getColor(String input) {
+        if (input.equalsIgnoreCase("reset") || input.equalsIgnoreCase("none")) {
+            return null;
         }
 
-        return possibleValue;
+        else if (map.containsKey(input.toUpperCase())) {
+            // If the value matches any color name e.g., "BLACK"
+            String colorCode = map.get(input.toUpperCase());
+            String colorName = input.toUpperCase();
+
+            return new Color(colorName, colorCode);
+        }
+
+        else if (reverseMap.containsKey(input.toLowerCase())) {
+            // If the value matches any color code e.g., "&0"
+            String colorCode = input.toLowerCase();
+            String colorName = reverseMap.get(input.toLowerCase());
+
+            return new Color(colorName, colorCode);
+        }
+
+        else {
+            return new Color("unknown", input);
+        }
     }
 
     public static String getColorNameByCode(String colorCode) {
-        String possibleValue = getReverseMap().get(colorCode);
+        String possibleValue = reverseMap.get(colorCode);
 
         if (possibleValue == null) {
             return colorCode;
         }
 
         return possibleValue;
-    }
-
-
-    public static Map<String, String> getMap() {
-        Map<String, String> colorCodes = new HashMap<>();
-
-        colorCodes.put("BLACK", "&0");
-        colorCodes.put("DARK_BLUE", "&1");
-        colorCodes.put("DARK_GREEN", "&2");
-        colorCodes.put("DARK_AQUA", "&3");
-        colorCodes.put("DARK_RED", "&4");
-        colorCodes.put("DARK_PURPLE", "&5");
-        colorCodes.put("GOLD", "&6");
-        colorCodes.put("GRAY", "&7");
-        colorCodes.put("DARK_GRAY", "&8");
-        colorCodes.put("BLUE", "&9");
-        colorCodes.put("GREEN", "&a");
-        colorCodes.put("AQUA", "&b");
-        colorCodes.put("RED", "&c");
-        colorCodes.put("LIGHT_PURPLE", "&d");
-        colorCodes.put("YELLOW", "&e");
-        colorCodes.put("WHITE", "&f");
-
-        return colorCodes;
-    }
-
-    public static Map<String, String> getReverseMap() {
-        Map<String, String> reversedMap = new HashMap<>();
-        for (Map.Entry<String, String> entry : getMap().entrySet()) {
-            reversedMap.put(entry.getValue(), entry.getKey());
-        }
-
-        return reversedMap;
     }
 }

@@ -27,7 +27,7 @@ public class Equip implements TabCompleter {
 
         if (np.getOwnedCosmetics() != null && !np.getOwnedCosmetics().isEmpty()) {
             for (Cosmetic cosmetic : np.getOwnedCosmetics()) {
-                if (cosmetic.isEnabled())
+                if (cosmetic != null && cosmetic.isEnabled())
                     cosmeticIDs.add(cosmetic.getId());
             }
         }

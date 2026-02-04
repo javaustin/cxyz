@@ -180,7 +180,7 @@ commands:
     &fFriend settings:&7 {player-friend-privacy}
     &fParty settings:&7 {player-party-privacy}
     (&fFriends:&7 {player-friend-list-size})[HOVER:&7Click to view][RUN_COMMAND:/friend list]
-    (&fIgnored Players:&7 {player-ignore-list-size})[HOVER:&7Click to view][RUN_COMMAND:/ignore list]
+    (&fIgnored Players:&7 {player-ignore-list-size})[HOVER:&7Click to view][RUN_COMMAND:/ignore]
     (&fOwned Cosmetics:&7 {player-owned-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list]
     (&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list]
     (&fIgnored Channels:&7 {player-ignored-channels-list-size})[HOVER:&7Click to view][RUN_COMMAND:/channel ignore]

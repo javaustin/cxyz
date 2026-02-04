@@ -76,7 +76,7 @@ public class ShipmentDelivery {
 
 
             for (NetworkPlayer np : wrapper.getDeletedData()) {
-                Logger.info("[-] Deleted an entry from users! " + np.getUUID());
+                Logger.debugUser("[-] Deleted an entry from users! " + np.getUUID());
                 users.remove(np.getUUID());
             }
 
@@ -84,12 +84,13 @@ public class ShipmentDelivery {
                 Player p = np.getPlayer();
 
                 // Modifies or adds new.
-                Logger.info("[+] Added/Modified an entry to users. " + np.getUUID());
+                Logger.debugUser("[+] Added/Modified an entry to users. " + np.getUUID());
                 users.put(np.getUUID(), np);
 
 
                 if (p != null && p.isOnline() && !np.isOnline()) {
-                    Logger.warning("^^ Delivery seems to have outdated data? NetworkPlayer.isOnline() mismatch");
+                    Logger.warning(String.format("This NetworkPlayer delivery seems to have outdated data. The Bukkit player is online but the NetworkPlayer is listed as not. NetworkPlayer: %s. Player: %s", np, p));
+
                     Logger.log(p.toString());
                     Logger.log(np.toString());
                 }
@@ -170,12 +171,12 @@ public class ShipmentDelivery {
             PartyDeliveryWrapper wrapper = gson.fromJson(json, PartyDeliveryWrapper.class);
 
             for (Party party : wrapper.getDeletedData()) {
-                Logger.info("[-] Deleted an entry from parties! " + party.toString());
+                Logger.debugParty("[-] Deleted an entry from parties! " + party.toString());
                 parties.remove(party.getOwnerUUID());
             }
 
             for (Party party : wrapper.getNewData()) {
-                Logger.info("[+] Added/Modified an entry to parties. " + party.toString());
+                Logger.debugParty("[+] Added/Modified an entry to parties. " + party.toString());
                 // Modifies or adds new.
                 parties.put(party.getOwnerUUID(), party);
             }
@@ -254,7 +255,7 @@ public class ShipmentDelivery {
             PartyInviteDeliveryWrapper wrapper = gson.fromJson(json, PartyInviteDeliveryWrapper.class);
 
             for (PartyInvite invite : wrapper.getDeletedData()) {
-                Logger.info("[-] Deleted an entry from partyInvites! " + invite.toString());
+                Logger.debugParty("[-] Deleted an entry from partyInvites! " + invite.toString());
 
                 partyInvites.remove(invite.getInviterUUID(), invite);
             }
@@ -267,7 +268,7 @@ public class ShipmentDelivery {
 
                         if (collectionInvite.getRecipientUUID().equals(invite.getRecipientUUID())) {
                             // The exact same invite is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
-                            Logger.info("[~] Ignored duplicate entry from partyInvites! " + invite.toString());
+                            Logger.debugParty("[~] Ignored duplicate entry from partyInvites! " + invite.toString());
                             exit = true;
                             continue;
                         }
@@ -280,7 +281,7 @@ public class ShipmentDelivery {
 
 
                 // Modifies or adds new.
-                Logger.info("[+] Added/Modified an entry to partyInvites. " + invite.toString());
+                Logger.debugParty("[+] Added/Modified an entry to partyInvites. " + invite.toString());
                 partyInvites.put(invite.getInviterUUID(), invite);
                 continue;
             }
@@ -361,12 +362,12 @@ public class ShipmentDelivery {
             // Remove the old data first, and then add the new data!
 
             for (PartyExpire expire : wrapper.getDeletedData()) {
-                Logger.info("[-] Deleted an entry from partyExpires! " + expire.toString());
+                Logger.debugParty("[-] Deleted an entry from partyExpires! " + expire.toString());
                 partyExpires.remove(expire.getUUID(), expire);
             }
 
             for (PartyExpire expire : wrapper.getNewData()) {
-                Logger.info("[+] Added/Modified an entry to partyExpires. " + expire.toString());
+                Logger.debugParty("[+] Added/Modified an entry to partyExpires. " + expire.toString());
 
                 partyExpires.put(expire.getUUID(), expire);
             }
@@ -443,14 +444,14 @@ public class ShipmentDelivery {
             PunishmentDeliveryWrapper wrapper = gson.fromJson(json, PunishmentDeliveryWrapper.class);
 
             for (Punishment punishment : wrapper.getDeletedData()) {
-                Logger.info("[-] Deleted an entry from punishments! " + punishment.toString());
+                Logger.debugPunishment("[-] Deleted an entry from punishments! " + punishment.toString());
                 punishmentIDMap.remove(punishment.getID(), punishment);
             }
 
             for (Punishment punishment : wrapper.getNewData()) {
                 // Modifies or adds new.
 
-                Logger.info("[+] Added/Modified an entry to partyExpires. " + punishment.toString());
+                Logger.debugPunishment("[+] Added/Modified an entry to partyExpires. " + punishment);
                 punishmentIDMap.put(punishment.getID(), punishment);
             }
 
@@ -534,7 +535,7 @@ public class ShipmentDelivery {
             MessageDeliveryWrapper wrapper = gson.fromJson(json, MessageDeliveryWrapper.class);
 
             for (Message msg : wrapper.getDeletedData()) {
-                Logger.info("[-] Deleted an entry from messages! " + msg.toString());
+                Logger.debugPlayerMessage("[-] Deleted an entry from messages! " + msg.toString());
                 messageMap.remove(msg.getRecipientUUID(), msg);
             }
 
@@ -545,7 +546,7 @@ public class ShipmentDelivery {
                     for (Message collectionMsg : messageMap.get(msg.getRecipientUUID())) {
                         if (collectionMsg.getSenderUUID().equals(msg.getSenderUUID())) {
                             // The exact same message is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
-                            Logger.info("[~] Ignored duplicate entry from messages! " + msg);
+                            Logger.debugPlayerMessage("[~] Ignored duplicate entry from messages! " + msg);
                             continue;
                         }
                     }
@@ -554,7 +555,7 @@ public class ShipmentDelivery {
 
 
                 // Modifies or adds new.
-                Logger.info("[+] Added/Modified an entry to message. " + msg);
+                Logger.debugMessage("[+] Added/Modified an entry to messages. " + msg);
                 messageMap.put(msg.getRecipientUUID(), msg);
                 continue;
             }
@@ -635,7 +636,7 @@ public class ShipmentDelivery {
             FriendRequestDeliveryWrapper wrapper = gson.fromJson(json, FriendRequestDeliveryWrapper.class);
 
             for (FriendRequest request : wrapper.getDeletedData()) {
-                Logger.info("[-] Deleted an entry from friendRequests! " + request.toString());
+                Logger.debugFriendRequest("[-] Deleted an entry from friendRequests! " + request.toString());
 
                 friendRequests.remove(request.getSenderUUID(), request);
             }
@@ -648,7 +649,7 @@ public class ShipmentDelivery {
                     for (FriendRequest collectionInvite : friendRequests.get(request.getSenderUUID())) {
                         if (collectionInvite.getRecipientUUID().equals(request.getRecipientUUID())) {
                             // The exact same friend request is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
-                            Logger.info("[~] Ignored duplicate entry from friendRequests! " + request.toString());
+                            Logger.debugFriendRequest("[~] Ignored duplicate entry from friendRequests! " + request.toString());
                             exit = true;
                             break;
                         }
@@ -661,7 +662,7 @@ public class ShipmentDelivery {
 
 
                 // Modifies or adds new.
-                Logger.info("[+] Added/Modified an entry to friendRequests. " + request.toString());
+                Logger.debugFriendRequest("[+] Added/Modified an entry to friendRequests. " + request.toString());
                 friendRequests.put(request.getSenderUUID(), request);
                 continue;
             }

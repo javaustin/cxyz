@@ -1,9 +1,7 @@
 package com.carrotguy69.cxyz;
 
-import com.carrotguy69.cxyz.events.InteractEvent;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
-import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.GameServer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
@@ -27,6 +25,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,6 +86,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static List<Shorthand> shorthandCommands = new ArrayList<>();
 
     public static List<String> enabledDebugs = new ArrayList<>();
+    public static Map<String, String> colorMap = new HashMap<>();
 
 
     public static int partyInvitesExpireAfter;
@@ -102,14 +102,11 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static Listener listener;
 
     public static List<Integer> taskIDs = new ArrayList<>(); // Any task that uses a timer must be able to be canceled on disable.
-    
+
     public static Gson gson = new Gson();
 
-    public static String f(String s) {
-        return ChatColor.translateAlternateColorCodes('&', s);
-    }
-
     public static Map<String, Boolean> initializedMap = new HashMap<>();
+
 
     public static boolean isInitialized() {
         for (Map.Entry<String, Boolean> entry : initializedMap.entrySet()) {
@@ -118,6 +115,10 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
             }
         }
         return true;
+    }
+
+    public static String f(String s) {
+        return ChatColor.translateAlternateColorCodes('&', s);
     }
 
     public static boolean chatFilterEnabled = false;
@@ -133,17 +134,31 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    [❌] ISSUES:
 
+    - cosmetics are just becoming null whenever they want:
+    """
+    [00:16:46 ERROR]: Could not pass event PlayerJoinEvent to cxyz v0.0
+    java.lang.NullPointerException: Cannot invoke "com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic.isEnabled()" because "cosmetic" is null
+        at cxyz-1.0-SNAPSHOT.jar//com.carrotguy69.cxyz.events.JoinEvent.onJoin(JoinEvent.java:127) ~[?:?]
+        at cxyz-1.0-SNAPSHOT.jar//com.carrotguy69.cxyz.CXYZ.onPlayerJoin(CXYZ.java:363) ~[?:?]
+    """
+
+   - when chat color is equipped, it is not forced along the entire string
+
+   - whois: (playtime is wrong, equipped cosmetics is wrong, ignored channels is wrong)
+
    - Fix message parser actions:
         - should be: [text](ACTION:actionText)
         - but is: (text)[ACTION:actionText]
 
-    - "You purchased Grapple Rodfor 0 coins!" (coloring messed up too)
+    - page generator goofs
 
     - effective until "01/7/70 ??"
 
    - Punishment edit tab completer does not work
 
    - i cant unequip a tag
+
+   - tab completer equip errored out because a cosmetic inside the list was null
 
    - What the hell is wrong with my coins system, level and xp?
    - The way the punishment message interacts with the staff channel is odd.
@@ -157,22 +172,24 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [➕] ADD/IMPLEMENT:
-   - A total duration value (effectiveUntil - issued)
+   - A total duration value (effectiveUntil - issued) to put in map formatters and messages
    - Unescape console messages in Logger
    - Use environment variables for api keys (just in development)
    - Standardize and/or document permissions to access commands, channels...
    - When making permissions for commands, most of them should be enabled by default
+   - A /color command that changes your name color (like in that one Skeppy video)
    - Use the static getObjects() (where "Object" is any config model object), ONLY once during startup and then map it to a constant in the main. It should not be called every time.
    - Detailed logging on startup, and do warning + continue on error instead of throwing InvalidConfigException. No null values in objects allowed, enforce it!
    - Ensure /debug actually changes and saves config values
-   - A page generator class for long list commands. We will have a string list of entries, a max entries integer, a format for each page including the header and the footer,
+   - ⚠️ A page generator class for long list commands. We will have a string list of entries, a max entries integer, a format for each page including the header and the footer,
      and the class should be able to generate a list page given the page # and using the header, footer, and entries.
    - Auto cosmetic equip on join (if allowed), if not -> auto unequip
    - Defensive programming to defend against the evil SQL database, meaning: we need to enforce defaults whenever a player SQL entry gives us any invalid thing (rank, channel).
    - Throw a config exception in startup if core default channels are not assigned.
-   - More debuggers (shorthands, NetworkPlayer actions (move to here instead of living in shipmentdelivery), )
+   - ✅ More debuggers (shorthands, NetworkPlayer actions (move to here instead of living in shipmentdelivery), )
    - Ensure that TextComponents are not being re-created (create a single TextComponent for all targets)
    - Report command.
+   - Organize the public static variables at the top of the main class
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa)
    - /skin command (could be external plugin), but we should have a functionality (maybe in users table) to store the skin name in order to apply it when joining other servers.
    - Ensure /debug actually changes the config
@@ -188,7 +205,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Levelup: Add a player facing XP and coin add message (can be left blank in config if admin desires)
    - Levelup: Add a player level up message (and play the sound)
    - Implement shorthand commands, and then with this add (/rules, /help, /allow {channel} {player})
-   - Events we can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
+   - Events other plugins can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
 
 
    [🔥] v1.1 UPDATE:
@@ -285,9 +302,19 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
             }
         }, 1L);
 
+        int id = new BukkitRunnable() {public void run() {
+            if (isInitialized())
+                this.cancel();
+
+            else {
+                Logger.info(String.format("⚠️ Missing tables from API (%s). Retrying cache request...", initializedMap));
+                Bukkit.getScheduler().runTaskLater(plugin, Startup::requestCacheShipments, 1L);
+            }
+
+        }}.runTaskTimer(plugin, 200L, 10 * 20).getTaskId();
+        taskIDs.add(id);
+
         createAnnouncementTasks();
-
-
     }
 
     @Override
@@ -319,6 +346,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
                 Field knownCommandsField = SimpleCommandMap.class.getDeclaredField("knownCommands");
                 knownCommandsField.setAccessible(true);
 
+                @SuppressWarnings("unchecked")
                 Map<String, Command> knownCommands = (Map<String, Command>) knownCommandsField.get(simpleMap);
 
                 for (Command cmd : knownCommands.values()) {
