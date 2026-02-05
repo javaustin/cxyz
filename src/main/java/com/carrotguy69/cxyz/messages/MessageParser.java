@@ -258,7 +258,7 @@ public class MessageParser {
         }
 
         Logger.debugMessage("unparsed: " + unparsed.replace("\n", "\\n"));
-        Logger.debugMessage("formatMap: " + formatMap);
+        Logger.debugMessage("formatMap(size): " + formatMap.size());
         Logger.debugMessage("components: " + components.toString().replace("\n", "\\n"));
 
 
@@ -298,9 +298,29 @@ public class MessageParser {
         return closingParenthesis;
     }
 
+    public List<SimpleTextComponent> applyPlaceholders(List<SimpleTextComponent> components) {
+        // Applies placeholders to the content of the component (not to the actions)
+
+        List<SimpleTextComponent> results = new ArrayList<>();
+
+        for (SimpleTextComponent stc : components) {
+            String content = stc.getContent();
+
+            content = formatPlaceholders(content, formatMap);
+
+            results.add(new SimpleTextComponent(content, stc.getActions()));
+        }
+
+        return results;
+    }
+
 
     public TextComponent toTextComponent(List<SimpleTextComponent> components) {
-        // The new goal: support colors
+        // The reason some text components work perfectly and others don't is because we are trying to fulfill the colorSTC map before we have all of our colors loaded from the placeholders.
+        // To solve this we must format all of our placeholders before, and then create the colorMap.
+        // This shouldn't conflict with bracket detection since the parser that gave us a List<SimpleTextComponents> already handled it.
+
+        components = applyPlaceholders(components);
 
         // SimpleTextComponents are handy because a SimpleTextComponent will only have text and actions. It will not have embedded TextComponents like spigot/bungee would.
         // So we can assume that we have access to STC.getContent() which is just a String and STC.getActions() which is a list of Actions.
@@ -411,7 +431,10 @@ public class MessageParser {
 
             }
 
+            Logger.debugMessage("colorSTCMap: " + colorSTCMap);
+
             for (Map.Entry<SimpleTextComponent, ChatColor> entry : colorSTCMap.entrySet()) {
+
                 SimpleTextComponent simple = entry.getKey();
 
 
@@ -419,7 +442,12 @@ public class MessageParser {
                 ChatColor color = entry.getValue();
 
                 if (simple.getActions().isEmpty()) {
-                    TextComponent component = new TextComponent(f(forceColor(formatPlaceholders(simple.getContent(), formatMap))));
+
+                    Logger.debugMessage("content: " + content);
+                    Logger.debugMessage("formatPlaceholders(content): " + formatPlaceholders(content, formatMap));
+                    Logger.debugMessage("forceColor(formatPlaceholders(content)): " + forceColor(formatPlaceholders(content, formatMap)));
+
+                    TextComponent component = new TextComponent(f(forceColor(content)));
                     component.setColor(color);
 
                     tc.addExtra(component);
@@ -430,10 +458,13 @@ public class MessageParser {
                     String[] lines = content.split("\n");
 
                     for (String split : lines) {
-                        TextComponent component = new TextComponent(f(forceColor(formatPlaceholders(split, formatMap))));
+                        Logger.debugMessage("split(raw): " + split);
+                        Logger.debugMessage("split: " + forceColor(formatPlaceholders(split, formatMap)));
+
+                        TextComponent component = new TextComponent(f(forceColor(split)));
 
                         for (SimpleTextComponent.Action action : simple.getActions()) {
-                            String actionLine = f(forceColor(formatPlaceholders(action.getActionLine(), formatMap)));
+                            String actionLine = formatPlaceholders(action.getActionLine(), formatMap);
 
                             if (action.getType() == SimpleTextComponent.Action.ActionType.HOVER && component.getHoverEvent() == null) {
                                 component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(f(forceColor(actionLine)))));
@@ -450,9 +481,6 @@ public class MessageParser {
 
                 }
             }
-
-            Logger.debugMessage("colorSTCMap: " + colorSTCMap);
-            Logger.debugMessage("final textComponent: " + tc);
 
             return tc;
         }

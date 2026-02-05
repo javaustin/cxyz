@@ -1,19 +1,14 @@
 package com.carrotguy69.cxyz.cmd.admin;
 
-import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-
-import static com.carrotguy69.cxyz.CXYZ.f;
 
 public class Test implements CommandExecutor {
     @Override
@@ -36,22 +31,7 @@ public class Test implements CommandExecutor {
             return true;
         }
 
-        String unparsed = String.join(" ", args);
-        String fString = f(unparsed);
-        String forced = MessageUtils.forceColor(unparsed);
-
-        Logger.log("unparsed: " + unparsed);
-        Logger.log("fString" + fString);
-        Logger.log("forced" + forced);
-
-        sender.sendMessage("expected: " + fString);
-        sender.spigot().sendMessage(new TextComponent("actual: " + f(forced)));
-
-        TextComponent tc = new TextComponent("actual but red: " + f(forced));
-        tc.setColor(ChatColor.of("#F82055"));
-
-        sender.spigot().sendMessage(tc);
-
+        MessageUtils.sendParsedMessage(sender, String.join("  ", args), Map.of("player", sender.getName()));
 
         return true;
     }

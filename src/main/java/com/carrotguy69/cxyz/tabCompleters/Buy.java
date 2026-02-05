@@ -20,7 +20,7 @@ public class Buy implements TabCompleter {
 
         if (cosmetics != null && !cosmetics.isEmpty()) {
             for (Cosmetic cosmetic : cosmetics) {
-                if (cosmetic != null && cosmetic.isEnabled())
+                if (cosmetic.isEnabled())
                     cosmeticIDs.add(cosmetic.getId());
             }
         }

@@ -154,11 +154,11 @@ public class NetworkPlayer {
                 ", friendPrivacy='" + getFriendPrivacy() + '\'' +
                 ", partyPrivacy='" + getPartyPrivacy() + '\'' +
                 ", ranks='" + (ranks != null ? getRanks().size() : 0) +
-                ", ignoreList(size)=" + (ignore_list != null ? getIgnoreList().size() : 0) +
-                ", friends(size)=" + (friends != null ? getFriends().size() : 0) +
-                ", ownedCosmetics(size)=" + (owned_cosmetics != null ? getOwnedCosmetics().size() : 0) +
-                ", equippedCosmetics(size)=" + (equipped_cosmetics != null ? getEquippedCosmetics().size() : 0) +
-                ", mutedChannels(size)=" + (muted_channels != null ? getMutedChannels().size() : 0) +
+                ", ignoreList=" + (ignore_list != null ? getIgnoreList().stream().map(NetworkPlayer::getUsername).collect(Collectors.toList()) : "[]") +
+                ", friends=" + (friends != null ? getFriends().stream().map(NetworkPlayer::getUsername).collect(Collectors.toList())  : "[]") +
+                ", ownedCosmetics=" + (owned_cosmetics != null ? getOwnedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList())  : "[]") +
+                ", equippedCosmetics=" + (equipped_cosmetics != null ? getEquippedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList())  : "[]") +
+                ", mutedChannels(size)=" + (muted_channels != null ? muted_channels  : "[]") +
                 ", customRankPlate='" + getCustomRankPlate() + '\'' +
                 ", chatChannel='" + getChatChannel().getName() + '\'' +
                 ", chatTag='" + getChatTag() + '\'' +
@@ -603,7 +603,11 @@ public class NetworkPlayer {
         List<String> list = JsonConverters.toList(this.owned_cosmetics);
 
         for (String id : list) {
-            result.add(Cosmetic.getCosmetic(id));
+
+            Cosmetic cosmetic = Cosmetic.getCosmetic(id);
+
+            if (cosmetic != null)
+                result.add(cosmetic);
         }
 
         return result;
@@ -632,7 +636,6 @@ public class NetworkPlayer {
     }
 
 
-
     public List<Cosmetic> getEquippedCosmetics() {
         List<Cosmetic> result = new ArrayList<>();
 
@@ -640,28 +643,14 @@ public class NetworkPlayer {
         List<String> list = JsonConverters.toList(this.equipped_cosmetics);
 
         for (String id : list) {
-            result.add(Cosmetic.getCosmetic(id));
+
+            Cosmetic cosmetic = Cosmetic.getCosmetic(id);
+
+            if (cosmetic != null)
+                result.add(cosmetic);
         }
 
         return result;
-    }
-
-    private void addEquippedCosmetic(Cosmetic cosmetic) {
-        // For database consistency only, no functional equipping
-        List<String> list = JsonConverters.toList(this.equipped_cosmetics);
-
-        list.add(cosmetic.getId());
-
-        this.equipped_cosmetics = gson.toJson(list);
-    }
-
-    private void removeEquippedCosmetic(Cosmetic cosmetic) {
-        // For database consistency only, no functional (un)equipping
-        List<String> list = JsonConverters.toList(this.equipped_cosmetics);
-
-        list.remove(cosmetic.getId());
-
-        this.equipped_cosmetics = gson.toJson(list);
     }
 
     public boolean hasEquippedCosmetic(Cosmetic cosmetic) {
@@ -672,14 +661,26 @@ public class NetworkPlayer {
 
     public void equipCosmetic(Cosmetic cosmetic) {
         // Functionally different from addEquippedCosmetic(); This function physically creates and runs the equipActions with the current NetworkPlayer.
-        ActiveCosmetic ac = new ActiveCosmetic(cosmetic, this);
+        List<String> list = JsonConverters.toList(this.equipped_cosmetics);
 
+        list.add(cosmetic.getId());
+
+        this.equipped_cosmetics = gson.toJson(list);
+
+
+        ActiveCosmetic ac = new ActiveCosmetic(cosmetic, this);
         ac.equip();
 
-        addEquippedCosmetic(cosmetic);
     }
 
     public void unEquipCosmetic(Cosmetic cosmetic) {
+        // For database consistency
+        List<String> list = JsonConverters.toList(this.equipped_cosmetics);
+
+        list.remove(cosmetic.getId());
+
+        this.equipped_cosmetics = gson.toJson(list);
+
         List<ActiveCosmetic> activeCosmetics = ActiveCosmetic.activeCosmeticMap.get(this.getUUID());
 
         List<ActiveCosmetic> toRemove = new ArrayList<>();
@@ -696,7 +697,6 @@ public class NetworkPlayer {
             ac.unEquip();
         }
 
-        removeEquippedCosmetic(cosmetic);
     }
 
     public void unEquipActiveCosmetics() {
@@ -753,8 +753,6 @@ public class NetworkPlayer {
     public boolean isInParty() {
         return Party.getPlayerParty(this.getUUID()) != null;
     }
-
-    // Methods
 
     private static boolean parseBoolean(Number n) {
         return n != null && n.doubleValue() != 0.0;

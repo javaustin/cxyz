@@ -466,9 +466,7 @@ public class MapFormatters {
                 color = new com.carrotguy69.cxyz.cmd.general.ChatColor.Color("reset", "&r");
             }
 
-            Logger.debugUser("setChatColor:"  + color.code);
-
-            commonMap.put("display", color.code + color.name);
+            commonMap.put("display", color.code + color.name + " ");
         }
 
         else {

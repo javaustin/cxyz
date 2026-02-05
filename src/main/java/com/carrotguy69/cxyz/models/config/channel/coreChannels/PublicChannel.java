@@ -57,9 +57,8 @@ public class PublicChannel extends CoreChannel {
         if (blocked)
             return;
 
-
-        if (np.isMutingChannel(this) && this.isIgnorable()) {
-            MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_IS_MUTED, commonMap);
+        if (!np.canAccessChannel(this)) {
+            MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_NO_ACCESS, commonMap);
             return;
         }
 
@@ -73,8 +72,13 @@ public class PublicChannel extends CoreChannel {
             return;
         }
 
-        if (!np.canAccessChannel(this)) {
-            MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_NO_ACCESS, commonMap);
+        if (np.isMutingChannel(this) && this.isIgnorable()) {
+            MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_IS_MUTED, commonMap);
+            return;
+        }
+
+        if (content.isBlank()) {
+            MessageUtils.sendParsedMessage(p, MessageKey.MISSING_CONTENT, commonMap);
             return;
         }
 
@@ -109,7 +113,6 @@ public class PublicChannel extends CoreChannel {
 
             MessageUtils.sendParsedMessage(pl, this.getChatFormat(), commonMap);
         }
-
 
     }
 

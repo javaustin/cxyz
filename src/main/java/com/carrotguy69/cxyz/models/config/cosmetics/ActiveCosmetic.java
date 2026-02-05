@@ -95,6 +95,7 @@ public class ActiveCosmetic extends Cosmetic {
 
     public void equip() {
 
+
         activeCosmeticMap.computeIfAbsent(this.player.getUUID(), k -> new ArrayList<>()).add(this);
         originalCosmetic.getEquipAction().accept(this);
 
@@ -133,12 +134,13 @@ public class ActiveCosmetic extends Cosmetic {
 
             default:
                 originalCosmetic.getEquipAction().accept(this);
+                break;
         }
-
     }
 
     public void unEquip() {
 
+        Logger.debugUser(this.getType().toString());
         switch (this.getType()) {
             case CHAT_TAG:
                 this.player.setChatTag("");
@@ -153,7 +155,7 @@ public class ActiveCosmetic extends Cosmetic {
                 break;
 
             default:
-
+                originalCosmetic.getUnequipAction().accept(this); // moved
 
                 for (BukkitTask task : tasks) {
                     task.cancel();
@@ -161,7 +163,6 @@ public class ActiveCosmetic extends Cosmetic {
 
                 tasks.clear();
 
-                originalCosmetic.getUnequipAction().accept(this);
         }
 
         List<ActiveCosmetic> list = activeCosmeticMap.get(this.player.getUUID());
@@ -352,7 +353,6 @@ public class ActiveCosmetic extends Cosmetic {
                     .normalize()
                     .multiply(2);
 
-            p.playSound(p, Sound.ENTITY_BLAZE_SHOOT, 0.5f, 1.0f);
             p.setVelocity(pull);
 
 

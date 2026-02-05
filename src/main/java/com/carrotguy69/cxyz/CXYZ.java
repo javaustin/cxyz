@@ -134,17 +134,22 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    [❌] ISSUES:
 
-    - cosmetics are just becoming null whenever they want:
-    """
-    [00:16:46 ERROR]: Could not pass event PlayerJoinEvent to cxyz v0.0
-    java.lang.NullPointerException: Cannot invoke "com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic.isEnabled()" because "cosmetic" is null
-        at cxyz-1.0-SNAPSHOT.jar//com.carrotguy69.cxyz.events.JoinEvent.onJoin(JoinEvent.java:127) ~[?:?]
-        at cxyz-1.0-SNAPSHOT.jar//com.carrotguy69.cxyz.CXYZ.onPlayerJoin(CXYZ.java:363) ~[?:?]
-    """
+    - we were able to sync this.player to the api properly but not to the actual reference. references are out of control?
 
-   - when chat color is equipped, it is not forced along the entire string
+    ActiveCosmetic is used to apply any type of cosmetic to a player on the server. It accepts a cosmetic, a player, and a list of taskID's you can manage tasks with.
+    I had an issue when running /unequip example-tag, the active cosmetic would remove itself, but it remains applied to my NetworkPlayer chat-tag value.
+    I've since fixed this by calling this.player.sync(), which sends the updated data to the api, but now there seems to be a major mismatch between that blank chat-tag (meaning disabled),
+    and cosmetics that still think they are on the player (i can repeatedly call unequip and it would try to unequip each time even though no cosmetic of that id is registered with me)
 
-   - whois: (playtime is wrong, equipped cosmetics is wrong, ignored channels is wrong)
+    The cause of these bugs is the API sync puts a new value to the map instead of modifying a single value. We will want to rewrite our NetworkPlayerDelivery system to set a single value instead of replacing the whole object. Then activeCosmetic references can exist without dying.
+
+    - prevent forceColor from doing "&a" -> "&aa" (by restoring the last character)
+
+    - why does "&d[phat]" have a formatter color code character before f() is applied?
+
+    - party channel should not be selectable when the player is not in a party
+
+    - fix nanoHTTP warnings because why the heck do they exist
 
    - Fix message parser actions:
         - should be: [text](ACTION:actionText)
@@ -156,29 +161,23 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    - Punishment edit tab completer does not work
 
-   - i cant unequip a tag
-
-   - tab completer equip errored out because a cosmetic inside the list was null
-
    - What the hell is wrong with my coins system, level and xp?
    - The way the punishment message interacts with the staff channel is odd.
 
-   - ✅✅✅✅✅✅ MessageParser issue where these multiple line messages have a trailing new line and I can't figure it out
    - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
-
-   - Playtime value in /info is wrong
-   - Playtime value in DB is likely wrong, we should look at that
 
 
 
    [➕] ADD/IMPLEMENT:
+   - The player might like to see their playtime update when calling /whois twice, instead of waiting for the long task.
+   - Add chat tag display value that shows description.
    - A total duration value (effectiveUntil - issued) to put in map formatters and messages
    - Unescape console messages in Logger
    - Use environment variables for api keys (just in development)
    - Standardize and/or document permissions to access commands, channels...
    - When making permissions for commands, most of them should be enabled by default
    - A /color command that changes your name color (like in that one Skeppy video)
-   - Use the static getObjects() (where "Object" is any config model object), ONLY once during startup and then map it to a constant in the main. It should not be called every time.
+   - ✅ Use the static getObjects() (where "Object" is any config model object), ONLY once during startup and then map it to a constant in the main. It should not be called every time.
    - Detailed logging on startup, and do warning + continue on error instead of throwing InvalidConfigException. No null values in objects allowed, enforce it!
    - Ensure /debug actually changes and saves config values
    - ⚠️ A page generator class for long list commands. We will have a string list of entries, a max entries integer, a format for each page including the header and the footer,
@@ -186,14 +185,12 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Auto cosmetic equip on join (if allowed), if not -> auto unequip
    - Defensive programming to defend against the evil SQL database, meaning: we need to enforce defaults whenever a player SQL entry gives us any invalid thing (rank, channel).
    - Throw a config exception in startup if core default channels are not assigned.
-   - ✅ More debuggers (shorthands, NetworkPlayer actions (move to here instead of living in shipmentdelivery), )
-   - Ensure that TextComponents are not being re-created (create a single TextComponent for all targets)
    - Report command.
    - Organize the public static variables at the top of the main class
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa)
    - /skin command (could be external plugin), but we should have a functionality (maybe in users table) to store the skin name in order to apply it when joining other servers.
    - Ensure /debug actually changes the config
-   - Remove "admin", "mod", and "general" permission categories as they kind of overlap.
+   - Remove "admin", "mod", and "general" permission categories as they kind of overlap and are ambiguous.
    - Define permissions (and defaults) in plugin.yml
    - Add page # support for list commands (including subcommand lists).
    - /punishment allhistory to view all server punishments (MUST have pages)
