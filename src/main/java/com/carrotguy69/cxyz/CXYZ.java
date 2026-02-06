@@ -160,6 +160,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [➕] ADD/IMPLEMENT:
+   - Now that we know what a transient field is, add it to classes (e.g., any class that stores a player Object, ActiveCosmetic's NetworkPlayer reference...)
    - The player might like to see their playtime update when calling /whois twice, instead of waiting for the long task.
    - Add chat tag display value that shows description.
    - A total duration value (effectiveUntil - issued) to put in map formatters and messages
