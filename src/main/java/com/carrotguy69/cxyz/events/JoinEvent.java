@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.events;
 
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
@@ -125,6 +126,10 @@ public class JoinEvent {
         // Apply equipped cosmetics if the server allows
         for (Cosmetic cosmetic : np.getEquippedCosmetics()) {
             if (!(cosmetic.isEnabled() && enabledCosmeticTypes.contains(cosmetic.getType()))) {
+                continue;
+            }
+
+            if (cosmetic.getType() == Cosmetic.CosmeticType.RANK_PLATE && cosmetic.getRequiredRank().getHierarchy() > np.getTopRank().getHierarchy()) {
                 continue;
             }
 

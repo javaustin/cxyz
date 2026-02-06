@@ -12,21 +12,30 @@ cosmetics:
 
   example-tag:
     display: "&d[phat] " # Display of the item, shows the exact text in chat.
-    lore: "&eA tag for the people" # Description of the item. Displays in lore if material. displays on hover if a tag or rank plate.
+    lore: "&eA tag for larger people" # Description of the item. Displays in lore if material. displays on hover if a tag or rank plate.
     type: CHAT_TAG # Must be fully uppercase, and be a valid type.
     enabled: true # If enabled, the cosmetic is available to purchase and equip for the server. If disabled, it is hidden and not available to purchase nor equip.
     price: 0 # Required price to buy this item
     level-requirement: 0 # Required network level to buy this item
-    rank-requirement: default # Required network rank to buy this item
+    rank-requirement: default # Required network rank to buy this item (does not restrict equipping except for RANK_PLATE cosmetics)
 
   darker-green:
     display: "&x&2&f&a&5&2&b" # This `display` value must be the exact color or the corresponding name of the color as defined in config.yml.
-    lore: "&x&2&f&a&5&2&bThis is a custom chat color"
+    lore: "&2This is a custom chat color for VIP's"
     type: CHAT_COLOR
     enabled: true
     price: 0
     level-requirement: 0
-    rank-requirement: default
+    rank-requirement: vip
+
+  super-admin:
+    display: "&x&F&B&3&7&3&7[&x&E&8&2&E&2&EA&x&D&4&2&5&2&5d&x&C&1&1&C&1&Cm&x&A&E&1&2&1&2i&x&9&A&0&9&0&9n&x&8&7&0&0&0&0] "
+    lore: "&cA custom rank plate for the coolest admins on the server."
+    type: RANK_PLATE
+    enabled: true
+    price: 0
+    level-requirement: 0
+    rank-requirement: admin # This will double as the rank associated with the cosmetic. If a player does not have the rank, the name_plate will not apply.
 
   rainbow-armor:
     # Any of these cosmetic types [WEARABLE, GADGET, MOVEMENT_TRAIL, PROJECTILE_TRAIL, KILL_EFFECT], must be implemented using ActiveCosmetic methods.
@@ -40,8 +49,17 @@ cosmetics:
 
   grapple-rod:
     display: "&eGrapple Rod "
-    lore: "&6Jump around!"
+    lore: "&6Jump all around the place!"
     type: GADGET
+    enabled: true
+    price: 0
+    level-requirement: 0
+    rank-requirement: default
+
+  love-movement-trail:
+    display: "&x&F&B&0&0&6&2L&x&E&D&0&0&5&6o&x&D&E&0&0&4&Av&x&D&0&0&0&3&De &x&C&1&0&0&3&1T&x&B&3&0&0&2&5r&x&A&4&0&0&1&9a&x&9&6&0&0&0&Ci&x&8&7&0&0&0&0l "
+    lore: "&cLive with love"
+    type: MOVEMENT_TRAIL
     enabled: true
     price: 0
     level-requirement: 0

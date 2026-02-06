@@ -28,7 +28,7 @@ public class PageGenerator {
     }
 
     public int getMaxPages() {
-        return entries.size() / maxEntriesPerPage + 1;
+        return (int) Math.ceil((double) entries.size() / (double) maxEntriesPerPage);
     }
 
 
@@ -38,52 +38,37 @@ public class PageGenerator {
         [!] Using 1-based indexing instead of 0-based (page numbers start at 1 instead of 0)
 
         ex:
-        let n = 18 (total entries)
-        let m = 4 (max entries per page)
+        let n = 21 (total entries)
+        let m = 5 (max entries per page)
         let p = specified page number
 
         so:
-        1 -> [0, 3]
-        2 -> [4, 7]
-        3 -> [8, 11]
-        4 -> [12, 15]
-        5 -> [16, 17]
+        1 -> [0, 4]
+        2 -> [5, 9]
+        3 -> [10, 14]
+        4 -> [15, 19]
+        5 -> [20, 20] (1 entry leftover)
 
+        for each page:
+            start: (p - 1) * m
+            end: min((p * m) - 1, n -1)
 
-        start = (p - 1) * m
-        end (if full page) = (p * m) - 1
-        end (if not full page) = n - 1
+        available pages: ceil(double n / double m) -> ceil(21 / 5) -> ceil(4.1) -> 5
+        full page available if: available pages > p
+        half page available if: available pages == p
+        no page if: available pages < p
 
-        available pages: n / m -> 18/4 = 4
-
-        full page available if: (n / m) > p
         */
-
-        if (pageNumber <= 0) {
-            pageNumber = 1;
-        }
 
         int size = entries.size();
 
-        int availablePages = size / maxEntriesPerPage + 1;
-
-        if (pageNumber > availablePages) {
-            pageNumber = availablePages;
-        }
+        int availablePages = getMaxPages();
 
         int startIndex = (pageNumber - 1) * maxEntriesPerPage;
-
-        boolean fullPageAvailable = (size / maxEntriesPerPage) > pageNumber;
-
-        int endIndex;
-        if (fullPageAvailable)
-            endIndex = (pageNumber * maxEntriesPerPage) - 1;
-
-        else
-            endIndex = size;
+        int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
 
         Logger.debugMessage(String.format("Generating entries on page %d with indexes [%d, %d] of %d total entries and %d total pages.", pageNumber, startIndex, endIndex, size, availablePages));
 
-        return String.join(delimiter, entries.subList(startIndex, endIndex));
+        return String.join(delimiter, entries.subList(startIndex, endIndex + 1));
     }
 }

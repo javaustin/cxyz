@@ -43,12 +43,14 @@ public class Punishment implements TabCompleter {
 
         if (args.length == 2) {
             switch (args[0].toLowerCase()) {
+
                 case "delete":
                 case "info":
 
                 case "edit":
                     return List.of();
 
+                case "clear":
                 case "history":
                     return AnyPlayer.getAllUsernames();
 
@@ -61,7 +63,7 @@ public class Punishment implements TabCompleter {
                 List<String> options = List.of("enforced", "reason", "duration");
 
                 for (String s : options) {
-                    if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
+                    if (s.toLowerCase().startsWith(args[2].toLowerCase())) {
                         results.add(s);
                     }
                 }
@@ -79,6 +81,18 @@ public class Punishment implements TabCompleter {
                     && args[2].equalsIgnoreCase("enforced")
             ) {
                 return List.of("true", "false");
+            }
+
+            if (
+                    args[0].equalsIgnoreCase("edit")
+                            && args[2].equalsIgnoreCase("duration")
+            ) {
+                results = new ArrayList<>(List.of(
+                        "1m", "5m", "30m", "1h", "3h", "12h", "1d", "1w", "1m", "1y", "permanent"
+                ));
+
+                results.sort(String.CASE_INSENSITIVE_ORDER);
+                return results;
             }
         }
 

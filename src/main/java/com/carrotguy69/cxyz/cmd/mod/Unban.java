@@ -93,8 +93,8 @@ public class Unban implements CommandExecutor {
                 punishment.setEditorMod(editorMod);
             }
             else {
-                punishment.setEditorModUsername("Console");
-                punishment.setEditorModUsername("Console");
+                punishment.setEditorModUsername("console");
+                punishment.setEditorModUsername("console");
             }
 
             punishment.edit(); // Syncs w/ API

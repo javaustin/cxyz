@@ -39,6 +39,10 @@ public class _PunishmentExecutor implements CommandExecutor {
         }
 
         switch (args[0].toLowerCase()) {
+            case "clear":
+                new PunishmentClear().onCommand(sender, command, label, ObjectUtils.slice(args, 1));
+                break;
+
             case "delete":
                 new PunishmentDelete().onCommand(sender, command, label, ObjectUtils.slice(args, 1));
                 break;

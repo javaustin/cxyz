@@ -20,6 +20,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -83,25 +84,6 @@ public class NetworkPlayer {
         DISALLOWED
     }
 
-    public static void copyTo(NetworkPlayer fromData, NetworkPlayer destinationReference) {
-        // Copies attributes from the provided NetworkPlayer to the provided destination
-
-        if (fromData.getClass() != destinationReference.getClass()) {
-            throw new IllegalArgumentException("Classes must be the same");
-        }
-
-        Field[] fields = fromData.getClass().getDeclaredFields();
-
-        for (Field field : fields) {
-            field.setAccessible(true);
-            try {
-                field.set(destinationReference, field.get(fromData));
-            }
-            catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
     public NetworkPlayer createFromPlayer(Player p) {
         // Goal: Be able to create a representation of a network player to insert into the database.
@@ -693,6 +675,14 @@ public class NetworkPlayer {
         ActiveCosmetic ac = new ActiveCosmetic(cosmetic, this);
         ac.equip();
 
+    }
+
+    public void unEquipCosmeticOfType(Cosmetic.CosmeticType type) {
+        for (Cosmetic cosmetic : getEquippedCosmetics()) {
+            if (cosmetic.getType().equals(type)) {
+                unEquipCosmetic(cosmetic);
+            }
+        }
     }
 
     public void unEquipCosmetic(Cosmetic cosmetic) {

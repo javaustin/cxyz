@@ -8,7 +8,6 @@ import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.db.Punishment;
 
-import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import com.carrotguy69.cxyz.other.utils.TimeUtils;
 import org.bukkit.ChatColor;
@@ -258,7 +257,7 @@ public class MapFormatters {
 
     public static Map<String, Object> cloneFormaterToNewKey(Map<String, Object> originalMap, String fromKey, String toKey) {
         // Clones the playerFormatter so it can use player objets in different use cases.
-        // e.g.: clonePlayerFormatter(playerFormatter(np), player, moderator) -> {player} will be {moderator}
+        // e.g.: clonePlayerFormatter(playerFormatter(np), player, moderator) -> {player} will be {mod}
 
         Map<String, Object> result = new HashMap<>();
 
@@ -388,34 +387,29 @@ public class MapFormatters {
 
         if (ObjectUtils.equalsIgnoreCaseNullSafe(punishment.getModUsername(), "console")) {
             commonMap.putAll(cloneFormaterToNewKey(consoleFormatter(), "player", "mod"));
-            commonMap.putAll(cloneFormaterToNewKey(consoleFormatter(), "player", "moderator"));
         }
 
         else if (punishment.getModUsername() != null && !punishment.getModUsername().isBlank()) {
             NetworkPlayer mod = NetworkPlayer.getPlayerByUUID(UUID.fromString(punishment.getModUUID()));
 
             commonMap.putAll(cloneFormaterToNewKey(playerFormatter(mod), "player", "mod"));
-            commonMap.putAll(cloneFormaterToNewKey(playerFormatter(mod), "player", "moderator"));
         }
 
 
         // Editor mod logic (possibly null)
 
-        if (punishment.getEditorModUsername() != null && !punishment.getEditorModUsername().isBlank() && !ObjectUtils.equalsIgnoreCaseNullSafe(punishment.getEditorModUsername(), "console")) {
-            NetworkPlayer editorMod = NetworkPlayer.getPlayerByUUID(UUID.fromString(punishment.getModUUID()));
+        if (punishment.getEditorModUsername() == null || punishment.getEditorModUsername().isBlank()) {
+            commonMap.putAll(cloneFormaterToNewKey(blankFormatter("N/A"), "player", "editor-mod"));
+        }
+
+        else if (!ObjectUtils.equalsIgnoreCaseNullSafe(punishment.getEditorModUsername(), "console")) {
+            NetworkPlayer editorMod = NetworkPlayer.getPlayerByUUID(UUID.fromString(punishment.getEditorModUUID()));
 
             commonMap.putAll(cloneFormaterToNewKey(playerFormatter(editorMod), "player", "editor-mod"));
-            commonMap.putAll(cloneFormaterToNewKey(playerFormatter(editorMod), "player", "editor-moderator"));
         }
 
-        else if (ObjectUtils.equalsIgnoreCaseNullSafe(punishment.getEditorModUsername(), "console")) {
+        else {
             commonMap.putAll(cloneFormaterToNewKey(consoleFormatter(), "player", "editor-mod"));
-            commonMap.putAll(cloneFormaterToNewKey(consoleFormatter(), "player", "editor-moderator"));
-        }
-
-        else if (punishment.getEditorModUsername() == null || punishment.getEditorModUsername().isBlank()) {
-            commonMap.putAll(cloneFormaterToNewKey(blankFormatter("N/A"), "player", "editor-mod"));
-            commonMap.putAll(cloneFormaterToNewKey(blankFormatter("N/A"), "player", "editor-moderator"));
         }
 
         commonMap.put("case-id", punishment.getID());
@@ -473,8 +467,8 @@ public class MapFormatters {
             commonMap.put("display", cosmetic.getDisplay());
         }
 
-        commonMap.put("rank-requirement", cosmetic.getRankRequirement().getPrefix());
-        commonMap.put("level-requirement", String.valueOf(cosmetic.getLevelRequirement()));
+        commonMap.put("rank-requirement", cosmetic.getRequiredRank().getPrefix());
+        commonMap.put("level-requirement", String.valueOf(cosmetic.getRequiredLevel()));
         commonMap.put("price", String.valueOf(cosmetic.getPrice()));
         commonMap.put("type", cosmetic.getType().name());
 

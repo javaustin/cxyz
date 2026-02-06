@@ -52,13 +52,17 @@ public class Equip implements CommandExecutor {
 
         Cosmetic cosmetic = Cosmetic.getCosmetic(cosmeticName);
 
+
         if (cosmetic == null) {
             MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_COSMETIC, Map.of("input", args[0]));
             return true;
         }
 
+        Map<String, Object> commonMap = MapFormatters.cosmeticFormatter(cosmetic);
 
         NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+
+        commonMap.putAll(MapFormatters.playerFormatter(np));
 
         if (!(np.hasOwnedCosmetic(cosmetic))) {
             MessageUtils.sendParsedMessage(p, MessageKey.EQUIP_COSMETIC_NOT_OWNED, MapFormatters.cosmeticFormatter(cosmetic));
@@ -67,6 +71,12 @@ public class Equip implements CommandExecutor {
 
         if (np.hasEquippedCosmetic(cosmetic)) {
             MessageUtils.sendParsedMessage(p, MessageKey.EQUIP_COSMETIC_ALREADY_EQUIPPED, MapFormatters.cosmeticFormatter(cosmetic));
+            return true;
+        }
+
+        if (cosmetic.getType() == Cosmetic.CosmeticType.RANK_PLATE && cosmetic.getRequiredRank().getHierarchy() > np.getTopRank().getHierarchy()) {
+            commonMap.putAll(MapFormatters.rankFormatter(cosmetic.getRequiredRank()));
+            MessageUtils.sendParsedMessage(p, MessageKey.BUY_ERROR_INSUFFICIENT_RANK, commonMap);
             return true;
         }
 

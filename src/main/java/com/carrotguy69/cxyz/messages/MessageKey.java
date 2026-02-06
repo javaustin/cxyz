@@ -25,7 +25,6 @@ public enum MessageKey {
     MISSING_CONTENT("errors.args.missing.content"),
 
     INVALID_BOOLEAN("errors.args.invalid.boolean"),
-    INVALID_PUNISHMENT("errors.args.invalid.punishment"),
     INVALID_CHANNEL("errors.args.invalid.channel"),
     INVALID_COLOR("errors.args.invalid.color"),
     INVALID_COSMETIC("errors.args.invalid.cosmetic"),
@@ -33,7 +32,9 @@ public enum MessageKey {
     INVALID_DURATION("errors.args.invalid.duration"),
     INVALID_ITEM("errors.args.invalid.item"),
     INVALID_NUMBER("errors.args.invalid.number"),
+    INVALID_PAGE("errors.args.invalid.page"),
     INVALID_PLAYER("errors.args.invalid.player"),
+    INVALID_PUNISHMENT("errors.args.invalid.punishment"),
     INVALID_RANK("errors.args.invalid.rank"),
     INVALID_FRIEND_PRIVACY_VALUE("errors.args.invalid.friend-privacy-value"),
     INVALID_MESSAGE_PRIVACY_VALUE("errors.args.invalid.message-privacy-value"),
@@ -124,6 +125,7 @@ public enum MessageKey {
     // =========================
     EQUIP_COSMETIC_ALREADY_EQUIPPED("commands.equip.error.already-equipped"),
     EQUIP_COSMETIC_NOT_OWNED("commands.equip.error.not-owned"),
+    EQUIP_COSMETIC_INSUFFICIENT_RANK("commands.equip.error.insufficient-rank"),
     EQUIP_COSMETIC_SUCCESS("commands.equip.success"),
 
     UNEQUIP_COSMETIC_NOT_EQUIPPED("commands.unequip.error.not-equipped"),
@@ -323,6 +325,7 @@ public enum MessageKey {
     PUNISHMENT_AVAILABLE_SUBCOMMANDS("commands.punishment.available-subcommands"),
     PUNISHMENT_EDIT("commands.punishment.edit"),
     PUNISHMENT_DELETE("commands.punishment.delete"),
+    PUNISHMENT_CLEAR("commands.punishment.clear"),
     PUNISHMENT_INFO("commands.punishment.info"),
 
     PUNISHMENT_HISTORY_LIST("commands.punishment.history.list"),

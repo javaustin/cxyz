@@ -66,14 +66,6 @@ public class Ban implements TabCompleter {
                 }
             }
 
-//            if (np != null) {
-//                results.add(np.getUsername());
-//
-//                if (np.getNickname() != null) {
-//                    results.add(np.getNickname());
-//                }
-//            }
-
             results.sort(String.CASE_INSENSITIVE_ORDER);
             return results;
         }

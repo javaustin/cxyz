@@ -82,12 +82,12 @@ public class Buy implements CommandExecutor {
             return;
         }
 
-        if (rank.getHierarchy() < cosmetic.getRankRequirement().getHierarchy()) {
+        if (rank.getHierarchy() < cosmetic.getRequiredRank().getHierarchy()) {
             MessageUtils.sendParsedMessage(p, BUY_ERROR_INSUFFICIENT_RANK, formatter);
             return;
         }
 
-        else if (level < cosmetic.getLevelRequirement()) {
+        else if (level < cosmetic.getRequiredLevel()) {
             MessageUtils.sendParsedMessage(p, BUY_ERROR_INSUFFICIENT_LEVEL, formatter);
             return;
         }

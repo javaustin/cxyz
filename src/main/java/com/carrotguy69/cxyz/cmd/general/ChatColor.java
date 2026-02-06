@@ -1,6 +1,7 @@
 package com.carrotguy69.cxyz.cmd.general;
 
 import com.carrotguy69.cxyz.CXYZ;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
@@ -88,7 +89,9 @@ public class ChatColor implements CommandExecutor {
             return true;
         }
 
+        np.unEquipCosmeticOfType(Cosmetic.CosmeticType.CHAT_COLOR);
         np.setChatColor(color.code);
+
         np.sync();
 
         MessageUtils.sendParsedMessage(p, MessageKey.CHAT_COLOR_SET, commonMap);

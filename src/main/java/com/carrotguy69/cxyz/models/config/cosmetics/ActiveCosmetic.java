@@ -1,15 +1,12 @@
 package com.carrotguy69.cxyz.models.config.cosmetics;
 
-import com.carrotguy69.cxyz.cmd.admin.Debug;
 import com.carrotguy69.cxyz.cmd.general.ChatColor;
-import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerFishEvent;
@@ -40,8 +37,8 @@ public class ActiveCosmetic extends Cosmetic {
                 cosmetic.getLore(),
                 cosmetic.getType(),
                 cosmetic.getPrice(),
-                cosmetic.getLevelRequirement(),
-                cosmetic.getRankRequirement(),
+                cosmetic.getRequiredLevel(),
+                cosmetic.getRequiredRank(),
                 cosmetic.isEnabled()
         );
 
@@ -360,6 +357,40 @@ public class ActiveCosmetic extends Cosmetic {
         }));
 
 
+
+
+    Cosmetic loveTrail = Cosmetic.getCosmetic("love-movement-trail");
+
+    if (loveTrail == null) {
+        Logger.warning("grappleRod could not be equipped. (null)");
+        return;
     }
 
+    loveTrail.setEquipAction(ac -> {
+
+
+        Player p = ac.getPlayer().getPlayer();
+
+        BukkitTask task = new BukkitRunnable() {
+
+            @Override
+            public void run() {
+
+                if (p.isOnline())
+                    p.getWorld().spawnParticle(Particle.HEART, p.getLocation().add(random.nextDouble(-0.5, 0.5), 1.8 + random.nextDouble(-0.3, 0.3), random.nextDouble(-0.5, 0.5)), 1);
+
+            }
+        }.runTaskTimer(plugin, 0L, 10L);
+
+        ac.addTask(task);
+        taskIDs.add(task.getTaskId());
+
+    });
+
+    loveTrail.setUnequipAction(ac -> {
+        ac.getTasks().forEach(BukkitTask::cancel);
+    });
+
+
+    }
 }

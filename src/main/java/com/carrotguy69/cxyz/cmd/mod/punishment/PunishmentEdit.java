@@ -128,7 +128,7 @@ public class PunishmentEdit implements CommandExecutor {
 
                 punishment.setEffectiveUntilTimestamp(effectiveUntilTimestamp);
 
-                commonMap.put("attribute", "reason");
+                commonMap.put("attribute", "duration");
                 commonMap.put("value", TimeUtils.unixCountdownShort(duration));
 
                 break;
@@ -145,7 +145,6 @@ public class PunishmentEdit implements CommandExecutor {
         }
 
         punishment.edit(); // To sync with API. This calls {api}/punishment/edit w/ post data
-        punishmentIDMap.put(id, punishment);
 
         commonMap.putAll(MapFormatters.punishmentFormatter(sender, punishment));
 

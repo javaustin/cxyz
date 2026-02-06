@@ -30,6 +30,7 @@ errors:
       duration: "&cPlease provide a valid duration!"
       item: "&cPlease provide a valid item to buy!"
       number: "&cPlease provide a valid number!"
+      page: "&cPlease provide a valid page between {min} and {max}!"
       player: "&cPlease provide a valid player!"
       punishment: "&cNo punishment found with this case ID!"
       rank: "&cPlease provide a valid rank name!"
@@ -51,7 +52,7 @@ commands:
 
   buy: # All use cosmeticFormatter and playerFormatter
     success: "&aYou purchased {display}&afor {price} coins!"
-    error.insufficient-rank: "&cThis item requires {rank-requirement} &crank or above!"
+    error.insufficient-rank: "&cThis item requires {rank-requirement}&crank or above!"
     error.insufficient-level: "&cThis item requires level {level-requirement} &c or above!"
     error.insufficient-coins: "&cYou cannot afford this item!"
     error.duplicate-item: "&cYou already own this item!"
@@ -82,8 +83,8 @@ commands:
     already-locked: "&eThe {channel-name} channel is already locked!"
     already-unlocked: "&eThe {channel-name} channel is not locked!"
     lock-forbidden: "&cThis channel cannot be locked!"
-    locked: "&4[!]&r {player-rank-prefix-display}{player-rank-color}{player-display-name} &7locked the channel"
-    unlocked: "&4[!]&r {player-rank-prefix-display}{player-rank-color}{player-display-name} &7unlocked this channel"
+    locked: "&4[[!]]&r {player-rank-prefix-display}{player-rank-color}{player-display-name} &7locked the channel"
+    unlocked: "&4[[!]]&r {player-rank-prefix-display}{player-rank-color}{player-display-name} &7unlocked this channel"
 
 
     list:
@@ -121,6 +122,7 @@ commands:
   equip: # Accepts cosmeticFormatter
     error.already-equipped: "&cThis cosmetic is already equipped!"
     error.not-owned: "&cYou do not own this cosmetic!"
+    error.insufficient-rank: "&cYou cannot apply this cosmetic as you do not have the required {rank-prefix} rank."
     success: "&aYou have equipped ({display})[HOVER:{lore}]"
 
   unequip: # Accepts cosmeticFormatter
@@ -325,6 +327,7 @@ commands:
 
     available-subcommands: |
       &aPunishment subcommands
+      &e/punishment clear <player>
       &e/punishment delete <id>
       &e/punishment edit <id> <attribute> <value>
       &e/punishment history <player>
@@ -356,58 +359,60 @@ commands:
         
         &4This ban will not expire.
         &rAppeal at: https://example.com/appeal
-      log-message: "&f[[&4Punishment&f]] &c{player-rank-color}{player} &7was banned by {mod-rank-color}{mod} &7for duration {effective-until-countdown} &7for {reason}."# Displayed to moderators and in server logs.
+      # NOTE: This message is logged internally; it does not support hover or click events through brackets like most other messages. This means you can freely use unescaped brackets and parentheses, and the parser will parse it as literals.
+      log-message: "&4[Punishment] &c{player-rank-color}{player} &7was banned by {mod-rank-color}{mod} &7for duration &f{effective-until-countdown} &7for {reason}." # Logged internally, no hover/click support. Unescaped brackets OK.
       announcement: ""
 
     unban:
       mod-message: "&aSuccessfully removed ban from {player}!"
-      log-message: "&f[[&4Punishment&f]] &a{player} has been unbanned by {editor-mod-rank-color}{editor-mod}!"# Displayed to moderators and in server logs.
+      log-message: "&4[Punishment] &a{player} has been unbanned by {editor-mod-rank-color}{editor-mod}!" # Logged internally, no hover/click support. Unescaped brackets OK.
       announcement: ""
 
     kick:
       mod-message: "&aSuccessfully applied kick to {player}!"
       player-message: "&cYou have been kicked from this server for the reason: &f{reason}"
-      log-message: "&f[[&4Punishment&f]] &f(ID: {case-id}) &cModerator &f{player-rank-color}{moderator} &cissued punishment &f{type} &cto player &f{player-rank-color}{player} &cfor reason: &f{reason}"
+      log-message: "&4[Punishment] &f(ID: {case-id}) &cModerator &f{player-rank-color}{mod} &cissued punishment &f{type} &cto player &f{player-rank-color}{player} &cfor reason: &f{reason}"
       announcement: ""
 
     mute:
       mod-message: "&aSuccessfully applied mute to {player}!"
       initial-player-message: "&cYou have been muted for the reason: &f{reason}. &cYou cannot use chat until your mute expires in &f{effective-until-countdown}."
       player-message: "&cYou are muted!"
-      log-message: "&f[[&4Punishment&f]] &c{player-rank-color}{player} &7was muted by {mod-rank-color}{mod} &7for duration {effective-until-countdown} &7for {reason}."# Displayed to moderators and in server logs.
+      log-message: "&4[Punishment] &c{player-rank-color}{player} &7was muted by {mod-rank-color}{mod} &7for duration &f{effective-until-countdown} &7for {reason}." # Logged internally, no hover/click support. Unescaped brackets OK.
       announcement: ""
 
     unmute:
       mod-message: "&aSuccessfully removed mute from {player}!"
-      log-message: "&f[[&4Punishment&f]] &a{player} has been unmuted by {editor-mod-rank-color}{editor-mod}!" # Displayed to moderators and in server logs.
+      log-message: "&4[Punishment] &a{player} has been unmuted by {editor-mod-rank-color}{editor-mod}!"  # Logged internally, no hover/click support. Unescaped brackets OK.
       announcement: ""
 
     warn:
       mod-message: "&aSuccessfully applied warning to {player}!"
       player-message: "&cYou have been warned for the reason: &f{reason}."
-      log-message: "&f[[&4Punishment&f]] &f(ID: {case-id}) &cModerator &f{player-rank-color}{moderator} &cissued punishment &f{type} &cto player &f{player-rank-color}{player} &cfor reason: &f{reason}"
+      log-message: "&4[Punishment] &f(ID: {case-id}) &cModerator &f{player-rank-color}{mod} &cissued punishment &f{type} &cto player &f{player-rank-color}{player} &cfor reason: &f{reason}"  # Logged internally, no hover/click support. Unescaped brackets OK.
       announcement: ""
 
+    clear: "&aCleared all punishments from player {player}."
     delete: "&aDeleted {type} #{case-id} from player {player}."
     edit: "(&aSuccessfully updated punishment {attribute}!)[HOVER:New value: {value}]"
 
     info: |
       &cPunishment #{case-id}
-      &eOffender: ({player-rank-color}{player-username})[HOVER:UUID:{player-uuid}][COPY_TO_CLIPBOARD:{player-uuid}]
-      &eModerator: ({mod-rank-prefix}{mod-rank-color}{mod-username})[HOVER:UUID:{mod-uuid}][COPY_TO_CLIPBOARD:{mod-uuid}]
-      &eType: {type}
-      &eIssue date: {date}
-      &eEffective until: {effective-until-short}
-      &eExpires on: {expire-time-short}
-      &eReason: {reason}
-      &eEnforced: {enforced}
-      &eEdited by {editor-mod-rank-prefix}{editor-mod-rank-color}{editor-mod-username}
+      &fOffender: ({player-rank-color}{player-username})[HOVER:&7Click to copy UUID][COPY_TO_CLIPBOARD:{player-uuid}]
+      &fModerator: ({mod-rank-color}{mod-username})[HOVER:&7Click to copy UUID][COPY_TO_CLIPBOARD:{mod-uuid}]
+      &fType: &7{type}
+      &fIssue date: &7{date}
+      &fEffective until: &7{effective-until-short}
+      &fRecord Expires: &7{expire-time-short}
+      &fReason: &7{reason}
+      &fEnforced: &7{enforced}
+      &fEdited by &7{editor-mod-rank-color}{editor-mod-username}
 
     history:
       list: |
         &f---------- {player-rank-color}{player}'s punishment history &r&f----------
         {punishments}
-        (&f< Previous)[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext Page >)[RUN_COMMAND:/punishment history {player} {next-page}]
+        (&f< Previous)[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/punishment history {player} {next-page}]
       none: "&eNo punishments found for this player!"
       format: "&e#[[{case-id}]] ({type} (({effective-until-countdown-short})) for {reason} on {date-short})[HOVER:Issued on {date} by {mod-rank-color}{mod}]"
       separator: "\n"
@@ -427,13 +432,13 @@ commands:
       has-rank: "&eThis player already has that rank!"
       missing-rank: "&eThis player does not have this rank!"
 
-    add: "&aAdded {rank-prefix-display} to {player}!" # rankFormatter, playerFormatter
-    remove: "&aRemoved {rank-prefix-display} from {player}!" # rankFormatter, playerFormatter
+    add: "&aAdded {rank-prefix-display} &ato {player-rank-color}{player}!" # rankFormatter, playerFormatter
+    remove: "&aRemoved {rank-prefix-display} &afrom {player-rank-color}{player}!" # rankFormatter, playerFormatter
 
     list: "{player}'s ranks: {ranks}"
     list-none: "&eNo ranks found for this player!"
     list-format: "{rank-prefix-display}"
-    list-separator: " "
+    list-separator: "&f, "
 
 
   reload:

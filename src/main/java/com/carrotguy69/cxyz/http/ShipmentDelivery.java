@@ -7,11 +7,43 @@ import com.google.common.collect.Multimap;
 import com.google.gson.annotations.SerializedName;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class ShipmentDelivery {
+
+    public static <T> void copyTo(T fromData, T destinationReference) {
+        // Copies attributes from the provided NetworkPlayer to the provided destination
+
+        if (destinationReference == null) {
+            throw new IllegalArgumentException("destinationReference cannot be null");
+        }
+
+        if (fromData.getClass() != destinationReference.getClass()) {
+            throw new IllegalArgumentException("Classes must be the same");
+        }
+
+        Field[] fields = fromData.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+
+            int mods = field.getModifiers();
+            if (Modifier.isStatic(mods)) continue;
+            if (Modifier.isTransient(mods)) continue;
+
+            try {
+                field.set(destinationReference, field.get(fromData));
+            }
+            catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
 
     static class NetworkPlayerShipmentWrapper {
@@ -48,7 +80,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("NetworkPlayer shipment failed!! Cannot continue.");
+            throw new RuntimeException("NetworkPlayer shipment failed!!");
         }
     }
 
@@ -90,7 +122,7 @@ public class ShipmentDelivery {
                     Logger.debugUser("[~] Modified an entry to users. " + np);
                     NetworkPlayer reference = NetworkPlayer.getPlayerByUUID(np.getUUID());
 
-                    NetworkPlayer.copyTo(np, reference);
+                    ShipmentDelivery.copyTo(np, reference);
                 }
 
                 else {
@@ -113,7 +145,7 @@ public class ShipmentDelivery {
 
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("NetworkPlayer delivery failed!! Cannot continue.");
+            throw new RuntimeException("NetworkPlayer delivery failed!!");
         }
 
     }
@@ -156,7 +188,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("Party shipment failed!! Cannot continue.");
+            throw new RuntimeException("Party shipment failed!!");
         }
     }
 
@@ -197,7 +229,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("Party delivery failed!! Cannot continue.");
+            throw new RuntimeException("Party delivery failed!!");
         }
     }
 
@@ -239,7 +271,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("PartyInvite shipment failed!! Cannot continue.");
+            throw new RuntimeException("PartyInvite shipment failed!!");
         }
     }
 
@@ -302,7 +334,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("PartyInvite delivery failed!! Cannot continue.");
+            throw new RuntimeException("PartyInvite delivery failed!!");
         }
     }
 
@@ -344,7 +376,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("PartyExpire shipment failed!! Cannot continue.");
+            throw new RuntimeException("PartyExpire shipment failed!!");
         }
     }
 
@@ -388,7 +420,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("PartyExpire delivery failed!! Cannot continue.");
+            throw new RuntimeException("PartyExpire delivery failed!!");
         }
     }
 
@@ -428,7 +460,7 @@ public class ShipmentDelivery {
 
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("Punishment shipment failed!! Cannot continue.");
+            throw new RuntimeException("Punishment shipment failed!!");
         }
     }
 
@@ -463,21 +495,26 @@ public class ShipmentDelivery {
             for (Punishment punishment : wrapper.getNewData()) {
                 // Modifies or adds new.
 
-                Logger.debugPunishment("[+] Added/Modified an entry to partyExpires. " + punishment);
-                punishmentIDMap.put(punishment.getID(), punishment);
+                if (punishmentIDMap.get(punishment.getID()) != null) {
+                    Logger.debugUser("[~] Modified an entry to punishments. " + punishment);
+                    Punishment reference = punishmentIDMap.get(punishment.getID());
+
+                    ShipmentDelivery.copyTo(punishment, reference);
+                }
+
+                else {
+                    Logger.debugUser("[+] Added an entry to punishments. " + punishment);
+                    punishmentIDMap.put(punishment.getID(), punishment);
+                }
             }
 
 
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("Punishment delivery failed!! Cannot continue.");
+            throw new RuntimeException("Punishment delivery failed!!");
         }
     }
-
-
-
-
 
 
 
@@ -519,7 +556,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("Message data shipment failed!! Cannot continue.");
+            throw new RuntimeException("Message data shipment failed!!");
         }
 
     }
@@ -576,7 +613,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("Punishment delivery failed!! Cannot continue.");
+            throw new RuntimeException("Punishment delivery failed!!");
         }
     }
 
@@ -619,7 +656,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("FriendRequest shipment failed!! Cannot continue.");
+            throw new RuntimeException("FriendRequest shipment failed!!");
         }
     }
 
@@ -683,7 +720,7 @@ public class ShipmentDelivery {
         }
         catch (Exception e) {
             Logger.logStackTrace(e);
-            throw new RuntimeException("FriendRequest delivery failed!! Cannot continue.");
+            throw new RuntimeException("FriendRequest delivery failed!!");
         }
     }
 

@@ -14,7 +14,7 @@ public class TimeUtils {
     }
 
     public static String dateOf(long timestamp, String timeZone) {
-        if (timestamp == -1) {
+        if (timestamp <= 0) {
             return permanentString;
         }
 
@@ -28,7 +28,7 @@ public class TimeUtils {
     }
 
     public static String dateOfShort(long timestamp, String timeZone) {
-        if (timestamp == -1) {
+        if (timestamp <= 0) {
             return permanentString;
         }
 
@@ -43,7 +43,7 @@ public class TimeUtils {
 
 
     public static String unixCountdownShort(long timestamp) {
-        if (timestamp == -1) {
+        if (timestamp <= 0) {
             return permanentString;
         }
 

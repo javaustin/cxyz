@@ -1,6 +1,7 @@
 package com.carrotguy69.cxyz.cmd.admin.rank;
 
 import com.carrotguy69.cxyz.models.config.PlayerRank;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -99,6 +100,13 @@ public class RankRemove implements CommandExecutor {
             }
 
             np.removeRank(rank);
+
+            for (Cosmetic cosmetic : np.getEquippedCosmetics()) {
+                if (cosmetic.getType() == Cosmetic.CosmeticType.RANK_PLATE && cosmetic.getRequiredRank().getHierarchy() > np.getTopRank().getHierarchy()) {
+                    np.unEquipCosmetic(cosmetic);
+                }
+            }
+
             np.sync();
 
             commonMap.putAll(MapFormatters.rankFormatter(rank));

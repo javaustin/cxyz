@@ -129,16 +129,24 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static FileConfiguration cosmeticsYML = null;
     public static FileConfiguration msgYML = null;
 
+    public static Random random = new Random();
+
 
 /*
 
    [❌] ISSUES:
 
-    - prevent forceColor from doing "&a" -> "&aa" (by restoring the last character)
+    - the "best guess method" for punishment ids could be lots better
+
+    - cosmetic lore on gadgets and wearables might be stupid
+
+   - ✅ player should not be able to equip a rank plate of a rank they do not have. it can remain in their cosmetics but it should not be equippable
+
+    - ✅ prevent forceColor from doing "&a" -> "&aa" (by restoring the last character)
 
     - why does "&d[phat]" have a formatter color code character before f() is applied?
 
-    - party channel should not be selectable when the player is not in a party
+    - ✅ party channel should not be selectable when the player is not in a party
 
     - fix nanoHTTP warnings because why the heck do they exist
 
@@ -146,7 +154,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         - should be: [text](ACTION:actionText)
         - but is: (text)[ACTION:actionText]
 
-    - page generator goofs
+    - ✅ page generator goofs
 
     - effective until "01/7/70 ??"
 
@@ -160,7 +168,11 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [➕] ADD/IMPLEMENT:
-   - Now that we know what a transient field is, add it to classes (e.g., any class that stores a player Object, ActiveCosmetic's NetworkPlayer reference...)
+   - make log-messages support hover and click events
+   - define design rules for when things are stripped or not, i think the hard rule should be, if its stripped, it is named that in the mapformatter ("object-stripped")
+   - can we rationally implement text hover text if it exists to allow for cosmetic lore. perhaps we can modify the message parser to ignore any actions with no text. then we can dynamically include lore
+   - create cosmetic list command
+   - ✅ Now that we know what a transient field is, add it to classes (e.g., any class that stores a player Object, ActiveCosmetic's NetworkPlayer reference...)
    - The player might like to see their playtime update when calling /whois twice, instead of waiting for the long task.
    - Add chat tag display value that shows description.
    - A total duration value (effectiveUntil - issued) to put in map formatters and messages

@@ -103,6 +103,7 @@ com\carrotguy69\cxyz\cmd\mod\punishment\PunishmentEdit.class
 com\carrotguy69\cxyz\cmd\general\party\PartyPrivate.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer$PartyInvitePrivacy.class
 com\carrotguy69\cxyz\models\db\Punishment$PunishmentType.class
+com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic$3.class
 com\carrotguy69\cxyz\models\config\PlayerRank.class
 com\carrotguy69\cxyz\tabCompleters\ChatChannel.class
 com\carrotguy69\cxyz\cmd\admin\coins\CoinsRemove.class
@@ -167,6 +168,7 @@ com\carrotguy69\cxyz\http\ShipmentDelivery.class
 com\carrotguy69\cxyz\tabCompleters\Unequip.class
 com\carrotguy69\cxyz\cmd\admin\rank\_RankExecutor.class
 com\carrotguy69\cxyz\cmd\admin\level\LevelSet.class
+com\carrotguy69\cxyz\cmd\mod\punishment\PunishmentClear.class
 com\carrotguy69\cxyz\tabCompleters\Friend.class
 com\carrotguy69\cxyz\other\Startup.class
 com\carrotguy69\cxyz\cmd\general\channel\_ChannelExecutor.class

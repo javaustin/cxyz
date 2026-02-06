@@ -48,11 +48,16 @@ public class MessageUtils {
             char c0 = message.charAt(i);
             char c1 = message.charAt(i + 1);
 
-
             if (c0 == '&') {
 
                 // If is reset code, reset the color. (Resets all previous values)
-                if (c1 == 'r' && i + 1 < message.length()) {
+                if (c1 == 'r') {
+
+                    if (i + 2 == message.length()) { // if c0 and c1 are the last characters of the message
+                        output.append(c0).append(c1);
+                        break;
+                    }
+
                     lastColor = "&r";
 
                     output.append(lastColor);
@@ -65,6 +70,11 @@ public class MessageUtils {
                 else if (c1 == 'x' && i + 13 < message.length()) {
                     lastColor = message.substring(i, i + 14);
 
+                    if (i + 14 == message.length()) {
+                        output.append(c0);
+                        break;
+                    }
+
                     output.append(lastColor);
 
                     i += 13;
@@ -72,8 +82,14 @@ public class MessageUtils {
                 }
 
 
-                // If this is a legacy COLOR code (not format), this (resets all previous values)
-                else if (colorCodes.contains(String.valueOf(c1)) && i + 1 < message.length()) {
+                // If this is a legacy COLOR code (not format), this (resets all previous values) <----------------
+                else if (colorCodes.contains(String.valueOf(c1))) {
+
+                    if (i + 2 == message.length()) { // if c0 and c1 are the last characters of the message
+                        output.append(c0);
+                        break;
+                    }
+
                     lastColor = "&" + c1;
                     output.append(lastColor);
 
@@ -82,7 +98,13 @@ public class MessageUtils {
                 }
 
                 // if this is a legacy FORMAT code (not color), this adds on to the previous color (if exists).
-                else if (formatCodes.contains(String.valueOf(c1)) &&  i + 1 < message.length()) {
+                else if (formatCodes.contains(String.valueOf(c1))) {
+
+                    if (i + 2 == message.length()) { // if c0 and c1 are the last characters of the message
+                        output.append(c0);
+                        break;
+                    }
+
                     lastColor = lastColor + "&" + c1;
                     output.append(lastColor);
 
@@ -92,6 +114,12 @@ public class MessageUtils {
 
                 // If the following value is none of these i.e -> "&w" (not a real color code), do not modify last color, add literals to output.
                 else {
+
+                    if (i + 2 == message.length()) { // if c0 and c1 are the last characters of the message
+                        output.append(c0);
+                        break;
+                    }
+
                     output.append(c0)
                             .append(c1); // char to String adapters are necessary or else the chars don't parse correctly
 
@@ -116,12 +144,14 @@ public class MessageUtils {
             else {
                 output.append(c0);
             }
-
         }
 
-        // Recover last character (because we use a loop that excludes it for safety)
-        if (!message.isEmpty())
+
+
+//        // Recover last character (because we use a loop that excludes it for safety)
+        if (!message.isEmpty()) {
             output.append(message.charAt(Math.max(message.length() - 1, 0)));
+        }
 
         return output.toString();
     }

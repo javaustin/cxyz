@@ -100,8 +100,8 @@ public class Warn implements CommandExecutor {
         String modUsername;
 
         if (!(sender instanceof Player)) {
-            modUUID = "Console";
-            modUsername = "Console";
+            modUUID = "console";
+            modUsername = "console";
         }
         else {
             Player modPlayer = (Player) sender;

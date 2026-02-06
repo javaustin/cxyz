@@ -81,10 +81,6 @@ public class Logger {
 
         channel.sendChannelMessage("{message}", commonMap);
 
-        if (channel.isConsoleEnabled()) {
-            MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), "{channel-prefix}{message}", commonMap);
-        }
-
 
         String url = channel.getWebhookURL();
 

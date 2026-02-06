@@ -54,11 +54,11 @@ public class Cosmetic {
         return type;
     }
 
-    public long getLevelRequirement() {
+    public long getRequiredLevel() {
         return levelRequirement;
     }
 
-    public PlayerRank getRankRequirement() {
+    public PlayerRank getRequiredRank() {
         return rankRequirement;
     }
 

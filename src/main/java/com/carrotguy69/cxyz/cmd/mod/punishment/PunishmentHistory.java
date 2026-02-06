@@ -42,7 +42,7 @@ public class PunishmentHistory implements CommandExecutor {
         }
 
         String username = sender.getName();
-        int page = 0;
+        int page = 1;
 
         if (args.length >= 1) {
              username = args[0];
@@ -51,16 +51,13 @@ public class PunishmentHistory implements CommandExecutor {
         if (args.length >= 2) {
             try {
                 page = Integer.parseInt(args[1]);
-
-                if (page >= 0) {
-                    page = 1;
-                }
             }
             catch (NumberFormatException e) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_NUMBER, Map.of("input", args[1]));
                 return true;
             }
         }
+
 
         viewHistory(sender, username, page);
 
@@ -94,12 +91,19 @@ public class PunishmentHistory implements CommandExecutor {
 
         PageGenerator generator = new PageGenerator(formatter.getEntries(), delimiter, 5);
 
-        unparsed = unparsed.replace("{punishments}", !punishments.isEmpty() ? generator.generatePage(page) : "None");
+        int min = 1;
         int max = generator.getMaxPages();
 
-        commonMap.put("page", Math.min(max, page));
-        commonMap.put("previous-page", Math.max(page - 1, 1));
-        commonMap.put("next-page", Math.min(page + 1, max));
+        if (page <= 0 || page > generator.getMaxPages()) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_PAGE, Map.of("min", min, "max", max));
+            return;
+        }
+
+        unparsed = unparsed.replace("{punishments}", !punishments.isEmpty() ? generator.generatePage(page) : "None");
+
+        commonMap.put("page", page);
+        commonMap.put("previous-page", page - 1);
+        commonMap.put("next-page", page + 1);
         commonMap.put("max-pages", max);
 
 

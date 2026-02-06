@@ -89,8 +89,8 @@ public class Unmute implements CommandExecutor {
                 punishment.setEditorMod(editorMod);
             }
             else {
-                punishment.setEditorModUUID("Console");
-                punishment.setEditorModUsername("Console");
+                punishment.setEditorModUUID("console");
+                punishment.setEditorModUsername("console");
             }
 
             punishment.edit(); // Syncs w/ API
