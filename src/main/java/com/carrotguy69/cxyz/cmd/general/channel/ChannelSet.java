@@ -81,14 +81,14 @@ public class ChannelSet implements CommandExecutor {
 
         BaseChannel ch = ChannelRegistry.getChannelByName(channel.getName());
 
+        if (ch == null) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_CHANNEL, Map.of("input", args[0]));
+            return true;
+        }
 
-        np.setChatChannel(channel);
-        np.sync();
 
-        commonMap.clear();
-        commonMap = MapFormatters.channelFormatter(channel);
+        ch.onSelect(np);
 
-        MessageUtils.sendParsedMessage(sender, MessageKey.CHAT_CHANNEL_SET, commonMap);
         return true;
     }
 

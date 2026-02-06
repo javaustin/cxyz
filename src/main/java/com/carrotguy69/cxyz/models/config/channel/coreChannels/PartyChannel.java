@@ -109,6 +109,7 @@ public class PartyChannel extends CoreChannel {
             MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.PARTY_ERROR_NOT_IN_PARTY, Map.of());
             return;
         }
+        Logger.debugParty("party found apparently: " + party);
 
         np.setChatChannel(this);
         np.sync();

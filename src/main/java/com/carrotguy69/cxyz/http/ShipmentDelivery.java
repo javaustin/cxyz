@@ -81,13 +81,25 @@ public class ShipmentDelivery {
             }
 
             for (NetworkPlayer np : wrapper.getNewData()) {
-                Player p = np.getPlayer();
 
                 // Modifies or adds new.
-                Logger.debugUser("[+] Added/Modified an entry to users. " + np.getUUID());
-                users.put(np.getUUID(), np);
+
+                Logger.debugUser("users(before completion): " + users);
+
+                if (users.get(np.getUUID()) != null) {
+                    Logger.debugUser("[~] Modified an entry to users. " + np);
+                    NetworkPlayer reference = NetworkPlayer.getPlayerByUUID(np.getUUID());
+
+                    NetworkPlayer.copyTo(np, reference);
+                }
+
+                else {
+                    Logger.debugUser("[+] Added an entry to users. " + np);
+                    users.put(np.getUUID(), np);
+                }
 
 
+                Player p = np.getPlayer();
                 if (p != null && p.isOnline() && !np.isOnline()) {
                     Logger.warning(String.format("This NetworkPlayer delivery seems to have outdated data. The Bukkit player is online but the NetworkPlayer is listed as not. NetworkPlayer: %s. Player: %s", np, p));
 

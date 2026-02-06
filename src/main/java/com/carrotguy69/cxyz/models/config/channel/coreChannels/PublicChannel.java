@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.models.config.channel.coreChannels;
 
-import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
@@ -15,7 +14,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.List;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.*;

@@ -15,9 +15,11 @@ import com.carrotguy69.cxyz.other.*;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.utils.JsonConverters;
 import com.carrotguy69.cxyz.other.utils.TimeUtils;
+import com.google.common.graph.Network;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -79,6 +81,26 @@ public class NetworkPlayer {
         ALLOWED,
         FRIENDS_ONLY,
         DISALLOWED
+    }
+
+    public static void copyTo(NetworkPlayer fromData, NetworkPlayer destinationReference) {
+        // Copies attributes from the provided NetworkPlayer to the provided destination
+
+        if (fromData.getClass() != destinationReference.getClass()) {
+            throw new IllegalArgumentException("Classes must be the same");
+        }
+
+        Field[] fields = fromData.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                field.set(destinationReference, field.get(fromData));
+            }
+            catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public NetworkPlayer createFromPlayer(Player p) {
@@ -153,7 +175,7 @@ public class NetworkPlayer {
                 ", messagePrivacy='" + getMessagePrivacy() + '\'' +
                 ", friendPrivacy='" + getFriendPrivacy() + '\'' +
                 ", partyPrivacy='" + getPartyPrivacy() + '\'' +
-                ", ranks='" + (ranks != null ? getRanks().size() : 0) +
+                ", ranks='" + (ranks != null ? ranks : "[]") +
                 ", ignoreList=" + (ignore_list != null ? getIgnoreList().stream().map(NetworkPlayer::getUsername).collect(Collectors.toList()) : "[]") +
                 ", friends=" + (friends != null ? getFriends().stream().map(NetworkPlayer::getUsername).collect(Collectors.toList())  : "[]") +
                 ", ownedCosmetics=" + (owned_cosmetics != null ? getOwnedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList())  : "[]") +

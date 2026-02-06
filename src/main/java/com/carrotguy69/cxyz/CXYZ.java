@@ -134,15 +134,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    [❌] ISSUES:
 
-    - we were able to sync this.player to the api properly but not to the actual reference. references are out of control?
-
-    ActiveCosmetic is used to apply any type of cosmetic to a player on the server. It accepts a cosmetic, a player, and a list of taskID's you can manage tasks with.
-    I had an issue when running /unequip example-tag, the active cosmetic would remove itself, but it remains applied to my NetworkPlayer chat-tag value.
-    I've since fixed this by calling this.player.sync(), which sends the updated data to the api, but now there seems to be a major mismatch between that blank chat-tag (meaning disabled),
-    and cosmetics that still think they are on the player (i can repeatedly call unequip and it would try to unequip each time even though no cosmetic of that id is registered with me)
-
-    The cause of these bugs is the API sync puts a new value to the map instead of modifying a single value. We will want to rewrite our NetworkPlayerDelivery system to set a single value instead of replacing the whole object. Then activeCosmetic references can exist without dying.
-
     - prevent forceColor from doing "&a" -> "&aa" (by restoring the last character)
 
     - why does "&d[phat]" have a formatter color code character before f() is applied?
