@@ -42,7 +42,6 @@ public class MessageChannel extends CoreChannel {
 
     @Override
     public void onChat(AsyncPlayerChatEvent e) {
-        Logger.debugMessage("called MessageChannel.onChat(...)");
 
         Player p = e.getPlayer();
 
@@ -130,7 +129,6 @@ public class MessageChannel extends CoreChannel {
 
     @Override
     public void onSelect(NetworkPlayer np) {
-        Logger.debugMessage("called MessageChannel.onSelect(...)");
 
         Message lastMessage = Message.getLastReplyableMessage(np.getUUID());
 

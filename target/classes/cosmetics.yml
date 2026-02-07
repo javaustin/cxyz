@@ -45,7 +45,7 @@ cosmetics:
     enabled: true
     price: 0
     level-requirement: 0
-    rank-requirement: default
+    rank-requirement: vip
 
   grapple-rod:
     display: "&eGrapple Rod "
@@ -54,12 +54,30 @@ cosmetics:
     enabled: true
     price: 0
     level-requirement: 0
-    rank-requirement: default
+    rank-requirement: mvp
 
-  love-movement-trail:
+  love-trail:
     display: "&x&F&B&0&0&6&2L&x&E&D&0&0&5&6o&x&D&E&0&0&4&Av&x&D&0&0&0&3&De &x&C&1&0&0&3&1T&x&B&3&0&0&2&5r&x&A&4&0&0&1&9a&x&9&6&0&0&0&Ci&x&8&7&0&0&0&0l "
     lore: "&cLive with love"
     type: MOVEMENT_TRAIL
+    enabled: true
+    price: 0
+    level-requirement: 0
+    rank-requirement: default
+
+  music-trail:
+    display: "&6Music trail"
+    lore: "&eUse the power of music to shoot your enemies"
+    type: PROJECTILE_TRAIL
+    enabled: true
+    price: 0
+    level-requirement: 0
+    rank-requirement: default
+
+  lightning:
+    display: "&e"
+    lore: "&eStrike down your opponents with the power of Zeus!"
+    type: KILL_EFFECT
     enabled: true
     price: 0
     level-requirement: 0

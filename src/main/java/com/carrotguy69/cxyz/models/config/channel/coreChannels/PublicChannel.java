@@ -36,7 +36,6 @@ public class PublicChannel extends CoreChannel {
 
     @Override
     public void onChat(AsyncPlayerChatEvent e) {
-        Logger.debugMessage("called PublicChannel.onChat(...)");
 
         Player p = e.getPlayer();
 
@@ -116,7 +115,6 @@ public class PublicChannel extends CoreChannel {
 
     @Override
     public void onSelect(NetworkPlayer np) {
-        Logger.debugMessage("called PublicChannel.onSelect(...)");
 
 
         np.setChatChannel(this);

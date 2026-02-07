@@ -1,12 +1,15 @@
 package com.carrotguy69.cxyz.messages;
 
+import com.carrotguy69.cxyz.cmd.admin.Debug;
 import com.carrotguy69.cxyz.messages.utils.SimpleTextComponent;
 import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Bukkit;
 
 import java.util.*;
 
@@ -25,8 +28,13 @@ public class MessageParser {
             this.index = index;
             this.description = description;
 
-            Logger.debugMessage(unparsed);
-            Logger.debugMessage(" ".repeat(index) + "^" + " " + String.format("at index=%d", index));
+            if (!unparsed.contains("\n")) {
+                Logger.info(unparsed);
+                Logger.info(" ".repeat(index) + "^" + " " + String.format("at index=%d", index));
+            }
+            else {
+                Logger.info("at index=" + index);
+            }
         }
 
         public MessageParseException(String description) {
@@ -257,11 +265,6 @@ public class MessageParser {
             components.add(new SimpleTextComponent(stringBuilder.toString(), List.of()));
         }
 
-        Logger.debugMessage("unparsed: " + unparsed.replace("\n", "\\n"));
-        Logger.debugMessage("formatMap(size): " + formatMap.size());
-        Logger.debugMessage("components: " + components.toString().replace("\n", "\\n"));
-
-
         return components;
     }
 
@@ -395,7 +398,6 @@ public class MessageParser {
                         ChatColor color;
 
                         try {
-                            Logger.debugMessage(hexBuilder.toString());
                             color = ChatColor.of("#" + hexBuilder);
 
                             if (color == null)
@@ -431,8 +433,6 @@ public class MessageParser {
 
             }
 
-            Logger.debugMessage("colorSTCMap: " + colorSTCMap);
-
             for (Map.Entry<SimpleTextComponent, ChatColor> entry : colorSTCMap.entrySet()) {
 
                 SimpleTextComponent simple = entry.getKey();
@@ -442,10 +442,6 @@ public class MessageParser {
                 ChatColor color = entry.getValue();
 
                 if (simple.getActions().isEmpty()) {
-
-                    Logger.debugMessage("content: " + content);
-                    Logger.debugMessage("formatPlaceholders(content): " + formatPlaceholders(content, formatMap));
-                    Logger.debugMessage("forceColor(formatPlaceholders(content)): " + forceColor(formatPlaceholders(content, formatMap)));
 
                     TextComponent component = new TextComponent(f(forceColor(content)));
                     component.setColor(color);
@@ -458,9 +454,6 @@ public class MessageParser {
                     String[] lines = content.split("\n");
 
                     for (String split : lines) {
-                        Logger.debugMessage("split(raw): " + split);
-                        Logger.debugMessage("split: " + forceColor(formatPlaceholders(split, formatMap)));
-
                         TextComponent component = new TextComponent(f(forceColor(split)));
 
                         for (SimpleTextComponent.Action action : simple.getActions()) {
@@ -480,6 +473,17 @@ public class MessageParser {
                     }
 
                 }
+            }
+
+            Logger.debugMessage("unparsed text: " + unparsed);
+            Logger.debugMessage("formatMap: " + new TreeMap<>(formatMap));
+            Logger.debugMessage("colors: " + colorSTCMap);
+
+            if (!ObjectUtils.containsIgnoreCase(enabledDebugs, Debug.DebugValue.MESSAGE_PARSER.name())) {
+                TextComponent debugComponent = new TextComponent("final textComponent: ");
+                debugComponent.addExtra(tc);
+
+                Bukkit.getConsoleSender().spigot().sendMessage(debugComponent);
             }
 
             return tc;

@@ -604,7 +604,7 @@ public class ShipmentDelivery {
 
 
                 // Modifies or adds new.
-                Logger.debugMessage("[+] Added/Modified an entry to messages. " + msg);
+                Logger.debugPlayerMessage("[+] Added/Modified an entry to messages. " + msg);
                 messageMap.put(msg.getRecipientUUID(), msg);
                 continue;
             }

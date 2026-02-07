@@ -40,7 +40,6 @@ public class PartyChannel extends CoreChannel {
 
     @Override
     public void onChat(AsyncPlayerChatEvent e) {
-        Logger.debugMessage("called PartyChannel.onChat(...)");
 
         Player p = e.getPlayer();
 
@@ -100,7 +99,6 @@ public class PartyChannel extends CoreChannel {
 
     @Override
     public void onSelect(NetworkPlayer np) {
-        Logger.debugMessage("called PartyChannel.onSelect(...)");
 
 
         Party party = Party.getPlayerParty(np.getUUID());

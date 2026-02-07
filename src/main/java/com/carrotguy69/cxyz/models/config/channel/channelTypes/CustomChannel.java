@@ -85,7 +85,6 @@ public class CustomChannel extends BaseChannel {
 
     @Override
     public void onChat(AsyncPlayerChatEvent e) {
-        Logger.debugMessage("called CustomChannel.onChat(...)");
 
         Player p = e.getPlayer();
 
@@ -146,7 +145,6 @@ public class CustomChannel extends BaseChannel {
 
     @Override
     public void onSelect(NetworkPlayer np) {
-        Logger.debugMessage("called CustomChannel.onSelect(...)");
 
 
         if (!np.canAccessChannel(this)) {

@@ -21,6 +21,8 @@ import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
@@ -33,11 +35,14 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.carrotguy69.cxyz.events.ClickEvent.onClick;
+import static com.carrotguy69.cxyz.events.DropEvent.onDrop;
 import static com.carrotguy69.cxyz.events.FishEvent.onFish;
 import static com.carrotguy69.cxyz.events.InteractEvent.onInteract;
 import static com.carrotguy69.cxyz.events.LeaveEvent.onLeave;
 import static com.carrotguy69.cxyz.events.ChatEvent.handleChat;
 import static com.carrotguy69.cxyz.events.JoinEvent.onJoin;
+import static com.carrotguy69.cxyz.events.ProjectileEvent.onProjectile;
 import static com.carrotguy69.cxyz.other.Startup.startEndpoints;
 import static com.carrotguy69.cxyz.other.Tasks.createAnnouncementTasks;
 
@@ -136,17 +141,11 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    [❌] ISSUES:
 
+   - get rid of the java.util.* stuff as professor says
+
     - the "best guess method" for punishment ids could be lots better
 
-    - cosmetic lore on gadgets and wearables might be stupid
-
-   - ✅ player should not be able to equip a rank plate of a rank they do not have. it can remain in their cosmetics but it should not be equippable
-
-    - ✅ prevent forceColor from doing "&a" -> "&aa" (by restoring the last character)
-
     - why does "&d[phat]" have a formatter color code character before f() is applied?
-
-    - ✅ party channel should not be selectable when the player is not in a party
 
     - fix nanoHTTP warnings because why the heck do they exist
 
@@ -154,25 +153,22 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         - should be: [text](ACTION:actionText)
         - but is: (text)[ACTION:actionText]
 
-    - ✅ page generator goofs
-
     - effective until "01/7/70 ??"
 
    - Punishment edit tab completer does not work
 
    - What the hell is wrong with my coins system, level and xp?
-   - The way the punishment message interacts with the staff channel is odd.
 
    - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
 
 
 
    [➕] ADD/IMPLEMENT:
+   - a way to register unused event listeners (for cosmetics) without cluttering this main file
    - make log-messages support hover and click events
    - define design rules for when things are stripped or not, i think the hard rule should be, if its stripped, it is named that in the mapformatter ("object-stripped")
    - can we rationally implement text hover text if it exists to allow for cosmetic lore. perhaps we can modify the message parser to ignore any actions with no text. then we can dynamically include lore
    - create cosmetic list command
-   - ✅ Now that we know what a transient field is, add it to classes (e.g., any class that stores a player Object, ActiveCosmetic's NetworkPlayer reference...)
    - The player might like to see their playtime update when calling /whois twice, instead of waiting for the long task.
    - Add chat tag display value that shows description.
    - A total duration value (effectiveUntil - issued) to put in map formatters and messages
@@ -181,11 +177,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Standardize and/or document permissions to access commands, channels...
    - When making permissions for commands, most of them should be enabled by default
    - A /color command that changes your name color (like in that one Skeppy video)
-   - ✅ Use the static getObjects() (where "Object" is any config model object), ONLY once during startup and then map it to a constant in the main. It should not be called every time.
    - Detailed logging on startup, and do warning + continue on error instead of throwing InvalidConfigException. No null values in objects allowed, enforce it!
    - Ensure /debug actually changes and saves config values
-   - ⚠️ A page generator class for long list commands. We will have a string list of entries, a max entries integer, a format for each page including the header and the footer,
-     and the class should be able to generate a list page given the page # and using the header, footer, and entries.
    - Auto cosmetic equip on join (if allowed), if not -> auto unequip
    - Defensive programming to defend against the evil SQL database, meaning: we need to enforce defaults whenever a player SQL entry gives us any invalid thing (rank, channel).
    - Throw a config exception in startup if core default channels are not assigned.
@@ -395,6 +388,21 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     @EventHandler
     public void onPlayerFish(PlayerFishEvent event) {
         onFish(event);
+    }
+
+    @EventHandler
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
+        onDrop(event);
+    }
+
+    @EventHandler
+    public void onInventoryClickEvent(InventoryClickEvent event) {
+        onClick(event);
+    }
+
+    @EventHandler
+    public void onProjectileThrow(ProjectileLaunchEvent event) {
+        onProjectile(event);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.other;
 
+import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.models.config.GameServer;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
@@ -100,7 +101,12 @@ public class Constants {
 
         enabledCosmeticTypes = cosmeticsYML.getStringList("enabled-types").stream().map(Cosmetic.CosmeticType::valueOf).collect(Collectors.toList());
         cosmetics = Cosmetic.getCosmetics();
-        ActiveCosmetic.loadActiveCosmetics(); // Loading so Cosmetics can use this supplementary class.
+        try {
+            ActiveCosmetic.loadActiveCosmetics();
+        } // Loading so Cosmetics can use this supplementary class.
+        catch (InvalidConfigException ex) {
+            Logger.logStackTrace(ex);
+        }
 
         channels.addAll(CustomChannel.getCustomChannels());
         channels.addAll(CoreChannel.getCoreChannels());

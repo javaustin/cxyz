@@ -62,12 +62,8 @@ public class PageGenerator {
 
         int size = entries.size();
 
-        int availablePages = getMaxPages();
-
         int startIndex = (pageNumber - 1) * maxEntriesPerPage;
         int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
-
-        Logger.debugMessage(String.format("Generating entries on page %d with indexes [%d, %d] of %d total entries and %d total pages.", pageNumber, startIndex, endIndex, size, availablePages));
 
         return String.join(delimiter, entries.subList(startIndex, endIndex + 1));
     }

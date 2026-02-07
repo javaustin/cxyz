@@ -32,9 +32,12 @@ com\carrotguy69\cxyz\cmd\general\message\MessageSend.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic.class
 com\carrotguy69\cxyz\cmd\admin\channel\ChannelUnlock.class
 com\carrotguy69\cxyz\cmd\admin\coins\_CoinsExecutor.class
+com\carrotguy69\cxyz\events\ClickEvent.class
 com\carrotguy69\cxyz\cmd\general\Info.class
 com\carrotguy69\cxyz\cmd\admin\Debug.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic$1.class
+com\carrotguy69\cxyz\events\DropEvent.class
+com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader.class
 com\carrotguy69\cxyz\other\utils\JsonConverters$5.class
 com\carrotguy69\cxyz\models\config\channel\channelTypes\CustomChannel.class
 com\carrotguy69\cxyz\other\Tasks$2.class
@@ -65,7 +68,6 @@ com\carrotguy69\cxyz\events\LeaveEvent$1.class
 com\carrotguy69\cxyz\cmd\general\party\PartyCreate.class
 com\carrotguy69\cxyz\tabCompleters\Privacy.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PartyShipmentWrapper.class
-com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic$2.class
 com\carrotguy69\cxyz\cmd\general\Equip.class
 com\carrotguy69\cxyz\messages\utils\SimpleTextComponent.class
 com\carrotguy69\cxyz\messages\MessageParser$MessageParseException.class
@@ -101,9 +103,9 @@ com\carrotguy69\cxyz\cmd\mod\punishment\PunishmentHistory.class
 com\carrotguy69\cxyz\other\utils\TimeUtils.class
 com\carrotguy69\cxyz\cmd\mod\punishment\PunishmentEdit.class
 com\carrotguy69\cxyz\cmd\general\party\PartyPrivate.class
+com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader$2.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer$PartyInvitePrivacy.class
 com\carrotguy69\cxyz\models\db\Punishment$PunishmentType.class
-com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic$3.class
 com\carrotguy69\cxyz\models\config\PlayerRank.class
 com\carrotguy69\cxyz\tabCompleters\ChatChannel.class
 com\carrotguy69\cxyz\cmd\admin\coins\CoinsRemove.class
@@ -176,6 +178,7 @@ com\carrotguy69\cxyz\cmd\general\ChatColor$Color.class
 com\carrotguy69\cxyz\tabCompleters\AnyPlayer.class
 com\carrotguy69\cxyz\cmd\general\party\PartyWarp$1.class
 com\carrotguy69\cxyz\cmd\general\channel\ChannelUnignore.class
+com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader$3.class
 com\carrotguy69\cxyz\cmd\admin\Test.class
 com\carrotguy69\cxyz\tabCompleters\Unmute.class
 com\carrotguy69\cxyz\cmd\general\party\PartyJoin.class
@@ -202,6 +205,7 @@ com\carrotguy69\cxyz\tabCompleters\Ban.class
 com\carrotguy69\cxyz\cmd\mod\Mute.class
 com\carrotguy69\cxyz\other\utils\CommandRestrictor$CommandRestriction.class
 com\carrotguy69\cxyz\other\utils\ObjectUtils.class
+com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader$1.class
 com\carrotguy69\cxyz\cmd\admin\Print.class
 com\carrotguy69\cxyz\cmd\admin\Port.class
 com\carrotguy69\cxyz\cmd\admin\level\LevelAdd.class
