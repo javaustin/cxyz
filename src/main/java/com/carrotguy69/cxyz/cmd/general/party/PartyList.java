@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static com.carrotguy69.cxyz.CXYZ.msgYML;
+
 public class PartyList implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -44,12 +46,21 @@ public class PartyList implements CommandExecutor {
 
         NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
 
-        list(np);
+        int page = 1;
+        try {
+            if (args.length > 0) {
+                page = Integer.parseInt(args[0]);
+            }
+        }
+        catch (NumberFormatException ignored) {}
+
+        list(np, page);
 
         return true;
     }
 
-    public void list(NetworkPlayer np) {
+
+    public void list(NetworkPlayer np, int page) {
         Player p = np.getPlayer();
 
         Party party = Party.getPlayerParty(np.getUUID());
@@ -71,14 +82,29 @@ public class PartyList implements CommandExecutor {
         String format = MessageGrabber.grab(MessageKey.PARTY_LIST_PLAYER_FORMAT);
         String delimiter = MessageGrabber.grab(MessageKey.PARTY_LIST_PLAYER_SEPARATOR);
 
+        int maxEntriesPerPage = msgYML.getInt(MessageKey.PARTY_LIST_MAX_ENTRIES.getPath(), -1);
 
-        MapFormatters.ListFormatter formatter =  MapFormatters.playerListFormatter(effectivePlayers, format, delimiter);
+
+        MapFormatters.ListFormatter formatter =  MapFormatters.playerListFormatter(effectivePlayers, format, delimiter, maxEntriesPerPage, page);
         commonMap.putAll(formatter.getFormatMap());
 
 
         String unparsed = MessageGrabber.grab(MessageKey.PARTY_LIST);
 
-        unparsed = unparsed.replace("{players}", !effectivePlayers.isEmpty() ? formatter.getText() : "None"); // formatter.getText() is the formatter built list of players with the given player format and player delimiter.
+        int min = 1;
+        int max = formatter.getMaxPages();
+
+        if (page < 1 || page > max) {
+            MessageUtils.sendParsedMessage(p, MessageKey.INVALID_PAGE, Map.of("min", min, "max", max, "page", page));
+            return;
+        }
+
+        unparsed = unparsed.replace("{players}", !formatter.getEntries().isEmpty() ? formatter.generatePage(page) : "None");
+
+        commonMap.put("page", page);
+        commonMap.put("previous-page", page - 1);
+        commonMap.put("next-page", page + 1);
+        commonMap.put("max-pages", max);
 
         MessageUtils.sendParsedMessage(p, unparsed, commonMap);
         return;

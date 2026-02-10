@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.messages.utils;
 
-import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
@@ -8,6 +7,7 @@ import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.db.Punishment;
 
+import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import com.carrotguy69.cxyz.other.utils.TimeUtils;
 import org.bukkit.ChatColor;
@@ -27,12 +27,16 @@ public class MapFormatters {
         private final Map<String, Object> map;
         private final List<String> entries;
         private final String delimiter;
+        private final int maxEntriesPerPage;
+        private final int pageNumber;
 
 
-        public ListFormatter(List<String> entries, String delimiter, Map<String, Object> map) {
+        public ListFormatter(List<String> entries, String delimiter, Map<String, Object> map, int maxEntriesPerPage, int pageNumber) {
             this.entries = entries;
             this.delimiter = delimiter;
             this.map = map;
+            this.maxEntriesPerPage = maxEntriesPerPage <= 0 ? 100 : maxEntriesPerPage;
+            this.pageNumber = pageNumber;
         }
 
         public Map<String, Object> getFormatMap() {
@@ -51,24 +55,81 @@ public class MapFormatters {
             return String.join(delimiter, entries);
         }
 
+        public int getMaxPages() {
+            return Math.max(1, (int) Math.ceil(entries.size() / (double) maxEntriesPerPage));
+        }
+
+
         @Override
         public String toString() {
-            return String.format("ListFormatter{map=%s, text=%s}", map, getText());
+            return String.format("ListFormatter{map=%s, text=%s, maxEntriesPerPage=%d}", map, getText(), maxEntriesPerPage);
         }
 
         public String toCompactString() {
-            return String.format("ListFormatter{map(size)=%d, text=%s}", map.size(), getText());
+            return String.format("ListFormatter{map(size)=%d, text=%s, maxEntriesPerPage=%d}", map.size(), getText(), maxEntriesPerPage);
         }
+
+        public String generatePage(int pageNumber) {
+            /*
+
+            [!] Using 1-based indexing instead of 0-based (page numbers start at 1 instead of 0)
+
+            ex:
+            let n = 21 (total entries)
+            let m = 5 (max entries per page)
+            let p = specified page number
+
+            so:
+            1 -> [0, 4]
+            2 -> [5, 9]
+            3 -> [10, 14]
+            4 -> [15, 19]
+            5 -> [20, 20] (1 entry leftover)
+
+            for each page:
+                start: (p - 1) * m
+                end: min((p * m) - 1, n -1)
+
+            available pages: ceil(double n / double m) -> ceil(21 / 5) -> ceil(4.1) -> 5
+            full page available if: available pages > p
+            half page available if: available pages == p
+            no page if: available pages < p
+
+            */
+
+            int size = entries.size();
+
+            int startIndex = (pageNumber - 1) * maxEntriesPerPage;
+            int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
+
+            Logger.debugMessage("entries=" + entries);
+            Logger.debugMessage("startIndex=" + startIndex);
+            Logger.debugMessage("endIndex=" + endIndex);
+
+            String result = String.join(delimiter, entries.subList(startIndex, endIndex + 1));
+
+            Logger.debugMessage("subList=" + entries.subList(startIndex, endIndex + 1));
+            Logger.debugMessage("result=" + result);
+
+            return result;
+        }
+
     }
 
 
-    public static ListFormatter playerListFormatter(List<NetworkPlayer> players, String format, String delimiter) {
+
+    public static ListFormatter playerListFormatter(List<NetworkPlayer> players, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
+
+        int size = players.size();
+
+        int startIndex = (pageNumber - 1) * maxEntriesPerPage;
+        int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
 
         List<String> strings = new ArrayList<>(); // Each string contains the specified format with keys replaced with enumerated ones: "{player-color}{player}" -> "{player-color-0}{rank-0}"
 
         Map<String, Object> commonMap = new HashMap<>(); // Will represent all the placeholder keys and values we will fulfill at parse time.
 
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = startIndex; i < endIndex; i++) {
             String string = format; // Individual NetworkPlayer string
             NetworkPlayer np = players.get(i);
 
@@ -81,16 +142,21 @@ public class MapFormatters {
         }
 
 
-        return new ListFormatter(strings, delimiter, commonMap);
+        return new ListFormatter(strings, delimiter, commonMap, maxEntriesPerPage, pageNumber);
     }
 
-    public static ListFormatter rankListFormatter(List<PlayerRank> ranks, String format, String delimiter) {
+    public static ListFormatter rankListFormatter(List<PlayerRank> ranks, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
+
+        int size = ranks.size();
+
+        int startIndex = (pageNumber - 1) * maxEntriesPerPage;
+        int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
 
         List<String> strings = new ArrayList<>();
 
         Map<String, Object> commonMap = new HashMap<>();
 
-        for (int i = 0; i < ranks.size(); i++) {
+        for (int i = startIndex; i < endIndex; i++) {
             String string = format;
             PlayerRank rank = ranks.get(i);
 
@@ -103,16 +169,21 @@ public class MapFormatters {
         }
 
 
-        return new ListFormatter(strings, delimiter, commonMap);
+        return new ListFormatter(strings, delimiter, commonMap, maxEntriesPerPage, pageNumber);
     }
 
-    public static ListFormatter punishmentListFormatter(CommandSender sender, List<Punishment> punishments, String format, String delimiter) {
+    public static ListFormatter punishmentListFormatter(CommandSender sender, List<Punishment> punishments, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
+
+        int size = ranks.size();
+
+        int startIndex = (pageNumber - 1) * maxEntriesPerPage;
+        int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
 
         List<String> strings = new ArrayList<>();
 
         Map<String, Object> commonMap = new HashMap<>();
 
-        for (int i = 0; i < punishments.size(); i++) {
+        for (int i = startIndex; i < endIndex; i++) {
             String string = format;
             Punishment punishment = punishments.get(i);
 
@@ -125,16 +196,21 @@ public class MapFormatters {
         }
 
 
-        return new ListFormatter(strings, delimiter, commonMap);
+        return new ListFormatter(strings, delimiter, commonMap, maxEntriesPerPage, pageNumber);
     }
 
-    public static ListFormatter channelListFormatter(List<BaseChannel> channels, String format, String delimiter) {
+    public static ListFormatter channelListFormatter(List<BaseChannel> channels, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
+
+        int size = ranks.size();
+
+        int startIndex = (pageNumber - 1) * maxEntriesPerPage;
+        int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
 
         List<String> strings = new ArrayList<>();
 
         Map<String, Object> commonMap = new HashMap<>();
 
-        for (int i = 0; i < channels.size(); i++) {
+        for (int i = startIndex; i < endIndex; i++) {
             String string = format;
             BaseChannel channel = channels.get(i);
 
@@ -147,10 +223,10 @@ public class MapFormatters {
         }
 
 
-        return new ListFormatter(strings, delimiter, commonMap);
+        return new ListFormatter(strings, delimiter, commonMap, maxEntriesPerPage, pageNumber);
     }
 
-    public static ListFormatter channelStringListFormatter(List<String> channels, String format, String delimiter) {
+    public static ListFormatter channelStringListFormatter(List<String> channels, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
         List<BaseChannel> chs = new ArrayList<>();
 
         for (String channelName : channels) {
@@ -161,7 +237,7 @@ public class MapFormatters {
             }
         }
 
-        return channelListFormatter(chs, format, delimiter);
+        return channelListFormatter(chs, format, delimiter, maxEntriesPerPage, pageNumber);
     }
 
     public static Map<String, Object> consoleFormatter() {
@@ -508,7 +584,7 @@ public class MapFormatters {
         commonMap.put("max-player-count", partyMaxSize);
         // {players} is fulfilled in the code of the /party list command, not here.
 
-        commonMap.put("type", party.isPublic() ? MessageGrabber.grab(MessageKey.PARTY_LIST_TYPE_PUBLIC) : MessageGrabber.grab(MessageKey.PARTY_LIST_TYPE_PRIVATE));
+        commonMap.put("type", party.isPublic() ? "Public" : "Private");
 
         return commonMap;
     }

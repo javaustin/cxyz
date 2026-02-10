@@ -24,7 +24,8 @@ public class Debug implements CommandExecutor {
         USER,
         PARTY,
         PLAYER_MESSAGE,
-        FRIEND_REQUEST
+        FRIEND_REQUEST,
+        COSMETIC
     }
 
     @Override

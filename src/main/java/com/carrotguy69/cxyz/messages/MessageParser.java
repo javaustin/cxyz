@@ -479,7 +479,7 @@ public class MessageParser {
             Logger.debugMessage("formatMap: " + new TreeMap<>(formatMap));
             Logger.debugMessage("colors: " + colorSTCMap);
 
-            if (!ObjectUtils.containsIgnoreCase(enabledDebugs, Debug.DebugValue.MESSAGE_PARSER.name())) {
+            if (ObjectUtils.containsIgnoreCase(enabledDebugs, Debug.DebugValue.MESSAGE_PARSER.name())) {
                 TextComponent debugComponent = new TextComponent("final textComponent: ");
                 debugComponent.addExtra(tc);
 

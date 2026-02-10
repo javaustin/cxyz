@@ -1,6 +1,7 @@
 package com.carrotguy69.cxyz.other;
 
 import com.carrotguy69.cxyz.cmd.admin.Debug;
+import com.carrotguy69.cxyz.cmd.general.privacy.ignore._IgnoreExecutor;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.cmd.admin.*;
@@ -16,11 +17,10 @@ import com.carrotguy69.cxyz.cmd.admin.xp._XPExecutor;
 import com.carrotguy69.cxyz.cmd.general.*;
 import com.carrotguy69.cxyz.cmd.general.Buy;
 import com.carrotguy69.cxyz.cmd.general.ChatColor;
-import com.carrotguy69.cxyz.cmd.general.Ignore;
 import com.carrotguy69.cxyz.cmd.general.Nickname;
 import com.carrotguy69.cxyz.cmd.general.Timezone;
 import com.carrotguy69.cxyz.cmd.general.Unequip;
-import com.carrotguy69.cxyz.cmd.general.Unignore;
+import com.carrotguy69.cxyz.cmd.general.privacy.ignore.Unignore;
 import com.carrotguy69.cxyz.cmd.general.channel._ChannelExecutor;
 import com.carrotguy69.cxyz.cmd.general.friend._FriendExecutor;
 import com.carrotguy69.cxyz.cmd.general.message.MessageReply;
@@ -151,7 +151,7 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("friendprivacy")).setExecutor(new FriendPrivacy());
             Objects.requireNonNull(plugin.getCommand("friendprivacy")).setTabCompleter(new Privacy());
 
-            Objects.requireNonNull(plugin.getCommand("ignore")).setExecutor(new Ignore());
+            Objects.requireNonNull(plugin.getCommand("ignore")).setExecutor(new _IgnoreExecutor());
             Objects.requireNonNull(plugin.getCommand("ignore")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Ignore());
             Objects.requireNonNull(plugin.getCommand("unignore")).setExecutor(new Unignore());
             Objects.requireNonNull(plugin.getCommand("unignore")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unignore());

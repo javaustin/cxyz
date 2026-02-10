@@ -48,7 +48,7 @@ public class ChatChannel implements TabCompleter {
             }
         }
 
-        List<String> subcommands = new ArrayList<>(List.of("set", "ignore", "unignore"));
+        List<String> subcommands = new ArrayList<>(List.of("set", "ignore", "unignore", "ignorelist"));
 
         if (args.length == 0) {
             subcommands.sort(String.CASE_INSENSITIVE_ORDER);

@@ -1,36 +1,37 @@
-package com.carrotguy69.cxyz.cmd.general.friend;
+package com.carrotguy69.cxyz.cmd.general.privacy.ignore;
 
-import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
-import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.msgYML;
 
-public class FriendList implements CommandExecutor {
+public class IgnoreList implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
         /*
         SYNTAX:
-            /friend list [page]
+            /ignorelist [page]
+            /ignorelist 1
         */
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
         if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
 
-        String node = "cxyz.general.friend.list";
-
+        String node = "cxyz.general.ignore.list";
         if (!sender.hasPermission(node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
@@ -42,8 +43,7 @@ public class FriendList implements CommandExecutor {
         }
 
         Player p = (Player) sender;
-
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer sp = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
 
         int page = 1;
         try {
@@ -53,32 +53,29 @@ public class FriendList implements CommandExecutor {
         }
         catch (NumberFormatException ignored) {}
 
-
-        list(sender, np, page);
+        ignoreList(sender, sp, page);
 
         return true;
     }
 
-    public void list(CommandSender sender, NetworkPlayer np, int page) {
-        List<NetworkPlayer> players = np.getFriends();
-        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
+    public static void ignoreList(CommandSender sender, NetworkPlayer sp, int page) {
+        List<NetworkPlayer> ignored = sp.getIgnoreList();
+        Map<String, Object> commonMap = MapFormatters.playerFormatter(sp);
 
-        if (players.isEmpty()) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.FRIEND_LIST_NONE, commonMap);
+        if (ignored.isEmpty()) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.IGNORE_LIST_NONE, commonMap);
             return;
         }
 
+        String format = MessageGrabber.grab(MessageKey.IGNORE_LIST_FORMAT);
+        String delimiter = MessageGrabber.grab(MessageKey.IGNORE_LIST_SEPARATOR);
 
-        String format = MessageGrabber.grab(MessageKey.FRIEND_LIST_PLAYER_FORMAT);
-        String delimiter = MessageGrabber.grab(MessageKey.FRIEND_LIST_PLAYER_SEPARATOR);
+        int maxEntriesPerPage = msgYML.getInt(MessageKey.IGNORE_LIST_MAX_ENTRIES.getPath(), -1);
 
-
-        int maxEntriesPerPage = msgYML.getInt(MessageKey.FRIEND_LIST_MAX_ENTRIES.getPath(), -1);
-
-        MapFormatters.ListFormatter formatter = MapFormatters.playerListFormatter(players, format, delimiter, maxEntriesPerPage, page);
+        MapFormatters.ListFormatter formatter = MapFormatters.playerListFormatter(ignored, format, delimiter, maxEntriesPerPage, page);
         commonMap.putAll(formatter.getFormatMap());
 
-        String unparsed = MessageGrabber.grab(MessageKey.FRIEND_LIST);
+        String unparsed = MessageGrabber.grab(MessageKey.IGNORE_LIST);
 
         int min = 1;
         int max = formatter.getMaxPages();
@@ -88,9 +85,7 @@ public class FriendList implements CommandExecutor {
             return;
         }
 
-        unparsed = unparsed.replace("{friends}", !formatter.getEntries().isEmpty() ? formatter.generatePage(page) : "None");
-        unparsed = unparsed.replace("{players}", !formatter.getEntries().isEmpty() ? formatter.generatePage(page) : "None");
-        unparsed = unparsed.replace("{player-count}", String.valueOf(players.size()));
+        unparsed = unparsed.replace("{ignored-players}", !formatter.getEntries().isEmpty() ? formatter.generatePage(page) : "None");
 
         commonMap.put("page", page);
         commonMap.put("previous-page", page - 1);
@@ -99,5 +94,4 @@ public class FriendList implements CommandExecutor {
 
         MessageUtils.sendParsedMessage(sender, unparsed, commonMap);
     }
-
 }

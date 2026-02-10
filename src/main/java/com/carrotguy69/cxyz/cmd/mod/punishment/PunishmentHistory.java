@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.cmd.mod.punishment;
 
-import com.carrotguy69.cxyz.messages.utils.PageGenerator;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
@@ -15,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+
+import static com.carrotguy69.cxyz.CXYZ.msgYML;
 
 public class PunishmentHistory implements CommandExecutor {
 
@@ -84,22 +85,22 @@ public class PunishmentHistory implements CommandExecutor {
             return;
         }
 
-        MapFormatters.ListFormatter formatter = MapFormatters.punishmentListFormatter(sender, punishments, format, delimiter);
+        int maxEntriesPerPage = msgYML.getInt(MessageKey.PUNISHMENT_HISTORY_MAX_ENTRIES.getPath(), -1);
+
+        MapFormatters.ListFormatter formatter = MapFormatters.punishmentListFormatter(sender, punishments, format, delimiter, maxEntriesPerPage, page);
         commonMap.putAll(formatter.getFormatMap());
 
         String unparsed = MessageGrabber.grab(MessageKey.PUNISHMENT_HISTORY_LIST);
 
-        PageGenerator generator = new PageGenerator(formatter.getEntries(), delimiter, 5);
-
         int min = 1;
-        int max = generator.getMaxPages();
+        int max = formatter.getMaxPages();
 
-        if (page <= 0 || page > generator.getMaxPages()) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_PAGE, Map.of("min", min, "max", max));
+        if (page <= 0 || page > max) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_PAGE, Map.of("min", min, "max", max, "page", page));
             return;
         }
 
-        unparsed = unparsed.replace("{punishments}", !punishments.isEmpty() ? generator.generatePage(page) : "None");
+        unparsed = unparsed.replace("{punishments}", !formatter.getEntries().isEmpty() ? formatter.generatePage(page) : "None");
 
         commonMap.put("page", page);
         commonMap.put("previous-page", page - 1);

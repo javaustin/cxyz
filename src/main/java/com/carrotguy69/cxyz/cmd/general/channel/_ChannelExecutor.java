@@ -19,7 +19,7 @@ public class _ChannelExecutor implements CommandExecutor {
 
         /*
         SYNTAX:
-            /channel <set | ignore | unignore> <channel>
+            /channel <set | ignore | unignore | ignorelist> <channel>
             /channel <channel>
             /channel ignore public
             /channel unignore parties
@@ -45,6 +45,10 @@ public class _ChannelExecutor implements CommandExecutor {
         switch (subcommand) {
             case "ignore":
                 new ChannelIgnore().onCommand(sender, command, s, slice(args, 1));
+                break;
+
+            case "ignorelist":
+                new ChannelIgnoreList().onCommand(sender, command, s, slice(args, 1));
                 break;
 
             case "unignore":

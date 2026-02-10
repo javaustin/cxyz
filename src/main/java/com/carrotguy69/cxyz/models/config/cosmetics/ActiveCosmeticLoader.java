@@ -3,9 +3,8 @@ package com.carrotguy69.cxyz.models.config.cosmetics;
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.Logger;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import com.carrotguy69.cxyz.other.utils.NotePitch;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -351,32 +350,56 @@ public class ActiveCosmeticLoader {
         });
 
         musicTrail.on(ProjectileLaunchEvent.class, ((event, ac) -> {
+
+            Logger.debugCosmetic("musicTrail.(ProjectileLaunchEvent.class)");
+
             Projectile projectile = event.getEntity();
 
             ProjectileSource source = projectile.getShooter();
 
-            if (!(source instanceof Player))
+            if (!(source instanceof Player)) {
+                Logger.debugCosmetic("not instance of player");
                 return;
+            }
 
             Player launcher = (Player) source;
 
-            if (launcher.getUniqueId() != ac.getNetworkPlayer().getUUID())
+            if (!launcher.getUniqueId().equals(ac.getNetworkPlayer().getUUID())) {
+                Logger.debugCosmetic(launcher.getUniqueId() + "!=" + ac.getNetworkPlayer().getUUID());
                 return;
+            }
 
-
+            NotePitch[] pitches = {NotePitch.F, NotePitch.A, NotePitch.C, NotePitch.E};
+            final int[] colors = {7, 4, 2, 10};
+            final int[] counter = {0};
 
             BukkitTask task = new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (this.isCancelled() || projectile.getVelocity().isZero()) {
+                    if (this.isCancelled() || projectile.getVelocity().isZero() || projectile.isDead()) {
+                        Logger.debugCosmetic("cancelled");
                         this.cancel();
                         return;
                     }
 
-                    projectile.getWorld().spawnParticle(Particle.NOTE, projectile.getLocation().add(random.nextDouble(-0.2, 0.2), random.nextDouble(-0.2, 0.2), random.nextDouble(-0.2, 0.2)), 1);
+                    Logger.debugCosmetic(projectile.toString());
+
+                    if (counter[0] > 3) {
+                        counter[0] = 0;
+                    }
+
+                    Location location = projectile.getLocation();
+                    float pitch = pitches[counter[0]].pitch;
+                    int color = colors[counter[0]];
+
+                    Logger.debugCosmetic("spawned at " + location + String.format(" with pitch=%f [i=%d], color=%d [i=%d]", pitch, counter[0], color, counter[0]));
+                    projectile.getWorld().playSound(location, Sound.BLOCK_NOTE_BLOCK_HARP, 0.5F, pitch);
+                    projectile.getWorld().spawnParticle(Particle.NOTE, location, 1);
+
+                    counter[0]++;
 
                 }
-            }.runTaskTimer(plugin, 0, 4);
+            }.runTaskTimer(plugin, 0L, 1L);
 
             ac.addTask(task);
             taskIDs.add(task.getTaskId());

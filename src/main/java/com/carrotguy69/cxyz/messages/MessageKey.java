@@ -88,10 +88,11 @@ public enum MessageKey {
     CHAT_CHANNEL_UNLOCKED("commands.chat-channel.unlocked"),
     CHAT_CHANNEL_ALREADY_LOCKED("commands.chat-channel.already-locked"),
     CHAT_CHANNEL_ALREADY_UNLOCKED("commands.chat-channel.already-unlocked"),
-    CHAT_CHANNEL_LIST_IGNORED("commands.chat-channel.list.muted"),
-    CHAT_CHANNEL_LIST_IGNORED_NONE("commands.chat-channel.list.none"),
-    CHAT_CHANNEL_LIST_CHANNEL_FORMAT("commands.chat-channel.list.channel-format"),
-    CHAT_CHANNEL_LIST_CHANNEL_SEPARATOR("commands.chat-channel.list.channel-separator"),
+    CHAT_CHANNEL_LIST_IGNORED("commands.chat-channel.ignore-list.message"),
+    CHAT_CHANNEL_LIST_IGNORED_NONE("commands.chat-channel.ignore-list.blank"),
+    CHAT_CHANNEL_LIST_CHANNEL_FORMAT("commands.chat-channel.ignore-list.entry-format"),
+    CHAT_CHANNEL_LIST_CHANNEL_SEPARATOR("commands.chat-channel.ignore-list.separator"),
+    CHAT_CHANNEL_LIST_CHANNEL_MAX_ENTRIES("commands.chat-channel.ignore-list.max-entries-per-page"),
 
     // =========================
     // Commands - Chat Color
@@ -151,10 +152,11 @@ public enum MessageKey {
     FRIEND_REMOVED("commands.friend.removed"),
     FRIEND_REMOVED_RECEIVED("commands.friend.removed-received"),
 
-    FRIEND_LIST("commands.friend.list"),
-    FRIEND_LIST_NONE("commands.friend.list-none"),
-    FRIEND_LIST_PLAYER_FORMAT("commands.friend.list-player-format"),
-    FRIEND_LIST_PLAYER_SEPARATOR("commands.friend.list-player-separator"),
+    FRIEND_LIST("commands.friend.friend-list.message"),
+    FRIEND_LIST_NONE("commands.friend.friend-list.blank"),
+    FRIEND_LIST_PLAYER_FORMAT("commands.friend.friend-list.entry-format"),
+    FRIEND_LIST_PLAYER_SEPARATOR("commands.friend.friend-list.separator"),
+    FRIEND_LIST_MAX_ENTRIES("commands.friend.friend-list.max-entries-per-page"),
 
     // =========================
     // Commands - Info
@@ -171,10 +173,11 @@ public enum MessageKey {
     ALREADY_IGNORED_PLAYER("commands.privacy.already-ignored-player"),
     NOT_IGNORED_PLAYER("commands.privacy.not-ignored-player"),
 
-    IGNORE_LIST("commands.privacy.ignore-list"),
-    IGNORE_LIST_NONE("commands.privacy.ignore-list-none"),
-    IGNORE_LIST_FORMAT("commands.privacy.ignore-list-format"),
-    IGNORE_LIST_SEPARATOR("commands.privacy.ignore-list-separator"),
+    IGNORE_LIST("commands.privacy.ignore-list.message"),
+    IGNORE_LIST_NONE("commands.privacy.ignore-list.blank"),
+    IGNORE_LIST_FORMAT("commands.privacy.ignore-list.entry-format"),
+    IGNORE_LIST_SEPARATOR("commands.privacy.ignore-list.separator"),
+    IGNORE_LIST_MAX_ENTRIES("commands.privacy.ignore-list.max-entries-per-page"),
 
 
     // =========================
@@ -231,12 +234,10 @@ public enum MessageKey {
     PARTY_PLAYER_RECONNECT("commands.party.player-reconnect"),
     PARTY_FULL("commands.party.party-full"),
     PARTY_FULL_ANNOUNCEMENT("commands.party.party-full-announcement"),
-    PARTY_LIST("commands.party.list.format"),
-    PARTY_LIST_PLAYER_FORMAT("commands.party.list.player-format"),
-    PARTY_LIST_PLAYER_SEPARATOR("commands.party.list.player-separator"),
-    PARTY_LIST_TYPE_PUBLIC("commands.party.list.type-public"),
-    PARTY_LIST_TYPE_PRIVATE("commands.party.list.type-private"),
-    PARTY_LIST_NO_PLAYERS("commands.party.list.no-players"),
+    PARTY_LIST("commands.party.party-list.message"),
+    PARTY_LIST_PLAYER_FORMAT("commands.party.party-list.entry-format"),
+    PARTY_LIST_PLAYER_SEPARATOR("commands.party.party-list.separator"),
+    PARTY_LIST_MAX_ENTRIES("commands.party.party-list.max-entries-per-page"),
     PARTY_JOIN("commands.party.join"),
     PARTY_JOIN_ANNOUNCEMENT("commands.party.join-announcement"),
     PARTY_LEFT("commands.party.left"),
@@ -328,10 +329,11 @@ public enum MessageKey {
     PUNISHMENT_CLEAR("commands.punishment.clear"),
     PUNISHMENT_INFO("commands.punishment.info"),
 
-    PUNISHMENT_HISTORY_LIST("commands.punishment.history.list"),
-    PUNISHMENT_HISTORY_LIST_NONE("commands.punishment.history.none"),
-    PUNISHMENT_HISTORY_FORMAT("commands.punishment.history.format"),
-    PUNISHMENT_HISTORY_SEPARATOR("commands.punishment.history.separator"),
+    PUNISHMENT_HISTORY_LIST("commands.punishment.history-list.message"),
+    PUNISHMENT_HISTORY_LIST_NONE("commands.punishment.history-list.blank"),
+    PUNISHMENT_HISTORY_FORMAT("commands.punishment.history-list.entry-format"),
+    PUNISHMENT_HISTORY_SEPARATOR("commands.punishment.history-list.separator"),
+    PUNISHMENT_HISTORY_MAX_ENTRIES("commands.punishment.history-list.separator"),
 
     // =========================
     // Commands - Port
@@ -346,10 +348,11 @@ public enum MessageKey {
     RANK_ADD("commands.rank.add"),
     RANK_REMOVE("commands.rank.remove"),
 
-    RANK_LIST_PLAYER("commands.rank.list"),
-    RANK_LIST_PLAYER_NONE("commands.rank.list-none"),
-    RANK_LIST_PLAYER_FORMAT("commands.rank.list-format"),
-    RANK_LIST_PLAYER_SEPARATOR("commands.rank.list-separator"),
+    RANK_LIST_PLAYER("commands.rank-list.message"),
+    RANK_LIST_PLAYER_NONE("commands.rank-list.blank"),
+    RANK_LIST_PLAYER_FORMAT("commands.rank-list.entry-format"),
+    RANK_LIST_PLAYER_SEPARATOR("commands.rank-list.separator"),
+    RANK_LIST_PLAYER_MAX_ENTRIES("commands.rank-list.max-entries-per-page"),
 
     RANK_ERROR_HAS_RANK("commands.rank.error.has-rank"),
     RANK_ERROR_MISSING_RANK("commands.rank.error.missing-rank"),

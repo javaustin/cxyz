@@ -30,7 +30,7 @@ errors:
       duration: "&cPlease provide a valid duration!"
       item: "&cPlease provide a valid item to buy!"
       number: "&cPlease provide a valid number!"
-      page: "&cPlease provide a valid page between {min} and {max}!"
+      page: "(&cPlease provide a valid page between {min} and {max}!)[HOVER:Your input: {page}]"
       player: "&cPlease provide a valid player!"
       punishment: "&cNo punishment found with this case ID!"
       rank: "&cPlease provide a valid rank name!"
@@ -83,15 +83,16 @@ commands:
     already-locked: "&eThe {channel-name} channel is already locked!"
     already-unlocked: "&eThe {channel-name} channel is not locked!"
     lock-forbidden: "&cThis channel cannot be locked!"
-    locked: "&4[[!]]&r {player-rank-prefix-display}{player-rank-color}{player-display-name} &7locked the channel"
-    unlocked: "&4[[!]]&r {player-rank-prefix-display}{player-rank-color}{player-display-name} &7unlocked this channel"
+    locked: "&4[[!]]&r {player-rank-prefix}{player-rank-color}{player-display-name} &7locked the {channel-name} channel."
+    unlocked: "&4[[!]]&r {player-rank-prefix}{player-rank-color}{player-display-name} &7unlocked the {channel-name} channel."
 
 
-    list:
-      muted: "&aYou are ignoring the following channels: &7{ignored-channels}"
-      none: "&eNo ignored channels found for this player!"
-      channel-format: "{channel-prefix}"
-      channel-separator: ", "
+    ignore-list:
+      message: "&aYou are ignoring the following channels: &7{ignored-channels}"
+      blank: "&eNo ignored channels found for this player!"
+      entry-format: "{channel-prefix}"
+      separator: ", "
+      max-entries-per-page: -1
 
 
   chat-color: # Supports color, code, extends playerformatter
@@ -137,10 +138,12 @@ commands:
     error.request-expired: "&eThis friend request has expired."
     error.not-friends: "&cYou are not friends with this player."
 
-    list: "{player-rank-color}{player-display-name}'s friends [[{player-count}]]: {friends}"
-    list-none: "&eNo friends found for this player :((."
-    list-player-format: "({player-rank-color}{player-display-name})[HOVER:{player-online-status}!]"
-    list-player-separator: ", "
+    friend-list:
+      message: "{player-rank-color}{player-display-name}'s friends [[{player-count}]]: {friends}"
+      blank: "&eNo friends found for this player :(("
+      entry-format: "({player-rank-color}{player-display-name})[HOVER:{player-online-status}!]"
+      separator: "&r, "
+      max-entries-per-page: -1
 
     available-subcommands: |
       &bFriend subcommands:
@@ -251,17 +254,18 @@ commands:
       {inviter-rank-prefix}{inviter-rank-color}{inviter-display-name} &r&7has invited you to their party.
       &e&lClick to accept!
       &f----------------------------------------------------)[HOVER:&7Click to join {inviter-rank-color}{inviter-display-name}'s &r&7party!][RUN_COMMAND:/party join {inviter-display-name}]
-    list:
-      format: |
+    
+
+    party-list:
+      message: |
         &f--------------- {owner-rank-color}{owner-display-name}'s party &r&f---------------
         &6Owner: {owner-rank-color}{owner-display-name}
         &6Players [[{player-count}/{max-player-count}]]: {players}
         &6Type: {type}
         &f---------------------------------------------
-      player-format: "({player-rank-color}{player-display-name})[HOVER:This is {player-display-name}!]"
-      player-separator: ", "
-      type-public: "&aPublic" # Text that is shown when the party is open to the public
-      type-private: "&cPrivate" # Text that is shown when party is private.
+      entry-format: "({player-rank-color}{player-display-name})[HOVER:This is {player-display-name}!]"
+      separator: ", "
+      max-entries-per-page: -1
 
     party-full: "&cThis party is full! ((&c{player-count}/{max-player-count}))"
     party-full-announcement: "&c{player} attempted to join but the party is full ((&c{player-count}/{max-player-count}))"
@@ -317,10 +321,12 @@ commands:
     already-ignored-player: "&e{player} is already on your ignore list!"
     not-ignored-player: "&e{player} is not on your ignore list!"
 
-    ignore-list: "&d{player}'s ignored players: {ignored-players}"
-    ignore-list-none: "&eNo ignored players found for this player."
-    ignore-list-format: "{player-rank-color}{player-display-name}"
-    ignore-list-separator: "&r, "
+    ignore-list:
+      message: "&d{player}'s ignored players: {ignored-players}"
+      blank: "&eNo ignored players found for this player."
+      entry-format: "{player-rank-color}{player-display-name}"
+      separator: "&r, "
+      max-entries-per-page: -1
 
   punishment:
     # Everything is formatted with punishmentMap. Includes player, mod, type, date, case id, timestamp, and other things.
@@ -408,14 +414,15 @@ commands:
       &fEnforced: &7{enforced}
       &fEdited by &7{editor-mod-rank-color}{editor-mod-username}
 
-    history:
-      list: |
+    history-list:
+      message: |
         &f---------- {player-rank-color}{player}'s punishment history &r&f----------
         {punishments}
         (&f< Previous)[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/punishment history {player} {next-page}]
-      none: "&eNo punishments found for this player!"
-      format: "&e#[[{case-id}]] ({type} (({effective-until-countdown-short})) for {reason} on {date-short})[HOVER:Issued on {date} by {mod-rank-color}{mod}]"
+      blank: "&eNo punishments found for this player!"
+      entry-format: "&e#[[{case-id}]] ({type} (({effective-until-countdown-short})) for {reason} on {date-short})[HOVER:Issued on {date} by {mod-rank-color}{mod}]"
       separator: "\n"
+      max-entries-per-page: 5
 
   port:
     set: "&aPort value successfully updated! Restart this server to apply changes." # Format {port}
@@ -435,10 +442,12 @@ commands:
     add: "&aAdded {rank-prefix-display} &ato {player-rank-color}{player}!" # rankFormatter, playerFormatter
     remove: "&aRemoved {rank-prefix-display} &afrom {player-rank-color}{player}!" # rankFormatter, playerFormatter
 
-    list: "{player}'s ranks: {ranks}"
-    list-none: "&eNo ranks found for this player!"
-    list-format: "{rank-prefix-display}"
-    list-separator: "&f, "
+    rank-list:
+      message: "{player}'s ranks: {ranks}"
+      blank: "&eNo ranks found for this player!"
+      entry-format: "{rank-prefix-display}"
+      separator: "&f, "
+      max-entries-per-page: -1
 
 
   reload:

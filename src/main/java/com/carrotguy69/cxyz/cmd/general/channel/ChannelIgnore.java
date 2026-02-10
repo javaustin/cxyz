@@ -4,7 +4,6 @@ import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
-import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
@@ -48,27 +47,8 @@ public class ChannelIgnore implements CommandExecutor {
 
         List<String> allowedChannels = new ArrayList<>(BaseChannel.getChannelNames(true));
 
-        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
-
         if (args.length == 0) { // List the muted channels
-            String format = MessageGrabber.grab(MessageKey.CHAT_CHANNEL_LIST_CHANNEL_FORMAT);
-            String delimiter = MessageGrabber.grab(MessageKey.CHAT_CHANNEL_LIST_CHANNEL_SEPARATOR);
-
-            if (np.getMutedChannels().isEmpty()) {
-                MessageUtils.sendParsedMessage(sender, MessageKey.CHAT_CHANNEL_LIST_IGNORED_NONE, commonMap);
-                return true;
-            }
-
-
-            MapFormatters.ListFormatter formatter = MapFormatters.channelStringListFormatter(np.getMutedChannels(), format, delimiter);
-            commonMap.putAll(formatter.getFormatMap());
-
-            String unparsed = MessageGrabber.grab(MessageKey.CHAT_CHANNEL_LIST_IGNORED);
-
-            unparsed = unparsed.replace("{ignored-channels}", !np.getMutedChannels().isEmpty() ? formatter.getText() : "None");
-
-            MessageUtils.sendParsedMessage(sender, unparsed, commonMap);
-
+            ChannelIgnoreList.channelIgnoreList(sender, np, 1);
             return true;
         }
 
@@ -81,7 +61,7 @@ public class ChannelIgnore implements CommandExecutor {
                 return true;
             }
 
-            commonMap = MapFormatters.channelFormatter(baseChannel);
+            Map<String, Object> commonMap = MapFormatters.channelFormatter(baseChannel);
 
             if (np.isMutingChannel(baseChannel)) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.CHAT_CHANNEL_ALREADY_IGNORED, commonMap);
@@ -91,7 +71,6 @@ public class ChannelIgnore implements CommandExecutor {
             if (!baseChannel.isIgnorable()) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.CHAT_CHANNEL_NOT_IGNORABLE, commonMap);
                 return true;
-
             }
 
 

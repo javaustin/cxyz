@@ -7,7 +7,7 @@ com\carrotguy69\cxyz\models\config\channel\utils\ChannelRegistry.class
 com\carrotguy69\cxyz\cmd\mod\punishment\_PunishmentExecutor.class
 com\carrotguy69\cxyz\messages\utils\SimpleTextComponent$Action$ActionType.class
 com\carrotguy69\cxyz\tabCompleters\Ignore.class
-com\carrotguy69\cxyz\messages\utils\PageGenerator.class
+com\carrotguy69\cxyz\other\utils\NotePitch.class
 com\carrotguy69\cxyz\other\Tasks$7.class
 com\carrotguy69\cxyz\cmd\general\Buy.class
 com\carrotguy69\cxyz\cmd\general\channel\ChannelSet.class
@@ -57,7 +57,6 @@ com\carrotguy69\cxyz\other\utils\JsonConverters$3.class
 com\carrotguy69\cxyz\models\config\shorthand\ShorthandBukkitCommand.class
 com\carrotguy69\cxyz\cmd\admin\Ping.class
 com\carrotguy69\cxyz\cmd\mod\Unmute.class
-com\carrotguy69\cxyz\cmd\general\Ignore.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$MessageDeliveryWrapper.class
 com\carrotguy69\cxyz\tabCompleters\Nickname.class
 com\carrotguy69\cxyz\models\config\channel\coreChannels\PublicChannel.class
@@ -74,6 +73,7 @@ com\carrotguy69\cxyz\messages\MessageParser$MessageParseException.class
 com\carrotguy69\cxyz\cmd\admin\level\LevelRemove.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$NetworkPlayerDeliveryWrapper.class
 com\carrotguy69\cxyz\models\db\PartyInvite.class
+com\carrotguy69\cxyz\cmd\general\privacy\ignore\_IgnoreExecutor.class
 com\carrotguy69\cxyz\tabCompleters\Blank.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PartyExpireDeliveryWrapper.class
 com\carrotguy69\cxyz\other\utils\JsonConverters$1.class
@@ -99,9 +99,11 @@ com\carrotguy69\cxyz\models\config\shorthand\interfaces\ShorthandTabCompleter.cl
 com\carrotguy69\cxyz\cmd\admin\coins\CoinsSet.class
 com\carrotguy69\cxyz\exceptions\InvalidConfigException.class
 com\carrotguy69\cxyz\cmd\general\Nickname.class
+com\carrotguy69\cxyz\cmd\general\privacy\ignore\Unignore.class
 com\carrotguy69\cxyz\cmd\mod\punishment\PunishmentHistory.class
 com\carrotguy69\cxyz\other\utils\TimeUtils.class
 com\carrotguy69\cxyz\cmd\mod\punishment\PunishmentEdit.class
+com\carrotguy69\cxyz\cmd\general\channel\ChannelIgnoreList.class
 com\carrotguy69\cxyz\cmd\general\party\PartyPrivate.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader$2.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer$PartyInvitePrivacy.class
@@ -110,7 +112,6 @@ com\carrotguy69\cxyz\models\config\PlayerRank.class
 com\carrotguy69\cxyz\tabCompleters\ChatChannel.class
 com\carrotguy69\cxyz\cmd\admin\coins\CoinsRemove.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer.class
-com\carrotguy69\cxyz\cmd\general\Unignore.class
 com\carrotguy69\cxyz\cmd\admin\channel\ChannelLock.class
 com\carrotguy69\cxyz\other\utils\JsonConverters$2.class
 com\carrotguy69\cxyz\models\config\channel\utils\ChannelFunction.class
@@ -136,11 +137,14 @@ com\carrotguy69\cxyz\models\config\cosmetics\Cosmetic$CosmeticType.class
 com\carrotguy69\cxyz\models\config\cosmetics\CosmeticListener.class
 com\carrotguy69\cxyz\models\config\Announcement.class
 com\carrotguy69\cxyz\cmd\general\party\PartyList.class
+com\carrotguy69\cxyz\cmd\general\privacy\ignore\IgnoreList.class
 com\carrotguy69\cxyz\cmd\admin\Show.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PartyDeliveryWrapper.class
 com\carrotguy69\cxyz\cmd\general\message\MessageReply.class
+com\carrotguy69\cxyz\cmd\general\privacy\ignore\Ignore.class
 com\carrotguy69\cxyz\http\RequestResult.class
 com\carrotguy69\cxyz\http\RequestType.class
+com\carrotguy69\cxyz\events\ProjectileEvent.class
 com\carrotguy69\cxyz\events\LeaveEvent.class
 com\carrotguy69\cxyz\events\ChatEvent.class
 com\carrotguy69\cxyz\cmd\general\privacy\PartyPrivacy.class

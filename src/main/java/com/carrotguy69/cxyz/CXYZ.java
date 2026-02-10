@@ -141,6 +141,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    [❌] ISSUES:
 
+   - list formatter issues
+
    - get rid of the java.util.* stuff as professor says
 
     - the "best guess method" for punishment ids could be lots better

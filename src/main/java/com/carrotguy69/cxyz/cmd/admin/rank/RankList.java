@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.carrotguy69.cxyz.CXYZ.msgYML;
 import static com.carrotguy69.cxyz.CXYZ.ranks;
 
 public class RankList implements CommandExecutor {
@@ -27,8 +28,9 @@ public class RankList implements CommandExecutor {
 
         /*
         SYNTAX:
-            /rank list [player]
-            /rank [player]
+            /rank list [player] [page]
+            /rank [player] [page]
+            /rank list Notch 2
             /rank list Notch
             /rank Notch
             /rank
@@ -45,8 +47,8 @@ public class RankList implements CommandExecutor {
             return true;
         }
 
-        //        [-1]   [0]
-        // "/rank list <player>
+        //        [-1]   [0]     [1]
+        // "/rank list <player> [page]"
 
 
 
@@ -71,6 +73,14 @@ public class RankList implements CommandExecutor {
         else
             np = NetworkPlayer.getPlayerByUsername(args[0]); // We ignore if the sender is a player or a console, we get the player by the username provided.
 
+        int page = 1;
+        try {
+            if (args.length > 1) {
+                page = Integer.parseInt(args[1]);
+            }
+        }
+        catch (NumberFormatException ignored) {}
+
 
         if (np == null) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", args[0]));
@@ -88,13 +98,29 @@ public class RankList implements CommandExecutor {
         String format = MessageGrabber.grab(MessageKey.RANK_LIST_PLAYER_FORMAT);
         String delimiter = MessageGrabber.grab(MessageKey.RANK_LIST_PLAYER_SEPARATOR);
 
+        int maxEntriesPerPage = msgYML.getInt(MessageKey.RANK_LIST_PLAYER_MAX_ENTRIES.getPath(), -1);
 
-        MapFormatters.ListFormatter formatter = MapFormatters.rankListFormatter(playerRanks, format, delimiter);
+
+        MapFormatters.ListFormatter formatter = MapFormatters.rankListFormatter(playerRanks, format, delimiter, maxEntriesPerPage, page);
         commonMap.putAll(formatter.getFormatMap());
 
-        String unparsed = MessageGrabber.grab(MessageKey.RANK_LIST_PLAYER);
 
-        unparsed = unparsed.replace("{ranks}", !ranks.isEmpty() ? formatter.getText() : "None");
+        String unparsed = MessageGrabber.grab(MessageKey.PARTY_LIST);
+
+        int min = 1;
+        int max = formatter.getMaxPages();
+
+        if (page < 1 || page > max) {
+            MessageUtils.sendParsedMessage(p, MessageKey.INVALID_PAGE, Map.of("min", min, "max", max, "page", page));
+            return true;
+        }
+
+        unparsed = unparsed.replace("{ranks}", !formatter.getEntries().isEmpty() ? formatter.getText() : "None");
+
+        commonMap.put("page", page);
+        commonMap.put("previous-page", page - 1);
+        commonMap.put("next-page", page + 1);
+        commonMap.put("max-pages", max);
 
         MessageUtils.sendParsedMessage(sender, unparsed, commonMap);
         return true;

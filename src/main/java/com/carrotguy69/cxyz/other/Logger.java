@@ -147,6 +147,10 @@ public class Logger {
         debug(Debug.DebugValue.FRIEND_REQUEST, content);
     }
 
+    public static void debugCosmetic(String content) {
+        debug(Debug.DebugValue.COSMETIC, content);
+    }
+
 
     public static void info(String content) {
         Bukkit.getScheduler().runTask(plugin, () -> plugin.getLogger().info(content));
