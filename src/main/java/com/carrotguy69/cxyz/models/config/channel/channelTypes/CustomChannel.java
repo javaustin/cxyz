@@ -1,23 +1,24 @@
 package com.carrotguy69.cxyz.models.config.channel.channelTypes;
 
-import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.models.db.Punishment;
-import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
-
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.Punishment;
+import com.carrotguy69.cxyz.other.Logger;
 import net.md_5.bungee.api.ChatColor;
-
-import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
-
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.CXYZ.configYaml;
+import static com.carrotguy69.cxyz.CXYZ.f;
 
 public class CustomChannel extends BaseChannel {
 

@@ -1,17 +1,21 @@
 package com.carrotguy69.cxyz.models.db;
 
 import com.carrotguy69.cxyz.http.Request;
-import com.carrotguy69.cxyz.models.config.channel.coreChannels.PartyChannel;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
-import com.carrotguy69.cxyz.messages.utils.MapFormatters;
-import com.carrotguy69.cxyz.other.utils.JsonConverters;
-import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
+import com.carrotguy69.cxyz.models.config.channel.coreChannels.PartyChannel;
+import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
+import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.other.utils.JsonConverters;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.Objects;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 

@@ -1,12 +1,11 @@
 package com.carrotguy69.cxyz.messages.utils;
 
-import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
+import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
-import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.db.Punishment;
-
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import com.carrotguy69.cxyz.other.utils.TimeUtils;
@@ -14,10 +13,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 import static com.carrotguy69.cxyz.cmd.general.ChatColor.getColor;
+import static com.carrotguy69.cxyz.other.utils.TimeUtils.*;
 
 public class MapFormatters {
 
@@ -293,10 +297,10 @@ public class MapFormatters {
 
         result.put("player-first-join", TimeUtils.dateOf(0, timezone));
         result.put("player-first-join-short", TimeUtils.dateOfShort(0, timezone));
-        result.put("player-last-join", TimeUtils.dateOfShort(TimeUtils.unixTimeNow(), timezone));
-        result.put("player-last-join-short", TimeUtils.dateOfShort(TimeUtils.unixTimeNow(), timezone));
-        result.put("player-last-online", TimeUtils.dateOfShort(TimeUtils.unixTimeNow(), timezone));
-        result.put("player-last-online-short", TimeUtils.dateOfShort(TimeUtils.unixTimeNow(), timezone));
+        result.put("player-last-join", TimeUtils.dateOfShort(unixTimeNow(), timezone));
+        result.put("player-last-join-short", TimeUtils.dateOfShort(unixTimeNow(), timezone));
+        result.put("player-last-online", TimeUtils.dateOfShort(unixTimeNow(), timezone));
+        result.put("player-last-online-short", TimeUtils.dateOfShort(unixTimeNow(), timezone));
 
         result.put("player-timezone", timezone);
         result.put("player-playtime", TimeUtils.countdownShort(0));
@@ -510,27 +514,35 @@ public class MapFormatters {
         // We use the senders timezone instead of the requested players. This is why punished players should receive countdown messages.
         String tz = sender instanceof Player ? NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId()).getTimezone() : timezone;
 
-        long duration = punishment.getEffectiveUntilTimestamp() - punishment.getIssuedTimestamp();
+        long issueTimestamp = punishment.getIssuedTimestamp();
+        long effectiveUntilTimestamp = punishment.getEffectiveUntilTimestamp();
+        long expireTimestamp = punishment.getExpireTimestamp();
 
+        long duration = effectiveUntilTimestamp - issueTimestamp;
+        long expireDuration = expireTimestamp - issueTimestamp;
 
-        commonMap.put("date",  TimeUtils.dateOf(punishment.getIssuedTimestamp(), tz));
-        commonMap.put("date-short", TimeUtils.dateOfShort(punishment.getIssuedTimestamp(), tz));
 
         // total duration (unchanging, not a countdown)
-        commonMap.put("duration", (duration != 0 ? TimeUtils.countdown(duration) : "N/A"));
-        commonMap.put("duration-short", (duration != 0 ? TimeUtils.countdownShort(duration) : "N/A"));
+        commonMap.put("date", TimeUtils.dateOf(issueTimestamp, tz));
+        commonMap.put("date-short", TimeUtils.dateOfShort(issueTimestamp, tz));
+
+        // total duration (unchanging, not a countdown)
+        commonMap.put("duration", (duration != 0 ? countdown(duration) : "N/A"));
+        commonMap.put("duration-short", (duration != 0 ? countdownShort(duration) : "N/A"));
+        commonMap.put("expire-duration", (expireDuration != 0 ? countdown(expireDuration) : "N/A"));
+        commonMap.put("expire-duration-short", (expireDuration != 0 ? countdownShort(expireDuration) : "N/A"));
 
         // effective until date (or countdown)
-        commonMap.put("effective-until", (punishment.getEffectiveUntilTimestamp() >= punishment.getIssuedTimestamp() ? TimeUtils.dateOf(punishment.getEffectiveUntilTimestamp(), tz) : permanentString));
-        commonMap.put("effective-until-short", (punishment.getEffectiveUntilTimestamp() >= punishment.getIssuedTimestamp() ? TimeUtils.dateOfShort(punishment.getEffectiveUntilTimestamp(), tz) : permanentString));
-        commonMap.put("effective-until-countdown", TimeUtils.unixCountdown(punishment.getEffectiveUntilTimestamp()));
-        commonMap.put("effective-until-countdown-short", TimeUtils.unixCountdownShort(punishment.getEffectiveUntilTimestamp()));
+        commonMap.put("effective-until", (duration >= 0 ? dateOf(effectiveUntilTimestamp, tz) : permanentString));
+        commonMap.put("effective-until-short", (duration >= 0 ? dateOfShort(effectiveUntilTimestamp, tz) : permanentString));
+        commonMap.put("effective-until-countdown", (duration >= 0 ? (effectiveUntilTimestamp > unixTimeNow() ? unixCountdown(effectiveUntilTimestamp) : "N/A") : permanentString));
+        commonMap.put("effective-until-countdown-short", (duration >= 0 ? (effectiveUntilTimestamp > unixTimeNow() ? unixCountdownShort(effectiveUntilTimestamp) : "N/A") : permanentString));
 
         // expire date (or countdown)
-        commonMap.put("expire-time", (punishment.getExpireTimestamp() >= punishment.getIssuedTimestamp() ? TimeUtils.dateOf(punishment.getExpireTimestamp(), tz) : permanentString));
-        commonMap.put("expire-time-short", (punishment.getExpireTimestamp() >= punishment.getIssuedTimestamp() ? TimeUtils.dateOfShort(punishment.getExpireTimestamp(), tz) : permanentString));
-        commonMap.put("expire-time-countdown", TimeUtils.unixCountdown(punishment.getExpireTimestamp()));
-        commonMap.put("expire-time-countdown-short", TimeUtils.unixCountdownShort(punishment.getExpireTimestamp()));
+        commonMap.put("expire-time", (expireDuration >= 0 ? dateOf(expireTimestamp, tz) : permanentString));
+        commonMap.put("expire-time-short", (expireDuration >= 0 ? dateOfShort(expireTimestamp, tz) : permanentString));
+        commonMap.put("expire-time-countdown", (expireDuration >= 0 ? (expireTimestamp > unixTimeNow() ? unixCountdown(expireTimestamp) : "N/A") : permanentString));
+        commonMap.put("expire-time-countdown-short", (expireDuration >= 0 ? (expireTimestamp > unixTimeNow() ? unixCountdownShort(expireTimestamp) : "N/A") : permanentString));
         
 
         commonMap.put("enforced", String.valueOf(punishment.isEnforced()));

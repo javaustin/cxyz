@@ -3,19 +3,22 @@ package com.carrotguy69.cxyz.models.config.shorthand;
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.config.shorthand.interfaces.ShorthandExecutor;
 import com.carrotguy69.cxyz.models.config.shorthand.interfaces.ShorthandTabCompleter;
 import com.carrotguy69.cxyz.models.config.shorthand.utils.ShorthandUtils;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 

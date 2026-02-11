@@ -135,6 +135,11 @@ public class Kick implements CommandExecutor {
 
         // We are 99% sure that our ID is correct. In the case that it isn't, it is corrected by the backend.
         // When a player joins again or a mod looks up the punishment after the original event, the message is generated with the updated value.
+        long issuedTimestamp = TimeUtils.unixTimeNow();
+
+        long duration = (configYaml.getLong("punishments.defaults.durations.effective-until.kick", -1));
+        long expireDuration = (configYaml.getLong("punishments.defaults.durations.expire.kick", -1));
+
         punishment.setID(Punishment.generateID());
 
         punishment.setUUID(player.getUUID().toString());
@@ -142,9 +147,9 @@ public class Kick implements CommandExecutor {
         punishment.setModUUID(modUUID);
         punishment.setModUsername(modUsername);
         punishment.setType(String.valueOf(Punishment.PunishmentType.KICK));
-        punishment.setEffectiveUntilTimestamp(configYaml.getLong("punishments.defaults.durations.effective-until.kick", -1));
-        punishment.setExpireTimestamp(configYaml.getLong("punishments.defaults.durations.expire.kick", -1));
-        punishment.setIssuedTimestamp(TimeUtils.unixTimeNow());
+        punishment.setEffectiveUntilTimestamp(duration == -1 ? -1 : issuedTimestamp + duration);
+        punishment.setExpireTimestamp(expireDuration == -1 ? -1 : issuedTimestamp + expireDuration);
+        punishment.setIssuedTimestamp(issuedTimestamp);
         punishment.setReason(reason);
         punishment.setEnforced(true);
 

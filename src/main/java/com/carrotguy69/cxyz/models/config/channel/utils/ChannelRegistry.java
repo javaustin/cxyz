@@ -7,9 +7,11 @@ import com.carrotguy69.cxyz.models.config.channel.coreChannels.PartyChannel;
 import com.carrotguy69.cxyz.models.config.channel.coreChannels.PublicChannel;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.CXYZ.channels;
+import static com.carrotguy69.cxyz.CXYZ.configYaml;
 
 public class ChannelRegistry {
 

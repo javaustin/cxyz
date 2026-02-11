@@ -8,7 +8,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-
 import java.util.Map;
 
 public class _IgnoreExecutor implements CommandExecutor {

@@ -11,9 +11,13 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.CXYZ.enabledDebugs;
+import static com.carrotguy69.cxyz.CXYZ.f;
 import static com.carrotguy69.cxyz.messages.MessageUtils.forceColor;
 import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 

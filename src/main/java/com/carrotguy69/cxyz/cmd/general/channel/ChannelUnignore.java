@@ -4,7 +4,6 @@ import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
-import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
@@ -13,7 +12,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.List;
 
 
 public class ChannelUnignore implements CommandExecutor {

@@ -3,7 +3,9 @@ package com.carrotguy69.cxyz.models.config;
 import com.carrotguy69.cxyz.other.Logger;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 

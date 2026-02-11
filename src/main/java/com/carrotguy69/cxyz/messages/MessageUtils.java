@@ -4,16 +4,17 @@ import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.utils.SimpleTextComponent;
 import com.carrotguy69.cxyz.other.Logger;
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
-import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.CXYZ.f;
 
 public class MessageUtils {
 

@@ -6,7 +6,9 @@ import com.carrotguy69.cxyz.other.Logger;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 

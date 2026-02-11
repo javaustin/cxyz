@@ -1,12 +1,12 @@
 package com.carrotguy69.cxyz.cmd.general;
 
 import com.carrotguy69.cxyz.CXYZ;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
-import com.carrotguy69.cxyz.messages.utils.MapFormatters;
-import com.carrotguy69.cxyz.messages.MessageKey;
-import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,7 +14,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChatColor implements CommandExecutor {
 

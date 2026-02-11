@@ -32,7 +32,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.carrotguy69.cxyz.events.ClickEvent.onClick;
@@ -145,8 +150,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         #[30] MUTE (permanent) for test30 on 2/6/26 11:40AM (PST)
         #[31] WARN (permanent) for lol on 2/10/26 10:42PM (PST)
 
-   - get rid of the java.util.* stuff as professor says
-
     - the "best guess method" for punishment ids could be lots better
 
     - why does "&d[phat]" have a formatter color code character before f() is applied?
@@ -158,10 +161,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         - but is: (text)[ACTION:actionText]
 
     - effective until "01/7/70 ??"
-
-   - Punishment edit tab completer does not work
-
-   - What the hell is wrong with my coins system, level and xp?
 
    - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
 

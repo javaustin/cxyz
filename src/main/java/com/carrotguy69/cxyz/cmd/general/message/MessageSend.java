@@ -1,16 +1,16 @@
 package com.carrotguy69.cxyz.cmd.general.message;
 
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.config.channel.coreChannels.MessageChannel;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
 import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
+import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
 import com.carrotguy69.cxyz.models.db.Message;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
-import com.carrotguy69.cxyz.messages.utils.MapFormatters;
-import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
-import com.carrotguy69.cxyz.messages.MessageKey;
-import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.utils.ObjectUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -19,7 +19,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.carrotguy69.cxyz.CXYZ.defaultRank;
 import static com.carrotguy69.cxyz.CXYZ.messageMap;

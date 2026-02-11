@@ -15,7 +15,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 
