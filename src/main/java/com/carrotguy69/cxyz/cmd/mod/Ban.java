@@ -164,6 +164,11 @@ public class Ban implements CommandExecutor {
             return;
         }
 
+        if (player.isBanned()) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_ERROR_ALREADY_BANNED, MapFormatters.playerFormatter(player));
+            return;
+        }
+
         Punishment punishment = new Punishment();
 
 
@@ -171,7 +176,6 @@ public class Ban implements CommandExecutor {
         // When a player joins again or a mod looks up the punishment after the original event, the message is generated with the updated value.
         long issuedTimestamp = TimeUtils.unixTimeNow();
 
-        long duration = (configYaml.getLong("punishments.defaults.durations.effective-until.ban", -1));
         long expireDuration = (configYaml.getLong("punishments.defaults.durations.expire.ban", -1));
 
         punishment.setID(Punishment.generateID());
@@ -181,7 +185,7 @@ public class Ban implements CommandExecutor {
         punishment.setModUUID(modUUID);
         punishment.setModUsername(modUsername);
         punishment.setType(String.valueOf(Punishment.PunishmentType.BAN));
-        punishment.setEffectiveUntilTimestamp(duration == -1 ? -1 : issuedTimestamp + duration);
+        punishment.setEffectiveUntilTimestamp(effectiveUntilTimestamp);
         punishment.setExpireTimestamp(expireDuration == -1 ? -1 : issuedTimestamp + expireDuration);
         punishment.setIssuedTimestamp(issuedTimestamp);
         punishment.setReason(reason);

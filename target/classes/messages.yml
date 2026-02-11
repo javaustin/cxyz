@@ -340,7 +340,9 @@ commands:
       &e/punishment info <id>
 
     error.not-banned: "&cThis target is not banned." # Accepts playerFormatter
-    error.not-muted: "&cThis target is not muted."
+    error.not-muted: "&cThis target is not muted." # Accepts playerFormatter
+    error.already-banned: "&cThis target is already banned." # Accepts playerFormatter
+    error.already-muted: "&cThis target is already muted." # Accepts playerFormatter
 
     ban:
       mod-message: "&aSuccessfully applied ban to {player}!"
@@ -421,7 +423,7 @@ commands:
         {punishments}
         (&f< Previous)[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/punishment history {player} {next-page}]
       blank: "&eNo punishments found for this player!"
-      entry-format: "&e#[[{case-id}]] ({type} (({effective-until-countdown-short})) for {reason} on {date-short})[HOVER:Issued on {date} by {mod-rank-color}{mod}]"
+      entry-format: "&e#[[{case-id}]] {type} (({duration-short})) by {mod-rank-prefix}{mod-rank-color}{mod-username} for {reason} on {date-short}"
       separator: "\n"
       max-entries-per-page: 5
 

@@ -64,6 +64,8 @@ public class Mute implements CommandExecutor {
 
         String defaultReason = configYaml.getString("punishments.defaults.reasons.mute");
 
+
+
         if (args.length == 1) {
             // Only the player was provided - we still can execute with this
             String targetPlayer = args[0];
@@ -162,6 +164,11 @@ public class Mute implements CommandExecutor {
             return;
         }
 
+        if (player.isMuted()) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_ERROR_ALREADY_MUTED, MapFormatters.playerFormatter(player));
+            return;
+        }
+
 
         Punishment punishment = new Punishment();
 
@@ -170,7 +177,6 @@ public class Mute implements CommandExecutor {
         // When a player joins again or a mod looks up the punishment after the original event, the message is generated with the updated value.
         long issuedTimestamp = TimeUtils.unixTimeNow();
 
-        long duration = (configYaml.getLong("punishments.defaults.durations.effective-until.mute", -1));
         long expireDuration = (configYaml.getLong("punishments.defaults.durations.expire.mute", -1));
 
         punishment.setID(Punishment.generateID());
@@ -180,7 +186,7 @@ public class Mute implements CommandExecutor {
         punishment.setModUUID(modUUID);
         punishment.setModUsername(modUsername);
         punishment.setType(String.valueOf(Punishment.PunishmentType.MUTE));
-        punishment.setEffectiveUntilTimestamp(duration == -1 ? -1 : issuedTimestamp + duration);
+        punishment.setEffectiveUntilTimestamp(effectiveUntilTimestamp);
         punishment.setExpireTimestamp(expireDuration == -1 ? -1 : issuedTimestamp + expireDuration);
         punishment.setIssuedTimestamp(issuedTimestamp);
         punishment.setReason(reason);

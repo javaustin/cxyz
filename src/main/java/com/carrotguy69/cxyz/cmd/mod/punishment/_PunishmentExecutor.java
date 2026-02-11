@@ -43,6 +43,7 @@ public class _PunishmentExecutor implements CommandExecutor {
                 new PunishmentClear().onCommand(sender, command, label, ObjectUtils.slice(args, 1));
                 break;
 
+            case "remove":
             case "delete":
                 new PunishmentDelete().onCommand(sender, command, label, ObjectUtils.slice(args, 1));
                 break;

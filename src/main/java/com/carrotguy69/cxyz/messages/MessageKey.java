@@ -293,6 +293,8 @@ public enum MessageKey {
     // =========================
     PUNISHMENT_ERROR_NOT_BANNED("commands.punishment.error.not-banned"),
     PUNISHMENT_ERROR_NOT_MUTED("commands.punishment.error.not-muted"),
+    PUNISHMENT_ERROR_ALREADY_BANNED("commands.punishment.error.already-banned"),
+    PUNISHMENT_ERROR_ALREADY_MUTED("commands.punishment.error.already-muted"),
 
     PUNISHMENT_BAN_MOD_MESSAGE("commands.punishment.ban.mod-message"),
     PUNISHMENT_BAN_PLAYER_MESSAGE("commands.punishment.ban.player-message"),

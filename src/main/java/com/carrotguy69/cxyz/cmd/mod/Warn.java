@@ -132,6 +132,7 @@ public class Warn implements CommandExecutor {
 
         long issuedTimestamp = TimeUtils.unixTimeNow();
 
+
         long duration = (configYaml.getLong("punishments.defaults.durations.effective-until.warn", -1));
         long expireDuration = (configYaml.getLong("punishments.defaults.durations.expire.warn", -1));
 

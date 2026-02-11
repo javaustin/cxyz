@@ -23,7 +23,7 @@ public class Punishment implements TabCompleter {
             return List.of();
         }
 
-        List<String> subcommands = List.of("delete", "edit", "history", "info");
+        List<String> subcommands = List.of("delete", "edit", "history", "info", "remove");
 
         if (args.length == 0) {
             return subcommands;
@@ -45,6 +45,7 @@ public class Punishment implements TabCompleter {
             switch (args[0].toLowerCase()) {
 
                 case "delete":
+                case "remove":
                 case "info":
 
                 case "edit":
