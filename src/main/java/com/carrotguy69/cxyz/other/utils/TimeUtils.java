@@ -12,9 +12,8 @@ public class TimeUtils {
     public static long unixTimeNow() {
         return System.currentTimeMillis() / 1000;
     }
-
     public static String dateOf(long timestamp, String timeZone) {
-        if (timestamp <= 0) {
+        if (timestamp < 0) {
             return permanentString;
         }
 
@@ -28,7 +27,7 @@ public class TimeUtils {
     }
 
     public static String dateOfShort(long timestamp, String timeZone) {
-        if (timestamp <= 0) {
+        if (timestamp < 0) {
             return permanentString;
         }
 
@@ -41,13 +40,61 @@ public class TimeUtils {
         return zonedDateTime.format(formatter);
     }
 
+    public static String countdown(long duration) {
+        long countDownTime = duration;
 
-    public static String unixCountdownShort(long timestamp) {
-        if (timestamp <= 0) {
+        if (countDownTime < 0) {
             return permanentString;
         }
 
-        long countDownTime = timestamp - unixTimeNow();
+        List<String> formattedTime = new ArrayList<>();
+
+        LinkedHashMap<Long, String> timeUnits = new LinkedHashMap<>();
+
+        timeUnits.put((86400 * 365L), "year");
+        timeUnits.put((86400 * 30L), "month");
+//        timeUnits.put((86400 * 7L), "week");
+        timeUnits.put(86400L, "day");
+        timeUnits.put(3600L, "hour");
+        timeUnits.put(60L, "minute");
+        timeUnits.put(1L, "second");
+
+        for (Map.Entry<Long, String> entry : timeUnits.entrySet()) {
+
+            long num = entry.getKey();
+            String unit = entry.getValue();
+
+            if (countDownTime < num) {
+                continue;
+            }
+
+            long units = (long) Math.floor((double) countDownTime / (int) num);
+
+            countDownTime -= (num * units);
+
+            String s = "s";
+            if (units == 1) {
+                s = "";
+            }
+
+            formattedTime.add(units + " " +  unit + s);
+        }
+
+        String result = String.join(" ", formattedTime);
+
+        if (result.isBlank()) {
+            result = "0 seconds";
+        }
+
+        return result;
+    }
+
+    public static String countdownShort(long duration) {
+        long countDownTime = duration;
+
+        if (countDownTime < 0) {
+            return permanentString;
+        }
 
         List<String> formattedTime = new ArrayList<>();
 
@@ -74,77 +121,24 @@ public class TimeUtils {
 
             countDownTime -= (num * units);
 
-
             formattedTime.add(units + unit);
         }
 
         String result = String.join(" ", formattedTime);
 
         if (result.isBlank()) {
-            result = "0 seconds";
+            result = "0s";
         }
 
         return result;
-    }
-
-    public static String countdown(long duration) {
-        return unixCountdown(unixTimeNow() + duration);
-    }
-
-    public static String countdownShort(long duration) {
-        return unixCountdownShort(unixTimeNow() + duration);
     }
 
     public static String unixCountdown(long timestamp) {
-        if (timestamp == -1) {
-            return permanentString;
-        }
+        return countdown(timestamp - unixTimeNow());
+    }
 
-        long countDownTime = timestamp - unixTimeNow();
-
-        List<String> formattedTime = new ArrayList<>();
-
-        LinkedHashMap<Long, String> timeUnits = new LinkedHashMap<>();
-
-        timeUnits.put((86400 * 365L), "year");
-        timeUnits.put((86400 * 30L), "month");
-//        timeUnits.put((86400 * 7L), "week");
-        timeUnits.put(86400L, "day");
-        timeUnits.put(3600L, "hour");
-        timeUnits.put(60L, "minute");
-        timeUnits.put(1L, "second");
-
-
-        for (Map.Entry<Long, String> entry : timeUnits.entrySet()) {
-
-            long num = entry.getKey();
-            String unit = entry.getValue();
-
-            if (countDownTime < num) {
-                continue;
-            }
-
-            long units = (long) Math.floor((double) countDownTime / (int) num);
-
-            countDownTime -= (num * units);
-
-            String s = "s";
-            if (units == 1) {
-                s = "";
-            }
-
-            formattedTime.add(String.format("%s %s%s", units, unit, s));
-        }
-
-        String delimiter = formattedTime.size() > 2 ? ", " : " ";
-
-        String result = String.join(delimiter, formattedTime);
-
-        if (result.isBlank()) {
-            result = "0 seconds";
-        }
-
-        return result;
+    public static String unixCountdownShort(long timestamp) {
+        return countdownShort(timestamp - unixTimeNow());
     }
 
     public static String getTimezoneShort(String longZoneId) {

@@ -140,8 +140,10 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 /*
 
    [❌] ISSUES:
-
-   - list formatter issues
+   - these entries are not of permanent duration:
+        #[29] WARN (permanent) for testing on 2/6/26 1:41AM (PST)
+        #[30] MUTE (permanent) for test30 on 2/6/26 11:40AM (PST)
+        #[31] WARN (permanent) for lol on 2/10/26 10:42PM (PST)
 
    - get rid of the java.util.* stuff as professor says
 
@@ -186,7 +188,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Throw a config exception in startup if core default channels are not assigned.
    - Report command.
    - Organize the public static variables at the top of the main class
-   - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa)
+   - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee)
    - /skin command (could be external plugin), but we should have a functionality (maybe in users table) to store the skin name in order to apply it when joining other servers.
    - Ensure /debug actually changes the config
    - Remove "admin", "mod", and "general" permission categories as they kind of overlap and are ambiguous.

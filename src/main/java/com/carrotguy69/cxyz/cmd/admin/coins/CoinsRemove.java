@@ -103,7 +103,7 @@ public class CoinsRemove implements CommandExecutor {
     public static void remove(CommandSender sender, NetworkPlayer np, long amt) {
         amt = Math.abs(amt);
 
-        int currentCoins = np.getLevel();
+        long currentCoins = np.getCoins();
 
         if (currentCoins - amt < 0)
             np.setCoins(0);

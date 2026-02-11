@@ -101,9 +101,9 @@ public class XPAdd implements CommandExecutor {
     public static void add(CommandSender sender, NetworkPlayer np, long amt) {
         amt = Math.abs(amt);
 
-        long currentCoins = np.getXP();
+        long currentXP = np.getXP();
 
-        np.setCoins(currentCoins + amt);
+        np.setXP(currentXP + amt);
         np.sync();
 
         Map<String, Object> commonMap = MapFormatters.playerFormatter(np);

@@ -14,8 +14,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
-
 import java.util.*;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
@@ -37,6 +35,8 @@ public class MapFormatters {
             this.map = map;
             this.maxEntriesPerPage = maxEntriesPerPage <= 0 ? 100 : maxEntriesPerPage;
             this.pageNumber = pageNumber;
+
+            Logger.debugMessage(this.toString());
         }
 
         public Map<String, Object> getFormatMap() {
@@ -62,11 +62,7 @@ public class MapFormatters {
 
         @Override
         public String toString() {
-            return String.format("ListFormatter{map=%s, text=%s, maxEntriesPerPage=%d}", map, getText(), maxEntriesPerPage);
-        }
-
-        public String toCompactString() {
-            return String.format("ListFormatter{map(size)=%d, text=%s, maxEntriesPerPage=%d}", map.size(), getText(), maxEntriesPerPage);
+            return String.format("ListFormatter{map(size)=%d, entries=%s, delimiter=%s, maxEntriesPerPage=%d, page=%d}", map.size(), entries, delimiter, maxEntriesPerPage, pageNumber);
         }
 
         public String generatePage(int pageNumber) {
@@ -99,19 +95,10 @@ public class MapFormatters {
 
             int size = entries.size();
 
-            int startIndex = (pageNumber - 1) * maxEntriesPerPage;
-            int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
+            int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
+            int endIndex = Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);
 
-            Logger.debugMessage("entries=" + entries);
-            Logger.debugMessage("startIndex=" + startIndex);
-            Logger.debugMessage("endIndex=" + endIndex);
-
-            String result = String.join(delimiter, entries.subList(startIndex, endIndex + 1));
-
-            Logger.debugMessage("subList=" + entries.subList(startIndex, endIndex + 1));
-            Logger.debugMessage("result=" + result);
-
-            return result;
+            return String.join(delimiter, entries.subList(startIndex, endIndex + 1));
         }
 
     }
@@ -120,16 +107,24 @@ public class MapFormatters {
 
     public static ListFormatter playerListFormatter(List<NetworkPlayer> players, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
 
+        if (maxEntriesPerPage < 1) {
+            maxEntriesPerPage = 9999;
+        }
+
         int size = players.size();
 
-        int startIndex = (pageNumber - 1) * maxEntriesPerPage;
-        int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
+        int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
+        int endIndex = Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);
+
 
         List<String> strings = new ArrayList<>(); // Each string contains the specified format with keys replaced with enumerated ones: "{player-color}{player}" -> "{player-color-0}{rank-0}"
 
         Map<String, Object> commonMap = new HashMap<>(); // Will represent all the placeholder keys and values we will fulfill at parse time.
 
-        for (int i = startIndex; i < endIndex; i++) {
+        Logger.debugMessage(String.format("entries=%s, start=%d, end=%d, size=%d, maxEntriesPerPage=%d, pageNumber=%d", players, startIndex, endIndex, size, maxEntriesPerPage, pageNumber));
+
+        for (int i = startIndex; i <= endIndex; i++) {
+
             String string = format; // Individual NetworkPlayer string
             NetworkPlayer np = players.get(i);
 
@@ -147,16 +142,24 @@ public class MapFormatters {
 
     public static ListFormatter rankListFormatter(List<PlayerRank> ranks, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
 
+        if (maxEntriesPerPage < 1) {
+            maxEntriesPerPage = 9999;
+        }
+
         int size = ranks.size();
 
-        int startIndex = (pageNumber - 1) * maxEntriesPerPage;
-        int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
+        int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
+        int endIndex = Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);
+
+        Logger.debugMessage(String.format("entries=%s, start=%d, end=%d, size=%d, maxEntriesPerPage=%d, pageNumber=%d", ranks, startIndex, endIndex, size, maxEntriesPerPage, pageNumber));
 
         List<String> strings = new ArrayList<>();
 
         Map<String, Object> commonMap = new HashMap<>();
 
-        for (int i = startIndex; i < endIndex; i++) {
+        for (int i = startIndex; i <= endIndex; i++) {
+
+
             String string = format;
             PlayerRank rank = ranks.get(i);
 
@@ -174,16 +177,22 @@ public class MapFormatters {
 
     public static ListFormatter punishmentListFormatter(CommandSender sender, List<Punishment> punishments, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
 
-        int size = ranks.size();
+        if (maxEntriesPerPage < 1) {
+            maxEntriesPerPage = 9999;
+        }
 
-        int startIndex = (pageNumber - 1) * maxEntriesPerPage;
+        int size = punishments.size();
+
+        int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
         int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
+
+        Logger.debugMessage(String.format("entries=%s, start=%d, end=%d, size=%d, maxEntriesPerPage=%d, pageNumber=%d", punishments, startIndex, endIndex, size, maxEntriesPerPage, pageNumber));
 
         List<String> strings = new ArrayList<>();
 
         Map<String, Object> commonMap = new HashMap<>();
 
-        for (int i = startIndex; i < endIndex; i++) {
+        for (int i = startIndex; i <= endIndex; i++) {
             String string = format;
             Punishment punishment = punishments.get(i);
 
@@ -201,16 +210,22 @@ public class MapFormatters {
 
     public static ListFormatter channelListFormatter(List<BaseChannel> channels, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
 
-        int size = ranks.size();
+        if (maxEntriesPerPage < 1) {
+            maxEntriesPerPage = 9999;
+        }
 
-        int startIndex = (pageNumber - 1) * maxEntriesPerPage;
-        int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
+        int size = channels.size();
+
+        int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
+        int endIndex = Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);
+
+        Logger.debugMessage(String.format("entries=%s, start=%d, end=%d, size=%d, maxEntriesPerPage=%d, pageNumber=%d", channels, startIndex, endIndex, size, maxEntriesPerPage, pageNumber));
 
         List<String> strings = new ArrayList<>();
 
         Map<String, Object> commonMap = new HashMap<>();
 
-        for (int i = startIndex; i < endIndex; i++) {
+        for (int i = startIndex; i <= endIndex; i++) {
             String string = format;
             BaseChannel channel = channels.get(i);
 
@@ -429,8 +444,7 @@ public class MapFormatters {
     }
 
     public static Map<String, Object> playerSenderFormatter(NetworkPlayer player, NetworkPlayer sender) {
-        Map<String, Object> commonMap = playerFormatter(sender);
-        commonMap.putAll(cloneFormaterToNewKey(commonMap, "player", "sender"));
+        Map<String, Object> commonMap = cloneFormaterToNewKey(playerFormatter(sender), "player", "sender");
 
         // Now the commonMap is full of all the sender keys, we now add the player key.
         commonMap.putAll(playerFormatter(player));
@@ -496,21 +510,31 @@ public class MapFormatters {
         // We use the senders timezone instead of the requested players. This is why punished players should receive countdown messages.
         String tz = sender instanceof Player ? NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId()).getTimezone() : timezone;
 
-        commonMap.put("date", TimeUtils.dateOf(punishment.getIssuedTimestamp(), tz));
+        long duration = punishment.getEffectiveUntilTimestamp() - punishment.getIssuedTimestamp();
+
+
+        commonMap.put("date",  TimeUtils.dateOf(punishment.getIssuedTimestamp(), tz));
         commonMap.put("date-short", TimeUtils.dateOfShort(punishment.getIssuedTimestamp(), tz));
-        commonMap.put("effective-until", TimeUtils.dateOf(punishment.getEffectiveUntilTimestamp(), tz));
-        commonMap.put("effective-until-short", TimeUtils.dateOfShort(punishment.getEffectiveUntilTimestamp(), tz));
+
+        // total duration (unchanging, not a countdown)
+        commonMap.put("duration", (duration != 0 ? TimeUtils.countdown(duration) : "N/A"));
+        commonMap.put("duration-short", (duration != 0 ? TimeUtils.countdownShort(duration) : "N/A"));
+
+        // effective until date (or countdown)
+        commonMap.put("effective-until", (punishment.getEffectiveUntilTimestamp() >= punishment.getIssuedTimestamp() ? TimeUtils.dateOf(punishment.getEffectiveUntilTimestamp(), tz) : permanentString));
+        commonMap.put("effective-until-short", (punishment.getEffectiveUntilTimestamp() >= punishment.getIssuedTimestamp() ? TimeUtils.dateOfShort(punishment.getEffectiveUntilTimestamp(), tz) : permanentString));
         commonMap.put("effective-until-countdown", TimeUtils.unixCountdown(punishment.getEffectiveUntilTimestamp()));
         commonMap.put("effective-until-countdown-short", TimeUtils.unixCountdownShort(punishment.getEffectiveUntilTimestamp()));
 
-        commonMap.put("expire-time", TimeUtils.dateOf(punishment.getExpireTimestamp(), tz));
-        commonMap.put("expire-time-short", TimeUtils.dateOfShort(punishment.getExpireTimestamp(), tz));
+        // expire date (or countdown)
+        commonMap.put("expire-time", (punishment.getExpireTimestamp() >= punishment.getIssuedTimestamp() ? TimeUtils.dateOf(punishment.getExpireTimestamp(), tz) : permanentString));
+        commonMap.put("expire-time-short", (punishment.getExpireTimestamp() >= punishment.getIssuedTimestamp() ? TimeUtils.dateOfShort(punishment.getExpireTimestamp(), tz) : permanentString));
         commonMap.put("expire-time-countdown", TimeUtils.unixCountdown(punishment.getExpireTimestamp()));
         commonMap.put("expire-time-countdown-short", TimeUtils.unixCountdownShort(punishment.getExpireTimestamp()));
+        
 
         commonMap.put("enforced", String.valueOf(punishment.isEnforced()));
         commonMap.put("reason", punishment.getReason());
-
 
         return commonMap;
     }

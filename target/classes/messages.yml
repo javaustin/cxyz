@@ -111,7 +111,7 @@ commands:
       &e/coins set <amount> [[player]]
       &e/coins view [[player]]
     added: "&aSuccessfully added {amount} coins to {player}!"
-    removed: "&aSuccessfully removed {amount} coins to {player}!"
+    removed: "&aSuccessfully removed {amount} coins from {player}!"
     set: "&aSuccessfully set {amount} coins to {player}!"
     view: "&a{player} has {amount} coins!"
 
@@ -402,14 +402,15 @@ commands:
     delete: "&aDeleted {type} #{case-id} from player {player}."
     edit: "(&aSuccessfully updated punishment {attribute}!)[HOVER:New value: {value}]"
 
+
     info: |
       &cPunishment #{case-id}
       &fOffender: ({player-rank-color}{player-username})[HOVER:&7Click to copy UUID][COPY_TO_CLIPBOARD:{player-uuid}]
       &fModerator: ({mod-rank-color}{mod-username})[HOVER:&7Click to copy UUID][COPY_TO_CLIPBOARD:{mod-uuid}]
       &fType: &7{type}
       &fIssue date: &7{date}
-      &fEffective until: &7{effective-until-short}
-      &fRecord Expires: &7{expire-time-short}
+      &fDuration: (&7{duration-short})[HOVER:Effective until: {effective-until-short} in {effective-until-countdown-short}]
+      &fRecord Expires: (&7{expire-time-short})[HOVER:In {expire-time-countdown-short}]
       &fReason: &7{reason}
       &fEnforced: &7{enforced}
       &fEdited by &7{editor-mod-rank-color}{editor-mod-username}
@@ -468,6 +469,6 @@ commands:
       &e/xp set <amount> [[player]]
       &e/xp view [[player]]
     added: "&aSuccessfully added {amount} xp to {player}!"
-    removed: "&aSuccessfully removed {amount} xp to {player}!"
+    removed: "&aSuccessfully removed {amount} xp from {player}!"
     set: "&aSuccessfully set {amount} xp to {player}!"
     view: "&a{player} has {amount} xp!"

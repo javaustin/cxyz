@@ -2,6 +2,7 @@ package com.carrotguy69.cxyz.cmd.mod.punishment;
 
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;

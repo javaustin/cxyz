@@ -325,21 +325,21 @@ punishments:
       ban: Hacking
     
     durations: # Enter times in SECONDS
-      permanent: permanent # If the duration is permanent, this text will show instead of the durations.
-      
+      permanent: "permanent" # If the duration is permanent, this text will show instead of the supplied durations.
+
       effective-until: # The time until the punishment is no longer effective.
         warn: 604800 # 1 week (warns are stored but do not affect the player - to control records - modify the expiry value)
         mute: 3600 # 1 hour
         kick: 0 # Expires immediately (kicks are not persistent by design, any value will be ignored)
         ban: -1 # Permanent
-      
+
       expire: # The time until the record of the punishment is cleared.
         warn: -1 # Record never expires
         mute: 2622600 # Record expires after a month of the issuing
         kick: 0 # Record expires immediately
         ban: -1 # Record never expires
-  
-  
+
+
   mute-restrictions:
   - msg
   - message
@@ -348,25 +348,25 @@ punishments:
 
 shorthand-commands:
   sc:
-    description: "Enter the staff channel"
+    description: \"Enter the staff channel\"
     trigger: sc
     actions:
       - channel staff
 
   permban:
-    description: "Permanently ban a player from the server"
+    description: \"Permanently ban a player from the server\"
     trigger: permban {player} {reason}
     actions:
       - ban {player} permanent {reason}
 
   rules:
-    description: "View the server rules"
+    description: \"View the server rules\"
     trigger: rules
     actions:
-      - "show {sender-username} &aHere are the rules for you {sender}:\n&c1. No hacking\n&62. No being frowny\n&e3. Have fun!"
+      - \"show {sender-username} &aHere are the rules for you {sender}:\n&c1. No hacking\n&62. No being frowny\n&e3. Have fun!\"
 
   hi:
-    description: "Say hi!"
+    description: \"Say hi!\"
     trigger: hi
     actions:
       - show {sender-username} Hello!
@@ -377,4 +377,4 @@ command-restrictions:
   chatcolor: # This should be the registered name of the command (No aliases.)
     minimum-rank: vip # Must be a rank defined under ranks in config.yml
     minimum-level: 0 # Any level below this one defined will be denied access.
-    message: You can't use this unless you are a VIP! # Optional message you want sent to the player when denied access. If left blank the plugin will fallback to NO_ACCESS in messages.yml
+    message: You can"t use this unless you are a VIP! # Optional message you want sent to the player when denied access. If left blank the plugin will fallback to NO_ACCESS in messages.yml

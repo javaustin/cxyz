@@ -103,7 +103,7 @@ public class XPSet implements CommandExecutor {
     public static void set(CommandSender sender, NetworkPlayer np, long amt) {
         amt = Math.abs(amt);
 
-        np.setCoins(amt);
+        np.setXP(amt);
 
         np.sync();
 

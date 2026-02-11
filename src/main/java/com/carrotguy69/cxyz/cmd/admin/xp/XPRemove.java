@@ -102,13 +102,13 @@ public class XPRemove implements CommandExecutor {
     public static void remove(CommandSender sender, NetworkPlayer np, long amt) {
         amt = Math.abs(amt);
 
-        int currentCoins = np.getLevel();
+        int currentXP = np.getLevel();
 
-        if (currentCoins - amt < 0)
-            np.setCoins(0);
+        if (currentXP - amt < 0)
+            np.setXP(0);
 
         else
-            np.setCoins(currentCoins - amt);
+            np.setXP(currentXP - amt);
 
         np.sync();
 

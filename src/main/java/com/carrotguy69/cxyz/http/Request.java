@@ -105,7 +105,7 @@ public class Request {
                         return;
                     }
 
-                    if (normalized.statusCode < 200 && response.statusCode() > 299)
+                    if (normalized.statusCode < 200 || normalized.statusCode > 299)
                         Logger.debugFailedRequest("Received result: " + normalized.toCompactString());
 
                     else

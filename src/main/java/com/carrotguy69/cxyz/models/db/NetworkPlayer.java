@@ -15,12 +15,9 @@ import com.carrotguy69.cxyz.other.*;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.utils.JsonConverters;
 import com.carrotguy69.cxyz.other.utils.TimeUtils;
-import com.google.common.graph.Network;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -66,6 +63,8 @@ public class NetworkPlayer {
     private String equipped_cosmetics; // Equipped cosmetics does not represent what is physically equipped, it only represents what we should try to equip if the game allows us.
 
     private String muted_channels;
+
+    private int version;
 
     public enum MessagePrivacy {
         ALLOWED,
@@ -116,6 +115,7 @@ public class NetworkPlayer {
         this.chat_channel = Objects.requireNonNull(ChannelRegistry.getChannelByFunction(ChannelFunction.PUBLIC)).getName(); // If the public channel is null then we have larger problems
         this.chat_tag = "";
         this.chat_color = "";
+        this.version = 0;
 
         return this;
     }
@@ -167,6 +167,7 @@ public class NetworkPlayer {
                 ", chatChannel='" + getChatChannel().getName() + '\'' +
                 ", chatTag='" + getChatTag() + '\'' +
                 ", chatColor='" + getChatColor() + '\'' +
+                ", version=" + this.version +
                 '}';
     }
 
@@ -747,6 +748,7 @@ public class NetworkPlayer {
     }
 
     public void sync() {
+        this.version += 1;
         Request.postRequest(apiEndpoint + "/user/modify", gson.toJson(this));
     }
 

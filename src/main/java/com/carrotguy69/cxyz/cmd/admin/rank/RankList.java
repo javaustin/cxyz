@@ -105,7 +105,7 @@ public class RankList implements CommandExecutor {
         commonMap.putAll(formatter.getFormatMap());
 
 
-        String unparsed = MessageGrabber.grab(MessageKey.PARTY_LIST);
+        String unparsed = MessageGrabber.grab(MessageKey.RANK_LIST_PLAYER);
 
         int min = 1;
         int max = formatter.getMaxPages();
