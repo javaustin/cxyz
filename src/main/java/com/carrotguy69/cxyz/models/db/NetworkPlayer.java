@@ -672,6 +672,7 @@ public class NetworkPlayer {
 
     public void equipCosmetic(Cosmetic cosmetic) {
         // Functionally different from addEquippedCosmetic(); This function physically creates and runs the equipActions with the current NetworkPlayer.
+
         List<String> list = JsonConverters.toList(this.equipped_cosmetics);
 
         list.add(cosmetic.getId());

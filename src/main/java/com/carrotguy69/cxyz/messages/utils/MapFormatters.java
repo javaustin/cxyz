@@ -66,6 +66,7 @@ public class MapFormatters {
 
         @Override
         public String toString() {
+            Logger.debugMap("ListFormatter map: " + map.toString());
             return String.format("ListFormatter{map(size)=%d, entries=%s, delimiter=%s, maxEntriesPerPage=%d, page=%d}", map.size(), entries, delimiter, maxEntriesPerPage, pageNumber);
         }
 
@@ -263,67 +264,69 @@ public class MapFormatters {
         // Basically a formatter that allows supports senderFormatter by attaching non-specific console values to player map keys.
         // So if a player uses {player-username} in the config, but the actual target is a console sender, this allows the key to still be parsed correctly regardless of the target,
 
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> commonMap = new HashMap<>();
 
 
 
-        result.put("player", "console");
-        result.put("player-uuid", "console");
-        result.put("player-username", "console");
-        result.put("player-nickname", "console");
-        result.put("player-nickname-display", "console");
-        result.put("player-display-name", "console");
+        commonMap.put("player", "console");
+        commonMap.put("player-uuid", "console");
+        commonMap.put("player-username", "console");
+        commonMap.put("player-nickname", "console");
+        commonMap.put("player-nickname-display", "console");
+        commonMap.put("player-display-name", "console");
 
-        result.put("player-rank", defaultRank);
-        result.put("player-rank-prefix", "");
-        result.put("player-rank-prefix-display", "None");
-        result.put("player-rank-color", defaultRank.getColor());
+        commonMap.put("player-rank", defaultRank);
+        commonMap.put("player-rank-prefix", "");
+        commonMap.put("player-rank-prefix-display", "None");
+        commonMap.put("player-rank-color", defaultRank.getColor());
 
-        result.put("player-custom-rankplate", "");
-        result.put("player-custom-rankplate-display", "None");
+        commonMap.put("player-custom-rankplate", "");
+        commonMap.put("player-custom-rankplate-display", "None");
+        commonMap.put("player-custom-rankplate-lore", "");
 
-        result.put("player-tag", "");
-        result.put("player-tag-display", "None");
+        commonMap.put("player-tag", "");
+        commonMap.put("player-tag-display", "None");
+        commonMap.put("player-tag-lore", "");
 
-        result.put("player-chat-channel", "None");
-        result.put("player-chat-channel-prefix", "None");
+        commonMap.put("player-chat-channel", "None");
+        commonMap.put("player-chat-channel-prefix", "None");
 
-        result.put("player-chat-color", defaultRank.getColor());
-        result.put("player-chat-color-name", com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(defaultRank.getColor()));
+        commonMap.put("player-chat-color", defaultRank.getColor());
+        commonMap.put("player-chat-color-name", com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(defaultRank.getColor()));
 
-        result.put("player-server", this_server.getName());
-        result.put("player-vanish-status", "&cUnvanished");
-        result.put("player-online-status", "&aOnline");
+        commonMap.put("player-server", this_server.getName());
+        commonMap.put("player-vanish-status", "&cUnvanished");
+        commonMap.put("player-online-status", "&aOnline");
 
-        result.put("player-first-join", TimeUtils.dateOf(0, timezone));
-        result.put("player-first-join-short", TimeUtils.dateOfShort(0, timezone));
-        result.put("player-last-join", TimeUtils.dateOfShort(unixTimeNow(), timezone));
-        result.put("player-last-join-short", TimeUtils.dateOfShort(unixTimeNow(), timezone));
-        result.put("player-last-online", TimeUtils.dateOfShort(unixTimeNow(), timezone));
-        result.put("player-last-online-short", TimeUtils.dateOfShort(unixTimeNow(), timezone));
+        commonMap.put("player-first-join", TimeUtils.dateOf(0, timezone));
+        commonMap.put("player-first-join-short", TimeUtils.dateOfShort(0, timezone));
+        commonMap.put("player-last-join", TimeUtils.dateOfShort(unixTimeNow(), timezone));
+        commonMap.put("player-last-join-short", TimeUtils.dateOfShort(unixTimeNow(), timezone));
+        commonMap.put("player-last-online", TimeUtils.dateOfShort(unixTimeNow(), timezone));
+        commonMap.put("player-last-online-short", TimeUtils.dateOfShort(unixTimeNow(), timezone));
 
-        result.put("player-timezone", timezone);
-        result.put("player-playtime", TimeUtils.countdownShort(0));
-        result.put("player-last-ip", this_server.getIP());
+        commonMap.put("player-timezone", timezone);
+        commonMap.put("player-playtime", TimeUtils.countdownShort(0));
+        commonMap.put("player-last-ip", this_server.getIP());
 
-        result.put("player-coins", 0);
-        result.put("player-level", 0);
-        result.put("player-xp", 0);
+        commonMap.put("player-coins", 0);
+        commonMap.put("player-level", 0);
+        commonMap.put("player-xp", 0);
 
-        result.put("player-friend-privacy", NetworkPlayer.FriendRequestPrivacy.ALLOWED.name());
-        result.put("player-message-privacy", NetworkPlayer.MessagePrivacy.ALLOWED.name());
-        result.put("player-party-privacy", NetworkPlayer.PartyInvitePrivacy.ALLOWED.name());
+        commonMap.put("player-friend-privacy", NetworkPlayer.FriendRequestPrivacy.ALLOWED.name());
+        commonMap.put("player-message-privacy", NetworkPlayer.MessagePrivacy.ALLOWED.name());
+        commonMap.put("player-party-privacy", NetworkPlayer.PartyInvitePrivacy.ALLOWED.name());
 
-        result.put("player-ignore-list-size", 0);
-        result.put("player-friend-list-size", 0);
+        commonMap.put("player-ignore-list-size", 0);
+        commonMap.put("player-friend-list-size", 0);
 
-        result.put("player-owned-cosmetics-list-size", 0);
-        result.put("player-equipped-cosmetics-list-size", 0);
+        commonMap.put("player-owned-cosmetics-list-size", 0);
+        commonMap.put("player-equipped-cosmetics-list-size", 0);
 
-        result.put("player-muted-channels-list-size", 0);
-        result.put("player-ignored-channels-list-size", 0);
+        commonMap.put("player-muted-channels-list-size", 0);
+        commonMap.put("player-ignored-channels-list-size", 0);
 
-        return result;
+        return commonMap;
     }
 
     public static Map<String, Object> blankFormatter(String s) {
@@ -379,7 +382,7 @@ public class MapFormatters {
         commonMap.put("player-uuid", player.getUUID());
         commonMap.put("player-username", player.getUsername());
         commonMap.put("player-nickname", player.getNickname() != null ? player.getNickname() : "");
-        commonMap.put("player-nickname-display", player.getNickname() != null ? player.getNickname() : "None");
+        commonMap.put("player-nickname-display", player.getNickname() != null && !player.getNickname().isBlank() ? player.getNickname() : "None");
         commonMap.put("player-display-name", player.getDisplayName());
 
         commonMap.put("player-rank", player.getTopRank().getName());
@@ -389,15 +392,28 @@ public class MapFormatters {
 
         commonMap.put("player-custom-rankplate", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : "");
         commonMap.put("player-custom-rankplate-display", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : "");
+        commonMap.put("player-custom-rankplate-lore", "");
 
         commonMap.put("player-tag", player.getChatTag() != null && !player.getChatTag().isBlank() ? player.getChatTag() : "");
         commonMap.put("player-tag-display", player.getChatTag() != null && !player.getChatTag().isBlank() ? player.getChatTag() : "None");
+        commonMap.put("player-tag-lore", "");
+
+        commonMap.put("player-chat-color", player.getChatColor() != null && !player.getChatColor().isBlank() ? player.getChatColor() : player.getTopRank().getDefaultChatColor());
+        commonMap.put("player-chat-color-name", player.getChatColor() != null && !player.getChatColor().isBlank() ? com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(player.getChatColor()) : com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(player.getTopRank().getDefaultChatColor()));
+
+        for (Cosmetic cosmetic : player.getEquippedCosmetics()) {
+            if (cosmetic.getType().equals(Cosmetic.CosmeticType.RANK_PLATE)) {
+                commonMap.put("player-custom-rankplate-lore", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? cosmetic.getLore() : "");
+            }
+
+            if (cosmetic.getType().equals(Cosmetic.CosmeticType.CHAT_TAG)) {
+                commonMap.put("player-tag-lore", player.getChatTag() != null && !player.getChatTag().isBlank() ? cosmetic.getLore() : "");
+            }
+        }
 
         commonMap.put("player-chat-channel", player.getChatChannel().getName());
         commonMap.put("player-chat-channel-prefix", player.getChatChannel().getPrefix());
 
-        commonMap.put("player-chat-color", player.getChatColor() != null && !player.getChatColor().isBlank() ? player.getChatColor() : player.getTopRank().getDefaultChatColor());
-        commonMap.put("player-chat-color-name", player.getChatColor() != null && !player.getChatColor().isBlank() ? com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(player.getChatColor()) : com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(player.getTopRank().getDefaultChatColor()));
 
         commonMap.put("player-server", player.getServer().getName());
         commonMap.put("player-vanish-status", player.isVanished() ? "&aVanished" : "&cUnvanished");
@@ -558,8 +574,8 @@ public class MapFormatters {
             throw new NullPointerException("cosmetic cannot be null!");
         }
 
-        commonMap.put("id", cosmetic.getId());
-        commonMap.put("lore", cosmetic.getLore());
+        commonMap.put("cosmetic-id", cosmetic.getId());
+        commonMap.put("cosmetic-lore", cosmetic.getLore());
 
         // See ActiveCosmetic::equip for CHAT_COLOR methodology/explanation
 
@@ -572,17 +588,18 @@ public class MapFormatters {
                 color = new com.carrotguy69.cxyz.cmd.general.ChatColor.Color("reset", "&r");
             }
 
-            commonMap.put("display", color.code + color.name + " ");
+            commonMap.put("cosmetic-display", color.code + color.name + " ");
         }
 
         else {
-            commonMap.put("display", cosmetic.getDisplay());
+            commonMap.put("cosmetic-display", cosmetic.getDisplay());
         }
 
-        commonMap.put("rank-requirement", cosmetic.getRequiredRank().getPrefix());
-        commonMap.put("level-requirement", String.valueOf(cosmetic.getRequiredLevel()));
-        commonMap.put("price", String.valueOf(cosmetic.getPrice()));
-        commonMap.put("type", cosmetic.getType().name());
+        commonMap.putAll(cloneFormaterToNewKey(rankFormatter(cosmetic.getRequiredRank()), "rank", "cosmetic-required-rank"));
+
+        commonMap.put("cosmetic-required-level", String.valueOf(cosmetic.getRequiredLevel()));
+        commonMap.put("cosmetic-price", String.valueOf(cosmetic.getPrice()));
+        commonMap.put("cosmetic-type", cosmetic.getType().name());
 
         return commonMap;
     }

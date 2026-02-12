@@ -152,7 +152,7 @@ chat:
       console: true
       ignorable: false # Can this channel be ignored? Probably not
       webhook-url: ''
-      chat-format: '{player-tag}{player-rank-prefix}{player-rank-color}{player-display-name}: {player-chat-color}{message}' # Directly applicable to player chat
+      chat-format: '({player-tag})[HOVER:{player-tag-lore}]({player-rank-prefix})[HOVER:{player-custom-rankplate-lore}]{player-rank-color}{player-display-name}: {player-chat-color}{message}' # Directly applicable to player chat
       trigger-prefix: ""
       aliases: [public, pub, a]
       lockable: true

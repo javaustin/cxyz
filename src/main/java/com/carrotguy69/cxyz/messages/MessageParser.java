@@ -481,6 +481,7 @@ public class MessageParser {
 
             Logger.debugMessage("unparsed text: " + unparsed);
             Logger.debugMessage("formatMap(size): " + formatMap.size());
+            Logger.debugMap("formatMap: " + formatMap);
             Logger.debugMessage("colors: " + colorSTCMap);
 
             if (ObjectUtils.containsIgnoreCase(enabledDebugs, Debug.DebugValue.MESSAGE_PARSER.name())) {

@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-import static com.carrotguy69.cxyz.messages.MessageKey.*;
 
 public class Buy implements CommandExecutor {
     @Override
@@ -39,7 +38,7 @@ public class Buy implements CommandExecutor {
         }
 
         if (!(sender instanceof Player)) {
-            MessageUtils.sendParsedMessage(sender, COMMAND_PLAYER_ONLY, Map.of());
+            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
             return true;
         }
 
@@ -61,39 +60,40 @@ public class Buy implements CommandExecutor {
 
         Cosmetic cosmetic = Cosmetic.getCosmetic(cosmeticID);
         if (cosmetic == null) {
-            MessageUtils.sendParsedMessage(p, INVALID_ITEM, Map.of("input", cosmeticID));
+            MessageUtils.sendParsedMessage(p, MessageKey.INVALID_ITEM, Map.of("input", cosmeticID));
             return;
         }
 
-        Map<String, Object> formatter = MapFormatters.playerFormatter(np);
-        formatter.putAll(MapFormatters.cosmeticFormatter(cosmetic));
+        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
+        commonMap.putAll(MapFormatters.cosmeticFormatter(cosmetic));
 
         PlayerRank rank = np.getTopRank();
         long level = np.getLevel();
         long coins = np.getCoins();
 
         if (!cosmetic.isEnabled()) {
-            MessageUtils.sendParsedMessage(p, BUY_ERROR_DISABLED_ITEM, formatter);
+            MessageUtils.sendParsedMessage(p, MessageKey.BUY_ERROR_DISABLED_ITEM, commonMap);
             return;
         }
 
         if (np.hasOwnedCosmetic(cosmetic)) {
-            MessageUtils.sendParsedMessage(p, BUY_ERROR_DUPLICATE_ITEM, formatter);
+            MessageUtils.sendParsedMessage(p, MessageKey.BUY_ERROR_DUPLICATE_ITEM, commonMap);
             return;
         }
 
         if (rank.getHierarchy() < cosmetic.getRequiredRank().getHierarchy()) {
-            MessageUtils.sendParsedMessage(p, BUY_ERROR_INSUFFICIENT_RANK, formatter);
+            commonMap.putAll(MapFormatters.cloneFormaterToNewKey(MapFormatters.rankFormatter(cosmetic.getRequiredRank()), "rank", "cosmetic-rank"));
+            MessageUtils.sendParsedMessage(p, MessageKey.BUY_ERROR_INSUFFICIENT_RANK, commonMap);
             return;
         }
 
         else if (level < cosmetic.getRequiredLevel()) {
-            MessageUtils.sendParsedMessage(p, BUY_ERROR_INSUFFICIENT_LEVEL, formatter);
+            MessageUtils.sendParsedMessage(p, MessageKey.BUY_ERROR_INSUFFICIENT_LEVEL, commonMap);
             return;
         }
 
         else if (coins < cosmetic.getPrice()) {
-            MessageUtils.sendParsedMessage(p, BUY_ERROR_INSUFFICIENT_COINS, formatter);
+            MessageUtils.sendParsedMessage(p, MessageKey.BUY_ERROR_INSUFFICIENT_COINS, commonMap);
             return;
         }
 
@@ -101,7 +101,7 @@ public class Buy implements CommandExecutor {
 
         np.sync();
 
-        MessageUtils.sendParsedMessage(p, BUY_SUCCESS, formatter);
+        MessageUtils.sendParsedMessage(p, MessageKey.BUY_SUCCESS, commonMap);
     }
 
 }

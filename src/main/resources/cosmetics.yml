@@ -19,6 +19,15 @@ cosmetics:
     level-requirement: 0 # Required network level to buy this item
     rank-requirement: default # Required network rank to buy this item (does not restrict equipping except for RANK_PLATE cosmetics)
 
+  blank-lore:
+    display: "&x&0&0&B&7&F&B[&x&0&0&A&5&F&Bl&x&0&0&9&2&F&Co&x&0&0&8&0&F&Cr&x&0&0&6&E&F&De&x&0&0&5&B&F&Dl&x&0&0&4&9&F&Ee&x&0&0&3&7&F&Es&x&0&0&2&4&F&Fs&x&0&0&1&2&F&F] "
+    lore: ""
+    type: CHAT_TAG
+    enabled: true
+    price: 0
+    level-requirement: 0
+    rank-requirement: mvp
+
   darker-green:
     display: "&x&2&f&a&5&2&b" # This `display` value must be the exact color or the corresponding name of the color as defined in config.yml.
     lore: "&2This is a custom chat color for VIP's"
@@ -75,7 +84,7 @@ cosmetics:
     rank-requirement: default
 
   lightning:
-    display: "&e"
+    display: "&eLIGHTNING"
     lore: "&eStrike down your opponents with the power of Zeus!"
     type: KILL_EFFECT
     enabled: true

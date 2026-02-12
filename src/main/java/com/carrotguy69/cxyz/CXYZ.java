@@ -158,10 +158,10 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [➕] ADD/IMPLEMENT:
+   - instead of using vague "display" strings for telling apart stripped vs. non-stripped. just make it "-stripped" and put it in the formatters
+   - enforce only one cosmetic of type (chat_tag, rank_plate, chat_color) to be applied at a time. two cannot be applied at the same time
    - a way to register unused event listeners (for cosmetics) without cluttering this main file
    - make log-messages support hover and click events
-   - define design rules for when things are stripped or not, i think the hard rule should be, if its stripped, it is named that in the mapformatter ("object-stripped")
-   - can we rationally implement text hover text if it exists to allow for cosmetic lore. perhaps we can modify the message parser to ignore any actions with no text. then we can dynamically include lore
    - create cosmetic list command
    - The player might like to see their playtime update when calling /whois twice, instead of waiting for the long task.
    - Add chat tag display value that shows description.

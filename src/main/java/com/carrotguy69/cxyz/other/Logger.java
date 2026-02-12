@@ -151,6 +151,10 @@ public class Logger {
         debug(Debug.DebugValue.COSMETIC, content);
     }
 
+    public static void debugMap(String content) {
+        debug(Debug.DebugValue.MAP, content);
+    }
+
 
     public static void info(String content) {
         Bukkit.getScheduler().runTask(plugin, () -> plugin.getLogger().info(content));
