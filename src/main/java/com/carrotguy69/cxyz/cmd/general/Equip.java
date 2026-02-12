@@ -75,7 +75,7 @@ public class Equip implements CommandExecutor {
         }
 
         if (cosmetic.getType() == Cosmetic.CosmeticType.RANK_PLATE && cosmetic.getRequiredRank().getHierarchy() > np.getTopRank().getHierarchy()) {
-            commonMap.putAll(MapFormatters.cloneFormaterToNewKey(MapFormatters.rankFormatter(cosmetic.getRequiredRank()), "rank", "cosmetic-rank"));
+            commonMap.putAll(MapFormatters.cloneFormaterToNewKey(MapFormatters.rankFormatter(cosmetic.getRequiredRank()), "rank", "cosmetic-required-rank"));
             MessageUtils.sendParsedMessage(p, MessageKey.BUY_ERROR_INSUFFICIENT_RANK, commonMap);
             return true;
         }
