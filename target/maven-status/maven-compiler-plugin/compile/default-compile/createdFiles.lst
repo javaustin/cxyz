@@ -26,6 +26,7 @@ com\carrotguy69\cxyz\cmd\general\friend\FriendAdd.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PunishmentShipmentWrapper.class
 com\carrotguy69\cxyz\tabCompleters\Lock.class
 com\carrotguy69\cxyz\models\config\shorthand\utils\ShorthandUtils.class
+com\carrotguy69\cxyz\other\Tasks$8.class
 com\carrotguy69\cxyz\cmd\admin\level\_LevelExecutor.class
 com\carrotguy69\cxyz\tabCompleters\Party.class
 com\carrotguy69\cxyz\cmd\general\message\MessageSend.class

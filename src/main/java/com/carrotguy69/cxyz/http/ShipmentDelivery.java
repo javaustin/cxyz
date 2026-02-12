@@ -2,6 +2,7 @@ package com.carrotguy69.cxyz.http;
 
 import com.carrotguy69.cxyz.models.db.*;
 import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.other.Tasks;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.annotations.SerializedName;
@@ -456,8 +457,9 @@ public class ShipmentDelivery {
             punishmentIDMap.clear();
             punishmentIDMap.putAll(tempMap2);
 
-            Logger.info("✅ Punishment table shipment received!");
+            Tasks.punishmentSeq();
 
+            Logger.info("✅ Punishment table shipment received!");
         }
 
         catch (Exception e) {
@@ -508,6 +510,8 @@ public class ShipmentDelivery {
                     Logger.debugUser("[+] Added an entry to punishments. " + punishment);
                     punishmentIDMap.put(punishment.getID(), punishment);
                 }
+
+                Tasks.punishmentSeq();
             }
 
 
@@ -517,10 +521,6 @@ public class ShipmentDelivery {
             throw new RuntimeException("Punishment delivery failed!!");
         }
     }
-
-
-
-
 
 
     static class MessageShipmentWrapper {

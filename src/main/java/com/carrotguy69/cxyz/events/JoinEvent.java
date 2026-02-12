@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.events;
 
-import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
@@ -27,7 +26,7 @@ public class JoinEvent {
         boolean create = false;
 
         if (!isInitialized()) {
-            p.kickPlayer("Server is not finished initializing. Please wait!");
+            p.kickPlayer(f("&eServer is not finished initializing. Please wait!"));
             return;
         }
 
@@ -44,9 +43,9 @@ public class JoinEvent {
             Map<String, Object> map = MapFormatters.punishmentFormatter(np.getPlayer(), ban);
 
             if (ban.isPermanent())
-                p.kickPlayer(String.join("\n", unescape(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_PLAYER_MESSAGE_PERMANENT, map))));
+                p.kickPlayer(f(String.join("\n", unescape(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_PLAYER_MESSAGE_PERMANENT, map)))));
             else
-                p.kickPlayer(String.join("\n", unescape(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_PLAYER_MESSAGE, map))));
+                p.kickPlayer(f(String.join("\n", unescape(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_PLAYER_MESSAGE, map)))));
 
             return;
         }

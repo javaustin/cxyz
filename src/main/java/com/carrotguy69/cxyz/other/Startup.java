@@ -200,11 +200,10 @@ public class Startup {
     public static void startTasks() {
         handlePartyExpires();
         handlePartyInvites();
-//        fixChannels();
         fixOnlinePlayers();
         updateLastOnlineValues();
         deleteOfflineParties();
-
+        runPunishmentSeq();
     }
 //
 //    public static void setWorldDefaults(World w) {

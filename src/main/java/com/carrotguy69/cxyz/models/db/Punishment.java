@@ -246,8 +246,8 @@ public class Punishment {
         Punishment lastPunishment = getLastGlobalPunishment();
 
         if (lastPunishment == null) {
-            Logger.debugPunishment("No last punishment found (returns 1)");
-            return 1;
+            Logger.debugPunishment("No last punishment found (now guessing based off punishmentSeq)");
+            return punishmentSeq + 1;
         }
 
         return lastPunishment.getID() + 1;

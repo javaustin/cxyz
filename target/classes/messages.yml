@@ -347,20 +347,20 @@ commands:
     ban:
       mod-message: "&aSuccessfully applied ban to {player}!"
       player-message: |
-        &cYou have been banned from this server for: {reason}!
+        &cYou have been banned from this server for: &7{reason}!
     
-        &r&fID: #&7{case-id}
+        &r&fID: &7#{case-id}
         &r&fPlayer: {player-rank-color}{player} 
         &r&fModerator: {mod-rank-color}{mod}
         &r&fIssued on: &7{date}
         &r&fEffective Until: &7{effective-until}
         
-        &4You cannot rejoin until your ban expires in {effective-until-countdown}.
+        &cYou cannot rejoin until your ban expires in {effective-until-countdown}.
         &rAppeal at: https://example.com/appeal
       player-message-permanent: |
-        &cYou have been permanently banned from this server for: {reason}!
+        &cYou have been permanently banned from this server for: &7{reason}!
         
-        &r&fID: #&7{case-id}
+        &r&fID: &7#{case-id}
         &r&fPlayer: {player-rank-color}{player} 
         &r&fModerator: {mod-rank-color}{mod}
         &r&fIssued on: &7{date}
@@ -423,7 +423,7 @@ commands:
         {punishments}
         (&f< Previous)[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/punishment history {player} {next-page}]
       blank: "&eNo punishments found for this player!"
-      entry-format: "&e#[[{case-id}]] {type} (({duration-short})) by {mod-rank-prefix}{mod-rank-color}{mod-username} for {reason} on {date-short}"
+      entry-format: "&e#[[{case-id}]] &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short}"
       separator: "\n"
       max-entries-per-page: 5
 

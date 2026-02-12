@@ -1,5 +1,7 @@
 package com.carrotguy69.cxyz.other;
 
+import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.http.RequestType;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
@@ -9,6 +11,7 @@ import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.db.PartyExpire;
 import com.carrotguy69.cxyz.models.db.PartyInvite;
+import com.carrotguy69.cxyz.other.utils.JsonConverters;
 import com.carrotguy69.cxyz.other.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -130,36 +133,6 @@ public class Tasks {
 
         taskIDs.add(id);
     }
-//
-//    public static void fixChannels() {
-//        // In config.yml (in chat), it is possible for a channel to be ignorable (the ability for individual players to ignore a channel).
-//        // If this value is set to false, the channel should not be ignorable, but players may have already added it to their ignore list.
-//        // This task removes these unignorable channels from players ignore lists through a backend SQL query, and on the front end.
-//
-//
-//        int id = new BukkitRunnable() {public void run() {
-//            for (BaseChannel channel : BaseChannel.getAllChannels()) {
-//                if (!channel.isIgnorable()) {
-//                    String query = String.format(
-//                            "UPDATE users\n" +
-//                                    "SET muted_channels = (\n" +
-//                                    "\tSELECT json_group_array(value)\n" +
-//                                    "\tFROM json_each(users.muted_channels)\n" +
-//                                    "\tWHERE value != '%s'\n" +
-//                                    ");",
-//                            channel.getName()
-//                    );
-//
-//                    new Request(RequestType.POST, api_endpoint + "/sql", gson.toJson(Map.of(
-//                            "query", query,
-//                            "table", "users")
-//                    )).send();
-//                }
-//            }
-//        }}.runTaskTimer(instance, 0L, 600 * 20).getTaskId();
-//
-//        taskIDs.add(id);
-//    }
 
     public static void createAnnouncementTasks() {
         for (Announcement annc : Announcement.getAnnouncements()) {
@@ -257,6 +230,24 @@ public class Tasks {
             }
 
         }}.runTaskTimer(plugin, 0, 30 * 20L);
+    }
+
+    public static void runPunishmentSeq() {
+        new BukkitRunnable() { public void run() {
+           punishmentSeq();
+        }}.runTaskTimer(plugin, 0, 60 * 20L);
+    }
+
+    public static void punishmentSeq() {
+        Request.getRequest(apiEndpoint + "/seq/punishments").thenAccept(result -> {
+            if (result.statusCode != 200)
+                return;
+
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                punishmentSeq = (int) Math.round((double) JsonConverters.toMap(result.responseBody).get("seq"));
+            });
+
+        });
     }
 
 

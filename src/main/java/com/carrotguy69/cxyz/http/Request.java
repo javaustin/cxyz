@@ -67,9 +67,9 @@ public class Request {
                 Map<String, Object> bodyMap = JsonConverters.toMap(requestBody);
 //                bodyMap.put("fromGameServer", this_server.getName());
 
-                String body2 = gson.toJson(bodyMap);
+                String bodyGSON = gson.toJson(bodyMap);
 
-                builder.POST(HttpRequest.BodyPublishers.ofString(body2)); // if this fails hilariously, replace the body2 argument with body, and delete the previous code
+                builder.POST(HttpRequest.BodyPublishers.ofString(bodyGSON)); // if this fails hilariously, replace the body2 argument with body, and delete the previous code
             }
             else {
                 builder.GET();
@@ -118,6 +118,11 @@ public class Request {
 
     public static CompletableFuture<RequestResult> postRequest(String url, String data) {
         Request req = new Request(RequestType.POST, url, data);
+        return req.send();
+    }
+
+    public static CompletableFuture<RequestResult> getRequest(String url) {
+        Request req = new Request(RequestType.GET, url, null);
         return req.send();
     }
 }

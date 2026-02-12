@@ -79,6 +79,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     // Database copies
     public static Map<UUID, NetworkPlayer> users = new ConcurrentHashMap<>();
     public static Map<Long, Punishment> punishmentIDMap = new ConcurrentHashMap<>(); // This is the real unique map that stores all punishments.
+    public static int punishmentSeq = 0;
 
     public static Map<UUID, Long> lastMessage = new HashMap<>();
 
@@ -145,22 +146,12 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 /*
 
    [❌] ISSUES:
-   - these entries are not of permanent duration:
-        #[29] WARN (permanent) for testing on 2/6/26 1:41AM (PST)
-        #[30] MUTE (permanent) for test30 on 2/6/26 11:40AM (PST)
-        #[31] WARN (permanent) for lol on 2/10/26 10:42PM (PST)
-
-    - the "best guess method" for punishment ids could be lots better
 
     - why does "&d[phat]" have a formatter color code character before f() is applied?
-
-    - fix nanoHTTP warnings because why the heck do they exist
 
    - Fix message parser actions:
         - should be: [text](ACTION:actionText)
         - but is: (text)[ACTION:actionText]
-
-    - effective until "01/7/70 ??"
 
    - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
 
