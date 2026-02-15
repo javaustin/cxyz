@@ -23,7 +23,7 @@ public class Punishment implements TabCompleter {
             return List.of();
         }
 
-        List<String> subcommands = List.of("delete", "edit", "history", "info", "remove");
+        List<String> subcommands = List.of("clear", "delete", "edit", "history", "info", "remove");
 
         if (args.length == 0) {
             return subcommands;

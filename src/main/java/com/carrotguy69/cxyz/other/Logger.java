@@ -57,7 +57,7 @@ public class Logger {
         info(content);
     }
 
-    private static void internalLog(DefaultChannelType type, String content) {
+    private static void internalLog(DefaultChannelType type, String content, Map<String, Object> map) {
 
         String channelName = configYaml.getString("chat.defaults." + type.name().toLowerCase()); // Get the channel in config.yml that is set to record this LogEntryType
 
@@ -75,11 +75,7 @@ public class Logger {
             return;
         }
 
-        Map<String, Object> commonMap = MapFormatters.channelFormatter(channel);
-        commonMap.put("content", content);
-        commonMap.put("message", content);
-
-        channel.sendChannelMessage("{message}", commonMap);
+        channel.sendChannelMessage(content, map);
 
 
         String url = channel.getWebhookURL();
@@ -91,16 +87,16 @@ public class Logger {
         }
     }
 
-    public static void punishment(String content) {
-        Logger.internalLog(DefaultChannelType.PUNISHMENT, content);
+    public static void punishment(String content, Map<String, Object> map) {
+        Logger.internalLog(DefaultChannelType.PUNISHMENT, content, map);
     }
 
-    public static void xray(String content) {
-        Logger.internalLog(DefaultChannelType.XRAY, content);
+    public static void xray(String content, Map<String, Object> map) {
+        Logger.internalLog(DefaultChannelType.XRAY, content, map);
     }
 
-    public static void error(String content) {
-        Logger.internalLog(DefaultChannelType.ERROR, content);
+    public static void error(String content, Map<String, Object> map) {
+        Logger.internalLog(DefaultChannelType.ERROR, content, map);
     }
 
     public static void debug(Debug.DebugValue debugValue, String content) {

@@ -113,11 +113,12 @@ public class Unban implements CommandExecutor {
                     MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_UNBAN_MOD_MESSAGE, commonMap);
                 }
 
-                if (!logMessage.isEmpty())
-                    Logger.punishment(logMessage);
+                if (!logMessage.isEmpty()) {
+                    Logger.punishment(MessageGrabber.grab(MessageKey.PUNISHMENT_UNBAN_LOG_MESSAGE), commonMap);
+                }
 
                 if (!silent && !announcement.isEmpty())
-                    Broadcast.broadcast(announcement, true, commonMap);
+                    Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_UNBAN_ANNOUNCEMENT), true, commonMap);
 
                 messageSent = true;
             }

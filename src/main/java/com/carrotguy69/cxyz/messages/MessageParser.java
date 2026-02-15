@@ -275,7 +275,7 @@ public class MessageParser {
     private int getClosingParenthesis(int openingParenthesis, int i) {
         int closingParenthesis = -1;
 
-        for (int j = openingParenthesis; j < unparsed.length(); j++) { // Immediately find closing character
+        for (int j = openingParenthesis; j + 1 < unparsed.length(); j++) { // Immediately find closing character
 
             if (j != i && unparsed.charAt(j) == '(' && unparsed.charAt(j + 1) == '(') { // characters are escaped - increment by j += 2 (here and in the loop definition)
                 j++;

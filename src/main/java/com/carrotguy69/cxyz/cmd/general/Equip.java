@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -65,14 +66,22 @@ public class Equip implements CommandExecutor {
         commonMap.putAll(MapFormatters.playerFormatter(np));
 
         if (!(np.hasOwnedCosmetic(cosmetic))) {
-            MessageUtils.sendParsedMessage(p, MessageKey.EQUIP_COSMETIC_NOT_OWNED, MapFormatters.cosmeticFormatter(cosmetic));
+            MessageUtils.sendParsedMessage(p, MessageKey.EQUIP_COSMETIC_NOT_OWNED, commonMap);
             return true;
         }
 
         if (np.hasEquippedCosmetic(cosmetic)) {
-            MessageUtils.sendParsedMessage(p, MessageKey.EQUIP_COSMETIC_ALREADY_EQUIPPED, MapFormatters.cosmeticFormatter(cosmetic));
+            MessageUtils.sendParsedMessage(p, MessageKey.EQUIP_COSMETIC_ALREADY_EQUIPPED, commonMap);
             return true;
         }
+
+        if (np.hasEquippedCosmeticOfType(cosmetic.getType()) && List.of(Cosmetic.CosmeticType.CHAT_COLOR, Cosmetic.CosmeticType.CHAT_TAG, Cosmetic.CosmeticType.RANK_PLATE).contains(cosmetic.getType())) {
+            Cosmetic equippedCosmetic = np.getEquippedCosmeticOfType(cosmetic.getType());
+            commonMap.putAll(MapFormatters.cloneFormaterToNewKey(MapFormatters.cosmeticFormatter(equippedCosmetic), "cosmetic", "equipped-cosmetic"));
+            MessageUtils.sendParsedMessage(p, MessageKey.EQUIP_COSMETIC_SAME_TYPE_ALREADY_EQUIPPED, commonMap);
+            return true;
+        }
+
 
         if (cosmetic.getType() == Cosmetic.CosmeticType.RANK_PLATE && cosmetic.getRequiredRank().getHierarchy() > np.getTopRank().getHierarchy()) {
             commonMap.putAll(MapFormatters.cloneFormaterToNewKey(MapFormatters.rankFormatter(cosmetic.getRequiredRank()), "rank", "cosmetic-required-rank"));
@@ -83,7 +92,7 @@ public class Equip implements CommandExecutor {
         np.equipCosmetic(cosmetic);
         np.sync();
 
-        MessageUtils.sendParsedMessage(p, MessageKey.EQUIP_COSMETIC_SUCCESS, MapFormatters.cosmeticFormatter(cosmetic));
+        MessageUtils.sendParsedMessage(p, MessageKey.EQUIP_COSMETIC_SUCCESS, commonMap);
 
         return true;
     }

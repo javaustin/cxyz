@@ -147,6 +147,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    [❌] ISSUES:
 
+   - stupid kick.log-message glitch
+
     - why does "&d[phat]" have a formatter color code character before f() is applied?
 
    - Fix message parser actions:
@@ -155,45 +157,53 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
 
+   - Ensure /debug actually changes and saves config values
 
 
    [➕] ADD/IMPLEMENT:
-   - instead of using vague "display" strings for telling apart stripped vs. non-stripped. just make it "-stripped" and put it in the formatters
-   - enforce only one cosmetic of type (chat_tag, rank_plate, chat_color) to be applied at a time. two cannot be applied at the same time
-   - a way to register unused event listeners (for cosmetics) without cluttering this main file
-   - make log-messages support hover and click events
-   - create cosmetic list command
-   - The player might like to see their playtime update when calling /whois twice, instead of waiting for the long task.
-   - Add chat tag display value that shows description.
-   - A total duration value (effectiveUntil - issued) to put in map formatters and messages
-   - Unescape console messages in Logger
+
+   organizational:
+   - update /cache on api side to accept a list of tables to return
    - Use environment variables for api keys (just in development)
-   - Standardize and/or document permissions to access commands, channels...
-   - When making permissions for commands, most of them should be enabled by default
-   - A /color command that changes your name color (like in that one Skeppy video)
+   - Organize the public static variables at the top of the main class
+   - Define permissions (and defaults) in plugin.yml
+   - Look through Tasks and move them to the API.
+
+   startup/null prevention:
    - Detailed logging on startup, and do warning + continue on error instead of throwing InvalidConfigException. No null values in objects allowed, enforce it!
-   - Ensure /debug actually changes and saves config values
-   - Auto cosmetic equip on join (if allowed), if not -> auto unequip
    - Defensive programming to defend against the evil SQL database, meaning: we need to enforce defaults whenever a player SQL entry gives us any invalid thing (rank, channel).
    - Throw a config exception in startup if core default channels are not assigned.
-   - Report command.
-   - Organize the public static variables at the top of the main class
-   - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee)
+
+   general commands:
+   - create cosmetic list command
    - /skin command (could be external plugin), but we should have a functionality (maybe in users table) to store the skin name in order to apply it when joining other servers.
-   - Ensure /debug actually changes the config
-   - Remove "admin", "mod", and "general" permission categories as they kind of overlap and are ambiguous.
-   - Define permissions (and defaults) in plugin.yml
-   - Add page # support for list commands (including subcommand lists).
+   - A /color command that changes your name color (like in that one Skeppy video)
    - /punishment allhistory to view all server punishments (MUST have pages)
-   - Errors, move duplicate states to errors.{something-new}
-   - In invalid args errors, we can add acceptable values in the map formatter as opposed to showing the user only what they did wrong.
-   - Look through Tasks and move them to the API.
-   - A way to convert RGB colors to legacy colors (for hover, tab text)
-   - Go into config.yml and define one example cosmetic from each type. Go into CosmeticUtils or create another class and physically create these cosmetics (items, trails, effects).
+   - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
+   - Ensure /debug actually changes the config
+
+   gui/qol:
+   - The player might like to see their playtime update when calling /whois twice, instead of waiting for the long task.
    - Levelup: Add a player facing XP and coin add message (can be left blank in config if admin desires)
    - Levelup: Add a player level up message (and play the sound)
-   - Implement shorthand commands, and then with this add (/rules, /help, /allow {channel} {player})
+
+   design:
+   - When making permissions for commands, most of them should be enabled by default
+   - Standardize and/or document permissions to access commands, channels...
+   - Remove "admin", "mod", and "general" permission categories as they kind of overlap and are ambiguous.
+   - Errors, move duplicate states to errors.{something-new}
+   - In invalid args errors, we can add acceptable values in the map formatter as opposed to showing the user only what they did wrong.
+   - A way to convert RGB colors to legacy colors (for hover, tab text)
    - Events other plugins can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
+
+   - ✅ enforce only one cosmetic of type (chat_tag, rank_plate, chat_color) to be applied at a time. two cannot be applied at the same time
+   - ✅ make log-messages support hover and click events
+   - ✅ Add chat tag display value that shows description.
+   - ✅ A total duration value (effectiveUntil - issued) to put in map formatters and messages
+   - ✅ Auto cosmetic equip on join (if allowed), if not -> auto unequip
+   - ✅ Go into config.yml and define one example cosmetic from each type. Go into CosmeticUtils or create another class and physically create these cosmetics (items, trails, effects).
+   - ✅ Implement shorthand commands, and then with this add (/rules, /help, /allow {channel} {player})
+
 
 
    [🔥] v1.1 UPDATE:

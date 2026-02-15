@@ -125,6 +125,7 @@ public enum MessageKey {
     // Commands - (un)Equip
     // =========================
     EQUIP_COSMETIC_ALREADY_EQUIPPED("commands.equip.error.already-equipped"),
+    EQUIP_COSMETIC_SAME_TYPE_ALREADY_EQUIPPED("commands.equip.error.same-type-already-equipped"),
     EQUIP_COSMETIC_NOT_OWNED("commands.equip.error.not-owned"),
     EQUIP_COSMETIC_INSUFFICIENT_RANK("commands.equip.error.insufficient-rank"),
     EQUIP_COSMETIC_SUCCESS("commands.equip.success"),

@@ -19,7 +19,7 @@ cosmetics:
     level-requirement: 0 # Required network level to buy this item
     rank-requirement: default # Required network rank to buy this item (does not restrict equipping except for RANK_PLATE cosmetics)
 
-  blank-lore:
+  loreless:
     display: "&x&0&0&B&7&F&B[&x&0&0&A&5&F&Bl&x&0&0&9&2&F&Co&x&0&0&8&0&F&Cr&x&0&0&6&E&F&De&x&0&0&5&B&F&Dl&x&0&0&4&9&F&Ee&x&0&0&3&7&F&Es&x&0&0&2&4&F&Fs&x&0&0&1&2&F&F] "
     lore: ""
     type: CHAT_TAG

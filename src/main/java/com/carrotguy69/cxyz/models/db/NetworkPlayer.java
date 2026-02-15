@@ -670,6 +670,20 @@ public class NetworkPlayer {
         return list.contains(cosmetic.getId());
     }
 
+    public Cosmetic getEquippedCosmeticOfType(Cosmetic.CosmeticType type) {
+        for (Cosmetic csm : getEquippedCosmetics()) {
+            if (csm.getType().equals(type))
+                return csm;
+        }
+
+        return null;
+
+    }
+
+    public boolean hasEquippedCosmeticOfType(Cosmetic.CosmeticType type) {
+        return getEquippedCosmeticOfType(type) != null;
+    }
+
     public void equipCosmetic(Cosmetic cosmetic) {
         // Functionally different from addEquippedCosmetic(); This function physically creates and runs the equipActions with the current NetworkPlayer.
 

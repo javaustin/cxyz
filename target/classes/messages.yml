@@ -52,7 +52,7 @@ commands:
 
   buy: # All use cosmeticFormatter and playerFormatter
     success: "&aYou purchased {cosmetic-display}&afor {cosmetic-price} coins!"
-    error.insufficient-rank: "&cThis item requires {cosmetic-required-rank-prefix-display}&crank or above!"
+    error.insufficient-rank: "&cThis item requires {cosmetic-required-rank-prefix-display} &crank or above!"
     error.insufficient-level: "&cThis item requires level {cosmetic-required-level} &c or above!"
     error.insufficient-coins: "&cYou cannot afford this item!"
     error.duplicate-item: "&cYou already own this item!"
@@ -122,9 +122,10 @@ commands:
 
   equip: # Accepts cosmeticFormatter
     error.already-equipped: "&cThis cosmetic is already equipped!"
+    error.same-type-already-equipped: "&cA cosmetic of the same type (({equipped-cosmetic-id}&c)) &cis already equipped. &cYou must unequip it to equip {cosmetic-display-stripped}." # {cosmetic} formatter, {equipped-cosmetic} formatter
     error.not-owned: "&cYou do not own this cosmetic!"
-    error.insufficient-rank: "&cYou cannot apply this cosmetic as you do not have the required {cosmetic-required-rank-prefix} rank."
-    success: "&aYou have equipped ({cosmetic-display})[HOVER:{cosmetic-lore}]"
+    error.insufficient-rank: "&cYou cannot apply this cosmetic as you do not have the required {cosmetic-required-rank-prefix-display} &crank."
+    success: "&aYou have equipped ({cosmetic-display-stripped})[HOVER:{cosmetic-lore}]"
 
   unequip: # Accepts cosmeticFormatter
     error.not-equipped: "&cThis cosmetic is not equipped!"
@@ -368,36 +369,36 @@ commands:
         &4This ban will not expire.
         &rAppeal at: https://example.com/appeal
       # NOTE: This message is logged internally; it does not support hover or click events through brackets like most other messages. This means you can freely use unescaped brackets and parentheses, and the parser will parse it as literals.
-      log-message: "&4[Punishment] &c{player-rank-color}{player} &7was banned by {mod-rank-color}{mod} &7for duration &f{effective-until-countdown} &7for {reason}." # Logged internally, no hover/click support. Unescaped brackets OK.
+      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} ((&fduration: {duration-short})) &fto {player-rank-color}{player} &ffor reason: &f{reason}" # Logged internally, no hover/click support. Unescaped brackets OK.
       announcement: ""
 
     unban:
       mod-message: "&aSuccessfully removed ban from {player}!"
-      log-message: "&4[Punishment] &a{player} has been unbanned by {editor-mod-rank-color}{editor-mod}!" # Logged internally, no hover/click support. Unescaped brackets OK.
+      log-message: "&4[[Punishment]] &a{player} has been unbanned by {editor-mod-rank-color}{editor-mod}!"
       announcement: ""
 
     kick:
       mod-message: "&aSuccessfully applied kick to {player}!"
       player-message: "&cYou have been kicked from this server for the reason: &f{reason}"
-      log-message: "&4[Punishment] &f(ID: {case-id}) &cModerator &f{player-rank-color}{mod} &cissued punishment &f{type} &cto player &f{player-rank-color}{player} &cfor reason: &f{reason}"
+      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} &fto {player-rank-color}{player} &ffor reason: &f{reason}"
       announcement: ""
 
     mute:
       mod-message: "&aSuccessfully applied mute to {player}!"
       initial-player-message: "&cYou have been muted for the reason: &f{reason}. &cYou cannot use chat until your mute expires in &f{effective-until-countdown}."
       player-message: "&cYou are muted!"
-      log-message: "&4[Punishment] &c{player-rank-color}{player} &7was muted by {mod-rank-color}{mod} &7for duration &f{effective-until-countdown} &7for {reason}." # Logged internally, no hover/click support. Unescaped brackets OK.
+      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} ((&fduration: {duration-short})) &fto {player-rank-color}{player} &ffor reason: &f{reason}"
       announcement: ""
 
     unmute:
       mod-message: "&aSuccessfully removed mute from {player}!"
-      log-message: "&4[Punishment] &a{player} has been unmuted by {editor-mod-rank-color}{editor-mod}!"  # Logged internally, no hover/click support. Unescaped brackets OK.
+      log-message: "&4[[Punishment]] &a{player} has been unmuted by {editor-mod-rank-color}{editor-mod}!"
       announcement: ""
 
     warn:
       mod-message: "&aSuccessfully applied warning to {player}!"
       player-message: "&cYou have been warned for the reason: &f{reason}."
-      log-message: "&4[Punishment] &f(ID: {case-id}) &cModerator &f{player-rank-color}{mod} &cissued punishment &f{type} &cto player &f{player-rank-color}{player} &cfor reason: &f{reason}"  # Logged internally, no hover/click support. Unescaped brackets OK.
+      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} &fto {player-rank-color}{player} &ffor reason: &f{reason}"
       announcement: ""
 
     clear: "&aCleared all punishments from player {player}."
@@ -421,7 +422,7 @@ commands:
       message: |
         &f---------- {player-rank-color}{player}'s punishment history &r&f----------
         {punishments}
-        (&f< Previous)[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/punishment history {player} {next-page}]
+        ([[&f< Previous]])[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   ([[&fNext >]])[RUN_COMMAND:/punishment history {player} {next-page}]
       blank: "&eNo punishments found for this player!"
       entry-format: "&e#[[{case-id}]] &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short}"
       separator: "\n"

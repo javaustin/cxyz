@@ -104,16 +104,16 @@ public class Unmute implements CommandExecutor {
                 String logMessage = MessageGrabber.grab(MessageKey.PUNISHMENT_UNMUTE_LOG_MESSAGE, commonMap);
                 String announcement = MessageGrabber.grab(MessageKey.PUNISHMENT_UNMUTE_ANNOUNCEMENT, commonMap);
 
-
                 if (!modMessage.isEmpty()) {
                     MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_UNMUTE_MOD_MESSAGE, commonMap);
                 }
 
-                if (!logMessage.isEmpty())
-                    Logger.punishment(logMessage);
+                if (!logMessage.isEmpty()) {
+                    Logger.punishment(MessageGrabber.grab(MessageKey.PUNISHMENT_UNMUTE_LOG_MESSAGE), commonMap);
+                }
 
                 if (!silent && !announcement.isEmpty())
-                    Broadcast.broadcast(announcement, true, commonMap);
+                    Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_UNMUTE_ANNOUNCEMENT), true, commonMap);
 
                 messageSent = true;
             }

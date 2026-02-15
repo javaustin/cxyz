@@ -179,7 +179,6 @@ public class MessageUtils {
 
     // This is the method all the others point to. It is suffixed "main" so the other methods don't accidentally call themselves.
     private static void sendParsedMessageMain(CommandSender sender, String unparsedContent, Map<String, Object> map) {
-
         try {
             MessageParser parser = new MessageParser(unparsedContent, map);
             List<SimpleTextComponent> components = parser.parse();
@@ -187,8 +186,7 @@ public class MessageUtils {
             sender.spigot().sendMessage(parser.toTextComponent(components));
         }
         catch (MessageParser.MessageParseException ex) {
-            Logger.warning(ex.getDescription() + " At: " + ex.getIndex() + "\n" + "With original text: \"" + ex.getOriginalText() + "\"");
-            sender.sendMessage(ex.getOriginalText());
+            Logger.severe(String.format("Failed to properly parse message with original content \"%s\" because of error %s.", ex.getOriginalText(), ex));
         }
     }
 
@@ -208,7 +206,6 @@ public class MessageUtils {
     public static void sendParsedMessage(CommandSender sender, MessageKey key, Map<String, Object> map) {
         sendParsedMessageMain(sender, MessageGrabber.grab(key), map);
     }
-
     public static void sendPublicMessage(String content, boolean parsed, Map<String, Object> formatMap) {
         // Similar to Bukkit.broadcastMessage(...), but accounts for those who mute the public channel. (EDIT: removed muted channel check, most of our stuff is important enough i reckon)
         // This should be used for mutable announcements, but not for critical game info.

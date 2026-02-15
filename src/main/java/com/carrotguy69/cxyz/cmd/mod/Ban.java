@@ -204,8 +204,6 @@ public class Ban implements CommandExecutor {
         String logMessage = MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_LOG_MESSAGE, commonMap);
         String announcement = MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_ANNOUNCEMENT, commonMap);
 
-
-
         if (effectiveUntilTimestamp == -1)
             player.kick(f(String.join("\n", unescape(playerMessagePerm))));
         else
@@ -215,11 +213,12 @@ public class Ban implements CommandExecutor {
             MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_BAN_MOD_MESSAGE, commonMap);
         }
 
-        if (!logMessage.isEmpty())
-            Logger.punishment(logMessage);
+        if (!logMessage.isEmpty()) {
+            Logger.punishment(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_LOG_MESSAGE), commonMap);
+        }
 
         if (!silent && !announcement.isEmpty())
-            Broadcast.broadcast(announcement, true, commonMap);
+            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_ANNOUNCEMENT), true, commonMap);
     }
 
         // deluxe menus

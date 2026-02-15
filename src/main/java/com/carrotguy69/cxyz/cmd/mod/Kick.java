@@ -164,6 +164,10 @@ public class Kick implements CommandExecutor {
         String logMessage = MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_LOG_MESSAGE, commonMap);
         String announcement = MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_ANNOUNCEMENT, commonMap);
 
+        Logger.debugPunishment(playerMessage);
+        Logger.debugPunishment(modMessage);
+        Logger.debugPunishment(logMessage);
+        Logger.debugPunishment(announcement);
 
         player.kick(f(String.join("\n", unescape(playerMessage))));
 
@@ -171,11 +175,12 @@ public class Kick implements CommandExecutor {
             MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_KICK_MOD_MESSAGE, commonMap);
         }
 
-        if (!logMessage.isEmpty())
-            Logger.punishment(logMessage);
+        if (!logMessage.isEmpty()) {
+            Logger.punishment(MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_LOG_MESSAGE), commonMap);
+        }
 
         if (!silent && !announcement.isEmpty())
-            Broadcast.broadcast(announcement, true, commonMap);
+            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_ANNOUNCEMENT), true, commonMap);
     }
 
 }

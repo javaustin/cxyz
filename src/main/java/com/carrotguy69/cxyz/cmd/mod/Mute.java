@@ -208,15 +208,20 @@ public class Mute implements CommandExecutor {
             MessageUtils.sendParsedMessage(player.getPlayer(), MessageKey.PUNISHMENT_MUTE_INITIAL_PLAYER_MESSAGE, commonMap);
         }
 
+        if (!playerMessage.isEmpty()) {
+            MessageUtils.sendParsedMessage(player.getPlayer(), MessageKey.PUNISHMENT_WARN_PLAYER_MESSAGE, commonMap);
+        }
+
         if (!modMessage.isEmpty()) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_MUTE_MOD_MESSAGE, commonMap);
         }
 
-        if (!logMessage.isEmpty())
-            Logger.punishment(logMessage);
+        if (!logMessage.isEmpty()) {
+            Logger.punishment(MessageGrabber.grab(MessageKey.PUNISHMENT_MUTE_LOG_MESSAGE), commonMap);
+        }
 
         if (!silent && !announcement.isEmpty())
-            Broadcast.broadcast(announcement, true, commonMap);
+            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_MUTE_ANNOUNCEMENT), true, commonMap);
     }
 
 

@@ -385,18 +385,22 @@ public class MapFormatters {
         commonMap.put("player-nickname-display", player.getNickname() != null && !player.getNickname().isBlank() ? player.getNickname() : "None");
         commonMap.put("player-display-name", player.getDisplayName());
 
+        String rankPrefix = player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : player.getTopRank().getPrefix(); // if rank prefix == null, but rankplate is equipped, display the rankplate. if not, display the rank prefix
+        String prefixStripped = (!player.getTopRank().getPrefix().isBlank()) ? player.getTopRank().getPrefix().strip() : player.getTopRank().getName().strip(); // if prefix is not blank, display it stripped. if it is blank -> display the name stripped
+        String rankPrefixDisplay = player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate().strip() : prefixStripped; //
+
         commonMap.put("player-rank", player.getTopRank().getName());
-        commonMap.put("player-rank-prefix", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : player.getTopRank().getPrefix());
-        commonMap.put("player-rank-prefix-display", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate().strip() : (!player.getTopRank().getPrefix().isBlank()) ? player.getTopRank().getPrefix().strip() : player.getTopRank().getName().strip());
+        commonMap.put("player-rank-prefix", rankPrefix);
+        commonMap.put("player-rank-prefix-display", rankPrefixDisplay);
         commonMap.put("player-rank-color", player.getTopRank().getColor() != null ? player.getTopRank().getColor() : "&7");
 
         commonMap.put("player-custom-rankplate", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : "");
         commonMap.put("player-custom-rankplate-display", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : "");
-        commonMap.put("player-custom-rankplate-lore", "");
+        commonMap.put("player-custom-rankplate-lore", ""); // keep this blank
 
         commonMap.put("player-tag", player.getChatTag() != null && !player.getChatTag().isBlank() ? player.getChatTag() : "");
         commonMap.put("player-tag-display", player.getChatTag() != null && !player.getChatTag().isBlank() ? player.getChatTag() : "None");
-        commonMap.put("player-tag-lore", "");
+        commonMap.put("player-tag-lore", ""); // keep this blank
 
         commonMap.put("player-chat-color", player.getChatColor() != null && !player.getChatColor().isBlank() ? player.getChatColor() : player.getTopRank().getDefaultChatColor());
         commonMap.put("player-chat-color-name", player.getChatColor() != null && !player.getChatColor().isBlank() ? com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(player.getChatColor()) : com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(player.getTopRank().getDefaultChatColor()));
@@ -574,6 +578,7 @@ public class MapFormatters {
             throw new NullPointerException("cosmetic cannot be null!");
         }
 
+        commonMap.put("cosmetic", cosmetic.getId());
         commonMap.put("cosmetic-id", cosmetic.getId());
         commonMap.put("cosmetic-lore", cosmetic.getLore());
 
@@ -589,10 +594,12 @@ public class MapFormatters {
             }
 
             commonMap.put("cosmetic-display", color.code + color.name + " ");
+            commonMap.put("cosmetic-display-stripped", color.code + color.name);
         }
 
         else {
             commonMap.put("cosmetic-display", cosmetic.getDisplay());
+            commonMap.put("cosmetic-display-stripped", cosmetic.getDisplay().strip());
         }
 
         commonMap.putAll(cloneFormaterToNewKey(rankFormatter(cosmetic.getRequiredRank()), "rank", "cosmetic-required-rank"));
@@ -608,6 +615,7 @@ public class MapFormatters {
 
         Map<String, Object> commonMap = new HashMap<>();
 
+        commonMap.put("channel", channel.getName());
         commonMap.put("channel-name", channel.getName());
         commonMap.put("channel-prefix", channel.getPrefix());
         commonMap.put("channel-chat-format", channel.getChatFormat());
@@ -646,6 +654,7 @@ public class MapFormatters {
     public static Map<String, Object> rankFormatter(PlayerRank rank) {
         Map<String, Object> commonMap = new HashMap<>();
 
+        commonMap.put("rank", rank.getName());
         commonMap.put("rank-name", rank.getName());
         commonMap.put("rank-color", rank.getColor());
         commonMap.put("rank-prefix", rank.getPrefix()/*.isBlank() ? rank.getColor() + rank.getName(): rank.getPrefix()*/);

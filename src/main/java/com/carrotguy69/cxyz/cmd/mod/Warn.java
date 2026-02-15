@@ -169,11 +169,12 @@ public class Warn implements CommandExecutor {
             MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_WARN_MOD_MESSAGE, commonMap);
         }
 
-        if (!logMessage.isEmpty())
-            Logger.punishment(logMessage);
+        if (!logMessage.isEmpty()) {
+            Logger.punishment(MessageGrabber.grab(MessageKey.PUNISHMENT_WARN_LOG_MESSAGE), commonMap);
+        }
 
         if (!silent && !announcement.isEmpty())
-            Broadcast.broadcast(announcement, true, commonMap);
+            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_WARN_ANNOUNCEMENT), true, commonMap);
     }
 
 
