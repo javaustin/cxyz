@@ -91,7 +91,7 @@ public class PublicChannel extends CoreChannel {
         if (lastMessage.containsKey(np.getUUID())) { // Cooldown checker
             long remainingSeconds = lastMessage.get(np.getUUID()) - TimeUtils.unixTimeNow() + np.getTopRank().getChatCooldown();
 
-            if (remainingSeconds > 0) {
+            if (!p.hasPermission("cxyz." + this.getName() + ".cooldown-bypass") && remainingSeconds > 0) {
                 MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.CHAT_COOLDOWN, Map.of("remaining-seconds", remainingSeconds));
                 return;
             }

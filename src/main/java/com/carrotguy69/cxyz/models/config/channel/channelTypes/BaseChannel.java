@@ -9,7 +9,6 @@ import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.webhook.DiscordWebhook;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -20,7 +19,7 @@ import java.util.Objects;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 import static com.carrotguy69.cxyz.CXYZ.gson;
-import static com.carrotguy69.cxyz.CXYZ.this_server;
+import static com.carrotguy69.cxyz.CXYZ.thisServer;
 import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
 public abstract class BaseChannel {
@@ -232,7 +231,7 @@ public abstract class BaseChannel {
         // This function is not to be called by the HTTP listener, because it will send out requests to other servers.
 
         for (GameServer server : servers) {
-            if (Objects.equals(server.getName(), this_server.getName())) {
+            if (Objects.equals(server.getName(), thisServer.getName())) {
                 sendChannelMessage(this, chatFormat, formatMap);
                 continue;
             }

@@ -22,12 +22,12 @@ public class CoreChannel extends BaseChannel {
 
     @Override
     public void onChat(AsyncPlayerChatEvent e) {
-        throw new UnsupportedOperationException("Method 'onChat' must be overridden by an existing CoreChannel. It should not be called from an instance of this base class.");
+        throw new UnsupportedOperationException("Method 'onChat' must be overridden by a class extending CoreChannel. It should not be called from an instance of this base class.");
     }
 
     @Override
     public void onSelect(NetworkPlayer np) {
-        throw new UnsupportedOperationException("Method 'onSelect' must be overridden by an existing CoreChannel. It should not be called from an instance of this base class.");
+        throw new UnsupportedOperationException("Method 'onSelect' must be overridden by a class extending CoreChannel. It should not be called from an instance of this base class.");
     }
 
 
@@ -66,10 +66,9 @@ public class CoreChannel extends BaseChannel {
             return coreChannels;
         }
         catch (InvalidConfigException ex) {
-            Logger.warning("An InvalidConfigException was thrown in startup. Core channels (public, party, messages) will not load.");
+            Logger.severe("An InvalidConfigException was thrown in startup. Core channels (public, party, messages) will not load.");
+            throw ex;
         }
-
-        return List.of();
     }
 
 }

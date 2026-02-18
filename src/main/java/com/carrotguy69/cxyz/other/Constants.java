@@ -56,10 +56,10 @@ public class Constants {
         FileConfiguration yaml = plugin.getConfig();
 
         configYaml = yaml;
+
         apiEndpoint = (String) yaml.get("api-endpoint");
         apiKey = (String) yaml.get("api-key");
         apiTimeoutMillis = yaml.getInt("api-timeout", 3000);
-        webhook_endpoint = (String) yaml.get("webhook-endpoint");
         servers = GameServer.loadServers();
 
 
@@ -67,8 +67,8 @@ public class Constants {
             enabledDebugs.add(s.toUpperCase());
         }
 
-        this_server = GameServer.getServerFromName((String) yaml.get("this-server"));
-        this_port = yaml.getInt("this-port");
+        thisServer = GameServer.getServerFromName((String) yaml.get("this-server"));
+        thisPort = yaml.getInt("this-port");
         timezone = yaml.getString("timezone");
         partyInvitesExpireAfter = yaml.getInt("parties.invites-expire-after", 60);
         partyMaxSize = Math.max(yaml.getInt("parties.max-players", 9999), 1);
@@ -106,6 +106,7 @@ public class Constants {
         } // Loading so Cosmetics can use this supplementary class.
         catch (InvalidConfigException ex) {
             Logger.logStackTrace(ex);
+            Logger.warning("Since an exception was thrown in the ActiveCosmetic loader, some cosmetics may not have loaded properly.");
         }
 
         channels.addAll(CustomChannel.getCustomChannels());

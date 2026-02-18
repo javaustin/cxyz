@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.models.config.cosmetics;
 
-import com.carrotguy69.cxyz.cmd.general.ChatColor;
+import com.carrotguy69.cxyz.cmd.ChatColor;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.event.Event;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static com.carrotguy69.cxyz.cmd.general.ChatColor.getColor;
+import static com.carrotguy69.cxyz.cmd.ChatColor.getColor;
 
 public class ActiveCosmetic extends Cosmetic {
 

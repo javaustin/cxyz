@@ -17,7 +17,7 @@ public class Punishment implements TabCompleter {
         if (CommandRestrictor.handleRestrictedTabCompleter(command, sender))
             return List.of();
 
-        String node = "cxyz.mod.punishment";
+        String node = "cxyz.punishment";
 
         if (!sender.hasPermission(node)) {
             return List.of();
@@ -53,9 +53,17 @@ public class Punishment implements TabCompleter {
 
                 case "clear":
                 case "history":
-                    return AnyPlayer.getAllUsernames();
+                    List<String> usernames = AnyPlayer.getAllUsernames();
+                    for (String s : usernames) {
+                        if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
+                            results.add(s);
+                        }
+                    }
 
+                    results.add("*");
             }
+
+            return results;
         }
 
         if (args.length == 3) {

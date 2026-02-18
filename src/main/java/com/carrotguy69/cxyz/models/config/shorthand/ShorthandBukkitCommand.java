@@ -31,10 +31,10 @@ public final class ShorthandBukkitCommand extends Command {
     @Override
     public @NotNull List<String> tabComplete(
             @NotNull CommandSender sender,
-            @NotNull String alias,
+            @NotNull String label,
             String[] args
     ) {
-        return tabCompleter.tabComplete(sender, alias, args);
+        return tabCompleter.tabComplete(sender, label, args);
     }
 }
 

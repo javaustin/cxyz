@@ -167,7 +167,7 @@ public class Party {
 
 
         for (NetworkPlayer np : partyMembers) {
-            np.sendParsedMessage(text, formatMap);
+            np.sendMessage(text, formatMap);
         }
     }
 
@@ -179,7 +179,7 @@ public class Party {
         }
 
         if (sender.isMutingChannel(partyChannel)) {
-            sender.sendParsedMessage(MessageGrabber.grab(MessageKey.CHAT_CHANNEL_IS_MUTED), MapFormatters.channelFormatter(partyChannel));
+            sender.sendMessage(MessageGrabber.grab(MessageKey.CHAT_CHANNEL_IS_MUTED), MapFormatters.channelFormatter(partyChannel));
             return;
         }
 
@@ -192,12 +192,12 @@ public class Party {
             NetworkPlayer np = NetworkPlayer.getPlayerByUUID(UUID.fromString(uuid));
 
             if (!np.isMutingChannel(partyChannel))
-                np.sendParsedMessage(MessageGrabber.grab(MessageKey.PARTY_CHAT_MESSAGE), playerFormatter);
+                np.sendMessage(MessageGrabber.grab(MessageKey.PARTY_CHAT_MESSAGE), playerFormatter);
         }
 
         NetworkPlayer owner = NetworkPlayer.getPlayerByUUID(UUID.fromString(ownerUUID));
 
         if (!owner.isMutingChannel(partyChannel))
-            owner.sendParsedMessage(MessageGrabber.grab(MessageKey.PARTY_CHAT_MESSAGE), playerFormatter);
+            owner.sendMessage(MessageGrabber.grab(MessageKey.PARTY_CHAT_MESSAGE), playerFormatter);
     }
 }

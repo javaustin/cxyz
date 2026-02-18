@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.models.config.shorthand.utils;
 
+import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
@@ -8,6 +9,9 @@ import com.carrotguy69.cxyz.tabCompleters.AnyPlayer;
 import com.carrotguy69.cxyz.tabCompleters.ChatChannel;
 import com.carrotguy69.cxyz.tabCompleters.OnlinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,12 +79,32 @@ public class ShorthandUtils {
             case "channel":
                 return ChatChannel.getVisibleChannels(sender, np);
 
+            case "locked-channel":
+                List<String> results = new ArrayList<>();
+
+                for (String s : ChatChannel.getVisibleChannels(sender, np)) {
+                    if (s.toLowerCase().startsWith(param.toLowerCase())) {
+                        BaseChannel ch = BaseChannel.getChannel(s);
+
+                        if (ch != null && ch.isLocked() && np.canAccessChannel(ch))
+                            results.add(s);
+                    }
+                }
+
+                return results;
+
             case "rank":
                 return ranks.stream().map(PlayerRank::getName).collect(Collectors.toList());
 
             case "cosmetic":
+            case "item":
                 return cosmetics.stream().map(Cosmetic::getId).collect(Collectors.toList());
 
+            case "equipped-cosmetic":
+                return np.getEquippedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList());
+
+            case "owned-cosmetic":
+                return np.getOwnedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList());
         }
 
         return List.of();

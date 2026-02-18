@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
-import static com.carrotguy69.cxyz.cmd.general.ChatColor.getColor;
+import static com.carrotguy69.cxyz.cmd.ChatColor.getColor;
 import static com.carrotguy69.cxyz.other.utils.TimeUtils.*;
 
 public class MapFormatters {
@@ -107,7 +107,6 @@ public class MapFormatters {
         }
 
     }
-
 
 
     public static ListFormatter playerListFormatter(List<NetworkPlayer> players, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
@@ -260,6 +259,39 @@ public class MapFormatters {
         return channelListFormatter(chs, format, delimiter, maxEntriesPerPage, pageNumber);
     }
 
+    public static ListFormatter cosmeticListFormatter(List<Cosmetic> cosmetics, String format, String delimiter, int maxEntriesPerPage, int pageNumber) {
+
+        if (maxEntriesPerPage < 1) {
+            maxEntriesPerPage = 9999;
+        }
+
+        int size = cosmetics.size();
+
+        int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
+        int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
+
+        Logger.debugMessage(String.format("entries=%s, start=%d, end=%d, size=%d, maxEntriesPerPage=%d, pageNumber=%d", cosmetics, startIndex, endIndex, size, maxEntriesPerPage, pageNumber));
+
+        List<String> strings = new ArrayList<>();
+
+        Map<String, Object> commonMap = new HashMap<>();
+
+        for (int i = startIndex; i <= endIndex; i++) {
+            String string = format;
+            Cosmetic cosmetic = cosmetics.get(i);
+
+            for (Map.Entry<String, Object> entry : MapFormatters.cosmeticFormatter(cosmetic).entrySet()) {
+                string = string.replace("{" + entry.getKey() + "}", "{" + entry.getKey() + "-" + i + "}");
+                commonMap.put(entry.getKey() + "-" + i, entry.getValue());
+            }
+
+            strings.add(string);
+        }
+
+
+        return new ListFormatter(strings, delimiter, commonMap, maxEntriesPerPage, pageNumber);
+    }
+
     public static Map<String, Object> consoleFormatter() {
         // Basically a formatter that allows supports senderFormatter by attaching non-specific console values to player map keys.
         // So if a player uses {player-username} in the config, but the actual target is a console sender, this allows the key to still be parsed correctly regardless of the target,
@@ -292,9 +324,9 @@ public class MapFormatters {
         commonMap.put("player-chat-channel-prefix", "None");
 
         commonMap.put("player-chat-color", defaultRank.getColor());
-        commonMap.put("player-chat-color-name", com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(defaultRank.getColor()));
+        commonMap.put("player-chat-color-name", com.carrotguy69.cxyz.cmd.ChatColor.getColorNameByCode(defaultRank.getColor()));
 
-        commonMap.put("player-server", this_server.getName());
+        commonMap.put("player-server", thisServer.getName());
         commonMap.put("player-vanish-status", "&cUnvanished");
         commonMap.put("player-online-status", "&aOnline");
 
@@ -307,7 +339,7 @@ public class MapFormatters {
 
         commonMap.put("player-timezone", timezone);
         commonMap.put("player-playtime", TimeUtils.countdownShort(0));
-        commonMap.put("player-last-ip", this_server.getIP());
+        commonMap.put("player-last-ip", thisServer.getIP());
 
         commonMap.put("player-coins", 0);
         commonMap.put("player-level", 0);
@@ -403,7 +435,7 @@ public class MapFormatters {
         commonMap.put("player-tag-lore", ""); // keep this blank
 
         commonMap.put("player-chat-color", player.getChatColor() != null && !player.getChatColor().isBlank() ? player.getChatColor() : player.getTopRank().getDefaultChatColor());
-        commonMap.put("player-chat-color-name", player.getChatColor() != null && !player.getChatColor().isBlank() ? com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(player.getChatColor()) : com.carrotguy69.cxyz.cmd.general.ChatColor.getColorNameByCode(player.getTopRank().getDefaultChatColor()));
+        commonMap.put("player-chat-color-name", player.getChatColor() != null && !player.getChatColor().isBlank() ? com.carrotguy69.cxyz.cmd.ChatColor.getColorNameByCode(player.getChatColor()) : com.carrotguy69.cxyz.cmd.ChatColor.getColorNameByCode(player.getTopRank().getDefaultChatColor()));
 
         for (Cosmetic cosmetic : player.getEquippedCosmetics()) {
             if (cosmetic.getType().equals(Cosmetic.CosmeticType.RANK_PLATE)) {
@@ -431,7 +463,7 @@ public class MapFormatters {
         commonMap.put("player-last-online-short", TimeUtils.dateOfShort(player.getLastOnline(), player.getTimezone()));
 
         commonMap.put("player-timezone", player.getTimezone());
-        commonMap.put("player-playtime", TimeUtils.countdownShort(player.getPlaytime()));
+        commonMap.put("player-playtime", TimeUtils.countdownShort(player.getPlaytime() + TimeUtils.unixTimeNow() - player.getLastJoin()));
         commonMap.put("player-last-ip", player.getLastIP());
 
         commonMap.put("player-coins", player.getCoins());
@@ -587,10 +619,10 @@ public class MapFormatters {
         if (cosmetic.getType().equals(Cosmetic.CosmeticType.CHAT_COLOR)) {
             String value = cosmetic.getDisplay().strip();
 
-            com.carrotguy69.cxyz.cmd.general.ChatColor.Color color = getColor(value);
+            com.carrotguy69.cxyz.cmd.ChatColor.Color color = getColor(value);
 
             if (color == null) {
-                color = new com.carrotguy69.cxyz.cmd.general.ChatColor.Color("reset", "&r");
+                color = new com.carrotguy69.cxyz.cmd.ChatColor.Color("reset", "&r");
             }
 
             commonMap.put("cosmetic-display", color.code + color.name + " ");
@@ -641,8 +673,8 @@ public class MapFormatters {
         NetworkPlayer owner = NetworkPlayer.getPlayerByUUID(party.getOwnerUUID());
         Map<String, Object> commonMap = cloneFormaterToNewKey(playerFormatter(owner), "player", "owner");
 
-        commonMap.put("player-count", party.size() + 1);
-        commonMap.put("max-player-count", partyMaxSize);
+        commonMap.put("size", party.size() + 1);
+        commonMap.put("max-size", partyMaxSize);
         // {players} is fulfilled in the code of the /party list command, not here.
 
         commonMap.put("type", party.isPublic() ? "Public" : "Private");

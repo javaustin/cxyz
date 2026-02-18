@@ -59,16 +59,6 @@ public enum MessageKey {
 
 
     // =========================
-    // Commands - Buy
-    // =========================
-    BUY_SUCCESS("commands.buy.success"),
-    BUY_ERROR_INSUFFICIENT_RANK("commands.buy.error.insufficient-rank"),
-    BUY_ERROR_INSUFFICIENT_LEVEL("commands.buy.error.insufficient-level"),
-    BUY_ERROR_INSUFFICIENT_COINS("commands.buy.error.insufficient-coins"),
-    BUY_ERROR_DUPLICATE_ITEM("commands.buy.error.duplicate-item"),
-    BUY_ERROR_DISABLED_ITEM("commands.buy.error.disabled-item"),
-
-    // =========================
     // Commands - Chat Channel
     // =========================
     CHAT_CHANNEL_AVAILABLE_SUBCOMMANDS("commands.chat-channel.available-subcommands"),
@@ -114,25 +104,52 @@ public enum MessageKey {
 
 
     // =========================
+    // Commands - Cosmetics
+    // =========================
+    COSMETIC_AVAILABLE_SUBCOMMANDS("commands.cosmetic.available-subcommands"),
+
+    COSMETIC_BUY_SUCCESS("commands.cosmetic.buy.success"),
+    COSMETIC_BUY_ERROR_INSUFFICIENT_RANK("commands.cosmetic.buy.error.insufficient-rank"),
+    COSMETIC_BUY_ERROR_INSUFFICIENT_LEVEL("commands.cosmetic.buy.error.insufficient-level"),
+    COSMETIC_BUY_ERROR_INSUFFICIENT_COINS("commands.cosmetic.buy.error.insufficient-coins"),
+    COSMETIC_BUY_ERROR_DUPLICATE_ITEM("commands.cosmetic.buy.error.duplicate-item"),
+    COSMETIC_BUY_ERROR_DISABLED_ITEM("commands.cosmetic.buy.error.disabled-item"),
+
+    COSMETIC_EQUIP_ERROR_ALREADY_EQUIPPED("commands.cosmetic.equip.error.already-equipped"),
+    COSMETIC_EQUIP_ERROR_NOT_OWNED("commands.cosmetic.equip.error.not-owned"),
+    COSMETIC_EQUIP_ERROR_INSUFFICIENT_RANK("commands.cosmetic.equip.error.insufficient-rank"),
+    COSMETIC_EQUIP_SUCCESS("commands.cosmetic.equip.success"),
+
+    COSMETIC_LIST_ALL("commands.cosmetic.list.all.message"),
+    COSMETIC_LIST_ALL_BLANK("commands.cosmetic.list.all.blank"),
+    COSMETIC_LIST_ALL_FORMAT("commands.cosmetic.list.all.entry-format"),
+    COSMETIC_LIST_ALL_SEPARATOR("commands.cosmetic.list.all.separator"),
+    COSMETIC_LIST_ALL_MAX_ENTRIES("commands.cosmetic.list.all.max-entries-per-page"),
+
+    COSMETIC_LIST_EQUIPPED("commands.cosmetic.list.equipped.message"),
+    COSMETIC_LIST_EQUIPPED_BLANK("commands.cosmetic.list.equipped.blank"),
+    COSMETIC_LIST_EQUIPPED_FORMAT("commands.cosmetic.list.equipped.entry-format"),
+    COSMETIC_LIST_EQUIPPED_SEPARATOR("commands.cosmetic.list.equipped.separator"),
+    COSMETIC_LIST_EQUIPPED_MAX_ENTRIES("commands.cosmetic.list.equipped.max-entries-per-page"),
+
+    COSMETIC_LIST_OWNED("commands.cosmetic.list.owned.message"),
+    COSMETIC_LIST_OWNED_BLANK("commands.cosmetic.list.owned.blank"),
+    COSMETIC_LIST_OWNED_FORMAT("commands.cosmetic.list.owned.entry-format"),
+    COSMETIC_LIST_OWNED_SEPARATOR("commands.cosmetic.list.owned.separator"),
+    COSMETIC_LIST_OWNED_MAX_ENTRIES("commands.cosmetic.list.owned.max-entries-per-page"),
+
+    COSMETIC_UNEQUIP_ERROR_NOT_EQUIPPED("commands.cosmetic.unequip.error.not-equipped"),
+    COSMETIC_UNEQUIP_ERROR_NOT_OWNED("commands.cosmetic.unequip.error.not-owned"),
+    COSMETIC_UNEQUIP_SUCCESS("commands.cosmetic.unequip.success"),
+
+
+    // =========================
     // Commands - Debug
     // =========================
 
     DEBUG_SET("commands.debug.set"),
     DEBUG_UNSET("commands.debug.unset"),
     DEBUG_VIEW("commands.debug.view"),
-
-    // =========================
-    // Commands - (un)Equip
-    // =========================
-    EQUIP_COSMETIC_ALREADY_EQUIPPED("commands.equip.error.already-equipped"),
-    EQUIP_COSMETIC_SAME_TYPE_ALREADY_EQUIPPED("commands.equip.error.same-type-already-equipped"),
-    EQUIP_COSMETIC_NOT_OWNED("commands.equip.error.not-owned"),
-    EQUIP_COSMETIC_INSUFFICIENT_RANK("commands.equip.error.insufficient-rank"),
-    EQUIP_COSMETIC_SUCCESS("commands.equip.success"),
-
-    UNEQUIP_COSMETIC_NOT_EQUIPPED("commands.unequip.error.not-equipped"),
-    UNEQUIP_COSMETIC_NOT_OWNED("commands.unequip.error.not-owned"),
-    UNEQUIP_COSMETIC_SUCCESS("commands.unequip.success"),
 
     // =========================
     // Commands - Friend
@@ -337,6 +354,12 @@ public enum MessageKey {
     PUNISHMENT_HISTORY_FORMAT("commands.punishment.history-list.entry-format"),
     PUNISHMENT_HISTORY_SEPARATOR("commands.punishment.history-list.separator"),
     PUNISHMENT_HISTORY_MAX_ENTRIES("commands.punishment.history-list.separator"),
+
+    PUNISHMENT_HISTORY_ALL_LIST("commands.punishment.history-list-all.message"),
+    PUNISHMENT_HISTORY_ALL_LIST_NONE("commands.punishment.history-list-all.blank"),
+    PUNISHMENT_HISTORY_ALL_FORMAT("commands.punishment.history-list-all.entry-format"),
+    PUNISHMENT_HISTORY_ALL_SEPARATOR("commands.punishment.history-list-all.separator"),
+    PUNISHMENT_HISTORY_ALL_MAX_ENTRIES("commands.punishment.history-list-all.separator"),
 
     // =========================
     // Commands - Port

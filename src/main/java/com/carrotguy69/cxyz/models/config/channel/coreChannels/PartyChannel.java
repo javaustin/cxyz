@@ -1,25 +1,21 @@
 package com.carrotguy69.cxyz.models.config.channel.coreChannels;
 
-import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.db.Punishment;
-import com.carrotguy69.cxyz.cmd.general.party.PartyChat;
+import com.carrotguy69.cxyz.cmd.party.PartyChat;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.List;
 import java.util.Map;
 
-import static com.carrotguy69.cxyz.CXYZ.chatFilterEnabled;
 import static com.carrotguy69.cxyz.CXYZ.f;
 
 public class PartyChannel extends CoreChannel {

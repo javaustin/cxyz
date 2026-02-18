@@ -50,14 +50,6 @@ chat:
 
 commands:
 
-  buy: # All use cosmeticFormatter and playerFormatter
-    success: "&aYou purchased {cosmetic-display}&afor {cosmetic-price} coins!"
-    error.insufficient-rank: "&cThis item requires {cosmetic-required-rank-prefix-display} &crank or above!"
-    error.insufficient-level: "&cThis item requires level {cosmetic-required-level} &c or above!"
-    error.insufficient-coins: "&cYou cannot afford this item!"
-    error.duplicate-item: "&cYou already own this item!"
-    error.disabled-item: "&cYou already own this item!"
-
   chat-channel:
 
     available-subcommands: |
@@ -115,22 +107,69 @@ commands:
     set: "&aSuccessfully set {amount} coins to {player}!"
     view: "&a{player} has {amount} coins!"
 
+  cosmetic:
+    available-subcommands: |
+      &aCosmetic subcommands:
+      &e/cosmetic buy <item>
+      &e/cosmetic equip <item>
+      &e/cosmetic list <owned | equipped | all> [[player]] [[page]]
+      &e/cosmetic unequip <item>
+
+    buy: # All use cosmeticFormatter and playerFormatter
+      error.insufficient-rank: "&cThis item requires {cosmetic-required-rank-prefix-display} &crank or above!"
+      error.insufficient-coins: "&cYou cannot afford this item!"
+      error.insufficient-level: "&cThis item requires level {cosmetic-required-level} &c or above!"
+      error.duplicate-item: "&cYou already own this item!"
+      error.disabled-item: "&cYou already own this item!"
+      success: "&aYou purchased {cosmetic-display}&afor {cosmetic-price} coins!"
+
+
+    equip: # Accepts cosmeticFormatter
+      error.already-equipped: "&cThis cosmetic is already equipped!"
+      error.not-owned: "&cYou do not own this cosmetic!"
+      error.insufficient-rank: "&cYou cannot apply this cosmetic as you do not have the required {cosmetic-required-rank-prefix-display} &crank."
+      success: "&aYou have equipped ({cosmetic-display-stripped})[HOVER:{cosmetic-lore}]"
+
+    unequip: # Accepts cosmeticFormatter
+      error.not-equipped: "&cThis cosmetic is not equipped!"
+      error.not-owned: "&cYou do not own this cosmetic!"
+      success: "&aYou have unequipped ({cosmetic-display})[HOVER:{cosmetic-lore}]"
+
+    list:
+      all:
+        message: |
+          &bAll server cosmetics
+          {cosmetics}
+          (&f< Previous)[RUN_COMMAND:/cosmetic list all {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/cosmetic list all {previous-page}]
+        blank: "&eNo cosmetics found!"
+        entry-format: "({cosmetic-display-stripped})[HOVER:{cosmetic-lore}] ((({cosmetic-id})))[HOVER:Type: &e{cosmetic-type}]  &f&f&f  (&a[[Buy]])[RUN_COMMAND:/cosmetic buy {cosmetic-id}] (&a[[Equip]])[RUN_COMMAND:/cosmetic equip {cosmetic-id}] (&e[[Unequip]])[RUN_COMMAND:/cosmetic unequip {cosmetic-id}]"
+        separator: "\n"
+        max-entries-per-page: 8
+
+      equipped:
+        message: |
+          {player-rank-color}{player-display-name}'s equipped cosmetics
+          {cosmetics}
+          (&f< Previous)[RUN_COMMAND:/cosmetic list equipped {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/cosmetic list equipped {player} {previous-page}]
+        blank: "&eNo cosmetics are equipped!"
+        entry-format: "({cosmetic-display-stripped})[HOVER:{cosmetic-lore}] ((({cosmetic-id})))[HOVER:Type: &e{cosmetic-type}]  &f&f&f  (&e[[Buy]])[RUN_COMMAND:/cosmetic buy {cosmetic-id}] (&e[[Equip]])[RUN_COMMAND:/cosmetic equip {cosmetic-id}] (&e[[Unequip]])[RUN_COMMAND:/cosmetic unequip {cosmetic-id}]"
+        separator: "\n"
+        max-entries-per-page: 8
+
+      owned:
+        message: |
+          {player-rank-color}{player-display-name}'s owned cosmetics
+          {cosmetics}
+          (&f< Previous)[RUN_COMMAND:/cosmetic list owned {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/cosmetic list owned {player} {previous-page}]
+        blank: "&eNo cosmetics are owned!"
+        entry-format: "({cosmetic-display-stripped})[HOVER:{cosmetic-lore}] ((({cosmetic-id})))[HOVER:Type: &e{cosmetic-type}]  &f&f&f  (&e[[Buy]])[RUN_COMMAND:/cosmetic buy {cosmetic-id}] (&e[[Equip]])[RUN_COMMAND:/cosmetic equip {cosmetic-id}] (&e[[Unequip]])[RUN_COMMAND:/cosmetic unequip {cosmetic-id}]"
+        separator: "\n"
+        max-entries-per-page: 8
+
   debug:
     set: "&a{value} debugger has been enabled!"
     unset: "&a{value} debugger has been disabled!"
     view: "&aEnabled debuggers: &f{debuggers}"
-
-  equip: # Accepts cosmeticFormatter
-    error.already-equipped: "&cThis cosmetic is already equipped!"
-    error.same-type-already-equipped: "&cA cosmetic of the same type (({equipped-cosmetic-id}&c)) &cis already equipped. &cYou must unequip it to equip {cosmetic-display-stripped}." # {cosmetic} formatter, {equipped-cosmetic} formatter
-    error.not-owned: "&cYou do not own this cosmetic!"
-    error.insufficient-rank: "&cYou cannot apply this cosmetic as you do not have the required {cosmetic-required-rank-prefix-display} &crank."
-    success: "&aYou have equipped ({cosmetic-display-stripped})[HOVER:{cosmetic-lore}]"
-
-  unequip: # Accepts cosmeticFormatter
-    error.not-equipped: "&cThis cosmetic is not equipped!"
-    error.not-owned: "&cYou do not own this cosmetic!"
-    success: "&aYou have unequipped ({cosmetic-display})[HOVER:{cosmetic-lore}]"
 
   friend:
     error.already-friends: "&eYou are already friends with this player." # Accepts playerSender
@@ -140,7 +179,7 @@ commands:
     error.not-friends: "&cYou are not friends with this player."
 
     friend-list:
-      message: "{player-rank-color}{player-display-name}'s friends [[{player-count}]]: {friends}"
+      message: "{player-rank-color}{player-display-name}'s friends [[{size}]]: {friends}"
       blank: "&eNo friends found for this player :(("
       entry-format: "({player-rank-color}{player-display-name})[HOVER:{player-online-status}!]"
       separator: "&r, "
@@ -166,7 +205,7 @@ commands:
     removed-received: "&eYou are no longer friends with {sender-rank-color}{sender-display-name}"
 
   info: |
-    {player-rank-color}Player info for {player-username}
+    {player-rank-color}Player info for {player}
     &fUUID:&7 ({player-uuid})[HOVER:&7Click to copy!][COPY_TO_CLIPBOARD:{player-uuid}][RUN_COMMAND:/parse &aCopied!]
     &fUsername:&7 {player-rank-color}{player-username}
     &fNickname:&7 {player-rank-color}{player-display-name}
@@ -187,8 +226,8 @@ commands:
     &fParty settings:&7 {player-party-privacy}
     (&fFriends:&7 {player-friend-list-size})[HOVER:&7Click to view][RUN_COMMAND:/friend list]
     (&fIgnored Players:&7 {player-ignore-list-size})[HOVER:&7Click to view][RUN_COMMAND:/ignore]
-    (&fOwned Cosmetics:&7 {player-owned-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list]
-    (&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list]
+    (&fOwned Cosmetics:&7 {player-owned-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list owned {player} 1]
+    (&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list equipped {player} 1]
     (&fIgnored Channels:&7 {player-ignored-channels-list-size})[HOVER:&7Click to view][RUN_COMMAND:/channel ignore]
     
 
@@ -261,15 +300,15 @@ commands:
       message: |
         &f--------------- {owner-rank-color}{owner-display-name}'s party &r&f---------------
         &6Owner: {owner-rank-color}{owner-display-name}
-        &6Players [[{player-count}/{max-player-count}]]: {players}
+        &6Players [[{size}/{max-size}]]: {players}
         &6Type: {type}
         &f---------------------------------------------
       entry-format: "({player-rank-color}{player-display-name})[HOVER:This is {player-display-name}!]"
       separator: ", "
       max-entries-per-page: -1
 
-    party-full: "&cThis party is full! ((&c{player-count}/{max-player-count}))"
-    party-full-announcement: "&c{player} attempted to join but the party is full ((&c{player-count}/{max-player-count}))"
+    party-full: "&cThis party is full! ((&c{size}/{max-size}))"
+    party-full-announcement: "&c{player} attempted to join but the party is full ((&c{size}/{max-size}))"
 
     player-reconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7reconnected."
     player-disconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7disconnected."
@@ -368,8 +407,7 @@ commands:
         
         &4This ban will not expire.
         &rAppeal at: https://example.com/appeal
-      # NOTE: This message is logged internally; it does not support hover or click events through brackets like most other messages. This means you can freely use unescaped brackets and parentheses, and the parser will parse it as literals.
-      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} ((&fduration: {duration-short})) &fto {player-rank-color}{player} &ffor reason: &f{reason}" # Logged internally, no hover/click support. Unescaped brackets OK.
+      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} ((&fduration: {duration-short})) &fto {player-rank-color}{player} &ffor reason: &f{reason}"
       announcement: ""
 
     unban:
@@ -422,11 +460,21 @@ commands:
       message: |
         &f---------- {player-rank-color}{player}'s punishment history &r&f----------
         {punishments}
-        ([[&f< Previous]])[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   ([[&fNext >]])[RUN_COMMAND:/punishment history {player} {next-page}]
+        (&f< Previous)[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/punishment history {player} {next-page}]
       blank: "&eNo punishments found for this player!"
       entry-format: "&e#[[{case-id}]] &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short}"
       separator: "\n"
       max-entries-per-page: 5
+
+    history-list-all:
+      message: |
+        &f---------- server punishment history &r&f----------
+        {punishments}
+        (&f< Previous)[RUN_COMMAND:/punishment history * {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/punishment history * {next-page}]
+      blank: "&eNo punishments found for this player!"
+      entry-format: "&e#[[{case-id}]] {player-rank-color}{player} &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short}"
+      separator: "\n"
+      max-entries-per-page: 10
 
   port:
     set: "&aPort value successfully updated! Restart this server to apply changes." # Format {port}

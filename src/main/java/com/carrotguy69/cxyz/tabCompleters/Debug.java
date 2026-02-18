@@ -16,8 +16,8 @@ public class Debug implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
-        List<String> availableDebuggers = Arrays.stream(com.carrotguy69.cxyz.cmd.admin.Debug.DebugValue.values())
-                .map(com.carrotguy69.cxyz.cmd.admin.Debug.DebugValue::name).collect(Collectors.toList());
+        List<String> availableDebuggers = Arrays.stream(com.carrotguy69.cxyz.cmd.Debug.DebugValue.values())
+                .map(com.carrotguy69.cxyz.cmd.Debug.DebugValue::name).collect(Collectors.toList());
 
         if (args.length == 0) {
             return availableDebuggers;

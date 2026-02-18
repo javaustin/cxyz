@@ -7,7 +7,7 @@ import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.GameServer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
-import com.carrotguy69.cxyz.cmd.admin.level._LevelExecutor;
+import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
 import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
 import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
 import com.carrotguy69.cxyz.other.*;
@@ -70,7 +70,7 @@ public class NetworkPlayer {
 
     private String muted_channels;
 
-    private int version;
+    public int version;
 
     public enum MessagePrivacy {
         ALLOWED,
@@ -97,7 +97,7 @@ public class NetworkPlayer {
         this.username = p.getName();
         this.nickname = "";
         this.ranks = "[\"" + defaultRank.getName() + "\"]";
-        this.server = this_server.getName();
+        this.server = thisServer.getName();
         this.online = p.isOnline() ? 1 : 0;
         this.first_join = TimeUtils.unixTimeNow();
         this.last_join = TimeUtils.unixTimeNow();
@@ -251,7 +251,7 @@ public class NetworkPlayer {
                 result.add(rank);
             }
             catch (Exception ex) {
-                Logger.warning(String.format("Rank %s seems to no longer exist! It will remain attached to %s but will not be functional on this server.", rankName, this.getUsername()));
+                Logger.warning(String.format("Player %s has rank '%s', but it seems to no longer exist! It will remain attached to the player in data but will not be functional on this server.", this.getUsername(), rankName));
             }
         }
 
@@ -797,45 +797,12 @@ public class NetworkPlayer {
         return Bukkit.getPlayer(UUID.fromString(this.uuid));
     }
 
-    public boolean sendUnparsedMessage(String content, Map<String, Object> formatMap) {
+    public boolean sendMessage(String content, Map<String, Object> formatMap) {
         if (!this.isOnline()) {
             return false;
         }
 
-        if (Objects.equals(this.getServer().getName(), this_server.getName())) {
-            // If the player is on our current server, we can just send them a message through Bukkit
-            Player p = Bukkit.getPlayer(UUID.fromString(uuid));
-
-            if (p == null) {
-                return false;
-            }
-
-            MessageUtils.sendUnparsedMessage(this.getPlayer(), content, formatMap);
-        }
-
-        else {
-            // If the player is NOT on our current server, we are going to send a request to the other server they ARE on with a message.
-            Request.postRequest(Constants.getGameServerIP(this.getServer()) + "/sendMessage", gson.toJson(
-                    Map.of(
-                            "recipientUUID", uuid,
-                            "content", String.join("\n", content),
-                            "parsed", false,
-                            "formatMap", formatMap
-                    )
-            ));
-
-            
-        }
-
-        return true;
-    }
-
-    public boolean sendParsedMessage(String content, Map<String, Object> formatMap) {
-        if (!this.isOnline()) {
-            return false;
-        }
-
-        if (Objects.equals(this.getServer().getName(), this_server.getName())) {
+        if (Objects.equals(this.getServer().getName(), thisServer.getName())) {
             // If the player is on our current server, we can just send them a message through Bukkit
             Player p = Bukkit.getPlayer(UUID.fromString(uuid));
 
@@ -874,7 +841,7 @@ public class NetworkPlayer {
             return;
         }
 
-        if (Objects.equals(this.getServer().getName(), CXYZ.this_server.getName())) {
+        if (Objects.equals(this.getServer().getName(), CXYZ.thisServer.getName())) {
             // If the player is on our current server, we can bypass the just kick them through Bukkit.
             Player p = Bukkit.getPlayer(UUID.fromString(uuid));
 

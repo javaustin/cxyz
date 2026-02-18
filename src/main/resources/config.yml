@@ -348,28 +348,58 @@ punishments:
 
 shorthand-commands:
   sc:
-    description: \"Enter the staff channel\"
+    description: Enter the staff channel
     trigger: sc
     actions:
       - channel staff
 
   permban:
-    description: \"Permanently ban a player from the server\"
+    description: Permanently ban a player from the server
     trigger: permban {player} {reason}
     actions:
       - ban {player} permanent {reason}
 
   rules:
-    description: \"View the server rules\"
+    description: \View the server rules
     trigger: rules
     actions:
-      - \"show {sender-username} &aHere are the rules for you {sender}:\n&c1. No hacking\n&62. No being frowny\n&e3. Have fun!\"
+      - "show {sender-username} &aHere are the rules for you {sender}:\n&c1. No hacking\n&62. No being frowny\n&e3. Have fun!"
 
   hi:
-    description: \"Say hi!\"
+    description: Say hi!
     trigger: hi
     actions:
       - show {sender-username} Hello!
+
+  buy:
+    description: Buy a cosmetic from the shop
+    trigger: buy {cosmetic}
+    actions:
+      - cosmetic buy {cosmetic}
+
+  equip:
+    description: Equip a cosmetic you own
+    trigger: equip {owned-cosmetic}
+    actions:
+      - cosmetic equip {owned-cosmetic}
+
+  unequip:
+    description: Unequip a cosmetic you have equipped
+    trigger: unequip {equipped-cosmetic}
+    actions:
+      - cosmetic unequip {equipped-cosmetic}
+
+  lock:
+    description: Lock a channel to stop all players from sending messages in it
+    trigger: lock {channel}
+    actions:
+      - channel lock {channel}
+
+  unlock:
+    description: Unlock a channel
+    trigger: unlock {locked-channel}
+    actions:
+      - channel unlock {locked-channel}
 
 command-restrictions:
   # Note: Players must still have the standard command permission to access these commands, this is just an extra layer.
@@ -377,4 +407,4 @@ command-restrictions:
   chatcolor: # This should be the registered name of the command (No aliases.)
     minimum-rank: vip # Must be a rank defined under ranks in config.yml
     minimum-level: 0 # Any level below this one defined will be denied access.
-    message: You can"t use this unless you are a VIP! # Optional message you want sent to the player when denied access. If left blank the plugin will fallback to NO_ACCESS in messages.yml
+    message: You can't use this unless you are a VIP! # Optional message you want sent to the player when denied access. If left blank the plugin will fallback to NO_ACCESS in messages.yml

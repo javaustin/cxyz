@@ -72,7 +72,7 @@ public class JoinEvent {
 
 
         // Updates outdated values - set to new ones
-        np.setServer(this_server);
+        np.setServer(thisServer);
         np.setLastOnline(TimeUtils.unixTimeNow());
         np.setLastJoin(TimeUtils.unixTimeNow());
         np.setLastIP(p.getAddress() != null ? p.getAddress().getAddress().getHostAddress() : null);

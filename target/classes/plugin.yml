@@ -4,151 +4,408 @@ main: com.carrotguy69.cxyz.CXYZ
 api-version: '1.21'
 
 commands:
-  # admin
-  coins:
-    description: Add, set, remove, or view coins of a player
-    aliases: [coin]
-    usage: /<command> <add | remove | set | view> {amount} {player}
-  rank:
-    description: Set or view a player rank. Or view the list of all server ranks.
-    aliases: []
-    usage: /<command> <set | list | view> {rank} {player}
-  broadcast:
-    description: Broadcast a message to the entire network
-    aliases: [announce, bc]
-    usage: /<command> <message>
-  port:
-    description: Set the port for accepting network HTTP requests
-    aliases: [bind]
-    usage: /<port> <port>
-  test:
-    description: Test something
-    aliases: []
-    usage: /<command> <subcommand>
-  level:
-    description: Add, set, remove, or view the level of a player
-    aliases: []
-    usage: /<command> <add | remove | set | view> {amount} {player}
-  lock:
-    description: Lock a chat channel
-    usage: /<command> <channel>
-  show:
-    description: Show a player some cool parsed text!
-    usage: /<command> <player> <text>
-  debug:
-    description: Enable or disable debuggers
-    usage: /<command> <value>
-  motd:
-    description: Set the server MOTD
-    usage: /<command> <motd>
-  parse:
-    description: Parse an interactive message
-    aliases: []
-    usage: /<command> <message>
-  ping:
-    description: View a players ping
-    usage: /<command> <player>
-  print:
-    description: View cached db or config models content for debug purposes
-    usage: /<command> <table>
-  unlock:
-    description: Unlock a chat channel
-    usage: /<command> <channel>
-  xp:
-    description: Add, set, remove, or view coins of a player
-    aliases: [xp]
-    usage: /<command> <add | remove | set | view> {amount} {player}
-
-  # general
 
   channel:
-    description: Set, ignore, or unignore, your preferred chat channel
-    aliases: [chat, channel]
-    usage: /<command> <subcommand> <channel>
-  party:
-    description: Manage your party
-    aliases: [ p ]
-    usage: /<command> <subcommand>
-  message:
-    description: Message any player on the network
-    aliases: [msg, send, dm, pm]
-    usage: /<command> <player> <content>
-  reply:
-    description: Reply to a message
-    aliases: [re, r]
-    usage: /<command> <content>
-  buy:
-    description: Buy any item from the shop
-    aliases: [b]
-    usage: /<command> <item>
-  chatcolor:
-    description: Set your preferred chat color
-    aliases: [color]
-    usage: /<command> <color>
-  discord:
-    description: Get the discord link for the server
-    aliases: [disc]
-    usage: /<command>
+    description: Set, ignore, unignore, lock or unlock your preferred chat channel
+    usage: /channel <set | ignore | ignorelist | lock | unignore | unlock> [channel]
+    permission: "cxyz.channel"
+    aliases: [chat, chatchannel]
 
-  info:
-    description: Get a players server info
-    aliases: [whois]
-    usage: /<command> [player]
-  equip:
-    description: Equip a cosmetic
-    usage: /<command> <cosmetic>
+  coins:
+    description: Add, remove, set, or view the amount of any players' coins
+    usage: /coins <add | remove | set | view> [amount] [player]
+    permission: "cxyz.coins"
+    aliases: [coin]
+
+  cosmetic:
+    description: Buy, equip, unequip, or list your cosmetics
+    usage: /cosmetic <buy | equip | unequip | list> [...]
+    permission: "cxyz.cosmetic"
+    aliases: [csm]
+
   friend:
-    description: Create or accept a friend request
+    description: Add, accept, deny, or remove a friend from your friend list
+    usage: /friend <add | accept | deny | remove> [player]
+    permission: "cxyz.friend"
     aliases: [f]
-    usage: /<command> <add | accept | deny | list | remove> [player]
-  nickname:
-    description: Set your server nickname
-    aliases: [nick]
-    usage: /<command>
-  timezone:
-    description: Set your timezone preference
-    aliases: [tz]
-    usage: /<command> [timezone]
-  unequip:
-    description: Unequip a cosmetic
-    usage: /<command> <cosmetic>
-  messageprivacy:
-    description: Set or view your message privacy settings
-    usage: /<command> [value]
-  partyprivacy:
-    description: Set or view your party privacy settings
-    usage: /<command> [value]
-  friendprivacy:
-    description: Set or view your friend privacy settings
-    usage: /<command> [value]
-  ignore:
-    description: Ignore a player
-    usage: /<command> <player>
-  unignore:
-    description: Unignore a player
-    usage: /<command> player
 
+  ignore:
+    description: Ignore a player on the network
+    usage: /ignore [player]
+    permission: "cxyz.ignore"
+    aliases: []
+
+  unignore:
+    description: Unignore a player on the network
+    usage: /unignore [player]
+    permission: "cxyz.unignore"
+    aliases: []
+
+  level:
+    description: Add, remove, set, or view the amount of any players' level
+    usage: /level <add | remove | set | view> [amount] [player]
+    permission: "cxyz.level"
+    aliases: [lvl]
+
+  reply:
+    description: Reply to a message from a player on the network
+    usage: /reply [content]
+    permission: "cxyz.reply"
+    aliases: [r]
+
+  message:
+    description: Send a message to a player on the network
+    usage: /message <player> [content]
+    permission: "cxyz.message"
+    aliases: [msg, m]
+
+  party:
+    description: Join, leave, or manage a party
+    usage: /party <chat | create | disband | delete | invite | join | leave | list | public | private | remove | setleader | warp> [...]
+    permission: "cxyz.party"
+    aliases: [p]
+
+  friendprivacy:
+    description: Allow or disallow incoming friend requests
+    usage: /friendprivacy <ALLOWED | DISALLOWED>
+    permission: "cxyz.friendprivacy"
+    aliases: []
+
+  messageprivacy:
+    description: Allow or disallow incoming messages
+    usage: /friendprivacy <ALLOWED | DISALLOWED | FRIENDS_ONLY>
+    permission: "cxyz.messageprivacy"
+    aliases: []
+
+  partyprivacy:
+    description: Allow or disallow incoming party invites
+    usage: /friendprivacy <ALLOWED | DISALLOWED | FRIENDS_ONLY>
+    permission: "cxyz.partyprivacy"
+    aliases: []
+
+  punishment:
+    description: Manage a punishment
+    usage: /punishment <delete | edit | history | info> [...]
+    permission: "cxyz.punishment"
+    aliases: []
 
   ban:
     description: Ban a player from the network
-    aliases: [banish]
-    usage: /<command> <player> [duration] [reason]
+    usage: /ban <player> [duration] [reason] [-s]
+    permission: "cxyz.ban"
+    aliases: []
+
   kick:
     description: Kick a player from the network
-    usage: /<command> <player> [reason]
+    usage: /kick <player> [reason] [-s]
+    permission: "cxyz.kick"
+    aliases: []
+
   mute:
     description: Mute a player on the network
-    usage: /<command> <player> [duration] [reason]
+    usage: /mute <player> [duration] [reason] [-s]
+    permission: "cxyz.mute"
+    aliases: []
+
   unban:
-    description: Remove a player's network ban
+    description: Remove a ban from a player
+    usage: /unban <player> [-s]
+    permission: "cxyz.unban"
     aliases: [pardon]
-    usage: /<command> <player>
+
   unmute:
-    description: Remove a player's network mute
-    usage: /<command> <player>
+    description: Remove a mute from a player
+    usage: /unmute <player> [-s]
+    permission: "cxyz.unmute"
+    aliases: []
+
   warn:
-    description: Warn a player on the network
-    usage: /<command> <player> [reason]
-  punishment:
-    description: View, edit, delete a punishment, or view a players punishment history
-    usage: /<command> <player> [reason]
+    description: Apply a warning to a player on the network
+    usage: /warn <player> [reason] [-s]
+    permission: "cxyz.warn"
+    aliases: []
+
+  rank:
+    description: Add, list, remove, or view a rank of any player
+    usage: /rank <add | list | remove | view>
+    permission: "cxyz.rank"
+    aliases: []
+
+  xp:
+    description: Add, remove, set, or view the amount of any players' xp
+    usage: /xp <add | remove | set | view> [amount] [player]
+    permission: "cxyz.xp"
+    aliases: [xp]
+
+  broadcast:
+    description: Broadcast a message to the entire network
+    usage: /broadcast [message]
+    permission: "cxyz.broadcast"
+    aliases: [bc, announce]
+
+  chatcolor:
+    description: Set a preferred chat color
+    usage: /chatcolor <color>
+    permission: "cxyz.chatcolor"
+    aliases: [chatcolor]
+
+  debug:
+    description: Enable or disable any plugin debugger
+    usage: /debug <debugger>
+    permission: "cxyz.debug"
+    aliases: []
+
+  info:
+    description: View info on any network player
+    usage: /info [player]
+    permission: "cxyz.info"
+    aliases: [whois]
+
+  nickname:
+    description: Set a server nickname
+    usage: /nickname [name]
+    permission: "cxyz.nickname"
+    aliases: [nick]
+
+  parse:
+    description: Use the message parser to create a message
+    usage: /parse [content]
+    permission: "cxyz.parse"
+    aliases: []
+
+  ping:
+    description: View a players ping
+    usage: /ping [player]
+    permission: "cxyz.ping"
+    aliases: []
+
+  port:
+    description: Set the port that accepts HTTP requests
+    usage: /port [port]
+    permission: "cxyz.port"
+    aliases: []
+
+  print:
+    description: View data tables for debug purposes
+    usage: /print <table>
+    permission: "cxyz.print"
+    aliases: []
+
+  show:
+    description: Display text to a player using the message parser
+    usage: /show [content]
+    permission: "cxyz.show"
+    aliases: []
+
+  test:
+    description: Test command
+    usage: /test <args*>
+    permission: "cxyz.test"
+    aliases: []
+
+  timezone:
+    description: Set a timezone preference
+    usage: /timezone [timezone]
+    permission: "cxyz.timezone"
+    aliases: []
+
+permissions:
+  cxyz.channel:
+    default: true
+    children:
+      cxyz.channel.ignore:
+        default: true
+      cxyz.channel.ignorelist:
+        default: true
+      cxyz.channel.lock:
+        default: op
+      cxyz.channel.unlock:
+        default: op
+      cxyz.channel.set:
+        default: true
+      cxyz.channel.unignore:
+        default: true
+
+  cxyz.coins:
+    default: true
+    children:
+      cxyz.coins.add:
+        default: op
+      cxyz.coins.remove:
+        default: op
+      cxyz.coins.set:
+        default: op
+      cxyz.coins.view:
+        default: true
+
+  cxyz.cosmetic:
+    default: true
+    children:
+      cxyz.cosmetic.buy:
+        default: true
+      cxyz.cosmetic.equip:
+        default: true
+      cxyz.cosmetic.list:
+        default: true
+      cxyz.cosmetic.unequip:
+        default: true
+
+  cxyz.friend:
+    default: true
+    children:
+      cxyz.friend.accept:
+        default: true
+      cxyz.friend.add:
+        default: true
+      cxyz.friend.deny:
+        default: true
+      cxyz.friend.list:
+        default: true
+      cxyz.friend.remove:
+        default: true
+
+  cxyz.ignore:
+    default: true
+
+  cxyz.unignore:
+    default: true
+
+
+  cxyz.level:
+    default: true
+    children:
+      cxyz.level.add:
+        default: op
+      cxyz.level.remove:
+        default: op
+      cxyz.level.set:
+        default: op
+      cxyz.level.view:
+        default: true
+
+  cxyz.reply:
+    default: true
+  cxyz.message:
+    default: true
+
+  cxyz.party:
+    default: true
+    children:
+      cxyz.party.chat:
+        default: true
+      cxyz.party.create:
+        default: true
+      cxyz.party.disband:
+        default: true
+      cxyz.party.invite:
+        default: true
+      cxyz.party.join:
+        default: true
+      cxyz.party.list:
+        default: true
+      cxyz.party.private:
+        default: true
+      cxyz.party.public:
+        default: true
+      cxyz.party.remove:
+        default: true
+      cxyz.party.setleader:
+        default: true
+      cxyz.party.warp:
+        default: true
+
+  cxyz.messageprivacy:
+    default: true
+
+  cxyz.friendprivacy:
+    default: true
+
+  cxyz.partyprivacy:
+    default: true
+
+  cxyz.punishment:
+    default: true
+    children:
+      cxyz.punishment.clear:
+        default: op
+      cxyz.punishment.delete:
+        default: op
+      cxyz.punishment.edit:
+        default: op
+      cxyz.punishment.history:
+        default: op
+      cxyz.punishment.info:
+        default: op
+
+  cxyz.ban:
+    default: op
+
+  cxyz.kick:
+    default: op
+
+  cxyz.mute:
+    default: op
+
+  cxyz.unban:
+    default: op
+
+  cxyz.unmute:
+    default: op
+
+  cxyz.warn:
+    default: op
+
+  cxyz.rank:
+    default: true
+    children:
+      cxyz.rank.add:
+        default: op
+      cxyz.rank.remove:
+        default: op
+      cxyz.rank.list:
+        default: op
+
+  cxyz.xp:
+    default: true
+    children:
+      cxyz.xp.add:
+        default: op
+      cxyz.xp.remove:
+        default: op
+      cxyz.xp.set:
+        default: op
+      cxyz.xp.view:
+        default: true
+
+  cxyz.broadcast:
+    default: op
+
+  cxyz.chatcolor:
+    default: true
+
+  cxyz.debug:
+    default: op
+
+  cxyz.info:
+    default: true
+
+  cxyz.nickname:
+    default: true
+
+  cxyz.parse:
+    default: true
+
+  cxyz.ping:
+    default: true
+
+  cxyz.port:
+    default: op
+
+  cxyz.print:
+    default: op
+
+  cxyz.test:
+    default: op
+
+  cxyz.timezone:
+    default: true

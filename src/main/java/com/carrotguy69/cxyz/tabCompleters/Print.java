@@ -19,7 +19,7 @@ public class Print implements TabCompleter {
         if (CommandRestrictor.handleRestrictedTabCompleter(command, sender)) //
             return List.of();
 
-        String node = "cxyz.admin.print";
+        String node = "cxyz.print";
 
         if (!sender.hasPermission(node)) {
             return List.of();

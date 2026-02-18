@@ -77,10 +77,12 @@ public class Shorthand implements ShorthandExecutor, ShorthandTabCompleter {
 
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
+        label = label.replace("cxyz:", "");
+
         Shorthand shorthand = Shorthand.getShorthandCommand(label);
 
         if (shorthand == null) {
-            Logger.severe("????");
+            Logger.severe(String.format("Shorthand by name of %s could not be found!", label));
             return false;
         }
 
@@ -107,12 +109,14 @@ public class Shorthand implements ShorthandExecutor, ShorthandTabCompleter {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) {
+    public List<String> tabComplete(CommandSender sender, String label, String[] args) {
 
-        Shorthand shorthand = Shorthand.getShorthandCommand(alias);
+        label = label.replace("cxyz:", "");
+
+        Shorthand shorthand = Shorthand.getShorthandCommand(label);
 
         if (shorthand == null) {
-            Logger.severe(String.format("Shorthand by name of %s could not be found!", alias));
+            Logger.severe(String.format("Shorthand by name of %s could not be found!", label));
             return List.of();
         }
 

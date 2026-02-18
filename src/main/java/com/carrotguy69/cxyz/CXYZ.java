@@ -60,46 +60,35 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static String apiEndpoint;
     public static String apiKey;
     public static int apiTimeoutMillis;
-    public static String webhook_endpoint;
-    public static GameServer this_server;
-
+    public static int thisPort;
+    public static GameServer thisServer;
 
     // Even though these ranks are not defined yet, they will almost never be null (excluding first few milliseconds of server startup)
-    public static PlayerRank defaultRank;
 
-    public static int this_port;
 
-    public static List<PlayerRank> ranks = new ArrayList<>();
-    public static List<GameServer> servers = new ArrayList<>();
-
-    public static List<BaseChannel> channels = new ArrayList<>();
-
-    public static List<String> muteRestrictions = new ArrayList<>();
-
-    // Database copies
     public static Map<UUID, NetworkPlayer> users = new ConcurrentHashMap<>();
     public static Map<Long, Punishment> punishmentIDMap = new ConcurrentHashMap<>(); // This is the real unique map that stores all punishments.
-    public static int punishmentSeq = 0;
-
-    public static Map<UUID, Long> lastMessage = new HashMap<>();
-
     public static Map<UUID, Party> parties = new ConcurrentHashMap<>(); // <Owner, Party>
     public static Map<UUID, PartyExpire> partyExpires = new HashMap<>(); // <Player(UUID), PartyExpire>
-
-    public static Multimap<UUID, PartyInvite> partyInvites = ArrayListMultimap.create(); // The UUID is the sender (the one who sent the invite)
     public static Multimap<UUID, FriendRequest> friendRequests = ArrayListMultimap.create(); // The UUID is the sender (the one who sent the friend request)
-    public static Multimap<UUID, Message> messageMap = ArrayListMultimap.create(); // UUID in the message map represents the recipient UUID
-                                                                                   // (kind of backwards, but allows the recipient to get all their messages quickly).
+    public static Multimap<UUID, PartyInvite> partyInvites = ArrayListMultimap.create(); // The UUID is the sender (the one who sent the invite)
+    public static Multimap<UUID, Message> messageMap = ArrayListMultimap.create(); // UUID in the message map represents the recipient UUID (kind of backwards, but allows the recipient to get all their messages quickly).
 
-    public static List<Cosmetic> cosmetics = new ArrayList<>();
-    public static List<Cosmetic.CosmeticType> enabledCosmeticTypes = new ArrayList<>();
-
+    public static PlayerRank defaultRank;
     public static List<Shorthand> shorthandCommands = new ArrayList<>();
+    public static List<BaseChannel> channels = new ArrayList<>();
+    public static List<Cosmetic> cosmetics = new ArrayList<>();
+    public static List<GameServer> servers = new ArrayList<>();
+    public static List<PlayerRank> ranks = new ArrayList<>();
 
     public static List<String> enabledDebugs = new ArrayList<>();
+    public static List<String> muteRestrictions = new ArrayList<>();
+    public static List<Cosmetic.CosmeticType> enabledCosmeticTypes = new ArrayList<>();
+
     public static Map<String, String> colorMap = new HashMap<>();
+    public static Map<UUID, Long> lastMessage = new HashMap<>();
 
-
+    public static int punishmentSeq = 0;
     public static int partyInvitesExpireAfter;
     public static int partyAutoKickAfter;
     public static int friendRequestsExpireAfter;
@@ -147,6 +136,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    [❌] ISSUES:
 
+   - it may be possible for two of the same cosmetics to be equipped (my equip list had two rainbow armors and i ran /unequip twice)
    - stupid kick.log-message glitch
 
     - why does "&d[phat]" have a formatter color code character before f() is applied?
@@ -159,54 +149,48 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    - Ensure /debug actually changes and saves config values
 
+   - ✅ shorthand commands will error when executed from /cxyz:command
+
 
    [➕] ADD/IMPLEMENT:
 
-   organizational:
-   - update /cache on api side to accept a list of tables to return
-   - Use environment variables for api keys (just in development)
-   - Organize the public static variables at the top of the main class
-   - Define permissions (and defaults) in plugin.yml
-   - Look through Tasks and move them to the API.
-
-   startup/null prevention:
-   - Detailed logging on startup, and do warning + continue on error instead of throwing InvalidConfigException. No null values in objects allowed, enforce it!
-   - Defensive programming to defend against the evil SQL database, meaning: we need to enforce defaults whenever a player SQL entry gives us any invalid thing (rank, channel).
-   - Throw a config exception in startup if core default channels are not assigned.
-
-   general commands:
-   - create cosmetic list command
-   - /skin command (could be external plugin), but we should have a functionality (maybe in users table) to store the skin name in order to apply it when joining other servers.
-   - A /color command that changes your name color (like in that one Skeppy video)
-   - /punishment allhistory to view all server punishments (MUST have pages)
+   - ✅ In ListFormatters, replace "player-count", "cosmetic-count", "anything-count" with "size"
+   - ✅ The player might like to see their playtime update when calling /whois twice, instead of waiting for the long task.
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
    - Ensure /debug actually changes the config
 
-   gui/qol:
-   - The player might like to see their playtime update when calling /whois twice, instead of waiting for the long task.
-   - Levelup: Add a player facing XP and coin add message (can be left blank in config if admin desires)
-   - Levelup: Add a player level up message (and play the sound)
+   - ✅ Define permissions (and defaults) in plugin.yml
+   - ✅ When making permissions for commands, most of them should be enabled by default
+   - ✅ Remove "admin", "mod", and "general" permission categories as they kind of overlap and are ambiguous.
+   - Standardize and/or document permissions to access commands, channels, and other permission based features
+   - Standardize bypass permissions
+   - Standardize ".other" permissions (like allowing a sender to see other players info)
+        e.g:
+            - cxyz.(coins/level/xp).view.others
+            - cxyz.cosmetic.list.others
+            - cxyz.friend.list.others
+            - cxyz.ignore.list.others
+            - cxyz.rank.list.others
+            - cxyz.info.others
+   - A non-OP'd player will never be able to access a channel because the permission for the channel cant be automatically granted
 
-   design:
-   - When making permissions for commands, most of them should be enabled by default
-   - Standardize and/or document permissions to access commands, channels...
-   - Remove "admin", "mod", and "general" permission categories as they kind of overlap and are ambiguous.
+
    - Errors, move duplicate states to errors.{something-new}
    - In invalid args errors, we can add acceptable values in the map formatter as opposed to showing the user only what they did wrong.
-   - A way to convert RGB colors to legacy colors (for hover, tab text)
+   - NetworkPlayer has many attributes that need to be fulfilled in placeholder API
+
+   Event system other plugins can subscribe to (extensive):
+   - I want to develop minigames. Since minigames will require some core data, the minigame plugins can extend off some plugin code already (getting various objects).
+   - The problem still remains, how can we broadcast (non-cancellable) events for other plugins to use immediately and reliably.
+   - Solution: Create or use an event system to broadcast events to any who subscribe
+   - Levelup: Add a player facing XP and coin add message (can be left blank in config if admin desires)
+   - Levelup: Add a player level up message (and play the sound)
    - Events other plugins can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
-
-   - ✅ enforce only one cosmetic of type (chat_tag, rank_plate, chat_color) to be applied at a time. two cannot be applied at the same time
-   - ✅ make log-messages support hover and click events
-   - ✅ Add chat tag display value that shows description.
-   - ✅ A total duration value (effectiveUntil - issued) to put in map formatters and messages
-   - ✅ Auto cosmetic equip on join (if allowed), if not -> auto unequip
-   - ✅ Go into config.yml and define one example cosmetic from each type. Go into CosmeticUtils or create another class and physically create these cosmetics (items, trails, effects).
-   - ✅ Implement shorthand commands, and then with this add (/rules, /help, /allow {channel} {player})
-
 
 
    [🔥] v1.1 UPDATE:
+   - /ignore is odd lol
+   - Admin tools to fix database (remove deleted ranks)
    - Enable Cosmetics w/ full GUI support
    - Rank up notifications (public or private) (including if a new cosmetic is available).
    - Ping sound to a player when their name is mentioned in the chat
@@ -214,6 +198,9 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - /info command to supplement this ^
    - A database table that simply logs all player actions that involve the API.
    - Figure out how to restrict certain non-command-based features to ranked users (like in MessageSend.sendMessage(), the color is stripped for non default users, add some functionality!)
+   - A /color command that changes your name color (like in that one Skeppy video)
+   - More detailed & sensible Logging
+   - A way to convert RGB colors to legacy colors (for hover, tab text)
    - Quest system with Quest NPC. Awards coins/xp on completion of quests. There should be only a select amount of quests available to a player weekly - and they should be generated uniquely to the player.
    - Queued message system
        Add queued_messages column in DB table.
@@ -317,8 +304,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     @Override
     public void onDisable() {
-        if (this_server != null) {
-            Request.postRequest(apiEndpoint + "/sql", String.format("{\"query\" : \"UPDATE users SET online = false WHERE server = '%s'\", \"table\" : \"users\"}", this_server.getName()));
+        if (thisServer != null) {
+            Request.postRequest(apiEndpoint + "/sql", String.format("{\"query\" : \"UPDATE users SET online = false WHERE server = '%s'\", \"table\" : \"users\"}", thisServer.getName()));
         }
 
         for (Player p : Bukkit.getOnlinePlayers()) {

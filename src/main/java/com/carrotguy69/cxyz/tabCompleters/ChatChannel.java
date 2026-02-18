@@ -48,7 +48,7 @@ public class ChatChannel implements TabCompleter {
             }
         }
 
-        List<String> subcommands = new ArrayList<>(List.of("set", "ignore", "unignore", "ignorelist"));
+        List<String> subcommands = new ArrayList<>(List.of("set", "ignore", "unignore", "ignorelist", "lock", "unlock"));
 
         if (args.length == 0) {
             subcommands.sort(String.CASE_INSENSITIVE_ORDER);
@@ -57,7 +57,6 @@ public class ChatChannel implements TabCompleter {
 
         if (args.length == 1) {
             List<String> results = new ArrayList<>();
-
 
             for (String s : allowedChannels) { // recommend channels first
                 if (s.startsWith(args[0])) {
@@ -88,12 +87,28 @@ public class ChatChannel implements TabCompleter {
             List<String> results;
 
             switch (args[0].toLowerCase()) {
+
                 case "set":
+                case "lock":
                     results = new ArrayList<>();
 
                     for (String s : allowedChannels) {
                         if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
                             results.add(s);
+                        }
+                    }
+
+                    return results;
+
+                case "unlock":
+                    results = new ArrayList<>();
+
+                    for (String s : allowedChannels) {
+                        if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
+                            BaseChannel ch = BaseChannel.getChannel(s);
+
+                            if (ch != null && ch.isLocked())
+                                results.add(s);
                         }
                     }
 
@@ -120,7 +135,6 @@ public class ChatChannel implements TabCompleter {
                     }
 
                     return results;
-
 
 
                 default:

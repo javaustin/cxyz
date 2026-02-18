@@ -1,7 +1,6 @@
 package com.carrotguy69.cxyz.other;
 
 import com.carrotguy69.cxyz.http.Request;
-import com.carrotguy69.cxyz.http.RequestType;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
@@ -146,7 +145,7 @@ public class Tasks {
 
                         for (NetworkPlayer np : users.values()) {
                             if (annc.getServers().contains(np.getServer().getName().toUpperCase()) && np.isOnline() && !np.isMutingChannel("announcement")) {
-                                np.sendParsedMessage(annc.getContent(), MapFormatters.playerFormatter(np));
+                                np.sendMessage(annc.getContent(), MapFormatters.playerFormatter(np));
                             }
                         }
 
@@ -166,7 +165,7 @@ public class Tasks {
 
                         for (NetworkPlayer np : users.values()) {
                             if (annc.getServers().contains(np.getServer().getName().toUpperCase()) && np.isOnline() && !np.isMutingChannel("announcement")) {
-                                np.sendParsedMessage(annc.getContent(), MapFormatters.playerFormatter(np));
+                                np.sendMessage(annc.getContent(), MapFormatters.playerFormatter(np));
                             }
                         }
 

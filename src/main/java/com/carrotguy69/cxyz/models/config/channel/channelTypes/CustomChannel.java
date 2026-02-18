@@ -78,6 +78,7 @@ public class CustomChannel extends BaseChannel {
             return customChannels;
         }
         catch (InvalidConfigException ex) {
+            Logger.logStackTrace(ex);
             Logger.warning("An InvalidConfigException was thrown in startup. Private channels will not load.");
         }
 

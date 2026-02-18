@@ -51,6 +51,8 @@ public class PlayerRank {
                     }
                 }
             }
+
+            Logger.info("Loaded the following ranks from config.yml: " + results.stream().map(PlayerRank::getName));
         }
 
         if (results.isEmpty()) {
@@ -58,7 +60,7 @@ public class PlayerRank {
             results.add(fallback);
             defaultRank = fallback;
 
-            Logger.warning("No ranks specified in config.yml, creating default!");
+            Logger.warning("No ranks were specified in config.yml, creating default!");
         }
 
         return results;

@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.messages;
 
-import com.carrotguy69.cxyz.cmd.admin.Debug;
+import com.carrotguy69.cxyz.cmd.Debug;
 import com.carrotguy69.cxyz.messages.utils.SimpleTextComponent;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.utils.ObjectUtils;

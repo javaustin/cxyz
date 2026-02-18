@@ -1,42 +1,39 @@
 package com.carrotguy69.cxyz.other;
 
-import com.carrotguy69.cxyz.cmd.admin.*;
-import com.carrotguy69.cxyz.cmd.admin.Debug;
-import com.carrotguy69.cxyz.cmd.admin.Print;
-import com.carrotguy69.cxyz.cmd.admin.channel.ChannelLock;
-import com.carrotguy69.cxyz.cmd.admin.channel.ChannelUnlock;
-import com.carrotguy69.cxyz.cmd.admin.coins._CoinsExecutor;
-import com.carrotguy69.cxyz.cmd.admin.level._LevelExecutor;
-import com.carrotguy69.cxyz.cmd.admin.rank._RankExecutor;
-import com.carrotguy69.cxyz.cmd.admin.xp._XPExecutor;
-import com.carrotguy69.cxyz.cmd.general.*;
-import com.carrotguy69.cxyz.cmd.general.Buy;
-import com.carrotguy69.cxyz.cmd.general.ChatColor;
-import com.carrotguy69.cxyz.cmd.general.Equip;
-import com.carrotguy69.cxyz.cmd.general.Nickname;
-import com.carrotguy69.cxyz.cmd.general.Timezone;
-import com.carrotguy69.cxyz.cmd.general.Unequip;
-import com.carrotguy69.cxyz.cmd.general.channel._ChannelExecutor;
-import com.carrotguy69.cxyz.cmd.general.friend._FriendExecutor;
-import com.carrotguy69.cxyz.cmd.general.message.MessageReply;
-import com.carrotguy69.cxyz.cmd.general.message.MessageSend;
-import com.carrotguy69.cxyz.cmd.general.party._PartyExecutor;
-import com.carrotguy69.cxyz.cmd.general.privacy.FriendPrivacy;
-import com.carrotguy69.cxyz.cmd.general.privacy.MessagePrivacy;
-import com.carrotguy69.cxyz.cmd.general.privacy.PartyPrivacy;
-import com.carrotguy69.cxyz.cmd.general.privacy.ignore.Unignore;
-import com.carrotguy69.cxyz.cmd.general.privacy.ignore._IgnoreExecutor;
-import com.carrotguy69.cxyz.cmd.mod.*;
-import com.carrotguy69.cxyz.cmd.mod.Ban;
-import com.carrotguy69.cxyz.cmd.mod.Unban;
-import com.carrotguy69.cxyz.cmd.mod.Unmute;
-import com.carrotguy69.cxyz.cmd.mod.punishment._PunishmentExecutor;
+import com.carrotguy69.cxyz.cmd.*;
+import com.carrotguy69.cxyz.cmd.Debug;
+import com.carrotguy69.cxyz.cmd.Print;
+import com.carrotguy69.cxyz.cmd.coins._CoinsExecutor;
+import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
+import com.carrotguy69.cxyz.cmd.punishment.*;
+import com.carrotguy69.cxyz.cmd.punishment.Ban;
+import com.carrotguy69.cxyz.cmd.punishment.Unban;
+import com.carrotguy69.cxyz.cmd.punishment.Unmute;
+import com.carrotguy69.cxyz.cmd.rank._RankExecutor;
+import com.carrotguy69.cxyz.cmd.xp._XPExecutor;
+import com.carrotguy69.cxyz.cmd.ChatColor;
+import com.carrotguy69.cxyz.cmd.Nickname;
+import com.carrotguy69.cxyz.cmd.Timezone;
+import com.carrotguy69.cxyz.cmd.channel._ChannelExecutor;
+import com.carrotguy69.cxyz.cmd.cosmetic._CosmeticExecutor;
+import com.carrotguy69.cxyz.cmd.friend._FriendExecutor;
+import com.carrotguy69.cxyz.cmd.message.MessageReply;
+import com.carrotguy69.cxyz.cmd.message.MessageSend;
+import com.carrotguy69.cxyz.cmd.party._PartyExecutor;
+import com.carrotguy69.cxyz.cmd.privacy.FriendPrivacy;
+import com.carrotguy69.cxyz.cmd.privacy.MessagePrivacy;
+import com.carrotguy69.cxyz.cmd.privacy.PartyPrivacy;
+import com.carrotguy69.cxyz.cmd.ignore.Unignore;
+import com.carrotguy69.cxyz.cmd.ignore._IgnoreExecutor;
+import com.carrotguy69.cxyz.cmd.punishment.manager._PunishmentExecutor;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.tabCompleters.*;
 
 import java.io.IOException;
 import java.net.BindException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -53,7 +50,7 @@ public class Startup {
 
     public static void startEndpoints() throws IOException {
         try {
-            listener = new Listener(this_port);
+            listener = new Listener(thisPort);
         }
         catch (IOException ex) {
 
@@ -96,37 +93,25 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("level")).setExecutor(new _LevelExecutor());
             Objects.requireNonNull(plugin.getCommand("level")).setTabCompleter(new CoinsXPLevel());
 
-            Objects.requireNonNull(plugin.getCommand("lock")).setExecutor(new ChannelLock());
-            Objects.requireNonNull(plugin.getCommand("lock")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Lock());
-
-            Objects.requireNonNull(plugin.getCommand("motd")).setExecutor(new Motd());
-            Objects.requireNonNull(plugin.getCommand("motd")).setTabCompleter(new Blank());
-
             Objects.requireNonNull(plugin.getCommand("parse")).setExecutor(new Parse());
             Objects.requireNonNull(plugin.getCommand("parse")).setTabCompleter(new Blank());
 
             Objects.requireNonNull(plugin.getCommand("print")).setExecutor(new Print());
             Objects.requireNonNull(plugin.getCommand("print")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Print());
 
-            Objects.requireNonNull(plugin.getCommand("unlock")).setExecutor(new ChannelUnlock());
-            Objects.requireNonNull(plugin.getCommand("unlock")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unlock());
-
             Objects.requireNonNull(plugin.getCommand("xp")).setExecutor(new _XPExecutor());
             Objects.requireNonNull(plugin.getCommand("xp")).setTabCompleter(new CoinsXPLevel());
 
 
         // GENERAL //
-            Objects.requireNonNull(plugin.getCommand("buy")).setExecutor(new Buy());
-            Objects.requireNonNull(plugin.getCommand("buy")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Buy());
+            Objects.requireNonNull(plugin.getCommand("cosmetic")).setExecutor(new _CosmeticExecutor());
+            Objects.requireNonNull(plugin.getCommand("cosmetic")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Cosmetic());
 
             Objects.requireNonNull(plugin.getCommand("channel")).setExecutor(new _ChannelExecutor());
             Objects.requireNonNull(plugin.getCommand("channel")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatChannel());
 
             Objects.requireNonNull(plugin.getCommand("chatcolor")).setExecutor(new ChatColor());
             Objects.requireNonNull(plugin.getCommand("chatcolor")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatColor());
-
-            Objects.requireNonNull(plugin.getCommand("equip")).setExecutor(new Equip());
-            Objects.requireNonNull(plugin.getCommand("equip")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Equip());
 
             Objects.requireNonNull(plugin.getCommand("info")).setExecutor(new Info());
             Objects.requireNonNull(plugin.getCommand("info")).setTabCompleter(new AnyPlayer()); // just a cosmetic tab completer
@@ -163,9 +148,6 @@ public class Startup {
 
             Objects.requireNonNull(plugin.getCommand("timezone")).setExecutor(new Timezone());
             Objects.requireNonNull(plugin.getCommand("timezone")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Timezone());
-
-            Objects.requireNonNull(plugin.getCommand("unequip")).setExecutor(new Unequip());
-            Objects.requireNonNull(plugin.getCommand("unequip")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unequip());
 
 
 
@@ -217,7 +199,18 @@ public class Startup {
 //    }
 
     public static void requestCacheShipments() {
-        Request.postRequest(apiEndpoint + "/cache", gson.toJson(Map.of("body", "good morning inanimate server!"))); // The API does not even look at this body, it just wants the request in post because it feels nicer.
-     }
+
+
+        List<String> list = new ArrayList<>();
+
+        for (Map.Entry<String, Boolean> entry : initializedMap.entrySet()) {
+            if (!entry.getValue()) {
+                list.add(entry.getKey());
+            }
+        }
+
+        Request.postRequest(apiEndpoint + "/cache", gson.toJson(Map.of("tables", gson.toJson(list))));
+
+    }
 
 }

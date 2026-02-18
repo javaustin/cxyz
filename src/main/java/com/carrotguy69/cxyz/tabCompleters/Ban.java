@@ -33,7 +33,7 @@ public class Ban implements TabCompleter {
         if (CommandRestrictor.handleRestrictedTabCompleter(command, sender))
             return List.of();
 
-        String node = "cxyz.mod.ban";
+        String node = "cxyz.ban";
 
         if (!sender.hasPermission(node)) {
             return List.of();

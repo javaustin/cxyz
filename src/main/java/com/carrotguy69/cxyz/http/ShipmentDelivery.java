@@ -122,6 +122,12 @@ public class ShipmentDelivery {
                 Logger.debugUser("users(before completion): " + users);
 
                 if (users.get(np.getUUID()) != null) {
+
+//                    if (np.version < users.get(np.getUUID()).version) {
+//                        Logger.debugUser(String.format("[~] Skipped modification for an entry to users (version %d < %d). ", np.version, users.get(np.getUUID()).version) + np);
+//                        continue;
+//                    }
+
                     Logger.debugUser("[~] Modified an entry to users. " + np);
                     NetworkPlayer reference = NetworkPlayer.getPlayerByUUID(np.getUUID());
 
