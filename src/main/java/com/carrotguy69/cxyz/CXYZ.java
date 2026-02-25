@@ -151,13 +151,15 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [➕] ADD/IMPLEMENT:
-   - Create an entire (psuedocode) system map of how the shipment delivery system works including conflict resolution (not equal objects api != plugin)
+   - Python backend can be beautified with real classes and less messy code
+
+   - haven't added the authenticate_request function to the python backend yet, still need to implement all that
+
+   - how will conflict resolution be handled (not equal objects api != plugin)
    - We don't need an /sql endpoint. Much better to move that function to the API
 
    - It is possible for np.sync() to be called but the server may not reply with the updated object.
      In this case we should add a `synced` attribute to player which is only true when the db copy == local copy (including versions)
-
-   - Completely map/sketch out the shipment/delivery system and optimize it
 
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
    - Ensure /debug actually changes the config
