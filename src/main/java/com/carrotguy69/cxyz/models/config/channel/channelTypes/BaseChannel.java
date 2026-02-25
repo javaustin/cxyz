@@ -2,11 +2,11 @@ package com.carrotguy69.cxyz.models.config.channel.channelTypes;
 
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
-import com.carrotguy69.cxyz.models.config.GameServer;
+import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.other.webhook.DiscordWebhook;
+import com.carrotguy69.cxyz.webhook.DiscordWebhook;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -231,7 +231,7 @@ public abstract class BaseChannel {
         // This function is not to be called by the HTTP listener, because it will send out requests to other servers.
 
         for (GameServer server : servers) {
-            if (Objects.equals(server.getName(), thisServer.getName())) {
+            if (Objects.equals(server.getIdentifier(), thisServer.getIdentifier())) {
                 sendChannelMessage(this, chatFormat, formatMap);
                 continue;
             }

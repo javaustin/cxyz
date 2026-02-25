@@ -5,9 +5,9 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
-import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
-import com.carrotguy69.cxyz.other.utils.ObjectUtils;
-import com.carrotguy69.cxyz.other.utils.TimeUtils;
+import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.ObjectUtils;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.punishmentIDMap;
-import static com.carrotguy69.cxyz.other.utils.TimeUtils.validTimeString;
+import static com.carrotguy69.cxyz.utils.TimeUtils.validTimeString;
 
 public class PunishmentEdit implements CommandExecutor {
     @Override

@@ -2,8 +2,8 @@ package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.other.utils.ObjectUtils;
-import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.ObjectUtils;
+import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

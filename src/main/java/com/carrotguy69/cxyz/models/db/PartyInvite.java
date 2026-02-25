@@ -1,7 +1,7 @@
 package com.carrotguy69.cxyz.models.db;
 
 import com.carrotguy69.cxyz.http.Request;
-import com.carrotguy69.cxyz.other.utils.TimeUtils;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -4,7 +4,7 @@ import com.carrotguy69.cxyz.models.db.FriendRequest;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

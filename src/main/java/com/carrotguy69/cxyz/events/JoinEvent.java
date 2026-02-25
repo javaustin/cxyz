@@ -7,7 +7,7 @@ import com.carrotguy69.cxyz.models.db.PartyExpire;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
-import com.carrotguy69.cxyz.other.utils.TimeUtils;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import org.bukkit.entity.Player;

@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.other.webhook;
+package com.carrotguy69.cxyz.webhook;
 import com.carrotguy69.cxyz.http.Request;
 
 import java.util.ArrayList;

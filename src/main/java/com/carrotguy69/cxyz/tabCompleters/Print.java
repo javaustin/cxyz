@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -25,7 +25,7 @@ public class Print implements TabCompleter {
             return List.of();
         }
 
-        List<String> options = Arrays.asList("users", "parties", "partyinvites", "partyexpires", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml", "chatfilter", "colors");
+        List<String> options = Arrays.asList("users", "parties", "partyinvites", "partyexpires", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml", "chatfilter", "colors", "servers", "gameservers");
 
         options.sort(String.CASE_INSENSITIVE_ORDER);
 

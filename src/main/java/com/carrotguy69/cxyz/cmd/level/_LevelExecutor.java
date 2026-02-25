@@ -2,7 +2,7 @@ package com.carrotguy69.cxyz.cmd.level;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-import static com.carrotguy69.cxyz.other.utils.ObjectUtils.slice;
+import static com.carrotguy69.cxyz.utils.ObjectUtils.slice;
 
 public class _LevelExecutor implements CommandExecutor {
     @Override

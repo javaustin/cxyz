@@ -1,13 +1,19 @@
 package com.carrotguy69.cxyz.http;
 
-import com.carrotguy69.cxyz.other.utils.JsonConverters;
+import com.carrotguy69.cxyz.models.config.services.Service;
+import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Base64;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -55,32 +61,35 @@ public class Request {
 
         HttpRequest request;
         try {
+            long timestamp = TimeUtils.unixTimeNow();
+
             HttpRequest.Builder builder = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("Content-Type", "application/json")
-                    .header("X-API-KEY", apiKey)
-                    .header("X-Request-Expires", String.valueOf(System.currentTimeMillis() + (timeout - 1000)))
+                    .header("X-Identifier", thisServer.getIdentifier())
+                    .header("X-Timestamp", String.valueOf(timestamp))
                     .timeout(Duration.ofMillis(timeout));
 
             if (type == RequestType.POST) {
 
                 Map<String, Object> bodyMap = JsonConverters.toMap(requestBody);
-//                bodyMap.put("fromGameServer", this_server.getName());
-
                 String bodyGSON = gson.toJson(bodyMap);
 
-                builder.POST(HttpRequest.BodyPublishers.ofString(bodyGSON)); // if this fails hilariously, replace the body2 argument with body, and delete the previous code
+                builder.header("X-Signature", generateSignature((Service) thisServer, timestamp, "POST", URI.create(url).getPath(), bodyGSON));
+
+                builder.POST(HttpRequest.BodyPublishers.ofString(bodyGSON));
             }
             else {
+                builder.header("X-Signature", generateSignature((Service) thisServer, timestamp, "GET", URI.create(url).getPath(), ""));
                 builder.GET();
             }
 
             request = builder.build();
 
         }
-        catch (IllegalArgumentException e) {
+        catch (Exception e) {
             resultFuture.completeExceptionally(
-                    new RuntimeException("Invalid URL: " + url)
+                    new Throwable(e)
             );
             return;
         }
@@ -96,14 +105,6 @@ public class Request {
                     }
 
                     RequestResult normalized = normalizeResponse(new RequestResult(type, url, requestBody, response.body(), response.statusCode()));
-
-
-                    // logical timeout via status code
-                    if (normalized.statusCode == 408) {
-                        Logger.debugFailedRequest("Endpoint returned (408) (" + attempt + "/" + maxAttempts + "): " + normalized.toCompactString());
-                        sendAttempt(resultFuture);
-                        return;
-                    }
 
                     if (normalized.statusCode < 200 || normalized.statusCode > 299)
                         Logger.debugFailedRequest("Received result: " + normalized.toCompactString());
@@ -124,6 +125,24 @@ public class Request {
     public static CompletableFuture<RequestResult> getRequest(String url) {
         Request req = new Request(RequestType.GET, url, null);
         return req.send();
+    }
+
+    public static String generateSignature(String identifier, String secret, long timestamp, String method, String path, String payloadJSON) throws Exception {
+        String message = identifier + "\n" + timestamp + "\n" + method + "\n" + path + "\n" + payloadJSON;
+
+        Mac mac = Mac.getInstance("HmacSHA256");
+
+        SecretKeySpec key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+
+        mac.init(key);
+
+        byte[] raw = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
+
+        return Base64.getEncoder().encodeToString(raw);
+    }
+
+    public static String generateSignature(Service service, long timestamp, String method, String path, String payloadJSON) throws Exception {
+        return generateSignature(service.getIdentifier(), service.getSecret(), timestamp, method, path, payloadJSON);
     }
 }
 

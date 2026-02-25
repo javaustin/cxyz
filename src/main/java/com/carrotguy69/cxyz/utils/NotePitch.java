@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.other.utils;
+package com.carrotguy69.cxyz.utils;
 
 public enum NotePitch {// Notes
     LOW_F_SHARP(0.5000F),

@@ -6,13 +6,13 @@
 
 # API Endpoint
 #     This is the "home" URL of the database API the server needs to connect to.
-# API Key
-#     This is the required API key ("X-API-KEY") to access the database API.
 # API Timeout
 #     This is the amount of time (ms) before an async HTTP request should be timed out
-api-endpoint: http://localhost:5000
-api-key: dgKP3ykuSXviIljh
-api-timeout: 3000
+api:
+  identifier: "API" # case-sensitive
+  endpoint: http://localhost:5000
+  secret: "dgKP3ykuSXviIljh"
+  timeout-millis: 3000
 
 # Timezone
 #   The default timezone for the server. Accepts IANA format - "Region/City"
@@ -25,8 +25,8 @@ datetime-short-format: M/d/yy h:mma (z)
 
 # This server:
 #     We need to know what specific server (in the network) that this plugin is running on.
-#     This variable must be unique to this server. Use underscores for spaces.
-this-server: HUB_1
+#     This variable must be unique to this server.
+this-server: HUB_1 # No spaces allowed
 
 # This port:
 #     We need to know which port should accept requests on THIS server. To avoid port conflicts, you should choose a number in the range of 49152 to 65535.
@@ -42,10 +42,9 @@ servers: # Server names use underscores
 
   # The port should not be the server's default minecraft port, it should be the same value as this-port in your destination server.
   # This is so we can ensure the endpoint server can receive and process our requests.
-  HUB_1: http://localhost:59152
-#  SG_1: "sampleIP"
-#  TDM_1: "sampleIP"
-#  EXAMPLE_NAME: "exampleIP"
+  HUB_1:
+    ip-address: "http://localhost:59152" # The IP address the API will send requests back to
+    secret: "OJpON-h13es0M0GhN1Ld6A" # The servers' secret key. This value must match the secret for HUB_1 in the API config.json file.
 
 # This plugin cannot alone send players to another server, you should have BungeeCord, Velocity, or a similar technology set up.
 

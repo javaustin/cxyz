@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.other.utils;
+package com.carrotguy69.cxyz.utils;
 
 import com.google.gson.reflect.TypeToken;
 

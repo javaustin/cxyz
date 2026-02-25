@@ -6,7 +6,7 @@ import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -187,16 +187,6 @@ public class Startup {
         deleteOfflineParties();
         runPunishmentSeq();
     }
-//
-//    public static void setWorldDefaults(World w) {
-//        w.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
-//        w.setGameRule(GameRule.DISABLE_RAIDS, true);
-//        w.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-//        w.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
-//        w.setGameRule(GameRule.DO_FIRE_TICK, false);
-//        w.setGameRule(GameRule.DO_MOB_SPAWNING, false);
-//        w.setDifficulty(Difficulty.NORMAL);
-//    }
 
     public static void requestCacheShipments() {
 

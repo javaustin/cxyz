@@ -8,7 +8,7 @@ import com.carrotguy69.cxyz.models.config.channel.coreChannels.PartyChannel;
 import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
 import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.other.utils.JsonConverters;
+import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;

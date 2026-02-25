@@ -1,7 +1,8 @@
 package com.carrotguy69.cxyz.other;
 
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
-import com.carrotguy69.cxyz.models.config.GameServer;
+import com.carrotguy69.cxyz.models.config.ChatFilterRule;
+import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
@@ -23,7 +24,7 @@ public class Constants {
     public static String getGameServerIP(GameServer gs) {
         FileConfiguration fc = plugin.getConfig();
 
-        return (String) fc.get("servers." + gs.getName());
+        return (String) fc.get("servers." + gs.getIdentifier());
     }
 
     public static void loadConfigYMLs() {
@@ -57,11 +58,12 @@ public class Constants {
 
         configYaml = yaml;
 
-        apiEndpoint = (String) yaml.get("api-endpoint");
-        apiKey = (String) yaml.get("api-key");
-        apiTimeoutMillis = yaml.getInt("api-timeout", 3000);
-        servers = GameServer.loadServers();
+        apiIdentifier = (String) yaml.get("api.identifier");
+        apiEndpoint = (String) yaml.get("api.endpoint");
+        apiSecret = (String) yaml.get("api.secret");
+        apiTimeoutMillis = yaml.getInt("api.timeout-millis", 3000);
 
+        servers = GameServer.loadServers();
 
         for (String s : yaml.getStringList("debugger.enabled-values")) {
             enabledDebugs.add(s.toUpperCase());
@@ -111,6 +113,8 @@ public class Constants {
 
         channels.addAll(CustomChannel.getCustomChannels());
         channels.addAll(CoreChannel.getCoreChannels());
+
+        chatFilterRules.addAll(ChatFilterRule.getChatFilterRules());
 
         ChannelRegistry.loadAssociations();
 

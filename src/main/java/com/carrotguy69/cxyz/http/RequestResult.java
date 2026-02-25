@@ -2,9 +2,7 @@ package com.carrotguy69.cxyz.http;
 
 import com.google.gson.reflect.TypeToken;
 
-import java.net.http.HttpClient;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 
@@ -59,7 +57,6 @@ public class RequestResult {
 
         if (r.url.contains("sql") && r.responseBody.contains("Operation successful!")) { // a null value is returned from the SQL script, we will return the null value with a 200 status code
             return new RequestResult(r.method, r.url, r.requestBody, null, 200); // we can return a request result when it has body for us
-
         }
 
         return r;

@@ -7,8 +7,8 @@ import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.other.utils.ObjectUtils;
-import com.carrotguy69.cxyz.other.utils.TimeUtils;
+import com.carrotguy69.cxyz.utils.ObjectUtils;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,7 +21,7 @@ import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 import static com.carrotguy69.cxyz.cmd.ChatColor.getColor;
-import static com.carrotguy69.cxyz.other.utils.TimeUtils.*;
+import static com.carrotguy69.cxyz.utils.TimeUtils.*;
 
 public class MapFormatters {
 
@@ -326,7 +326,7 @@ public class MapFormatters {
         commonMap.put("player-chat-color", defaultRank.getColor());
         commonMap.put("player-chat-color-name", com.carrotguy69.cxyz.cmd.ChatColor.getColorNameByCode(defaultRank.getColor()));
 
-        commonMap.put("player-server", thisServer.getName());
+        commonMap.put("player-server", thisServer.getIdentifier());
         commonMap.put("player-vanish-status", "&cUnvanished");
         commonMap.put("player-online-status", "&aOnline");
 
@@ -451,7 +451,7 @@ public class MapFormatters {
         commonMap.put("player-chat-channel-prefix", player.getChatChannel().getPrefix());
 
 
-        commonMap.put("player-server", player.getServer().getName());
+        commonMap.put("player-server", player.getServer().getIdentifier());
         commonMap.put("player-vanish-status", player.isVanished() ? "&aVanished" : "&cUnvanished");
         commonMap.put("player-online-status", player.isOnline() && !player.isVanished() ? "&aOnline" : "&7Offline");
 

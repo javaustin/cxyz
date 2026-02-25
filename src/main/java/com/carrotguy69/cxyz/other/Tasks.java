@@ -10,8 +10,8 @@ import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.db.PartyExpire;
 import com.carrotguy69.cxyz.models.db.PartyInvite;
-import com.carrotguy69.cxyz.other.utils.JsonConverters;
-import com.carrotguy69.cxyz.other.utils.TimeUtils;
+import com.carrotguy69.cxyz.utils.JsonConverters;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -144,7 +144,7 @@ public class Tasks {
                     public void run() {
 
                         for (NetworkPlayer np : users.values()) {
-                            if (annc.getServers().contains(np.getServer().getName().toUpperCase()) && np.isOnline() && !np.isMutingChannel("announcement")) {
+                            if (annc.getServers().contains(np.getServer().getIdentifier().toUpperCase()) && np.isOnline() && !np.isMutingChannel("announcement")) {
                                 np.sendMessage(annc.getContent(), MapFormatters.playerFormatter(np));
                             }
                         }
@@ -164,7 +164,7 @@ public class Tasks {
                     public void run() {
 
                         for (NetworkPlayer np : users.values()) {
-                            if (annc.getServers().contains(np.getServer().getName().toUpperCase()) && np.isOnline() && !np.isMutingChannel("announcement")) {
+                            if (annc.getServers().contains(np.getServer().getIdentifier().toUpperCase()) && np.isOnline() && !np.isMutingChannel("announcement")) {
                                 np.sendMessage(annc.getContent(), MapFormatters.playerFormatter(np));
                             }
                         }

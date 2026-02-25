@@ -12,6 +12,10 @@
       <option name="customHeaders">
         <set>
           <option value="X-API-KEY" />
+          <option value="X-API-Key" />
+          <option value="X-Signature" />
+          <option value="X-Identifier" />
+          <option value="X-Timestamp" />
         </set>
       </option>
     </inspection_tool>

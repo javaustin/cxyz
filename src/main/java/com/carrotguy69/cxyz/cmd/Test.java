@@ -1,9 +1,9 @@
 package com.carrotguy69.cxyz.cmd;
 
-import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.other.utils.NotePitch;
+import com.carrotguy69.cxyz.utils.NotePitch;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

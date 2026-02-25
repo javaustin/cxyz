@@ -9,7 +9,7 @@ import com.carrotguy69.cxyz.models.config.shorthand.interfaces.ShorthandTabCompl
 import com.carrotguy69.cxyz.models.config.shorthand.utils.ShorthandUtils;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.other.utils.ObjectUtils;
+import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

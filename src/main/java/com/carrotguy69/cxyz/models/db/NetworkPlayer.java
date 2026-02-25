@@ -4,7 +4,7 @@ import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
-import com.carrotguy69.cxyz.models.config.GameServer;
+import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
@@ -13,8 +13,8 @@ import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
 import com.carrotguy69.cxyz.other.*;
 
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.other.utils.JsonConverters;
-import com.carrotguy69.cxyz.other.utils.TimeUtils;
+import com.carrotguy69.cxyz.utils.JsonConverters;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -97,7 +97,7 @@ public class NetworkPlayer {
         this.username = p.getName();
         this.nickname = "";
         this.ranks = "[\"" + defaultRank.getName() + "\"]";
-        this.server = thisServer.getName();
+        this.server = thisServer.getIdentifier();
         this.online = p.isOnline() ? 1 : 0;
         this.first_join = TimeUtils.unixTimeNow();
         this.last_join = TimeUtils.unixTimeNow();
@@ -148,7 +148,7 @@ public class NetworkPlayer {
                 ", username='" + getUsername() + '\'' +
                 ", nickname='" + getNickname() + '\'' +
                 ", topRank=" + getTopRank().getName() +
-                ", server=" + getServer().getName() +
+                ", server=" + getServer().getIdentifier() +
                 ", online=" + isOnline() +
                 ", firstJoin=" + getFirstJoin() +
                 ", lastJoin=" + getLastJoin() +
@@ -299,7 +299,7 @@ public class NetworkPlayer {
     }
 
     public void setServer(GameServer gameServer) {
-        this.server = gameServer.getName();
+        this.server = gameServer.getIdentifier();
     }
 
     public boolean isOnline() {
@@ -802,7 +802,7 @@ public class NetworkPlayer {
             return false;
         }
 
-        if (Objects.equals(this.getServer().getName(), thisServer.getName())) {
+        if (Objects.equals(this.getServer().getIdentifier(), thisServer.getIdentifier())) {
             // If the player is on our current server, we can just send them a message through Bukkit
             Player p = Bukkit.getPlayer(UUID.fromString(uuid));
 
@@ -831,7 +831,7 @@ public class NetworkPlayer {
     }
 
     public void warp(GameServer destination) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format("/send %s %s", this.getUsername(), destination.getName()));
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format("/send %s %s", this.getUsername(), destination.getIdentifier()));
     }
 
     public void kick(String reason) {
@@ -841,7 +841,7 @@ public class NetworkPlayer {
             return;
         }
 
-        if (Objects.equals(this.getServer().getName(), CXYZ.thisServer.getName())) {
+        if (Objects.equals(this.getServer().getIdentifier(), CXYZ.thisServer.getIdentifier())) {
             // If the player is on our current server, we can bypass the just kick them through Bukkit.
             Player p = Bukkit.getPlayer(UUID.fromString(uuid));
 

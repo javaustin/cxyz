@@ -1,9 +1,9 @@
 package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.http.Request;
-import com.carrotguy69.cxyz.models.config.GameServer;
+import com.carrotguy69.cxyz.models.config.services.GameServer;
 
-import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
@@ -61,7 +61,7 @@ public class Broadcast implements CommandExecutor {
     public static void broadcast(String content, boolean parsed, Map<String, Object> formatMap) {
         for (GameServer server : servers) {
 
-            if (Objects.equals(server.getName(), thisServer.getName())) {
+            if (Objects.equals(server.getIdentifier(), thisServer.getIdentifier())) {
                 MessageUtils.sendPublicMessage(content, parsed, Map.of());
                 continue;
             }

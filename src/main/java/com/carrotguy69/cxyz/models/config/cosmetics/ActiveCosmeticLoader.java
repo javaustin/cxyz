@@ -3,7 +3,7 @@ package com.carrotguy69.cxyz.models.config.cosmetics;
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.other.utils.NotePitch;
+import com.carrotguy69.cxyz.utils.NotePitch;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;

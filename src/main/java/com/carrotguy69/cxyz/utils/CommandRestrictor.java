@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.other.utils;
+package com.carrotguy69.cxyz.utils;
 
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;

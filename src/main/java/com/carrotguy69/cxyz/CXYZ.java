@@ -2,8 +2,9 @@ package com.carrotguy69.cxyz;
 
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
-import com.carrotguy69.cxyz.models.config.GameServer;
+import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.shorthand.Shorthand;
@@ -56,15 +57,13 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     public static FileConfiguration configYaml;
 
-
+    public static String apiIdentifier;
     public static String apiEndpoint;
-    public static String apiKey;
+    public static String apiSecret;
     public static int apiTimeoutMillis;
+
     public static int thisPort;
     public static GameServer thisServer;
-
-    // Even though these ranks are not defined yet, they will almost never be null (excluding first few milliseconds of server startup)
-
 
     public static Map<UUID, NetworkPlayer> users = new ConcurrentHashMap<>();
     public static Map<Long, Punishment> punishmentIDMap = new ConcurrentHashMap<>(); // This is the real unique map that stores all punishments.
@@ -80,6 +79,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static List<Cosmetic> cosmetics = new ArrayList<>();
     public static List<GameServer> servers = new ArrayList<>();
     public static List<PlayerRank> ranks = new ArrayList<>();
+    public static List<ChatFilterRule> chatFilterRules = new ArrayList<>();
 
     public static List<String> enabledDebugs = new ArrayList<>();
     public static List<String> muteRestrictions = new ArrayList<>();
@@ -149,19 +149,20 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    - Ensure /debug actually changes and saves config values
 
-   - ✅ shorthand commands will error when executed from /cxyz:command
-
 
    [➕] ADD/IMPLEMENT:
+   - Create an entire (psuedocode) system map of how the shipment delivery system works including conflict resolution (not equal objects api != plugin)
+   - We don't need an /sql endpoint. Much better to move that function to the API
 
-   - ✅ In ListFormatters, replace "player-count", "cosmetic-count", "anything-count" with "size"
-   - ✅ The player might like to see their playtime update when calling /whois twice, instead of waiting for the long task.
+   - It is possible for np.sync() to be called but the server may not reply with the updated object.
+     In this case we should add a `synced` attribute to player which is only true when the db copy == local copy (including versions)
+
+   - Completely map/sketch out the shipment/delivery system and optimize it
+
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
    - Ensure /debug actually changes the config
 
-   - ✅ Define permissions (and defaults) in plugin.yml
-   - ✅ When making permissions for commands, most of them should be enabled by default
-   - ✅ Remove "admin", "mod", and "general" permission categories as they kind of overlap and are ambiguous.
+   - Prefix permission
    - Standardize and/or document permissions to access commands, channels, and other permission based features
    - Standardize bypass permissions
    - Standardize ".other" permissions (like allowing a sender to see other players info)
@@ -174,6 +175,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
             - cxyz.info.others
    - A non-OP'd player will never be able to access a channel because the permission for the channel cant be automatically granted
 
+   - gameStats support
 
    - Errors, move duplicate states to errors.{something-new}
    - In invalid args errors, we can add acceptable values in the map formatter as opposed to showing the user only what they did wrong.
@@ -189,6 +191,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [🔥] v1.1 UPDATE:
+   - Table shipments should be split up into pages (the plugin doesn't know how many pages, so it's up to the API to send all the data we need). We shouldn't have to modify any code plugin-side
    - /ignore is odd lol
    - Admin tools to fix database (remove deleted ranks)
    - Enable Cosmetics w/ full GUI support
@@ -305,7 +308,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     @Override
     public void onDisable() {
         if (thisServer != null) {
-            Request.postRequest(apiEndpoint + "/sql", String.format("{\"query\" : \"UPDATE users SET online = false WHERE server = '%s'\", \"table\" : \"users\"}", thisServer.getName()));
+            Request.postRequest(apiEndpoint + "/sql", String.format("{\"query\" : \"UPDATE users SET online = false WHERE server = '%s'\", \"table\" : \"users\"}", thisServer.getIdentifier()));
         }
 
         for (Player p : Bukkit.getOnlinePlayers()) {

@@ -1,23 +1,29 @@
 package com.carrotguy69.cxyz.http;
 
+import com.carrotguy69.cxyz.exceptions.AuthenticationFailException;
+import com.carrotguy69.cxyz.exceptions.MissingHeadersException;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
+import com.carrotguy69.cxyz.models.config.services.Service;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.other.utils.JsonConverters;
+import com.carrotguy69.cxyz.utils.JsonConverters;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 import com.google.gson.reflect.TypeToken;
 import fi.iki.elonen.NanoHTTPD;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.gson;
 import static com.carrotguy69.cxyz.CXYZ.initializedMap;
+import static com.carrotguy69.cxyz.http.Request.generateSignature;
 import static com.carrotguy69.cxyz.http.ShipmentDelivery.*;
 import static com.carrotguy69.cxyz.models.config.channel.channelTypes.CustomChannel.sendChannelMessage;
 import static java.lang.Boolean.parseBoolean;
@@ -30,20 +36,69 @@ public class Listener extends NanoHTTPD {
         Logger.info("HTTP listener started on port: " + port);
     }
 
+    private static void authenticateRequest(IHTTPSession session, Map<String, String> body) throws Exception {
+        // throws RuntimeException (or child) if we cannot authenticate the response
+
+        String payload = session.getMethod() == Method.POST ? body.getOrDefault("postData", "") : "";
+
+        Map<String, String> headers = session.getHeaders();
+
+        // * NanoHTTPD headers are lowercased
+        String identifier = headers.get("x-identifier");
+        String timestampString = headers.get("x-timestamp");
+        String signature = headers.get("x-signature");
+
+        if (identifier == null) {
+            throw new MissingHeadersException("\"X-Identifier\" is required for interacting with this service.");
+        }
+
+        if (timestampString == null) {
+            throw new MissingHeadersException("\"X-Timestamp\" is required for interacting with this service.");
+        }
+
+        if (signature == null) {
+            throw new MissingHeadersException("\"X-Signature\" is required for interacting with this service.");
+        }
+
+        long timestamp = Long.parseLong(timestampString); // Automatically throws NumberFormatException if the provided value cannot be a long
+
+        if (Math.abs(TimeUtils.unixTimeNow() - timestamp) > 30) {
+            throw new AuthenticationFailException("Request timestamp expired.");
+        }
+
+        Service sendingService = Service.getServerByIdentifier(identifier);
+
+        if (sendingService == null) {
+            throw new RuntimeException(String.format("No service with identifier=\"%s\" is registered in this plugins' config.", identifier));
+        }
+
+        String method = session.getMethod().name();
+        String path = session.getUri();
+
+        String localSignature = generateSignature(sendingService, timestamp, method, path, payload);
+
+        if (!MessageDigest.isEqual(localSignature.getBytes(StandardCharsets.UTF_8), signature.getBytes(StandardCharsets.UTF_8))) {
+            throw new AuthenticationFailException("Signature invalid.");
+        }
+
+    }
+
     @Override
     public Response serve(IHTTPSession session) {
         try {
             Map<String, String> body = new HashMap<>();
             session.parseBody(body);
 
-            // Clean up temp file(s) if any
-            String tmpFilePath = body.get("file"); // only present for multipart/form-data
-            if (tmpFilePath != null) {
-                File tmpFile = new File(tmpFilePath);
-                if (tmpFile.exists()) {
-                    tmpFile.delete();
-                }
-            }
+            authenticateRequest(session, body);
+
+//            // Clean up temp file(s) if any
+//            String tmpFilePath = body.get("file"); // only present for multipart/form-data
+//            if (tmpFilePath != null) {
+//                File tmpFile = new File(tmpFilePath);
+//                if (tmpFile.exists()) {
+//                    tmpFile.delete();
+//                }
+//            }
 
 
             String postData = body.get("postData");
@@ -160,8 +215,7 @@ public class Listener extends NanoHTTPD {
         }
 
         catch (Exception ex) {
-            Logger.logStackTrace(ex);
-            return newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", "{}");
+            return newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", gson.toJson(Map.of("error", ex.getMessage())));
         }
 
         return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/plain", "Not found");
@@ -228,8 +282,6 @@ public class Listener extends NanoHTTPD {
 
         sendChannelMessage(channel, chatFormat, formatMap);
     }
-
-
 
 
     public void handleCommand(Map<String, String> map) {

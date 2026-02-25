@@ -2,9 +2,8 @@ package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.Announcement;
-import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
-import com.carrotguy69.cxyz.other.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -117,11 +116,16 @@ public class Print implements CommandExecutor {
                     return true;
 
                 case "chatfilter":
-                    Logger.info(ChatFilterRule.getChatFilterRules().toString());
+                    Logger.info(chatFilterRules.toString());
                     return true;
 
                 case "colors":
                     Logger.info(colorMap.toString());
+                    return true;
+
+                case "gameservers":
+                case "servers":
+                    Logger.info(servers.toString());
                     return true;
             }
         }

@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.models.config;
+package com.carrotguy69.cxyz.models.config.services;
 
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import org.bukkit.configuration.ConfigurationSection;
@@ -9,20 +9,16 @@ import java.util.List;
 import static com.carrotguy69.cxyz.CXYZ.configYaml;
 import static com.carrotguy69.cxyz.CXYZ.servers;
 
-public class GameServer {
+public class GameServer extends Service {
 
-    private final String ip;
-    private final String name;
-
-    GameServer(String name, String ip) {
-        this.name = name;
-        this.ip = ip;
+    public GameServer(String identifier, String ip, String secret) {
+        super(identifier, ip, secret);
     }
 
     public static GameServer getServerFromName(String name) {
         for (GameServer gs : servers) {
-            if (gs.getName().equals(name)) {
-                return new GameServer(gs.getName(), gs.getIP());
+            if (gs.getIdentifier().equals(name)) {
+                return gs;
             }
         }
 
@@ -39,9 +35,10 @@ public class GameServer {
         }
 
         for (String name : section.getKeys(false)) {
-            String ip = configYaml.getString("config.servers." + name);
+            String ip = configYaml.getString("config.servers." + name + ".ip-address");
+            String secret = configYaml.getString("config.servers." + name + ".secret");
 
-            result.add(new GameServer(name, ip));
+            result.add(new GameServer(name, ip, secret));
         }
 
         if (result.isEmpty()) {
@@ -49,13 +46,5 @@ public class GameServer {
         }
 
         return result;
-    }
-
-    public String getIP() {
-        return ip;
-    }
-
-    public String getName() {
-        return name;
     }
 }

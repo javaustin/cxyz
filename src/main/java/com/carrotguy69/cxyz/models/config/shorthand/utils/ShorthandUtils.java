@@ -4,12 +4,11 @@ import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.other.utils.ObjectUtils;
+import com.carrotguy69.cxyz.utils.ObjectUtils;
 import com.carrotguy69.cxyz.tabCompleters.AnyPlayer;
 import com.carrotguy69.cxyz.tabCompleters.ChatChannel;
 import com.carrotguy69.cxyz.tabCompleters.OnlinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

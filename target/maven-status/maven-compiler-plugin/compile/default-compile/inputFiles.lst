@@ -1,4 +1,5 @@
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\http\Listener.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\services\Service.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\ChatFilterRule.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\shorthand\ShorthandBukkitCommand.java
@@ -9,11 +10,10 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\priva
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Ban.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\channel\ChannelSet.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\messages\utils\SimpleTextComponent.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\webhook\DiscordEmbed.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\channel\ChannelUnignore.java
-C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\other\utils\NotePitch.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\db\Message.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\coins\_CoinsExecutor.java
-C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\other\webhook\DiscordEmbed.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\privacy\FriendPrivacy.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\Show.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party\PartyPrivate.java
@@ -25,6 +25,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\coins\CoinsRemove.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\http\Request.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Buy.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\utils\TimeUtils.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\other\Startup.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\events\FishEvent.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\Ping.java
@@ -36,7 +37,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\events\Jo
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentClear.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\http\RequestResult.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader.java
-C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\other\utils\ObjectUtils.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\utils\JsonConverters.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party\PartyList.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\cosmetics\Cosmetic.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Privacy.java
@@ -48,7 +49,6 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabComple
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\Port.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\Kick.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\message\MessageSend.java
-C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\other\utils\JsonConverters.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\db\PartyInvite.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party\PartySetLeader.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\ChatColor.java
@@ -77,6 +77,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\frien
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\xp\XPView.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\messages\utils\MapFormatters.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\events\DropEvent.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\utils\NotePitch.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\level\LevelRemove.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\friend\FriendRemove.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party\PartyCreate.java
@@ -90,6 +91,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\cosme
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\coins\CoinsAdd.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentEdit.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\messages\MessageKey.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\utils\ObjectUtils.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\coins\CoinsSet.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\channel\utils\ChannelRegistry.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\Unban.java
@@ -107,12 +109,12 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punis
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\rank\RankList.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentHistory.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\friend\FriendDeny.java
-C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\other\utils\TimeUtils.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\http\ShipmentDelivery.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\events\LeaveEvent.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\ignore\Unignore.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\other\Logger.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\channel\ChannelIgnoreList.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\exceptions\MissingHeadersException.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\ignore\IgnoreList.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\xp\XPRemove.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\channel\utils\ChannelFunction.java
@@ -120,7 +122,6 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\cosme
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Nickname.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Unban.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Friend.java
-C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\other\utils\CommandRestrictor.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\Broadcast.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\cosmetic\CosmeticList.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\level\LevelSet.java
@@ -134,7 +135,6 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\db
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party\PartyInvite.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\shorthand\interfaces\ShorthandTabCompleter.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\cosmetic\CosmeticUnequip.java
-C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\other\webhook\DiscordWebhook.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\channel\ChannelIgnore.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\channel\ChannelLock.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Cosmetic.java
@@ -144,6 +144,8 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\chann
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\channel\channelTypes\CustomChannel.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\ignore\Ignore.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\channel\coreChannels\MessageChannel.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\webhook\DiscordWebhook.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\exceptions\AuthenticationFailException.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\Warn.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party\PartyWarp.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party\PartyLeave.java
@@ -153,6 +155,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\PlayerRank.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentDelete.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Rank.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\utils\CommandRestrictor.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Blank.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\shorthand\Shorthand.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Ignore.java
@@ -161,8 +164,8 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\co
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Party.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\message\MessageReply.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\messages\utils\MessageGrabber.java
-C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\GameServer.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\level\LevelAdd.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\friend\FriendAdd.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\xp\_XPExecutor.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\events\InteractEvent.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\services\GameServer.java

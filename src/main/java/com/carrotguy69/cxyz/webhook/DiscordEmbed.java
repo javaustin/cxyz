@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.other.webhook;
+package com.carrotguy69.cxyz.webhook;
 
 public class DiscordEmbed {
     private String title;

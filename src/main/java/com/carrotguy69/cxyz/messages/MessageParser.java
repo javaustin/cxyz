@@ -3,7 +3,7 @@ package com.carrotguy69.cxyz.messages;
 import com.carrotguy69.cxyz.cmd.Debug;
 import com.carrotguy69.cxyz.messages.utils.SimpleTextComponent;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.other.utils.ObjectUtils;
+import com.carrotguy69.cxyz.utils.ObjectUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
