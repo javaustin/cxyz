@@ -151,6 +151,10 @@ public enum MessageKey {
     DEBUG_UNSET("commands.debug.unset"),
     DEBUG_VIEW("commands.debug.view"),
 
+
+    FULLBRIGHT_TOGGLE_ON("commands.fullbright.toggle-on"),
+    FULLBRIGHT_TOGGLE_OFF("commands.fullbright.toggle-off"),
+
     // =========================
     // Commands - Friend
     // =========================

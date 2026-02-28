@@ -14,6 +14,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -103,7 +104,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     public static List<Integer> taskIDs = new ArrayList<>(); // Any task that uses a timer must be able to be canceled on disable.
 
-    public static Gson gson = new Gson();
+    public static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
     public static Map<String, Boolean> initializedMap = new HashMap<>();
 
@@ -149,17 +150,11 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    - Ensure /debug actually changes and saves config values
 
+   - ✅ failed requests should always be logged
+
 
    [➕] ADD/IMPLEMENT:
-   - Python backend can be beautified with real classes and less messy code
-
-   - haven't added the authenticate_request function to the python backend yet, still need to implement all that
-
-   - how will conflict resolution be handled (not equal objects api != plugin)
-   - We don't need an /sql endpoint. Much better to move that function to the API
-
-   - It is possible for np.sync() to be called but the server may not reply with the updated object.
-     In this case we should add a `synced` attribute to player which is only true when the db copy == local copy (including versions)
+   - ✅ We don't need an /sql endpoint. Much better to move that function to the API
 
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
    - Ensure /debug actually changes the config
@@ -167,6 +162,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Prefix permission
    - Standardize and/or document permissions to access commands, channels, and other permission based features
    - Standardize bypass permissions
+        e.g:
+            - Chat filter rule
    - Standardize ".other" permissions (like allowing a sender to see other players info)
         e.g:
             - cxyz.(coins/level/xp).view.others
@@ -179,8 +176,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    - gameStats support
 
-   - Errors, move duplicate states to errors.{something-new}
-   - In invalid args errors, we can add acceptable values in the map formatter as opposed to showing the user only what they did wrong.
    - NetworkPlayer has many attributes that need to be fulfilled in placeholder API
 
    Event system other plugins can subscribe to (extensive):
@@ -297,7 +292,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
                 this.cancel();
 
             else {
-                Logger.info(String.format("⚠️ Missing tables from API (%s). Retrying cache request...", initializedMap));
+                Logger.info(String.format("[⚠️] Missing tables from API (%s). Retrying cache request...", initializedMap));
                 Bukkit.getScheduler().runTaskLater(plugin, Startup::requestCacheShipments, 1L);
             }
 
@@ -310,7 +305,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     @Override
     public void onDisable() {
         if (thisServer != null) {
-            Request.postRequest(apiEndpoint + "/sql", String.format("{\"query\" : \"UPDATE users SET online = false WHERE server = '%s'\", \"table\" : \"users\"}", thisServer.getIdentifier()));
+            Request.postRequest(apiEndpoint + "/markOffline", gson.toJson(Map.of("server", thisServer.getIdentifier())));
         }
 
         for (Player p : Bukkit.getOnlinePlayers()) {

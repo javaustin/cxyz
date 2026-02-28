@@ -146,7 +146,7 @@ public abstract class BaseChannel {
         this.aliases = aliases;
     }
 
-    public boolean evaluateContent(Player p, String content, Map<String, Object> commonMap) {
+    public boolean isIllegalContent(Player p, String content, Map<String, Object> commonMap) {
         // Evaluates the message using the ChatFilterRules provided for the channel. Returns true if a rule was broken.
         List<ChatFilterRule> rules = ChatFilterRule.getRulesForChannel(this);
 
@@ -155,11 +155,13 @@ public abstract class BaseChannel {
                 if (!content.toLowerCase().contains(word.toLowerCase()))
                     continue;
 
-                if (p.hasPermission("cxyz.chat-filter." + rule.getName() + ".bypass"))
+                if (p.hasPermission("cxyz.chat-filter-bypass." + rule.getName()))
                     continue;
 
-                Logger.log(String.format("Blocked word: %s. Dispatching actions...", word));
+                if (p.hasPermission("cxyz.chat-filter-bypass.*"))
+                    continue;
 
+                Logger.log(String.format("%s attempted to send blacklisted word: \"%s\". Dispatching actions...", p.getName(), word));
 
                 // was getting async errors so i wrapped this in a task
                 Bukkit.getScheduler().runTask(plugin, () -> {

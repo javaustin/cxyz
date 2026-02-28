@@ -17,8 +17,7 @@ public class Debug implements CommandExecutor {
 
     public enum DebugValue {
         MESSAGE_PARSER,
-        FAILED_REQUESTS,
-        ALL_REQUESTS,
+        REQUESTS,
         SHORTHAND_COMMANDS,
         PUNISHMENT,
         USER,

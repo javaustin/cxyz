@@ -24,7 +24,7 @@ public class Print implements CommandExecutor {
         /*
         SYNTAX:
             /print <users | parties | partyinvites | partyexpires | punishments | messages | cosmetics | channels>
-            /xp add 50 Steve
+            /print users
         */
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.

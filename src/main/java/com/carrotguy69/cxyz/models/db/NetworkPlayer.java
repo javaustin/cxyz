@@ -2,6 +2,7 @@ package com.carrotguy69.cxyz.models.db;
 
 import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.services.GameServer;
@@ -17,6 +18,7 @@ import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -532,6 +534,17 @@ public class NetworkPlayer {
     }
 
     public boolean canAccessChannel(BaseChannel channel) {
+
+        if (channel instanceof CoreChannel) {
+            for (PermissionAttachmentInfo info : this.getPlayer().getEffectivePermissions()) {
+                if (info.getPermission().equalsIgnoreCase("cxyz.chat." + channel.getName())) {
+                    return info.getValue();
+                }
+            }
+
+            return true;
+        }
+
         return this.getPlayer().hasPermission("cxyz.chat." + channel.getName().toLowerCase());
     }
 

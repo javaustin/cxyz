@@ -50,7 +50,7 @@ public class MessageChannel extends CoreChannel {
         commonMap.put("content", content);
         commonMap.put("message", content);
 
-        boolean blocked = this.evaluateContent(p, content, commonMap);
+        boolean blocked = this.isIllegalContent(p, content, commonMap);
 
         if (blocked)
             return;

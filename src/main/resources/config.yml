@@ -1,9 +1,5 @@
 # This file should be consistent throughout all servers, except for the `this-server` variable.
 
-
-# Constants
-#     The following variables will display in the servers messaging and UI.
-
 # API Endpoint
 #     This is the "home" URL of the database API the server needs to connect to.
 # API Timeout
@@ -11,8 +7,33 @@
 api:
   identifier: "API" # case-sensitive
   endpoint: http://localhost:5000
-  secret: "dgKP3ykuSXviIljh"
+  secret: "super-secret-key-1"
   timeout-millis: 3000
+
+# This server:
+
+#     We need to know what specific server (in the network) that this plugin is running on.
+#     This variable must be unique to this server.
+this-server: HUB-1 # No spaces allowed
+# This port:
+
+#     We need to know which port should accept requests on THIS server. To avoid port conflicts, you should choose a number in the range of 49152 to 65535.
+#     It should NOT be the default server port (25565 or similar), it should be an unused port that only accepts HTTP requests.
+this-port: 59152
+# Servers:
+
+#     We need to know the name (to identify) and the IP of each server hosted on the network.
+servers: # Server names use underscores
+  # This plugin hosts an endpoint that allows functions to be called remotely through HTTP requests. To call these, you must provide
+  # ... the server IP and the port that accepts requests.
+
+  # The port should not be the server's default minecraft port, it should be the same value as this-port in your destination server.
+  # This is so we can ensure the endpoint server can receive and process our requests.
+  HUB-1:
+    ip-address: "http://localhost:59152" # The IP address the API will send requests back to
+    secret: "super-secret-key-2" # The servers' secret key. This value must match the secret for the same server in the API config.json file.
+
+# This plugin cannot alone send players to another server, you should have BungeeCord, Velocity, or a similar technology set up.
 
 # Timezone
 #   The default timezone for the server. Accepts IANA format - "Region/City"
@@ -22,31 +43,6 @@ timezone: America/Los_Angeles
 #     See https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
 datetime-format: EEEE, MMMM d, yyyy, h:mma (z)
 datetime-short-format: M/d/yy h:mma (z)
-
-# This server:
-#     We need to know what specific server (in the network) that this plugin is running on.
-#     This variable must be unique to this server.
-this-server: HUB_1 # No spaces allowed
-
-# This port:
-#     We need to know which port should accept requests on THIS server. To avoid port conflicts, you should choose a number in the range of 49152 to 65535.
-#     It should NOT be the default server port, it should be a unique port that only accepts HTTP requests.
-this-port: 59152
-
-# Servers:
-#     We need to know the name (to identify) and the IP of each server hosted on the network.
-
-servers: # Server names use underscores
-  # This plugin hosts an endpoint that allows functions to be called remotely through HTTP requests. To call these, you must provide
-  # ... the server IP and the port that accepts requests.
-
-  # The port should not be the server's default minecraft port, it should be the same value as this-port in your destination server.
-  # This is so we can ensure the endpoint server can receive and process our requests.
-  HUB_1:
-    ip-address: "http://localhost:59152" # The IP address the API will send requests back to
-    secret: "OJpON-h13es0M0GhN1Ld6A" # The servers' secret key. This value must match the secret for HUB_1 in the API config.json file.
-
-# This plugin cannot alone send players to another server, you should have BungeeCord, Velocity, or a similar technology set up.
 
 # Debugger
 #     A useful way to diagnose any issues with the plugin. You can enable the debugger for the custom message parser, and/or HTTP requests (either only the failed ones or all of them).
@@ -163,7 +159,7 @@ chat:
       console: true
       ignorable: true
       webhook-url: ''
-      chat-format: '' # Not ever applicable as there are 20+ custom messages but defined in messages.yml
+      chat-format: '' # [!] Not applicable, apply a format in messages.yml/party/...
       trigger-prefix: ""
       aliases: [p]
       lockable: true
@@ -175,7 +171,7 @@ chat:
       console: true
       ignorable: true
       webhook-url: ''
-      chat-format: '' # Not ever applicable as there are also many custom messages but defined in messages.yml
+      chat-format: '' # [!] Not applicable, apply a format in messages.yml/message/...
       trigger-prefix: ""
       aliases: [msg, m]
       lockable: true
@@ -233,9 +229,9 @@ chat:
       console: true
       ignorable: true
       webhook-url: ''
-      chat-format: '{message}' # Applicable because you can add a manual prefix like so "ANNOUNCEMENT: {message}"
+      chat-format: '{message}' # Applicable because you can add a manual prefix like so: "ANNOUNCEMENT> {message}"
       trigger-prefix: ""
-      aliases: [ ]
+      aliases: []
       lockable: true
       locked: false
   
@@ -251,6 +247,8 @@ chat:
 
   chat-filter: # Disallows certain words from being sent in the chat.
     enabled: true
+
+    # Override a chat filter rule by adding the permission "cxyz.chat-filter-bypass.{rule}" where {rule} is the name of the rule (e.g. "example-rule")
 
     rules:
       example-rule:
@@ -289,7 +287,7 @@ colors:
   white: "&f"
 
   # CUSTOM COLORS
-  darker_green: "&x&2&f&a&5&2&b" # <--- This is a color I just made up. Since it is now defined in this module, any plugin command that involves color will allow lookup by 'grass-green'.
+  darker_green: "&x&2&f&a&5&2&b" # <--- This is a color I just made up. Since it is now defined in this module, any plugin command that involves color will allow lookup by 'darker-green'.
 
 
 
@@ -359,7 +357,7 @@ shorthand-commands:
       - ban {player} permanent {reason}
 
   rules:
-    description: \View the server rules
+    description: View the server rules
     trigger: rules
     actions:
       - "show {sender-username} &aHere are the rules for you {sender}:\n&c1. No hacking\n&62. No being frowny\n&e3. Have fun!"
@@ -406,4 +404,4 @@ command-restrictions:
   chatcolor: # This should be the registered name of the command (No aliases.)
     minimum-rank: vip # Must be a rank defined under ranks in config.yml
     minimum-level: 0 # Any level below this one defined will be denied access.
-    message: You can't use this unless you are a VIP! # Optional message you want sent to the player when denied access. If left blank the plugin will fallback to NO_ACCESS in messages.yml
+    message: &eYou may not use this unless you are a &f[&aVIP&f]&e! # Optional message you want sent to the player when denied access. If left blank the plugin will fallback to NO_ACCESS in messages.yml

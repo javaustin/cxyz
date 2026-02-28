@@ -35,8 +35,8 @@ public class GameServer extends Service {
         }
 
         for (String name : section.getKeys(false)) {
-            String ip = configYaml.getString("config.servers." + name + ".ip-address");
-            String secret = configYaml.getString("config.servers." + name + ".secret");
+            String ip = configYaml.getString("servers." + name + ".ip-address");
+            String secret = configYaml.getString("servers." + name + ".secret");
 
             result.add(new GameServer(name, ip, secret));
         }

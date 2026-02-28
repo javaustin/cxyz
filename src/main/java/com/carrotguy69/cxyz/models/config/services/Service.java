@@ -29,7 +29,7 @@ public class Service {
         return "Service{" +
                 "identifier=" + identifier + "," +
                 "ip=" + ip + "," +
-                "secret=" + secret.subSequence(0, Math.max(0, (secret.length() - 1) / 2)) + "*".repeat(secret.length() / 2) +
+                "secret=" + secret +
                 "}";
     }
 

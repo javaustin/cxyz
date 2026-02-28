@@ -109,12 +109,8 @@ public class Logger {
         debug(Debug.DebugValue.MESSAGE_PARSER, content);
     }
 
-    public static void debugFailedRequest(String content) {
-        debug(Debug.DebugValue.FAILED_REQUESTS, content);
-    }
-
-    public static void debugAllRequest(String content) {
-        debug(Debug.DebugValue.ALL_REQUESTS, content);
+    public static void debugRequest(String content) {
+        debug(Debug.DebugValue.REQUESTS, content);
     }
 
     public static void debugShorthand(String content) {

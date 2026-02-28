@@ -65,6 +65,7 @@ public class PunishmentHistory implements CommandExecutor {
 
         if (username.equalsIgnoreCase("*")) {
             viewHistoryAll(sender, page);
+            return true;
         }
 
 

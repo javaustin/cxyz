@@ -22,7 +22,6 @@ import static com.carrotguy69.cxyz.http.RequestResult.normalizeResponse;
 
 public class Request {
 
-
     public final RequestType type;
     public final String url;
     public final String requestBody;
@@ -41,6 +40,7 @@ public class Request {
     public CompletableFuture<RequestResult> send() {
         CompletableFuture<RequestResult> resultFuture = new CompletableFuture<>();
         sendAttempt(resultFuture);
+        Logger.debugRequest(String.format("[🔃] POST in progress: %s", url));
         return resultFuture;
     }
 
@@ -48,7 +48,7 @@ public class Request {
         // Completes the resultFuture provided.
 
         if (attempt >= maxAttempts) {
-            Logger.debugFailedRequest("Request failed too many times (" + attempt + "): " + url);
+            Logger.log(String.format("[❌] %s failed too many times (%d): %s", type.name().toUpperCase(), attempt, url));
             resultFuture.completeExceptionally(
                     new RuntimeException("Exceeded retry attempts (" + attempt + ") for " + url)
             );
@@ -97,20 +97,23 @@ public class Request {
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .whenComplete((response, throwable) -> {
 
+                    String method = request.method();
+
                     // hard timeout or network failure
                     if (throwable != null) {
-                        Logger.debugFailedRequest("Request timed out (" + attempt + "/" + maxAttempts + "): " + url);
+                        Logger.log(throwable.getMessage());
+                        Logger.log(String.format("[❌] %s FAILED (%d/%d): %s", method.toUpperCase(), attempt, maxAttempts, url));
                         sendAttempt(resultFuture);
                         return;
                     }
 
                     RequestResult normalized = normalizeResponse(new RequestResult(type, url, requestBody, response.body(), response.statusCode()));
 
-                    if (normalized.statusCode < 200 || normalized.statusCode > 299)
-                        Logger.debugFailedRequest("Received result: " + normalized.toCompactString());
+                    if (normalized.statusCode != 200)
+                        Logger.log(String.format("[⚠️] %s COMPLETED (%d) %s.\n\tBody: %s", method.toUpperCase(), normalized.statusCode, normalized.url, normalized.responseBody));
 
-                    else
-                        Logger.debugAllRequest("Received result: " + normalized.toCompactString());
+                    if (normalized.statusCode == 200)
+                        Logger.debugRequest(String.format("[✅] %s COMPLETED (%d) %s.\n\tBody: %s", method.toUpperCase(), normalized.statusCode, normalized.url, normalized.responseBody));
 
                     // normal result (may still be error)
                     resultFuture.complete(normalized);
@@ -123,12 +126,13 @@ public class Request {
     }
 
     public static CompletableFuture<RequestResult> getRequest(String url) {
-        Request req = new Request(RequestType.GET, url, null);
+        Request req = new Request(RequestType.GET, url, "");
         return req.send();
     }
 
     public static String generateSignature(String identifier, String secret, long timestamp, String method, String path, String payloadJSON) throws Exception {
-        String message = identifier + "\n" + timestamp + "\n" + method + "\n" + path + "\n" + payloadJSON;
+        String message = identifier + " | " + timestamp + " | " + method + " | " + path + " | " + payloadJSON;
+
 
         Mac mac = Mac.getInstance("HmacSHA256");
 
@@ -138,7 +142,11 @@ public class Request {
 
         byte[] raw = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
 
-        return Base64.getEncoder().encodeToString(raw);
+        String signature = Base64.getEncoder().encodeToString(raw);
+
+//        Logger.log("Generating signature with: " + message + "\n\tSignature: " + signature);
+
+        return signature;
     }
 
     public static String generateSignature(Service service, long timestamp, String method, String path, String payloadJSON) throws Exception {

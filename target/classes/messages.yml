@@ -171,6 +171,10 @@ commands:
     unset: "&a{value} debugger has been disabled!"
     view: "&aEnabled debuggers: &f{debuggers}"
 
+  fullbright:
+    toggle-on: "&aFakeFullbright enabled"
+    toggle-off: "&aFakeFullbright disabled"
+
   friend:
     error.already-friends: "&eYou are already friends with this player." # Accepts playerSender
     error.duplicate-request: "&eYou already sent a request to this player."

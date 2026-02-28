@@ -116,6 +116,8 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("info")).setExecutor(new Info());
             Objects.requireNonNull(plugin.getCommand("info")).setTabCompleter(new AnyPlayer()); // just a cosmetic tab completer
 
+            Objects.requireNonNull(plugin.getCommand("fullbright")).setExecutor(new Fullbright());
+
             Objects.requireNonNull(plugin.getCommand("friend")).setExecutor(new _FriendExecutor());
             Objects.requireNonNull(plugin.getCommand("friend")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Friend());
 

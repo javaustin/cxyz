@@ -228,7 +228,7 @@ public class Punishment {
                 .collect(Collectors.toList());
 
         if (punishments.isEmpty()) {
-            Logger.warning("No previous punishments were detected by the API. If you haven't assigned punishments on this server before, you may ignore this message.");
+            Logger.warning("No previous punishments were detected by the API. If you haven't assigned punishments on this server before, or all of them had been cleared, you can safely ignore this message.");
             return null;
         }
 

@@ -47,6 +47,7 @@ com\carrotguy69\cxyz\http\RequestResult$1.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$FriendRequestDeliveryWrapper.class
 com\carrotguy69\cxyz\cmd\friend\FriendRemove.class
 com\carrotguy69\cxyz\messages\MessageParser.class
+com\carrotguy69\cxyz\cmd\Fullbright.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$NetworkPlayerShipmentWrapper.class
 com\carrotguy69\cxyz\cmd\Show.class
 com\carrotguy69\cxyz\tabCompleters\Buy.class

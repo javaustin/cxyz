@@ -23,6 +23,12 @@ commands:
     permission: "cxyz.cosmetic"
     aliases: [csm]
 
+  fullbright:
+    description: Toggle night vision on or off
+    usage: /fullbright
+    permission: "cxyz.fullbright"
+    aliases: [fb, ffb]
+
   friend:
     description: Add, accept, deny, or remove a friend from your friend list
     usage: /friend <add | accept | deny | remove> [player]
@@ -212,22 +218,21 @@ commands:
 permissions:
   cxyz.channel:
     default: true
-    children:
-      cxyz.channel.ignore:
-        default: true
-      cxyz.channel.ignorelist:
-        default: true
-      cxyz.channel.lock:
-        default: op
-      cxyz.channel.unlock:
-        default: op
-      cxyz.channel.set:
-        default: true
-      cxyz.channel.unignore:
-        default: true
+  cxyz.channel.ignore:
+    default: true
+  cxyz.channel.ignorelist:
+    default: true
+  cxyz.channel.lock:
+    default: op
+  cxyz.channel.unlock:
+    default: op
+  cxyz.channel.set:
+    default: true
+  cxyz.channel.unignore:
+    default: true
 
   cxyz.coins:
-    default: true
+    default: op
     children:
       cxyz.coins.add:
         default: op
@@ -249,6 +254,9 @@ permissions:
         default: true
       cxyz.cosmetic.unequip:
         default: true
+
+  cxyz.fullbright:
+    default: true
 
   cxyz.friend:
     default: true
@@ -272,16 +280,15 @@ permissions:
 
 
   cxyz.level:
+    default: op
+  cxyz.level.add:
+    default: op
+  cxyz.level.remove:
+    default: op
+  cxyz.level.set:
+    default: op
+  cxyz.level.view:
     default: true
-    children:
-      cxyz.level.add:
-        default: op
-      cxyz.level.remove:
-        default: op
-      cxyz.level.set:
-        default: op
-      cxyz.level.view:
-        default: true
 
   cxyz.reply:
     default: true
@@ -324,18 +331,17 @@ permissions:
     default: true
 
   cxyz.punishment:
+    default: op
+  cxyz.punishment.clear:
+    default: op
+  cxyz.punishment.delete:
+    default: op
+  cxyz.punishment.edit:
+    default: op
+  cxyz.punishment.history:
     default: true
-    children:
-      cxyz.punishment.clear:
-        default: op
-      cxyz.punishment.delete:
-        default: op
-      cxyz.punishment.edit:
-        default: op
-      cxyz.punishment.history:
-        default: op
-      cxyz.punishment.info:
-        default: op
+  cxyz.punishment.info:
+    default: op
 
   cxyz.ban:
     default: op
@@ -356,26 +362,24 @@ permissions:
     default: op
 
   cxyz.rank:
+    default: op
+  cxyz.rank.add:
+    default: op
+  cxyz.rank.remove:
+    default: op
+  cxyz.rank.list:
     default: true
-    children:
-      cxyz.rank.add:
-        default: op
-      cxyz.rank.remove:
-        default: op
-      cxyz.rank.list:
-        default: op
 
   cxyz.xp:
+    default: op
+  cxyz.xp.add:
+    default: op
+  cxyz.xp.remove:
+    default: op
+  cxyz.xp.set:
+    default: op
+  cxyz.xp.view:
     default: true
-    children:
-      cxyz.xp.add:
-        default: op
-      cxyz.xp.remove:
-        default: op
-      cxyz.xp.set:
-        default: op
-      cxyz.xp.view:
-        default: true
 
   cxyz.broadcast:
     default: op

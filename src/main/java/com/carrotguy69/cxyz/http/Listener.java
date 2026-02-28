@@ -1,7 +1,6 @@
 package com.carrotguy69.cxyz.http;
 
 import com.carrotguy69.cxyz.exceptions.AuthenticationFailException;
-import com.carrotguy69.cxyz.exceptions.MissingHeadersException;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.services.Service;
@@ -49,18 +48,25 @@ public class Listener extends NanoHTTPD {
         String signature = headers.get("x-signature");
 
         if (identifier == null) {
-            throw new MissingHeadersException("\"X-Identifier\" is required for interacting with this service.");
+            throw new AuthenticationFailException("\"X-Identifier\" is required for interacting with this service.");
         }
 
         if (timestampString == null) {
-            throw new MissingHeadersException("\"X-Timestamp\" is required for interacting with this service.");
+            throw new AuthenticationFailException("\"X-Timestamp\" is required for interacting with this service.");
         }
 
         if (signature == null) {
-            throw new MissingHeadersException("\"X-Signature\" is required for interacting with this service.");
+            throw new AuthenticationFailException("\"X-Signature\" is required for interacting with this service.");
         }
 
-        long timestamp = Long.parseLong(timestampString); // Automatically throws NumberFormatException if the provided value cannot be a long
+        long timestamp = 0;
+
+        try {
+            timestamp = Long.parseLong(timestampString);
+        }
+        catch (NumberFormatException e) {
+            throw new AuthenticationFailException("\"X-Timestamp\" is invalid");
+        }
 
         if (Math.abs(TimeUtils.unixTimeNow() - timestamp) > 30) {
             throw new AuthenticationFailException("Request timestamp expired.");
@@ -69,7 +75,7 @@ public class Listener extends NanoHTTPD {
         Service sendingService = Service.getServerByIdentifier(identifier);
 
         if (sendingService == null) {
-            throw new RuntimeException(String.format("No service with identifier=\"%s\" is registered in this plugins' config.", identifier));
+            throw new AuthenticationFailException(String.format("No service with identifier=%s is registered.", identifier));
         }
 
         String method = session.getMethod().name();
@@ -78,7 +84,7 @@ public class Listener extends NanoHTTPD {
         String localSignature = generateSignature(sendingService, timestamp, method, path, payload);
 
         if (!MessageDigest.isEqual(localSignature.getBytes(StandardCharsets.UTF_8), signature.getBytes(StandardCharsets.UTF_8))) {
-            throw new AuthenticationFailException("Signature invalid.");
+            throw new AuthenticationFailException("Signature is invalid.");
         }
 
     }
@@ -90,16 +96,6 @@ public class Listener extends NanoHTTPD {
             session.parseBody(body);
 
             authenticateRequest(session, body);
-
-//            // Clean up temp file(s) if any
-//            String tmpFilePath = body.get("file"); // only present for multipart/form-data
-//            if (tmpFilePath != null) {
-//                File tmpFile = new File(tmpFilePath);
-//                if (tmpFile.exists()) {
-//                    tmpFile.delete();
-//                }
-//            }
-
 
             String postData = body.get("postData");
 
@@ -215,6 +211,7 @@ public class Listener extends NanoHTTPD {
         }
 
         catch (Exception ex) {
+            Logger.log("");
             return newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", gson.toJson(Map.of("error", ex.getMessage())));
         }
 

@@ -17,15 +17,21 @@ public class CoinsXPLevel implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String name, @NotNull String[] args) {
 
+        List<String> subcommands = new ArrayList<>(List.of("add", "remove", "set", "view"));
+
+        subcommands.removeIf(subcommand -> !(commandSender.hasPermission(String.format("cxyz.%s.%s", command.getName(), subcommand))));
+
+        if (subcommands.isEmpty())
+            return List.of();
+
         if (args.length == 0) {
-            return List.of("add", "remove", "set", "view");
+            return subcommands;
         }
 
         if (args.length == 1) {
-            List<String> all = List.of("add", "remove", "set", "view");
             List<String> results = new ArrayList<>();
 
-            for (String s : all) {
+            for (String s : subcommands) {
                 if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
                     results.add(s);
                 }

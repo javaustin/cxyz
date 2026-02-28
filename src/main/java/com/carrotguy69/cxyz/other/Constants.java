@@ -70,6 +70,11 @@ public class Constants {
         }
 
         thisServer = GameServer.getServerFromName((String) yaml.get("this-server"));
+
+        if (thisServer == null) {
+            throw new InvalidConfigException("config.yml", "this-server", "Value `this-server` must be listed as a server under `servers`.");
+        }
+
         thisPort = yaml.getInt("this-port");
         timezone = yaml.getString("timezone");
         partyInvitesExpireAfter = yaml.getInt("parties.invites-expire-after", 60);
