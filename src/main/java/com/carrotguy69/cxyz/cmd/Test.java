@@ -1,10 +1,9 @@
 package com.carrotguy69.cxyz.cmd;
 
+import com.carrotguy69.cxyz.models.db.GameStat;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.NotePitch;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,19 +38,29 @@ public class Test implements CommandExecutor {
             return true;
         }
 
-        try {
-            NotePitch pitch = NotePitch.valueOf(args[0]);
+//        try {
+//            NotePitch pitch = NotePitch.valueOf(args[0]);
+//
+//            if (sender instanceof Player) {
+//                ((Player) sender).playSound(((Player) sender).getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, pitch.pitch);
+//            }
+//        }
+//        catch (IllegalArgumentException ex) {
+//            return true;
+//        }
 
-            if (sender instanceof Player) {
-                ((Player) sender).playSound(((Player) sender).getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, pitch.pitch);
+        if (sender instanceof Player) {
+            GameStat stat = GameStat.getStat(((Player) sender).getUniqueId(), "sg", "kills");
+
+            if (stat == null)
+                stat = new GameStat(((Player) sender).getUniqueId(), "sg", "kills", args[0], 0);
+
+            else {
+                stat.setValue(args[0]);
             }
+
+            stat.sync();
         }
-        catch (IllegalArgumentException ex) {
-            return true;
-        }
-
-
-
 
 
         return true;

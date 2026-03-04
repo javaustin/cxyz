@@ -2,6 +2,7 @@ package com.carrotguy69.cxyz.other;
 
 import com.carrotguy69.cxyz.cmd.*;
 import com.carrotguy69.cxyz.cmd.Debug;
+import com.carrotguy69.cxyz.cmd.Info;
 import com.carrotguy69.cxyz.cmd.Print;
 import com.carrotguy69.cxyz.cmd.coins._CoinsExecutor;
 import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
@@ -114,7 +115,7 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("chatcolor")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatColor());
 
             Objects.requireNonNull(plugin.getCommand("info")).setExecutor(new Info());
-            Objects.requireNonNull(plugin.getCommand("info")).setTabCompleter(new AnyPlayer()); // just a cosmetic tab completer
+            Objects.requireNonNull(plugin.getCommand("info")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Info());
 
             Objects.requireNonNull(plugin.getCommand("fullbright")).setExecutor(new Fullbright());
 

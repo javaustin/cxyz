@@ -108,9 +108,15 @@ public class PartyInvite implements CommandExecutor {
             return;
         }
 
-        if (com.carrotguy69.cxyz.models.db.PartyInvite.getLastInvite(inviter, recipient) != null || Objects.equals(Party.getPlayerParty(recipient.getUUID()), party)) {
-            commonMap.putAll(MapFormatters.playerFormatter(recipient));
+        commonMap.putAll(MapFormatters.inviterRecipientFormat(inviter, recipient));
+
+        if (com.carrotguy69.cxyz.models.db.PartyInvite.getLastInvite(inviter, recipient) != null) {
             MessageUtils.sendParsedMessage(inviter.getPlayer(), MessageKey.PARTY_ERROR_DUPLICATE_INVITE, commonMap);
+            return;
+        }
+
+        if (Objects.equals(Party.getPlayerParty(recipient.getUUID()), party)) {
+            MessageUtils.sendParsedMessage(inviter.getPlayer(), MessageKey.PARTY_ERROR_PLAYER_IN_PARTY, commonMap);
             return;
         }
 
@@ -127,7 +133,6 @@ public class PartyInvite implements CommandExecutor {
 
             for (com.carrotguy69.cxyz.models.db.PartyInvite invite : invites) {
                 if (Objects.equals(invite.getRecipientUUID(), recipient.getUUID()) && invite.getExpireTimestamp() > TimeUtils.unixTimeNow()) {
-                    commonMap.putAll(MapFormatters.playerFormatter(recipient));
                     MessageUtils.sendParsedMessage(inviter.getPlayer(), MessageKey.PARTY_ERROR_DUPLICATE_INVITE, commonMap);
                     return;
                 }

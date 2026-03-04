@@ -48,7 +48,6 @@ public class ShipmentDelivery {
     }
 
 
-
     static class NetworkPlayerShipmentWrapper {
         @SerializedName("data")
         private List<NetworkPlayer> data;
@@ -61,30 +60,24 @@ public class ShipmentDelivery {
     public static void handleNetworkPlayerShipment(String json) {
         // This is the method we call when the delivery includes an entire table. So we don't need to update any values, we will just add them from our data.
 
-        try {
-            NetworkPlayerShipmentWrapper wrapper = gson.fromJson(json, NetworkPlayerShipmentWrapper.class);
+        NetworkPlayerShipmentWrapper wrapper = gson.fromJson(json, NetworkPlayerShipmentWrapper.class);
 
 
-            List<NetworkPlayer> npList = wrapper.getData();
+        List<NetworkPlayer> npList = wrapper.getData();
 
-            Map<UUID, NetworkPlayer> tempMap = new HashMap<>();
+        Map<UUID, NetworkPlayer> tempMap = new HashMap<>();
 
-            for (NetworkPlayer np : npList) {
-                // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
-                // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-                tempMap.put(np.getUUID(), np);
-            }
-
-            // stop warning me
-            users.clear();
-            users.putAll(tempMap);
-
-            Logger.info("✅ NetworkPlayer table shipment received!");
+        for (NetworkPlayer np : npList) {
+            // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
+            // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
+            tempMap.put(np.getUUID(), np);
         }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("NetworkPlayer shipment failed!!");
-        }
+
+        // stop warning me
+        users.clear();
+        users.putAll(tempMap);
+
+        Logger.info("✅ NetworkPlayer table shipment received!");
     }
 
 
@@ -106,60 +99,51 @@ public class ShipmentDelivery {
 
     public static void handleNetworkPlayerDelivery(String json) {
         // This is the method we call when the delivery includes a few rows. We already have data, so we will update the data by adding, modifying, or deleting rows.
-        try {
-            NetworkPlayerDeliveryWrapper wrapper = gson.fromJson(json, NetworkPlayerDeliveryWrapper.class);
+
+        NetworkPlayerDeliveryWrapper wrapper = gson.fromJson(json, NetworkPlayerDeliveryWrapper.class);
 
 
-            for (NetworkPlayer np : wrapper.getDeletedData()) {
-                Logger.debugUser("[-] Deleted an entry from users! " + np.getUUID());
-                users.remove(np.getUUID());
-            }
-
-            for (NetworkPlayer np : wrapper.getNewData()) {
-
-                // Modifies or adds new.
-
-                Logger.debugUser("users(before completion): " + users);
-
-                if (users.get(np.getUUID()) != null) {
-
-//                    if (np.version < users.get(np.getUUID()).version) {
-//                        Logger.debugUser(String.format("[~] Skipped modification for an entry to users (version %d < %d). ", np.version, users.get(np.getUUID()).version) + np);
-//                        continue;
-//                    }
-
-                    Logger.debugUser("[~] Modified an entry to users. " + np);
-                    NetworkPlayer reference = NetworkPlayer.getPlayerByUUID(np.getUUID());
-
-                    ShipmentDelivery.copyTo(np, reference);
-                }
-
-                else {
-                    Logger.debugUser("[+] Added an entry to users. " + np);
-                    users.put(np.getUUID(), np);
-                }
-
-
-                Player p = np.getPlayer();
-                if (p != null && p.isOnline() && !np.isOnline()) {
-                    Logger.warning(String.format("This NetworkPlayer delivery seems to have outdated data. The Bukkit player is online but the NetworkPlayer is listed as not. NetworkPlayer: %s. Player: %s", np, p));
-
-                    Logger.log(p.toString());
-                    Logger.log(np.toString());
-                }
-
-            }
-
+        for (NetworkPlayer np : wrapper.getDeletedData()) {
+            Logger.debugUser("[-] Deleted an entry from users! " + np.getUUID());
+            users.remove(np.getUUID());
         }
 
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("NetworkPlayer delivery failed!!");
+        for (NetworkPlayer np : wrapper.getNewData()) {
+
+            // Modifies or adds new.
+
+            Logger.debugUser("users(before completion): " + users);
+
+            if (users.get(np.getUUID()) != null) {
+
+                if (np.version < users.get(np.getUUID()).version) {
+                    Logger.debugUser(String.format("[~] Skipped modification for an entry to users (version %d < %d). ", np.version, users.get(np.getUUID()).version) + np);
+                    continue;
+                }
+
+                Logger.debugUser("[~] Modified an entry to users. " + np);
+                NetworkPlayer reference = NetworkPlayer.getPlayerByUUID(np.getUUID());
+
+                ShipmentDelivery.copyTo(np, reference);
+            }
+
+            else {
+                Logger.debugUser("[+] Added an entry to users. " + np);
+                users.put(np.getUUID(), np);
+            }
+
+
+            Player p = np.getPlayer();
+            if (p != null && p.isOnline() && !np.isOnline()) {
+                Logger.warning(String.format("This NetworkPlayer delivery seems to have outdated data. The Bukkit player is online but the NetworkPlayer is listed as not. NetworkPlayer: %s. Player: %s", np, p));
+
+                Logger.log(p.toString());
+                Logger.log(np.toString());
+            }
+
         }
 
     }
-
-
 
 
 
@@ -175,30 +159,24 @@ public class ShipmentDelivery {
     public static void handlePartyShipment(String json) {
         // This is the method we call when the delivery includes an entire table. So we don't need to update any values, we will just add them from our data.
 
-        try {
-            PartyShipmentWrapper wrapper = gson.fromJson(json, PartyShipmentWrapper.class);
+        PartyShipmentWrapper wrapper = gson.fromJson(json, PartyShipmentWrapper.class);
 
 
-            List<Party> partyList = wrapper.getData();
+        List<Party> partyList = wrapper.getData();
 
-            Map<UUID, Party> tempMap = new HashMap<>();
+        Map<UUID, Party> tempMap = new HashMap<>();
 
-            for (Party party : partyList) {
-                // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
-                // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-                tempMap.put(party.getOwnerUUID(), party);
-            }
-
-            parties.clear();
-            parties.putAll(tempMap);
-
-
-            Logger.info("✅ Party table shipment received!");
+        for (Party party : partyList) {
+            // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
+            // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
+            tempMap.put(party.getOwnerUUID(), party);
         }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("Party shipment failed!!");
-        }
+
+        parties.clear();
+        parties.putAll(tempMap);
+
+
+        Logger.info("✅ Party table shipment received!");
     }
 
 
@@ -220,25 +198,17 @@ public class ShipmentDelivery {
 
     public static void handlePartyDelivery(String json) {
         // This is the method we call when the delivery includes a few rows. We already have data, so we will update the data by adding, modifying, or deleting rows.
-        try {
-            PartyDeliveryWrapper wrapper = gson.fromJson(json, PartyDeliveryWrapper.class);
+        PartyDeliveryWrapper wrapper = gson.fromJson(json, PartyDeliveryWrapper.class);
 
-            for (Party party : wrapper.getDeletedData()) {
-                Logger.debugParty("[-] Deleted an entry from parties! " + party.toString());
-                parties.remove(party.getOwnerUUID());
-            }
-
-            for (Party party : wrapper.getNewData()) {
-                Logger.debugParty("[+] Added/Modified an entry to parties. " + party.toString());
-                // Modifies or adds new.
-                parties.put(party.getOwnerUUID(), party);
-            }
-
-
+        for (Party party : wrapper.getDeletedData()) {
+            Logger.debugParty("[-] Deleted an entry from parties! " + party.toString());
+            parties.remove(party.getOwnerUUID());
         }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("Party delivery failed!!");
+
+        for (Party party : wrapper.getNewData()) {
+            Logger.debugParty("[+] Added/Modified an entry to parties. " + party.toString());
+            // Modifies or adds new.
+            parties.put(party.getOwnerUUID(), party);
         }
     }
 
@@ -258,30 +228,24 @@ public class ShipmentDelivery {
     public static void handlePartyInviteShipment(String json) {
         // This is the method we call when the delivery includes an entire table. So we don't need to update any values, we will just add them from our data.
 
-        try {
-            PartyInviteShipmentWrapper wrapper = gson.fromJson(json, PartyInviteShipmentWrapper.class);
+        PartyInviteShipmentWrapper wrapper = gson.fromJson(json, PartyInviteShipmentWrapper.class);
 
 
-            List<PartyInvite> invites = wrapper.getData();
+        List<PartyInvite> invites = wrapper.getData();
 
-            Multimap<UUID, PartyInvite> tempMap = ArrayListMultimap.create();
+        Multimap<UUID, PartyInvite> tempMap = ArrayListMultimap.create();
 
-            for (PartyInvite invite : invites) {
-                // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
-                // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-                tempMap.put(invite.getRecipientUUID(), invite);
-            }
-
-            partyInvites.clear();
-            partyInvites.putAll(tempMap);
-
-
-            Logger.info("✅ PartyInvite table shipment received!");
+        for (PartyInvite invite : invites) {
+            // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
+            // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
+            tempMap.put(invite.getRecipientUUID(), invite);
         }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("PartyInvite shipment failed!!");
-        }
+
+        partyInvites.clear();
+        partyInvites.putAll(tempMap);
+
+
+        Logger.info("✅ PartyInvite table shipment received!");
     }
 
 
@@ -304,47 +268,39 @@ public class ShipmentDelivery {
     public static void handlePartyInviteDelivery(String json) {
         // This is the method we call when the delivery includes a few rows. We already have data, so we will update the data by adding, modifying, or deleting rows.
 
-        try {
-            PartyInviteDeliveryWrapper wrapper = gson.fromJson(json, PartyInviteDeliveryWrapper.class);
 
-            for (PartyInvite invite : wrapper.getDeletedData()) {
-                Logger.debugParty("[-] Deleted an entry from partyInvites! " + invite.toString());
+        PartyInviteDeliveryWrapper wrapper = gson.fromJson(json, PartyInviteDeliveryWrapper.class);
 
-                partyInvites.remove(invite.getInviterUUID(), invite);
-            }
+        for (PartyInvite invite : wrapper.getDeletedData()) {
+            Logger.debugParty("[-] Deleted an entry from partyInvites! " + invite.toString());
 
-            for (PartyInvite invite : wrapper.getNewData()) {
+            partyInvites.remove(invite.getInviterUUID(), invite);
+        }
 
-                if (partyInvites.containsKey(invite.getInviterUUID())) { // This player has at least one invite. We must see if it is a duplicate or not.
-                    boolean exit = false;
-                    for (PartyInvite collectionInvite : partyInvites.get(invite.getInviterUUID())) {
+        for (PartyInvite invite : wrapper.getNewData()) {
 
-                        if (collectionInvite.getRecipientUUID().equals(invite.getRecipientUUID())) {
-                            // The exact same invite is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
-                            Logger.debugParty("[~] Ignored duplicate entry from partyInvites! " + invite.toString());
-                            exit = true;
-                            continue;
-                        }
+            if (partyInvites.containsKey(invite.getInviterUUID())) { // This player has at least one invite. We must see if it is a duplicate or not.
+                boolean exit = false;
+                for (PartyInvite collectionInvite : partyInvites.get(invite.getInviterUUID())) {
+
+                    if (collectionInvite.getRecipientUUID().equals(invite.getRecipientUUID())) {
+                        // The exact same invite is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
+                        Logger.debugParty("[~] Ignored duplicate entry from partyInvites! " + invite.toString());
+                        exit = true;
                     }
-
-                    if (exit)
-                        continue;
-
                 }
 
+                if (exit)
+                    continue;
 
-                // Modifies or adds new.
-                Logger.debugParty("[+] Added/Modified an entry to partyInvites. " + invite.toString());
-                partyInvites.put(invite.getInviterUUID(), invite);
-                continue;
             }
 
 
+            // Modifies or adds new.
+            Logger.debugParty("[+] Added/Modified an entry to partyInvites. " + invite.toString());
+            partyInvites.put(invite.getInviterUUID(), invite);
         }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("PartyInvite delivery failed!!");
-        }
+
     }
 
 
@@ -364,29 +320,24 @@ public class ShipmentDelivery {
     public static void handlePartyExpireShipment(String json) {
         // This is the method we call when the delivery includes an entire table. So we don't need to update any values, we will just add them from our data.
 
-        try {
-            PartyExpireShipmentWrapper wrapper = gson.fromJson(json, PartyExpireShipmentWrapper.class);
+        PartyExpireShipmentWrapper wrapper = gson.fromJson(json, PartyExpireShipmentWrapper.class);
 
 
-            List<PartyExpire> expires = wrapper.getData();
+        List<PartyExpire> expires = wrapper.getData();
 
-            Map<UUID, PartyExpire> tempMap = new HashMap<>();
+        Map<UUID, PartyExpire> tempMap = new HashMap<>();
 
-            for (PartyExpire expire : expires) {
-                // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
-                // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-                tempMap.put(expire.getUUID(), expire);
-            }
-
-            partyExpires.clear();
-            partyExpires.putAll(tempMap);
-
-            Logger.info("✅ PartyExpire table shipment received!");
+        for (PartyExpire expire : expires) {
+            // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
+            // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
+            tempMap.put(expire.getUUID(), expire);
         }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("PartyExpire shipment failed!!");
-        }
+
+        partyExpires.clear();
+        partyExpires.putAll(tempMap);
+
+        Logger.info("✅ PartyExpire table shipment received!");
+
     }
 
 
@@ -409,28 +360,21 @@ public class ShipmentDelivery {
     public static void handlePartyExpireDelivery(String json) {
         // This is the method we call when the delivery includes a few rows. We already have data, so we will update the data by adding, modifying, or deleting rows.
 
-        try {
-            PartyExpireDeliveryWrapper wrapper = gson.fromJson(json, PartyExpireDeliveryWrapper.class);
+        PartyExpireDeliveryWrapper wrapper = gson.fromJson(json, PartyExpireDeliveryWrapper.class);
 
-            // Remove the old data first, and then add the new data!
+        // Remove the old data first, and then add the new data!
 
-            for (PartyExpire expire : wrapper.getDeletedData()) {
-                Logger.debugParty("[-] Deleted an entry from partyExpires! " + expire.toString());
-                partyExpires.remove(expire.getUUID(), expire);
-            }
-
-            for (PartyExpire expire : wrapper.getNewData()) {
-                Logger.debugParty("[+] Added/Modified an entry to partyExpires. " + expire.toString());
-
-                partyExpires.put(expire.getUUID(), expire);
-            }
-
-
+        for (PartyExpire expire : wrapper.getDeletedData()) {
+            Logger.debugParty("[-] Deleted an entry from partyExpires! " + expire.toString());
+            partyExpires.remove(expire.getUUID(), expire);
         }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("PartyExpire delivery failed!!");
+
+        for (PartyExpire expire : wrapper.getNewData()) {
+            Logger.debugParty("[+] Added/Modified an entry to partyExpires. " + expire.toString());
+
+            partyExpires.put(expire.getUUID(), expire);
         }
+
     }
 
 
@@ -447,31 +391,24 @@ public class ShipmentDelivery {
     public static void handlePunishmentShipment(String json) {
         // This is the method we call when the delivery includes an entire table. So we don't need to update any values, we will just add them from our data.
 
-        try {
-            PunishmentShipmentWrapper wrapper = gson.fromJson(json, PunishmentShipmentWrapper.class);
+        PunishmentShipmentWrapper wrapper = gson.fromJson(json, PunishmentShipmentWrapper.class);
 
-            List<Punishment> punishments = wrapper.getData();
+        List<Punishment> punishments = wrapper.getData();
 
-            Map<Long, Punishment> tempMap2 = new HashMap<>();
+        Map<Long, Punishment> tempMap2 = new HashMap<>();
 
-            for (Punishment punishment : punishments) {
-                // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
-                // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-                tempMap2.put(punishment.getID(), punishment);
-            }
-
-            punishmentIDMap.clear();
-            punishmentIDMap.putAll(tempMap2);
-
-            Tasks.punishmentSeq();
-
-            Logger.info("✅ Punishment table shipment received!");
+        for (Punishment punishment : punishments) {
+            // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
+            // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
+            tempMap2.put(punishment.getID(), punishment);
         }
 
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("Punishment shipment failed!!");
-        }
+        punishmentIDMap.clear();
+        punishmentIDMap.putAll(tempMap2);
+
+        Tasks.punishmentSeq();
+
+        Logger.info("✅ Punishment table shipment received!");
     }
 
 
@@ -494,38 +431,31 @@ public class ShipmentDelivery {
     public static void handlePunishmentDelivery(String json) {
         // This is the method we call when the delivery includes a few rows. We already have data, so we will update the data by adding, modifying, or deleting rows.
 
-        try {
-            PunishmentDeliveryWrapper wrapper = gson.fromJson(json, PunishmentDeliveryWrapper.class);
+        PunishmentDeliveryWrapper wrapper = gson.fromJson(json, PunishmentDeliveryWrapper.class);
 
-            for (Punishment punishment : wrapper.getDeletedData()) {
-                Logger.debugPunishment("[-] Deleted an entry from punishments! " + punishment.toString());
-                punishmentIDMap.remove(punishment.getID(), punishment);
+        for (Punishment punishment : wrapper.getDeletedData()) {
+            Logger.debugPunishment("[-] Deleted an entry from punishments! " + punishment.toString());
+            punishmentIDMap.remove(punishment.getID(), punishment);
+        }
+
+        for (Punishment punishment : wrapper.getNewData()) {
+            // Modifies or adds new.
+
+            if (punishmentIDMap.get(punishment.getID()) != null) {
+                Logger.debugUser("[~] Modified an entry to punishments. " + punishment);
+                Punishment reference = punishmentIDMap.get(punishment.getID());
+
+                ShipmentDelivery.copyTo(punishment, reference);
             }
 
-            for (Punishment punishment : wrapper.getNewData()) {
-                // Modifies or adds new.
-
-                if (punishmentIDMap.get(punishment.getID()) != null) {
-                    Logger.debugUser("[~] Modified an entry to punishments. " + punishment);
-                    Punishment reference = punishmentIDMap.get(punishment.getID());
-
-                    ShipmentDelivery.copyTo(punishment, reference);
-                }
-
-                else {
-                    Logger.debugUser("[+] Added an entry to punishments. " + punishment);
-                    punishmentIDMap.put(punishment.getID(), punishment);
-                }
-
-                Tasks.punishmentSeq();
+            else {
+                Logger.debugUser("[+] Added an entry to punishments. " + punishment);
+                punishmentIDMap.put(punishment.getID(), punishment);
             }
 
+            Tasks.punishmentSeq();
+        }
 
-        }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("Punishment delivery failed!!");
-        }
     }
 
 
@@ -542,30 +472,23 @@ public class ShipmentDelivery {
     public static void handleMessageShipment(String json) {
         // This is the method we call when the delivery includes an entire table. So we don't need to update any values, we will just add them from our data.
 
-        try {
-            MessageShipmentWrapper wrapper = gson.fromJson(json, MessageShipmentWrapper.class);
+        MessageShipmentWrapper wrapper = gson.fromJson(json, MessageShipmentWrapper.class);
 
 
-            List<Message> messageList = wrapper.getData();
+        List<Message> messageList = wrapper.getData();
 
-            Multimap<UUID, Message> tempMap = ArrayListMultimap.create();
+        Multimap<UUID, Message> tempMap = ArrayListMultimap.create();
 
-            for (Message message : messageList) {
-                // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
-                // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-                tempMap.put(message.getRecipientUUID(), message);
-            }
-
-            messageMap.clear();
-            messageMap.putAll(tempMap);
-
-            Logger.info("✅ Message table shipment received!");
-
+        for (Message message : messageList) {
+            // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
+            // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
+            tempMap.put(message.getRecipientUUID(), message);
         }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("Message data shipment failed!!");
-        }
+
+        messageMap.clear();
+        messageMap.putAll(tempMap);
+
+        Logger.info("✅ Message table shipment received!");
 
     }
 
@@ -588,40 +511,116 @@ public class ShipmentDelivery {
     public static void handleMessageDelivery(String json) {
         // This is the method we call when the delivery includes a few rows. We already have data, so we will update the data by adding, modifying, or deleting rows.
 
-        try {
-            MessageDeliveryWrapper wrapper = gson.fromJson(json, MessageDeliveryWrapper.class);
+        MessageDeliveryWrapper wrapper = gson.fromJson(json, MessageDeliveryWrapper.class);
 
-            for (Message msg : wrapper.getDeletedData()) {
-                Logger.debugPlayerMessage("[-] Deleted an entry from messages! " + msg.toString());
-                messageMap.remove(msg.getRecipientUUID(), msg);
-            }
+        for (Message msg : wrapper.getDeletedData()) {
+            Logger.debugPlayerMessage("[-] Deleted an entry from messages! " + msg.toString());
+            messageMap.remove(msg.getRecipientUUID(), msg);
+        }
 
 
-            for (Message msg : wrapper.getNewData()) {
+        for (Message msg : wrapper.getNewData()) {
 
-                if (messageMap.containsKey(msg.getRecipientUUID())) { // This player has at least one invite. We must see if it is a duplicate or not.
-                    for (Message collectionMsg : messageMap.get(msg.getRecipientUUID())) {
-                        if (collectionMsg.getSenderUUID().equals(msg.getSenderUUID())) {
-                            // The exact same message is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
-                            Logger.debugPlayerMessage("[~] Ignored duplicate entry from messages! " + msg);
-                            continue;
-                        }
+            if (messageMap.containsKey(msg.getRecipientUUID())) {
+                for (Message collectionMsg : messageMap.get(msg.getRecipientUUID())) {
+                    if (collectionMsg.getSenderUUID().equals(msg.getSenderUUID())) {
+                        // The exact same message is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
+                        Logger.debugPlayerMessage("[~] Ignored duplicate entry from messages! " + msg);
+                        continue;
                     }
-
                 }
 
-
-                // Modifies or adds new.
-                Logger.debugPlayerMessage("[+] Added/Modified an entry to messages. " + msg);
-                messageMap.put(msg.getRecipientUUID(), msg);
-                continue;
             }
 
 
+            // Modifies or adds new.
+            Logger.debugPlayerMessage("[+] Added/Modified an entry to messages. " + msg);
+            messageMap.put(msg.getRecipientUUID(), msg);
+            continue;
         }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("Punishment delivery failed!!");
+
+    }
+
+
+
+    // GameStat
+
+    static class GameStatShipmentWrapper {
+
+        @SerializedName("data")
+        private List<GameStat> data;
+
+        public List<GameStat> getData() {
+            return data;
+        }
+    }
+
+    public static void handleGameStatShipment(String json) {
+        // This is the method we call when the delivery includes an entire table. So we don't need to update any values, we will just add them from our data.
+
+        GameStatShipmentWrapper wrapper = gson.fromJson(json, GameStatShipmentWrapper.class);
+
+
+        List<GameStat> gameStatList = wrapper.getData();
+
+        Multimap<UUID, GameStat> tempMap = ArrayListMultimap.create();
+
+        for (GameStat gameStat : gameStatList) {
+            // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
+            // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
+            tempMap.put(gameStat.getUUID(), gameStat);
+        }
+
+        statUUIDMap.clear();
+        statUUIDMap.putAll(tempMap);
+
+        Logger.info("✅ GameStat table shipment received!");
+
+    }
+
+    static class GameStatDeliveryWrapper {
+        @SerializedName("old_data")
+        private List<GameStat> old_data;
+
+        @SerializedName("new_data")
+        private List<GameStat> new_data;
+
+        public List<GameStat> getDeletedData() {
+            return old_data;
+        }
+
+        public List<GameStat> getNewData() {
+            return new_data;
+        }
+    }
+
+    public static void handleGameStatDelivery(String json) {
+        // This is the method we call when the delivery includes a few rows. We already have data, so we will update the data by adding, modifying, or deleting rows.
+
+        GameStatDeliveryWrapper wrapper = gson.fromJson(json, GameStatDeliveryWrapper.class);
+
+        for (GameStat gameStat : wrapper.getDeletedData()) {
+            Logger.debugGameStat("[-] Deleted an entry from gameStats! " + gameStat.toString());
+            statUUIDMap.remove(gameStat.getUUID(), gameStat);
+        }
+
+
+        for (GameStat gameStat : wrapper.getNewData()) {
+
+            if (statUUIDMap.containsKey(gameStat.getUUID())) {
+                for (GameStat statCollection : statUUIDMap.get(gameStat.getUUID())) {
+                    if (statCollection.getUUID().equals(gameStat.getUUID())) {
+                        // The exact same stat is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
+                        Logger.debugGameStat("[~] Ignored duplicate entry from gameStats! " + gameStat);
+                    }
+                }
+
+            }
+
+
+            // Modifies or adds new.
+            Logger.debugGameStat("[+] Added/Modified an entry to gameStats. " + gameStat);
+            gameStat.setStat();
         }
     }
 
@@ -642,30 +641,24 @@ public class ShipmentDelivery {
     public static void handleFriendRequestShipment(String json) {
         // This is the method we call when the delivery includes an entire table. So we don't need to update any values, we will just add them from our data.
 
-        try {
-            FriendRequestShipmentWrapper wrapper = gson.fromJson(json, FriendRequestShipmentWrapper.class);
+        FriendRequestShipmentWrapper wrapper = gson.fromJson(json, FriendRequestShipmentWrapper.class);
 
 
-            List<FriendRequest> requests = wrapper.getData();
+        List<FriendRequest> requests = wrapper.getData();
 
-            Multimap<UUID, FriendRequest> tempMap = ArrayListMultimap.create();
+        Multimap<UUID, FriendRequest> tempMap = ArrayListMultimap.create();
 
-            for (FriendRequest request : requests) {
-                // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
-                // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-                tempMap.put(request.getRecipientUUID(), request);
-            }
-
-            friendRequests.clear();
-            friendRequests.putAll(tempMap);
-
-
-            Logger.info("✅ FriendRequest table shipment received!");
+        for (FriendRequest request : requests) {
+            // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
+            // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
+            tempMap.put(request.getRecipientUUID(), request);
         }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("FriendRequest shipment failed!!");
-        }
+
+        friendRequests.clear();
+        friendRequests.putAll(tempMap);
+
+
+        Logger.info("✅ FriendRequest table shipment received!");
     }
 
 
@@ -688,47 +681,38 @@ public class ShipmentDelivery {
     public static void handleFriendRequestDelivery(String json) {
         // This is the method we call when the delivery includes a few rows. We already have data, so we will update the data by adding, modifying, or deleting rows.
 
+        FriendRequestDeliveryWrapper wrapper = gson.fromJson(json, FriendRequestDeliveryWrapper.class);
 
-        try {
-            FriendRequestDeliveryWrapper wrapper = gson.fromJson(json, FriendRequestDeliveryWrapper.class);
+        for (FriendRequest request : wrapper.getDeletedData()) {
+            Logger.debugFriendRequest("[-] Deleted an entry from friendRequests! " + request.toString());
 
-            for (FriendRequest request : wrapper.getDeletedData()) {
-                Logger.debugFriendRequest("[-] Deleted an entry from friendRequests! " + request.toString());
-
-                friendRequests.remove(request.getSenderUUID(), request);
-            }
+            friendRequests.remove(request.getSenderUUID(), request);
+        }
 
 
-            for (FriendRequest request : wrapper.getNewData()) {
+        for (FriendRequest request : wrapper.getNewData()) {
 
-                if (friendRequests.containsKey(request.getSenderUUID())) { // This player has at least one invite. We must see if it is a duplicate or not.
-                    boolean exit = false;
-                    for (FriendRequest collectionInvite : friendRequests.get(request.getSenderUUID())) {
-                        if (collectionInvite.getRecipientUUID().equals(request.getRecipientUUID())) {
-                            // The exact same friend request is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
-                            Logger.debugFriendRequest("[~] Ignored duplicate entry from friendRequests! " + request.toString());
-                            exit = true;
-                            break;
-                        }
+            if (friendRequests.containsKey(request.getSenderUUID())) { // This player has at least one invite. We must see if it is a duplicate or not.
+                boolean exit = false;
+                for (FriendRequest collectionInvite : friendRequests.get(request.getSenderUUID())) {
+                    if (collectionInvite.getRecipientUUID().equals(request.getRecipientUUID())) {
+                        // The exact same friend request is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
+                        Logger.debugFriendRequest("[~] Ignored duplicate entry from friendRequests! " + request.toString());
+                        exit = true;
+                        break;
                     }
-
-                    if (exit)
-                        continue;
-
                 }
 
+                if (exit)
+                    continue;
 
-                // Modifies or adds new.
-                Logger.debugFriendRequest("[+] Added/Modified an entry to friendRequests. " + request.toString());
-                friendRequests.put(request.getSenderUUID(), request);
-                continue;
             }
 
 
-        }
-        catch (Exception e) {
-            Logger.logStackTrace(e);
-            throw new RuntimeException("FriendRequest delivery failed!!");
+            // Modifies or adds new.
+            Logger.debugFriendRequest("[+] Added/Modified an entry to friendRequests. " + request.toString());
+            friendRequests.put(request.getSenderUUID(), request);
+            continue;
         }
     }
 

@@ -13,7 +13,10 @@ public class ProjectileEvent {
         if (event.getEntity().getShooter() instanceof Player) {
             List<ActiveCosmetic> activeCosmetics = ActiveCosmetic.activeCosmeticMap.get(((Player) event.getEntity().getShooter()).getUniqueId());
 
-            Logger.debugCosmetic("activeCosmetics: " + activeCosmetics);
+            if (activeCosmetics == null) {
+                return;
+            }
+
             for (ActiveCosmetic ac : activeCosmetics) {
                 ac.handleEvent(event);
             }

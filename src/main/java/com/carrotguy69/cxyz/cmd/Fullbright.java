@@ -43,9 +43,9 @@ public class Fullbright implements CommandExecutor {
             }
         }
 
-        p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 1));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 1, false, false));
         MessageUtils.sendParsedMessage(p, MessageKey.FULLBRIGHT_TOGGLE_ON, Map.of());
 
-        return false;
+        return true;
     }
 }

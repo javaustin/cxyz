@@ -9,6 +9,10 @@ public class InteractEvent {
     public static void onInteract(PlayerInteractEvent event) {
         List<ActiveCosmetic> activeCosmetics = ActiveCosmetic.activeCosmeticMap.get(event.getPlayer().getUniqueId());
 
+        if (activeCosmetics == null) {
+            return;
+        }
+
         for (ActiveCosmetic ac : activeCosmetics) {
             ac.handleEvent(event);
         }

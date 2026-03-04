@@ -457,7 +457,9 @@ public class MessageParser {
 
                     String[] lines = content.split("\n");
 
-                    for (String split : lines) {
+                    for (int i = 0; i < lines.length; i++) {
+                        String split = lines[i];
+
                         TextComponent component = new TextComponent(f(forceColor(split)));
 
                         for (SimpleTextComponent.Action action : simple.getActions()) {
@@ -474,8 +476,10 @@ public class MessageParser {
                         component.setColor(color);
                         tc.addExtra(component);
 
+                        if (i != lines.length - 1) {
+                            tc.addExtra("\n");
+                        }
                     }
-
                 }
             }
 

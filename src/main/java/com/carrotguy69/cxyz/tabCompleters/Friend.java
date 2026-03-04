@@ -27,7 +27,7 @@ public class Friend implements TabCompleter {
 
         NetworkPlayer np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
 
-        List<String> visibleUsernames = OnlinePlayer.getVisibleUsernames(sender, np);
+        List<String> visibleUsernames = AnyPlayer.getAllUsernames();
 
         List<String> subcommands = List.of("add", "accept", "deny", "list", "remove");
 
@@ -73,7 +73,7 @@ public class Friend implements TabCompleter {
 
             List<String> results = new ArrayList<>();
 
-            switch (args[1].toLowerCase()) {
+            switch (args[0].toLowerCase()) {
                 case "add":
 
                     for (String username : visibleUsernames) {
@@ -94,7 +94,7 @@ public class Friend implements TabCompleter {
                         }
                     }
 
-                    break;
+                    return results;
 
                 case "accept":
                 case "deny":
@@ -120,7 +120,7 @@ public class Friend implements TabCompleter {
                     }
 
 
-                    break;
+                    return results;
 
                 case "remove":
                     List<String> friends = new ArrayList<>();
@@ -135,17 +135,28 @@ public class Friend implements TabCompleter {
                         }
                     }
 
-                    break;
-
+                    return results;
 
 
                 case "list":
-                    return null;
+                    return List.of();
 
                 default:
-                    return results; // unsure if this will work,
-                                    // the idea is that i dont trust return statements inside a switch, so im explicitly breaking out of the switch cases, and then finally returning
+                    return results;
+
             }
+        }
+
+        if (args.length == 3) {
+            if (!sender.hasPermission("cxyz.friend.list.others")) {
+                return List.of();
+            }
+
+            List<String> usernames = AnyPlayer.getAllUsernames();
+            usernames.sort(String.CASE_INSENSITIVE_ORDER);
+
+            return usernames;
+
         }
 
         return null;

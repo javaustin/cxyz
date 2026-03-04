@@ -69,6 +69,7 @@ com\carrotguy69\cxyz\models\config\ChatFilterRule.class
 com\carrotguy69\cxyz\tabCompleters\Unban.class
 com\carrotguy69\cxyz\events\LeaveEvent$1.class
 com\carrotguy69\cxyz\cmd\Debug$DebugValue.class
+com\carrotguy69\cxyz\models\db\GameStat.class
 com\carrotguy69\cxyz\tabCompleters\Privacy.class
 com\carrotguy69\cxyz\cmd\party\PartySetLeader.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PartyShipmentWrapper.class
@@ -88,7 +89,6 @@ com\carrotguy69\cxyz\messages\utils\MapFormatters.class
 com\carrotguy69\cxyz\events\FishEvent.class
 com\carrotguy69\cxyz\other\Tasks$1.class
 com\carrotguy69\cxyz\messages\utils\MapFormatters$ListFormatter.class
-com\carrotguy69\cxyz\tabCompleters\Equip.class
 com\carrotguy69\cxyz\cmd\level\_LevelExecutor.class
 com\carrotguy69\cxyz\cmd\party\PartyWarp$1.class
 com\carrotguy69\cxyz\CXYZ.class
@@ -120,6 +120,7 @@ com\carrotguy69\cxyz\models\config\PlayerRank.class
 com\carrotguy69\cxyz\tabCompleters\ChatChannel.class
 com\carrotguy69\cxyz\cmd\channel\ChannelIgnore.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer.class
+com\carrotguy69\cxyz\tabCompleters\Info.class
 com\carrotguy69\cxyz\cmd\message\MessageReply.class
 com\carrotguy69\cxyz\models\config\channel\utils\ChannelFunction.class
 com\carrotguy69\cxyz\other\Tasks$4.class
@@ -152,6 +153,7 @@ com\carrotguy69\cxyz\cmd\party\PartyPublic.class
 com\carrotguy69\cxyz\cmd\party\PartyWarp.class
 com\carrotguy69\cxyz\exceptions\MissingHeadersException.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PartyDeliveryWrapper.class
+com\carrotguy69\cxyz\http\ShipmentDelivery$GameStatDeliveryWrapper.class
 com\carrotguy69\cxyz\http\RequestResult.class
 com\carrotguy69\cxyz\http\RequestType.class
 com\carrotguy69\cxyz\events\ProjectileEvent.class
@@ -178,7 +180,6 @@ com\carrotguy69\cxyz\tabCompleters\Print.class
 com\carrotguy69\cxyz\cmd\party\PartyDisband.class
 com\carrotguy69\cxyz\other\Constants.class
 com\carrotguy69\cxyz\http\ShipmentDelivery.class
-com\carrotguy69\cxyz\tabCompleters\Unequip.class
 com\carrotguy69\cxyz\cmd\cosmetic\CosmeticList.class
 com\carrotguy69\cxyz\tabCompleters\Friend.class
 com\carrotguy69\cxyz\other\Startup.class
@@ -189,6 +190,7 @@ com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader$3.class
 com\carrotguy69\cxyz\utils\TimeUtils.class
 com\carrotguy69\cxyz\cmd\cosmetic\_CosmeticExecutor.class
 com\carrotguy69\cxyz\tabCompleters\Unmute.class
+com\carrotguy69\cxyz\http\ShipmentDelivery$GameStatShipmentWrapper.class
 com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentInfo.class
 com\carrotguy69\cxyz\http\Listener$2.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer$MessagePrivacy.class

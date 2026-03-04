@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.carrotguy69.cxyz.CXYZ.channels;
-import static com.carrotguy69.cxyz.CXYZ.users;
 
 public class ChatChannel implements TabCompleter {
     @Override
@@ -95,6 +94,9 @@ public class ChatChannel implements TabCompleter {
 
                 case "set":
                 case "lock":
+                    if (!sender.hasPermission("cxyz.channel.lock"))
+                        return List.of();
+
                     results = new ArrayList<>();
 
                     for (String s : allowedChannels) {
@@ -106,6 +108,9 @@ public class ChatChannel implements TabCompleter {
                     return results;
 
                 case "unlock":
+                    if (!sender.hasPermission("cxyz.channel.lock"))
+                        return List.of();
+
                     results = new ArrayList<>();
 
                     for (String s : allowedChannels) {

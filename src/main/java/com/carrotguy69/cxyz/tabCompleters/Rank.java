@@ -20,16 +20,17 @@ public class Rank implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        List<String> all = List.of("add", "remove", "list");
+        List<String> subcommands = new ArrayList<>(List.of("add", "remove", "list"));
+        subcommands.removeIf(subcommand -> !(sender.hasPermission(String.format("cxyz.rank.%s", subcommand))));
 
         if (args.length == 0) {
-            return all;
+            return subcommands;
         }
 
         if (args.length == 1) {
             List<String> results = new ArrayList<>();
 
-            for (String s : all) {
+            for (String s : subcommands) {
                 if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
                     results.add(s);
                 }
@@ -44,6 +45,8 @@ public class Rank implements TabCompleter {
 
             switch (args[0]) {
                 case "add":
+                    if (!sender.hasPermission(String.format("cxyz.rank.%s", args[0])))
+                        return List.of();
 
                     for (PlayerRank rank : ranks) {
                         if (rank.getName().toLowerCase().startsWith(args[1].toLowerCase()))
@@ -53,6 +56,8 @@ public class Rank implements TabCompleter {
                     return results;
 
                 case "remove":
+                    if (!sender.hasPermission(String.format("cxyz.rank.%s", args[0])))
+                        return List.of();
 
                     if (!(sender instanceof Player)) {
                         for (PlayerRank rank : ranks) {
@@ -73,6 +78,8 @@ public class Rank implements TabCompleter {
                     return results;
 
                 case "list":
+                    if (!sender.hasPermission(String.format("cxyz.rank.%s", args[0])))
+                        return List.of();
 
                     for (NetworkPlayer np : users.values()) {
                         // No need to check for online or vanish status, because this command accepts all players anyway, regardless of those statuses.

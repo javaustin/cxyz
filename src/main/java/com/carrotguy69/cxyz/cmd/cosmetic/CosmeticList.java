@@ -31,7 +31,7 @@ public class CosmeticList implements CommandExecutor {
 
         /*
         SYNTAX:
-            /cosmetic list [owned | equipped | all] [player] [page]
+            /cosmetic list [owned | equipped | all] [page] [player]
             /cosmetic list owned Notch 3
             /cosmetic list equipped
             /cosmetic list all
@@ -49,8 +49,8 @@ public class CosmeticList implements CommandExecutor {
             return true;
         }
 
-        //            [-1]   [0]    [1]      [2]
-        // "/cosmetic list [type] [player] [page] "
+        //            [-1]   [0]    [1]    [2]
+        // "/cosmetic list [type] [page] [player] "
 
         boolean isConsole = (!(sender instanceof Player));
 
@@ -79,33 +79,23 @@ public class CosmeticList implements CommandExecutor {
         }
 
         if (args.length >= 2) {
-            if (type.equals("all")) {
-                try {
-                    page = Integer.parseInt(args[1]);
-                }
-                catch (NumberFormatException e) {
-                    MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_NUMBER, Map.of("input", args[1]));
-                    return true;
-                }
+            try {
+                page = Integer.parseInt(args[1]);
             }
-
-            else {
-                np = NetworkPlayer.getPlayerByUsername(args[1]);
-
-                if (np == null) {
-                    MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", args[1]));
-                    return true;
-                }
+            catch (NumberFormatException e) {
+                MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_NUMBER, Map.of("input", args[1]));
+                return true;
             }
         }
 
         if (args.length >= 3) {
-            try {
-                page = Integer.parseInt(args[2]);
-            }
-            catch (NumberFormatException e) {
-                MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_NUMBER, Map.of("input", args[2]));
-                return true;
+            if (sender.hasPermission("cxyz.cosmetic.list.others")) {
+                np = NetworkPlayer.getPlayerByUsername(args[2]);
+
+                if (np == null) {
+                    MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", args[2]));
+                    return true;
+                }
             }
         }
 

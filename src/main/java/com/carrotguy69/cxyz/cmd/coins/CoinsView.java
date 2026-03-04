@@ -54,7 +54,7 @@ public class CoinsView implements CommandExecutor {
 
         else if (args.length == 1) {
 
-            String nodeOthers = "cxyz.admin.coins.view.others";
+            String nodeOthers = "cxyz.coins.view.others";
             if (!sender.hasPermission(nodeOthers)) {
                 view(sender, NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId()));
                 return true;

@@ -49,7 +49,7 @@ public class Ping implements CommandExecutor {
 
         else if (args.length == 1) {
 
-            String nodeOthers = "cxyz.admin.ping.others";
+            String nodeOthers = "cxyz.ping.others";
             if (!sender.hasPermission(nodeOthers)) {
                 viewPing(sender, NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId()));
                 return true;

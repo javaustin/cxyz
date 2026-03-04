@@ -168,7 +168,7 @@ public enum MessageKey {
     FRIEND_REQUEST_SENT("commands.friend.request-sent"),
     FRIEND_REQUEST_RECEIVED("commands.friend.request-received"),
     FRIEND_REQUEST_ACCEPTED("commands.friend.request-accepted"),
-    FRIEND_REQUEST_ACCEPT_RECEIVED("commands.friend.request-accepted-received"),
+    FRIEND_REQUEST_ACCEPT_RECEIVED("commands.friend.request-accept-received"),
     FRIEND_REQUEST_DENIED("commands.friend.request-denied"),
 
     FRIEND_REMOVED("commands.friend.removed"),
@@ -277,6 +277,7 @@ public enum MessageKey {
     PARTY_ERROR_IN_PARTY_CREATE("commands.party.error.in-party-create"),
     PARTY_ERROR_DUPLICATE_INVITE("commands.party.error.duplicate-invite"),
     PARTY_ERROR_NOT_IN_PARTY("commands.party.error.not-in-party"),
+    PARTY_ERROR_PLAYER_IN_PARTY("commands.party.error.player-in-party"),
     PARTY_ERROR_IN_PARTY("commands.party.error.in-party"),
     PARTY_ERROR_PLAYER_NOT_IN_PARTY("commands.party.error.player-not-in-party"),
     PARTY_ERROR_PARTY_NOT_EXIST("commands.party.error.party-not-exist"),

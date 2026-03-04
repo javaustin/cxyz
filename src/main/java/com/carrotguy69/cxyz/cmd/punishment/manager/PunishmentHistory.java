@@ -46,7 +46,7 @@ public class PunishmentHistory implements CommandExecutor {
             return true;
         }
 
-        String username = sender.getName();
+        String username = "";
         int page = 1;
 
         if (args.length >= 1) {
@@ -63,13 +63,15 @@ public class PunishmentHistory implements CommandExecutor {
             }
         }
 
-        if (username.equalsIgnoreCase("*")) {
+        if (username.equalsIgnoreCase("*") && sender.hasPermission(node + ".others"))
             viewHistoryAll(sender, page);
-            return true;
-        }
 
 
-        viewHistory(sender, username, page);
+        else if (sender.hasPermission(node + ".others"))
+            viewHistory(sender, username, page);
+
+        else
+            viewHistory(sender, sender.getName(), page);
 
         return true;
     }

@@ -40,7 +40,7 @@ public class Request {
     public CompletableFuture<RequestResult> send() {
         CompletableFuture<RequestResult> resultFuture = new CompletableFuture<>();
         sendAttempt(resultFuture);
-        Logger.debugRequest(String.format("[🔃] POST in progress: %s", url));
+        Logger.debugRequest(String.format("[🔃] %s in progress: %s", type.name(), url));
         return resultFuture;
     }
 
@@ -110,10 +110,10 @@ public class Request {
                     RequestResult normalized = normalizeResponse(new RequestResult(type, url, requestBody, response.body(), response.statusCode()));
 
                     if (normalized.statusCode != 200)
-                        Logger.log(String.format("[⚠️] %s COMPLETED (%d) %s.\n\tBody: %s", method.toUpperCase(), normalized.statusCode, normalized.url, normalized.responseBody));
+                        Logger.log(String.format("[⚠️] %s COMPLETED (%d) %s\n\tBody: %s", method.toUpperCase(), normalized.statusCode, normalized.url, normalized.responseBody));
 
                     if (normalized.statusCode == 200)
-                        Logger.debugRequest(String.format("[✅] %s COMPLETED (%d) %s.\n\tBody: %s", method.toUpperCase(), normalized.statusCode, normalized.url, normalized.responseBody));
+                        Logger.debugRequest(String.format("[✅] %s COMPLETED (%d) %s\n\tBody: %s", method.toUpperCase(), normalized.statusCode, normalized.url, normalized.responseBody));
 
                     // normal result (may still be error)
                     resultFuture.complete(normalized);

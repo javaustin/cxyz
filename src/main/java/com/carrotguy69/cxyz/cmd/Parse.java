@@ -49,7 +49,7 @@ public class Parse implements CommandExecutor {
         }
 
         try {
-            MessageParser parser = new MessageParser("&eParsed result: " + content, commonMap);
+            MessageParser parser = new MessageParser("&7Parsed result: " + content, commonMap);
             List<SimpleTextComponent> components = parser.parse();
 
             sender.spigot().sendMessage(parser.toTextComponent(components));

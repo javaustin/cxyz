@@ -31,7 +31,7 @@ public class CosmeticEquip implements CommandExecutor {
         if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
 
-        String node = "cxyz.equip";
+        String node = "cxyz.cosmetic.equip";
         if (!sender.hasPermission(node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;

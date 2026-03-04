@@ -62,6 +62,10 @@ public class Cosmetic implements TabCompleter {
                     }
                 }
 
+                if (args.length > 2) {
+                    return List.of();
+                }
+
                 options.sort(String.CASE_INSENSITIVE_ORDER);
                 return options;
 
@@ -88,6 +92,10 @@ public class Cosmetic implements TabCompleter {
                     if (s.toUpperCase().startsWith(args[1].toUpperCase())) {
                         options.add(s);
                     }
+                }
+
+                if (args.length > 2) {
+                    return List.of();
                 }
 
                 options.sort(String.CASE_INSENSITIVE_ORDER);
@@ -118,6 +126,10 @@ public class Cosmetic implements TabCompleter {
                     }
                 }
 
+                if (args.length > 2) {
+                    return List.of();
+                }
+
                 options.sort(String.CASE_INSENSITIVE_ORDER);
                 return options;
 
@@ -136,10 +148,10 @@ public class Cosmetic implements TabCompleter {
                 }
 
                 if (args.length == 3) {
-                    if (args[1].equalsIgnoreCase("all")) {
-                        return List.of();
-                    }
+                    return List.of();
+                }
 
+                if (args.length == 4) {
                     List<String> usernames = AnyPlayer.getAllUsernames();
                     options = new ArrayList<>();
 

@@ -53,7 +53,7 @@ public class XPView implements CommandExecutor {
 
         else if (args.length == 1) {
 
-            String nodeOthers = "cxyz.admin.xp.view.others";
+            String nodeOthers = "cxyz.xp.view.others";
             if (!sender.hasPermission(nodeOthers)) {
                 view(sender, NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId()));
                 return true;

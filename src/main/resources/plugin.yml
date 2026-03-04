@@ -216,6 +216,7 @@ commands:
     aliases: []
 
 permissions:
+
   cxyz.channel:
     default: true
   cxyz.channel.ignore:
@@ -232,45 +233,45 @@ permissions:
     default: true
 
   cxyz.coins:
+    default: true
+  cxyz.coins.add:
     default: op
-    children:
-      cxyz.coins.add:
-        default: op
-      cxyz.coins.remove:
-        default: op
-      cxyz.coins.set:
-        default: op
-      cxyz.coins.view:
-        default: op
+  cxyz.coins.remove:
+    default: op
+  cxyz.coins.set:
+    default: op
+  cxyz.coins.view:
+    default: true
+  cxyz.coins.view.others:
+    default: op
 
   cxyz.cosmetic:
     default: true
-    children:
-      cxyz.cosmetic.buy:
-        default: true
-      cxyz.cosmetic.equip:
-        default: true
-      cxyz.cosmetic.list:
-        default: true
-      cxyz.cosmetic.unequip:
-        default: true
+  cxyz.cosmetic.buy:
+    default: true
+  cxyz.cosmetic.equip:
+    default: true
+  cxyz.cosmetic.list:
+    default: true
+  cxyz.cosmetic.unequip:
+    default: true
 
   cxyz.fullbright:
     default: true
 
+
   cxyz.friend:
     default: true
-    children:
-      cxyz.friend.accept:
-        default: true
-      cxyz.friend.add:
-        default: true
-      cxyz.friend.deny:
-        default: true
-      cxyz.friend.list:
-        default: true
-      cxyz.friend.remove:
-        default: true
+  cxyz.friend.accept:
+    default: true
+  cxyz.friend.add:
+    default: true
+  cxyz.friend.deny:
+    default: true
+  cxyz.friend.list:
+    default: true
+  cxyz.friend.remove:
+    default: true
 
   cxyz.ignore:
     default: true
@@ -280,7 +281,7 @@ permissions:
 
 
   cxyz.level:
-    default: op
+    default: true
   cxyz.level.add:
     default: op
   cxyz.level.remove:
@@ -288,38 +289,41 @@ permissions:
   cxyz.level.set:
     default: op
   cxyz.level.view:
+    default: true
+  cxyz.level.view.others:
     default: op
 
-  cxyz.reply:
-    default: true
   cxyz.message:
+    default: true
+  cxyz.message.reply:
+    default: true
+  cxyz.message.send:
     default: true
 
   cxyz.party:
     default: true
-    children:
-      cxyz.party.chat:
-        default: true
-      cxyz.party.create:
-        default: true
-      cxyz.party.disband:
-        default: true
-      cxyz.party.invite:
-        default: true
-      cxyz.party.join:
-        default: true
-      cxyz.party.list:
-        default: true
-      cxyz.party.private:
-        default: true
-      cxyz.party.public:
-        default: true
-      cxyz.party.remove:
-        default: true
-      cxyz.party.setleader:
-        default: true
-      cxyz.party.warp:
-        default: true
+  cxyz.party.chat:
+    default: true
+  cxyz.party.create:
+    default: true
+  cxyz.party.disband:
+    default: true
+  cxyz.party.invite:
+    default: true
+  cxyz.party.join:
+    default: true
+  cxyz.party.list:
+    default: true
+  cxyz.party.private:
+    default: true
+  cxyz.party.public:
+    default: true
+  cxyz.party.remove:
+    default: true
+  cxyz.party.setleader:
+    default: true
+  cxyz.party.warp:
+    default: true
 
   cxyz.messageprivacy:
     default: true
@@ -331,7 +335,7 @@ permissions:
     default: true
 
   cxyz.punishment:
-    default: op
+    default: true
   cxyz.punishment.clear:
     default: op
   cxyz.punishment.delete:
@@ -339,6 +343,8 @@ permissions:
   cxyz.punishment.edit:
     default: op
   cxyz.punishment.history:
+    default: true
+  cxyz.punishment.history.others:
     default: op
   cxyz.punishment.info:
     default: op
@@ -362,7 +368,7 @@ permissions:
     default: op
 
   cxyz.rank:
-    default: op
+    default: true
   cxyz.rank.add:
     default: op
   cxyz.rank.remove:
@@ -371,7 +377,7 @@ permissions:
     default: true
 
   cxyz.xp:
-    default: op
+    default: true
   cxyz.xp.add:
     default: op
   cxyz.xp.remove:
@@ -379,6 +385,8 @@ permissions:
   cxyz.xp.set:
     default: op
   cxyz.xp.view:
+    default: true
+  cxyz.xp.view.others:
     default: op
 
   cxyz.broadcast:

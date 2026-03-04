@@ -41,6 +41,15 @@ public class Info implements CommandExecutor {
 
         NetworkPlayer np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
 
+        if (args.length >= 1 && sender.hasPermission("cxyz.info.others")) {
+            np = NetworkPlayer.getPlayerByUsername(args[0]);
+
+            if (np == null) {
+                MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", args[0]));
+                return true;
+            }
+        }
+
         MessageUtils.sendParsedMessage(sender, MessageKey.INFO, MapFormatters.playerFormatter(np));
 
         return true;

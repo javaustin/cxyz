@@ -186,7 +186,8 @@ public class MessageUtils {
             sender.spigot().sendMessage(parser.toTextComponent(components));
         }
         catch (MessageParser.MessageParseException ex) {
-            Logger.severe(String.format("Failed to properly parse message with original content \"%s\" because of error %s.", ex.getOriginalText(), ex));
+            Logger.severe(String.format("Failed to parse text \"%s\" because of error %s.", ex.getOriginalText(), ex));
+            sender.sendMessage(unparsedContent);
         }
     }
 

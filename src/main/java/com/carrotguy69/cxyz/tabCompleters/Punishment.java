@@ -25,7 +25,7 @@ public class Punishment implements TabCompleter {
 
         List<String> subcommands = new ArrayList<>(List.of("clear", "delete", "edit", "history", "info", "remove"));
 
-        subcommands.removeIf(subcommand -> !(sender.hasPermission(String.format("cxyz.%s.%s", command.getName(), subcommand))));
+        subcommands.removeIf(subcommand -> !(sender.hasPermission(String.format("cxyz.punishment.%s", subcommand))));
 
         if (subcommands.isEmpty())
             return List.of();

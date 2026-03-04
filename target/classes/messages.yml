@@ -230,8 +230,8 @@ commands:
     &fParty settings:&7 {player-party-privacy}
     (&fFriends:&7 {player-friend-list-size})[HOVER:&7Click to view][RUN_COMMAND:/friend list]
     (&fIgnored Players:&7 {player-ignore-list-size})[HOVER:&7Click to view][RUN_COMMAND:/ignore]
-    (&fOwned Cosmetics:&7 {player-owned-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list owned {player} 1]
-    (&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list equipped {player} 1]
+    (&fOwned Cosmetics:&7 {player-owned-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list owned 1 {player}]
+    (&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list equipped 1 {player}]
     (&fIgnored Channels:&7 {player-ignored-channels-list-size})[HOVER:&7Click to view][RUN_COMMAND:/channel ignore]
     
 
@@ -335,6 +335,7 @@ commands:
     error.duplicate-invite: "&cYou already sent an invite to this player!" # Supports formatting: party, {player}
     error.not-in-party: "&cYou are not in a party!" # NO FORMATTING
     error.in-party: "&cYou are already in a party!" # Supports partyFormatter
+    error.player-in-party: "&cThis player is already in the party!" # Supports inviterRecipient
     error.player-not-in-party: "&cThis player is not in the party!"  # Supports partyFormatter, {player}
     error.party-not-exist: "&cThis party no longer exists!" # NO FORMATTING
     error.invite-not-found: "&cYou have not received a party invite from this player!" # Supports playerSender where sender is the user and player is the inviter

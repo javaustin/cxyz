@@ -73,6 +73,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static Multimap<UUID, FriendRequest> friendRequests = ArrayListMultimap.create(); // The UUID is the sender (the one who sent the friend request)
     public static Multimap<UUID, PartyInvite> partyInvites = ArrayListMultimap.create(); // The UUID is the sender (the one who sent the invite)
     public static Multimap<UUID, Message> messageMap = ArrayListMultimap.create(); // UUID in the message map represents the recipient UUID (kind of backwards, but allows the recipient to get all their messages quickly).
+    public static Multimap<UUID, GameStat> statUUIDMap = ArrayListMultimap.create();
 
     public static PlayerRank defaultRank;
     public static List<Shorthand> shorthandCommands = new ArrayList<>();
@@ -146,6 +147,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         - should be: [text](ACTION:actionText)
         - but is: (text)[ACTION:actionText]
 
+   - Weird message parser behavior when it comes to new lines inside of text components (parenthesis)
+
    - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
 
    - Ensure /debug actually changes and saves config values
@@ -154,25 +157,28 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [➕] ADD/IMPLEMENT:
+   - front end testing of all commands & tab completers
+
    - ✅ We don't need an /sql endpoint. Much better to move that function to the API
 
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
    - Ensure /debug actually changes the config
 
-   - Prefix permission
    - Standardize and/or document permissions to access commands, channels, and other permission based features
-   - Standardize bypass permissions
+   - ✅ Standardize bypass permissions
         e.g:
             - Chat filter rule
    - Standardize ".other" permissions (like allowing a sender to see other players info)
+   - ^ Many commands already have the view others functionality but lack specific permission. So if a player has cxyz.command.view, they can view anyone
         e.g:
-            - cxyz.(coins/level/xp).view.others
-            - cxyz.cosmetic.list.others
-            - cxyz.friend.list.others
-            - cxyz.ignore.list.others
-            - cxyz.rank.list.others
-            - cxyz.info.others
-   - A non-OP'd player will never be able to access a channel because the permission for the channel cant be automatically granted
+            - ✅ cxyz.(coins/level/xp).view.others
+            - ✅ cxyz.cosmetic.list.others
+            - ✅ cxyz.friend.list.others
+            - ✅ cxyz.rank.list.others
+            - ✅ cxyz.info.others
+            - cxyz.ignore.list.others             (would require a refactor)
+            - cxyz.channel.ignore.list.others     (would require a refactor)
+   - ✅ A non-OP'd player will never be able to access a channel because the permission for the channel cant be automatically granted
 
    - gameStats support
 
@@ -276,6 +282,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         initializedMap.put("messages", false);
         initializedMap.put("punishments", false);
         initializedMap.put("friendRequests", false);
+        initializedMap.put("gameStats", false);
 
         Logger.info("🔁 Requesting cached data from API...");
         Bukkit.getScheduler().runTaskLater(plugin, Startup::requestCacheShipments, 1L);
@@ -288,8 +295,9 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         }, 1L);
 
         int id = new BukkitRunnable() {public void run() {
-            if (isInitialized())
+            if (isInitialized()) {
                 this.cancel();
+            }
 
             else {
                 Logger.info(String.format("[⚠️] Missing tables from API (%s). Retrying cache request...", initializedMap));
@@ -322,8 +330,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
             Bukkit.getScheduler().cancelTask(n);
         }
 
-        Bukkit.getServer().setWhitelist(true);
-
         try {
             if (commandMap instanceof SimpleCommandMap) {
                 SimpleCommandMap simpleMap = (SimpleCommandMap) commandMap;
@@ -348,22 +354,12 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        // REMINDER: The purpose of this plugin is only to perform basic essential functions related to player data and network operations.
-        // Per server and per game operations should be handled by the game plugins.
-
-        Player p = e.getPlayer();
-
-        onJoin(p); // Fixes the players row in the database. Updates null values.
-
-        e.setJoinMessage(""); // Let other server plugins handle server specific joining
+        onJoin(e.getPlayer());
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        Player p = e.getPlayer();
-
-        onLeave(p);
-        e.setQuitMessage("");
+        onLeave(e.getPlayer());
     }
 
     @EventHandler

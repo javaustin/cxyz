@@ -31,7 +31,7 @@ public class ChannelUnlock implements CommandExecutor {
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
 
-        String node = "cxyz.unlock";
+        String node = "cxyz.channel.unlock";
         if (!sender.hasPermission(node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;

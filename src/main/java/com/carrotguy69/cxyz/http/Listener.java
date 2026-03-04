@@ -191,6 +191,19 @@ public class Listener extends NanoHTTPD {
                         handleMessageDelivery(postData);
                         break;
 
+
+                        
+                    case "/gameStatsShipment":
+                        initializedMap.put("gameStats", true);
+                        handleGameStatShipment(postData);
+                        break;
+
+                    case "/gameStatsDelivery":
+                        handleGameStatDelivery(postData);
+                        break;
+
+
+
                     case "/friendRequestsShipment":
                         initializedMap.put("friendRequests", true);
                         handleFriendRequestShipment(postData);
@@ -211,7 +224,7 @@ public class Listener extends NanoHTTPD {
         }
 
         catch (Exception ex) {
-            Logger.log("");
+            Logger.logStackTrace(ex);
             return newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", gson.toJson(Map.of("error", ex.getMessage())));
         }
 

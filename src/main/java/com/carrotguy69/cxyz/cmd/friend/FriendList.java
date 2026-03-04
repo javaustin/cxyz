@@ -23,11 +23,10 @@ public class FriendList implements CommandExecutor {
 
         /*
         SYNTAX:
-            /friend list [page]
+            /friend list [page] [player]
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
+        if (CommandRestrictor.handleRestricted(command, sender))
             return true;
 
         String node = "cxyz.friend.list";
@@ -37,25 +36,41 @@ public class FriendList implements CommandExecutor {
             return true;
         }
 
-        if (!(sender instanceof Player)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
-            return true;
-        }
-
-        Player p = (Player) sender;
-
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
-
+        NetworkPlayer np = null;
         int page = 1;
-        try {
-            if (args.length > 0) {
+
+
+        if (args.length == 1) {
+            try {
                 page = Integer.parseInt(args[0]);
             }
+            catch (NumberFormatException e) {
+                MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_NUMBER, Map.of("input", args[0]));
+                return true;
+            }
         }
-        catch (NumberFormatException ignored) {}
+
+        if (args.length == 2 && sender.hasPermission(node + ".others")) {
+            np = NetworkPlayer.getPlayerByUsername(args[1]);
+            if (np == null) {
+                MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", args[1]));
+                return true;
+            }
+        }
+
+        if (np == null) {
+            if (sender instanceof Player) {
+                np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+            }
+            else {
+                MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player"));
+                return true;
+            }
+        }
 
 
         list(sender, np, page);
+
 
         return true;
     }

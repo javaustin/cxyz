@@ -26,10 +26,11 @@ public class _XPExecutor implements CommandExecutor {
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
 
-        String node = "cxyz.xp";
-        if (!sender.hasPermission(node)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
-        }
+//        String node = "cxyz.xp";
+//        if (!sender.hasPermission(node)) {
+//            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
+//            return true;
+//        }
 
         String value = "default";
         if (args.length > 0) {

@@ -82,7 +82,9 @@ public class FriendRemove implements CommandExecutor {
         }
 
         MessageUtils.sendParsedMessage(p, MessageKey.FRIEND_REMOVED, commonMap);
-        MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.FRIEND_REMOVED_RECEIVED, commonMap); // update: this would be cool to use a queued message with
+
+        if (sender.isOnline() && sender.getPlayer() != null)
+            MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.FRIEND_REMOVED_RECEIVED, commonMap); // update: this would be cool to use a queued message with
 
         sender.removeFriend(recipient);
         recipient.removeFriend(sender);

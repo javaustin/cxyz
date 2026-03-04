@@ -15,11 +15,11 @@ import static com.carrotguy69.cxyz.CXYZ.users;
 public class CoinsXPLevel implements TabCompleter {
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String name, @NotNull String[] args) {
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String name, @NotNull String[] args) {
 
         List<String> subcommands = new ArrayList<>(List.of("add", "remove", "set", "view"));
 
-        subcommands.removeIf(subcommand -> !(commandSender.hasPermission(String.format("cxyz.%s.%s", command.getName(), subcommand))));
+        subcommands.removeIf(subcommand -> !(sender.hasPermission(String.format("cxyz.%s.%s", command.getName(), subcommand))));
 
         if (subcommands.isEmpty())
             return List.of();
@@ -45,6 +45,9 @@ public class CoinsXPLevel implements TabCompleter {
         if (args.length == 2) {
             if (args[0].equals("view")) {
 
+                if (!sender.hasPermission(String.format("cxyz.%s.%s.others", command.getName(), args[0])))
+                    return List.of();
+
                 List<String> results = new ArrayList<>();
 
                 for (NetworkPlayer np : users.values()) {
@@ -61,6 +64,9 @@ public class CoinsXPLevel implements TabCompleter {
             else {
                 // If the command is not view: we can suggest numbers for the player to add
 
+                if (!sender.hasPermission(String.format("cxyz.%s.%s.others", command.getName(), args[0])))
+                    return List.of();
+
                 return List.of("1", "5", "10", "20", "50", "100");
 
             }
@@ -68,6 +74,9 @@ public class CoinsXPLevel implements TabCompleter {
 
         if (args.length == 3) {
             if (args[0].equals("add") || args[0].equals("remove") || args[0].equals("set")) {
+                if (!sender.hasPermission(String.format("cxyz.%s.%s.others", command.getName(), args[0])))
+                    return List.of();
+
                 List<String> results = new ArrayList<>();
 
                 for (NetworkPlayer np : users.values()) {

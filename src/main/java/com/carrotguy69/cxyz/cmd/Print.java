@@ -92,7 +92,7 @@ public class Print implements CommandExecutor {
                     if (args.length == 1)
                         Logger.info(configYaml.getKeys(true).toString());
                     else
-                        Logger.info(configYaml.get(args[1]) != null ? configYaml.get(args[1]).toString() : "Key not found");
+                        Logger.info(configYaml.get(args[1]) != null ? (String) configYaml.get(args[1]) : "Key not found");
 
 
                     return true;
@@ -102,7 +102,7 @@ public class Print implements CommandExecutor {
                     if (args.length == 1)
                         Logger.info(msgYML.getKeys(true).toString());
                     else
-                        Logger.info(msgYML.get(args[1]) != null ? msgYML.get(args[1]).toString() : "Key not found");
+                        Logger.info(msgYML.get(args[1]) != null ? (String) msgYML.get(args[1]) : "Key not found");
 
                     return true;
 
@@ -111,7 +111,7 @@ public class Print implements CommandExecutor {
                     if (args.length == 1)
                         Logger.info(cosmeticsYML.getKeys(true).toString());
                     else
-                        Logger.info(cosmeticsYML.get(args[1]) != null ? cosmeticsYML.get(args[1]).toString() : "Key not found");
+                        Logger.info(cosmeticsYML.get(args[1]) != null ? (String) cosmeticsYML.get(args[1]) : "Key not found");
 
                     return true;
 
@@ -126,6 +126,11 @@ public class Print implements CommandExecutor {
                 case "gameservers":
                 case "servers":
                     Logger.info(servers.toString());
+                    return true;
+
+                case "gamestats":
+                case "stats":
+                    Logger.info(statUUIDMap.toString());
                     return true;
             }
         }

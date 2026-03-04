@@ -54,7 +54,7 @@ public class LevelView implements CommandExecutor {
 
         else if (args.length == 1) {
 
-            String nodeOthers = "cxyz.admin.level.view.others";
+            String nodeOthers = "cxyz.level.view.others";
             if (!sender.hasPermission(nodeOthers)) {
                 view(sender, NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId()));
                 return true;
