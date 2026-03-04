@@ -428,11 +428,11 @@ public class MapFormatters {
 
         commonMap.put("player-custom-rankplate", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : "");
         commonMap.put("player-custom-rankplate-display", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : "");
-        commonMap.put("player-custom-rankplate-lore", ""); // keep this blank
+        commonMap.put("player-custom-rankplate-lore", ""); // keep this - this is fulfilled later
 
         commonMap.put("player-tag", player.getChatTag() != null && !player.getChatTag().isBlank() ? player.getChatTag() : "");
         commonMap.put("player-tag-display", player.getChatTag() != null && !player.getChatTag().isBlank() ? player.getChatTag() : "None");
-        commonMap.put("player-tag-lore", ""); // keep this blank
+        commonMap.put("player-tag-lore", ""); // i know what im doing
 
         commonMap.put("player-chat-color", player.getChatColor() != null && !player.getChatColor().isBlank() ? player.getChatColor() : player.getTopRank().getDefaultChatColor());
         commonMap.put("player-chat-color-name", player.getChatColor() != null && !player.getChatColor().isBlank() ? com.carrotguy69.cxyz.cmd.ChatColor.getColorNameByCode(player.getChatColor()) : com.carrotguy69.cxyz.cmd.ChatColor.getColorNameByCode(player.getTopRank().getDefaultChatColor()));

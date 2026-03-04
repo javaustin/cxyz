@@ -3,6 +3,8 @@ version: '0.0'
 main: com.carrotguy69.cxyz.CXYZ
 api-version: '1.21'
 
+soft-depend: ["PlaceholderAPI"]
+
 commands:
 
   channel:
@@ -208,6 +210,12 @@ commands:
     usage: /test <args*>
     permission: "cxyz.test"
     aliases: []
+
+  placeholdertest:
+    description: Test placeholder API things
+    usage: /test <content>
+    permission: "cxyz.placeholdertest"
+    aliases: [ ]
 
   timezone:
     description: Set a timezone preference
@@ -417,6 +425,10 @@ permissions:
     default: op
 
   cxyz.test:
+    default: op
+
+
+  cxyz.placeholdertest:
     default: op
 
   cxyz.timezone:

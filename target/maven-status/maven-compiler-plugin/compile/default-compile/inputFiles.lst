@@ -91,6 +91,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\cosme
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\coins\CoinsAdd.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentEdit.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\messages\MessageKey.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\papi\Expansion.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\utils\ObjectUtils.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\coins\CoinsSet.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\channel\utils\ChannelRegistry.java
@@ -149,6 +150,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\webhook\D
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\exceptions\AuthenticationFailException.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\Warn.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party\PartyWarp.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\PlaceholderTest.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party\PartyLeave.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\friend\FriendList.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\messages\MessageUtils.java
@@ -156,6 +158,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\party
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\PlayerRank.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentDelete.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Rank.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\papi\RelationalExpansion.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\utils\CommandRestrictor.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Blank.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\shorthand\Shorthand.java

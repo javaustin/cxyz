@@ -137,29 +137,25 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 /*
 
    [❌] ISSUES:
-
-   - it may be possible for two of the same cosmetics to be equipped (my equip list had two rainbow armors and i ran /unequip twice)
    - stupid kick.log-message glitch
-
-    - why does "&d[phat]" have a formatter color code character before f() is applied?
 
    - Fix message parser actions:
         - should be: [text](ACTION:actionText)
         - but is: (text)[ACTION:actionText]
 
-   - Weird message parser behavior when it comes to new lines inside of text components (parenthesis)
-
-   - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
+   -✅ Weird message parser behavior when it comes to new lines inside of text components (parenthesis)
 
    - Ensure /debug actually changes and saves config values
-
-   - ✅ failed requests should always be logged
 
 
    [➕] ADD/IMPLEMENT:
    - front end testing of all commands & tab completers
 
-   - ✅ We don't need an /sql endpoint. Much better to move that function to the API
+   - fulfill with PAPI the following:
+        - player
+            - ✅ all MapFormatter values
+            - common no arg NetworkPlayer booleans (isInParty, isBanned, isMuted)
+            - no placeholders that depend on a sending player's permissions
 
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
    - Ensure /debug actually changes the config
@@ -168,7 +164,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - ✅ Standardize bypass permissions
         e.g:
             - Chat filter rule
-   - Standardize ".other" permissions (like allowing a sender to see other players info)
+   - ✅ Standardize ".others" permissions (like allowing a sender to see other players info)
    - ^ Many commands already have the view others functionality but lack specific permission. So if a player has cxyz.command.view, they can view anyone
         e.g:
             - ✅ cxyz.(coins/level/xp).view.others
@@ -180,9 +176,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
             - cxyz.channel.ignore.list.others     (would require a refactor)
    - ✅ A non-OP'd player will never be able to access a channel because the permission for the channel cant be automatically granted
 
-   - gameStats support
-
-   - NetworkPlayer has many attributes that need to be fulfilled in placeholder API
+   - ✅ gameStats support
 
    Event system other plugins can subscribe to (extensive):
    - I want to develop minigames. Since minigames will require some core data, the minigame plugins can extend off some plugin code already (getting various objects).
@@ -216,6 +210,12 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
        Mass functions to add/remove queued messages.
        Mass remove should remove the message by its content.
        {player} placeholder should be used and formatted at send time
+
+   [⚠️] NON REPLICABLE ISSUES
+   - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
+   - why does "&d[phat]" have a formatter color code character before f() is applied?
+   - it may be possible for two of the same cosmetics to be equipped (my equip list had two rainbow armors and i ran /unequip twice)
+
    */
 
     private CommandMap getCommandMap() {

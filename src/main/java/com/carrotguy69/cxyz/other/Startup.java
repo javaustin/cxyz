@@ -29,7 +29,10 @@ import com.carrotguy69.cxyz.cmd.ignore._IgnoreExecutor;
 import com.carrotguy69.cxyz.cmd.punishment.manager._PunishmentExecutor;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.papi.Expansion;
+import com.carrotguy69.cxyz.papi.RelationalExpansion;
 import com.carrotguy69.cxyz.tabCompleters.*;
+import org.bukkit.Bukkit;
 
 import java.io.IOException;
 import java.net.BindException;
@@ -47,6 +50,7 @@ public class Startup {
         registerCommands();
         registerEvents();
         startTasks();
+        registerPlaceholders();
     }
 
     public static void startEndpoints() throws IOException {
@@ -90,6 +94,9 @@ public class Startup {
 
             Objects.requireNonNull(plugin.getCommand("test")).setExecutor(new Test());
             Objects.requireNonNull(plugin.getCommand("test")).setTabCompleter(new Blank());
+
+            Objects.requireNonNull(plugin.getCommand("placeholdertest")).setExecutor(new PlaceholderTest());
+            Objects.requireNonNull(plugin.getCommand("placeholdertest")).setTabCompleter(new Blank());
 
             Objects.requireNonNull(plugin.getCommand("level")).setExecutor(new _LevelExecutor());
             Objects.requireNonNull(plugin.getCommand("level")).setTabCompleter(new CoinsXPLevel());
@@ -204,6 +211,16 @@ public class Startup {
 
         Request.postRequest(apiEndpoint + "/cache", gson.toJson(Map.of("tables", gson.toJson(list))));
 
+    }
+
+    public static void registerPlaceholders() {
+        if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            Logger.warning("Could not find PlaceholderAPI on this server. Ignoring...");
+            return;
+        }
+
+        new Expansion(plugin).register();
+        new RelationalExpansion(plugin).register();
     }
 
 }

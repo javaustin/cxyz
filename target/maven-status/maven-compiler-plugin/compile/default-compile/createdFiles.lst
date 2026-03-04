@@ -32,6 +32,7 @@ com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic.class
 com\carrotguy69\cxyz\exceptions\AuthenticationFailException.class
 com\carrotguy69\cxyz\events\ClickEvent.class
 com\carrotguy69\cxyz\cmd\channel\_ChannelExecutor.class
+com\carrotguy69\cxyz\cmd\PlaceholderTest.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic$1.class
 com\carrotguy69\cxyz\events\DropEvent.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader.class
@@ -85,11 +86,13 @@ com\carrotguy69\cxyz\tabCompleters\Blank.class
 com\carrotguy69\cxyz\cmd\privacy\PartyPrivacy.class
 com\carrotguy69\cxyz\cmd\Broadcast.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PartyExpireDeliveryWrapper.class
+com\carrotguy69\cxyz\papi\RelationalExpansion.class
 com\carrotguy69\cxyz\messages\utils\MapFormatters.class
 com\carrotguy69\cxyz\events\FishEvent.class
 com\carrotguy69\cxyz\other\Tasks$1.class
 com\carrotguy69\cxyz\messages\utils\MapFormatters$ListFormatter.class
 com\carrotguy69\cxyz\cmd\level\_LevelExecutor.class
+com\carrotguy69\cxyz\papi\Expansion.class
 com\carrotguy69\cxyz\cmd\party\PartyWarp$1.class
 com\carrotguy69\cxyz\CXYZ.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer$FriendRequestPrivacy.class
