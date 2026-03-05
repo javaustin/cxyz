@@ -81,7 +81,7 @@ public class LevelView implements CommandExecutor {
 
         Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
         commonMap.put("level", np.getLevel());
-        commonMap.put("amount", np.getCoins());
+        commonMap.put("amount", np.getLevel());
 
         MessageUtils.sendParsedMessage(sender, MessageKey.LEVEL_VIEW, commonMap);
     }

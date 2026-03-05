@@ -61,7 +61,7 @@ public class Constants {
         apiIdentifier = (String) yaml.get("api.identifier");
         apiEndpoint = (String) yaml.get("api.endpoint");
         apiSecret = (String) yaml.get("api.secret");
-        apiTimeoutMillis = yaml.getInt("api.timeout-millis", 3000);
+        apiTimeoutMillis = yaml.getInt("api.timeout-millis", 5000);
 
         servers = GameServer.loadServers();
 

@@ -110,7 +110,7 @@ public class LevelSet implements CommandExecutor {
         np.sync();
 
         Map<String, Object> formatted = MapFormatters.playerFormatter(np);
-        formatted.put("coins", amt);
+        formatted.put("level", amt);
         formatted.put("amount", amt);
 
         MessageUtils.sendParsedMessage(sender, MessageKey.LEVEL_SET, formatted);

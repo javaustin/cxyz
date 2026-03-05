@@ -137,54 +137,19 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 /*
 
    [❌] ISSUES:
-   - stupid kick.log-message glitch
-
-   - Fix message parser actions:
-        - should be: [text](ACTION:actionText)
-        - but is: (text)[ACTION:actionText]
-
-   -✅ Weird message parser behavior when it comes to new lines inside of text components (parenthesis)
+   - Party disconnect message shows when a banned player attempts to reconnect, but doesn't actually do so (added !isOnline check in onLeave to mitigate?)
 
    - Ensure /debug actually changes and saves config values
 
 
    [➕] ADD/IMPLEMENT:
-   - front end testing of all commands & tab completers
+   - front end testing of all commands & tab completers (punishment downward)
 
-   - fulfill with PAPI the following:
-        - player
-            - ✅ all MapFormatter values
-            - common no arg NetworkPlayer booleans (isInParty, isBanned, isMuted)
-            - no placeholders that depend on a sending player's permissions
+   - document messages.yml with proper placeholder documentation (comments)
 
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
    - Ensure /debug actually changes the config
 
-   - Standardize and/or document permissions to access commands, channels, and other permission based features
-   - ✅ Standardize bypass permissions
-        e.g:
-            - Chat filter rule
-   - ✅ Standardize ".others" permissions (like allowing a sender to see other players info)
-   - ^ Many commands already have the view others functionality but lack specific permission. So if a player has cxyz.command.view, they can view anyone
-        e.g:
-            - ✅ cxyz.(coins/level/xp).view.others
-            - ✅ cxyz.cosmetic.list.others
-            - ✅ cxyz.friend.list.others
-            - ✅ cxyz.rank.list.others
-            - ✅ cxyz.info.others
-            - cxyz.ignore.list.others             (would require a refactor)
-            - cxyz.channel.ignore.list.others     (would require a refactor)
-   - ✅ A non-OP'd player will never be able to access a channel because the permission for the channel cant be automatically granted
-
-   - ✅ gameStats support
-
-   Event system other plugins can subscribe to (extensive):
-   - I want to develop minigames. Since minigames will require some core data, the minigame plugins can extend off some plugin code already (getting various objects).
-   - The problem still remains, how can we broadcast (non-cancellable) events for other plugins to use immediately and reliably.
-   - Solution: Create or use an event system to broadcast events to any who subscribe
-   - Levelup: Add a player facing XP and coin add message (can be left blank in config if admin desires)
-   - Levelup: Add a player level up message (and play the sound)
-   - Events other plugins can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
 
 
    [🔥] v1.1 UPDATE:
@@ -210,6 +175,14 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
        Mass functions to add/remove queued messages.
        Mass remove should remove the message by its content.
        {player} placeholder should be used and formatted at send time
+
+   Event system other plugins can subscribe to (extensive):
+   - I want to develop minigames. Since minigames will require some core data, the minigame plugins can extend off some plugin code already (getting various objects).
+   - The problem still remains, how can we broadcast (non-cancellable) events for other plugins to use immediately and reliably.
+   - Solution: Create or use an event system to broadcast events to any who subscribe
+   - Levelup: Add a player facing XP and coin add message (can be left blank in config if admin desires)
+   - Levelup: Add a player level up message (and play the sound)
+   - Events other plugins can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
 
    [⚠️] NON REPLICABLE ISSUES
    - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?

@@ -28,6 +28,10 @@ public class OnlinePlayer implements TabCompleter {
         }
 
         List<String> visibleUsernames = getVisibleUsernames(sender, np);
+        if (np != null) {
+            visibleUsernames.remove(np.getUsername());
+            visibleUsernames.remove(np.getDisplayName());
+        }
 
         if (args.length == 0) {
             return visibleUsernames;

@@ -69,6 +69,7 @@ public class Debug implements CommandExecutor {
 
             configYaml.set("debugger.enabled-values", enabledDebugs);
             plugin.saveConfig();
+            plugin.reloadConfig();
 
             MessageUtils.sendParsedMessage(sender, MessageKey.DEBUG_UNSET, Map.of("value", args[0].toUpperCase()));
             return true;
@@ -81,6 +82,7 @@ public class Debug implements CommandExecutor {
 
         configYaml.set("debugger.enabled-values", enabledDebugs);
         plugin.saveConfig();
+        plugin.reloadConfig();
 
         MessageUtils.sendParsedMessage(sender, MessageKey.DEBUG_SET, Map.of("value", args[0].toUpperCase()));
         return true;

@@ -156,10 +156,10 @@ shorthand-commands:
 commands:
   party:
     invite-received: |
-      (&f----------------------------------------------------
+      [&f----------------------------------------------------
       {inviter-rank-prefix}{inviter-rank-color}{inviter-display-name} &r&7has invited you to their party.
       &e&lClick to accept!
-      &f----------------------------------------------------)[HOVER:&eClick to join!][RUN_COMMAND:/party join {inviter-display-name}]
+      &f----------------------------------------------------](HOVER:&eClick to join!)(RUN_COMMAND:/party join {inviter-display-name})
   # ...
 
   punishment:

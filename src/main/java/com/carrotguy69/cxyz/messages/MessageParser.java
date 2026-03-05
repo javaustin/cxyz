@@ -98,20 +98,20 @@ public class MessageParser {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
 
-            if (c == '(' && i + 1 < s.length() && s.charAt(i + 1) == '(') {
-                sb.append('(');
-                i++;
-            }
-            else if (c == ')' && i + 1 < s.length() && s.charAt(i + 1) == ')') {
-                sb.append(')');
-                i++;
-            }
-            else if (c == '[' && i + 1 < s.length() && s.charAt(i + 1) == '[') {
+            if (c == '[' && i + 1 < s.length() && s.charAt(i + 1) == '[') {
                 sb.append('[');
                 i++;
             }
             else if (c == ']' && i + 1 < s.length() && s.charAt(i + 1) == ']') {
                 sb.append(']');
+                i++;
+            }
+            else if (c == '(' && i + 1 < s.length() && s.charAt(i + 1) == '(') {
+                sb.append('(');
+                i++;
+            }
+            else if (c == ')' && i + 1 < s.length() && s.charAt(i + 1) == ')') {
+                sb.append(')');
                 i++;
             }
             else if (c == '\\' && i + 1 < s.length() && s.charAt(i + 1) == '\\') {
@@ -145,19 +145,19 @@ public class MessageParser {
             char character = unparsed.charAt(i);
             char nextCharacter = unparsed.length() == i + 1 ? ' ' : unparsed.charAt(i + 1); // If we are not at the end of the sequence, we get the upcoming character from the index.
 
-            if (character == '(' && nextCharacter != '(') { // Opening character (Not doubled/escaped)
+            if (character == '[' && nextCharacter != '[') { // Opening character (Not doubled/escaped)
 
                 if (!stringBuilder.toString().isEmpty()){
                     components.add(new SimpleTextComponent(stringBuilder.toString(), List.of()));
                     stringBuilder = new StringBuilder(); // cleared the string builder for new text
                 }
 
-                int openingParenthesis = i;
-                int closingParenthesis = getClosingParenthesis(openingParenthesis, i);
+                int openingBracket = i;
+                int closingBracket = getClosingParenthesis(openingBracket, i);
 
-                // Both parentheses exist
+                // Both brackets exist
 
-                String textSubstring = unparsed.substring(openingParenthesis + 1, closingParenthesis);
+                String textSubstring = unparsed.substring(openingBracket + 1, closingBracket);
 
                 textSubstring = unescape(textSubstring);
 
@@ -167,7 +167,7 @@ public class MessageParser {
                         new ArrayList<>()
                 );
 
-                int start = closingParenthesis + 1;
+                int start = closingBracket + 1;
 
                 while (true) {
                     if (start + 1 > unparsed.length()) {
@@ -176,31 +176,31 @@ public class MessageParser {
                         break;
                     }
 
-                    else if (unparsed.charAt(start) == '[' && unparsed.charAt(start + 1) != '[') { // Valid opening bracket character.
-                        int openingBracket = start;
-                        int closingBracket = -1;
+                    else if (unparsed.charAt(start) == '(' && unparsed.charAt(start + 1) != '(') { // Valid opening parenthesis character.
+                        int openingParenthesis = start;
+                        int closingParenthesis = -1;
 
-                        for (int j = openingBracket; j < unparsed.length(); j++) { // Immediately find closing character
+                        for (int j = openingParenthesis; j < unparsed.length(); j++) { // Immediately find closing character
 
-                            if (unparsed.length() == j + 1 && unparsed.charAt(j) == ']') {
-                                closingBracket = j;
+                            if (unparsed.length() == j + 1 && unparsed.charAt(j) == ')') {
+                                closingParenthesis = j;
                                 break;
                             }
 
-                            if (unparsed.charAt(j) == ']' && unparsed.charAt(j + 1) != ']') { // Closing character
-                                closingBracket = j;
+                            if (unparsed.charAt(j) == ')' && unparsed.charAt(j + 1) != ')') { // Closing character
+                                closingParenthesis = j;
                                 break;
                             }
                         }
 
-                        if (closingBracket == -1) {// No matching closing bracket found for this opening bracket
-                            throw new MessageParseException(String.format("Expected closing bracket ']' to match opening bracket at index %d in action block!", openingBracket), openingBracket);
+                        if (closingParenthesis == -1) {// No matching closing parenthesis found for this opening parenthesis
+                            throw new MessageParseException(String.format("Expected closing parenthesis ')' to match opening parenthesis at index %d in action block!", openingParenthesis), openingParenthesis);
                         }
 
 
-                        // Both brackets exist
+                        // Both parentheses exist at this point
 
-                        String actionSubstring = unparsed.substring(openingBracket + 1, closingBracket);
+                        String actionSubstring = unparsed.substring(openingParenthesis + 1, closingParenthesis);
                         String[] indexes = actionSubstring.split(":", 2);
 
                         try {
@@ -212,10 +212,10 @@ public class MessageParser {
                             textComponent.addAction(action);
                         }
                         catch (IllegalArgumentException ex) {
-                            throw new MessageParseException(String.format("'%s' is not a valid Action!", indexes[0].toUpperCase()), openingBracket + 1);
+                            throw new MessageParseException(String.format("'%s' is not a valid Action!", indexes[0].toUpperCase()), openingParenthesis + 1);
                         }
 
-                        start = closingBracket + 1; // This will get the next action block if it exists.
+                        start = closingParenthesis + 1; // This will get the next action block if it exists.
                     }
                     else {
                         // We are out of action blocks or no action block exists
@@ -231,31 +231,31 @@ public class MessageParser {
 
 
             else if (
-                    (character == '[' && nextCharacter == '[')
-                            || (character == ']' && nextCharacter == ']')
-                            || character == '('
-                            || character == ')' && nextCharacter == ')'
-            ) { // We want to be sure we are escaping doubled up brackets.
+                    (character == '(' && nextCharacter == '(')
+                            || (character == ')' && nextCharacter == ')')
+                            || character == '['
+                            || character == ']' && nextCharacter == ']'
+            ) { // We want to be sure we are escaping doubled up parentheses.
                 stringBuilder.append(character);
-                i += 1; // Since we are at the position i, i + 1 is the position of the second escaped bracket. Therefore, the iterator will skip the brackets we already covered.
+                i += 1; // Since we are at the position i, i + 1 is the position of the second escaped parenthesis. Therefore, the iterator will skip the parenthesis we already covered.
             }
 
-            else if (character == '[') {
+            else if (character == '(') {
                 throw new MessageParseException(
-                        String.format("Unexpected '[' at index %d. Brackets must directly follow a text block (e.g. (text)[ACTION]). If you intended a literal '[', escape it by doubling: '[['", i), i
+                        String.format("Unexpected '(' at index %d. Parenthesis must directly follow a text block e.g. \"[text](ACTION)\". If you intended a literal '(', escape it by doubling: '(('", i), i
                 );
             }
 
-
-            else if (character == ']') {
-                throw new MessageParseException(
-                        String.format("Unexpected ']' at index %d. Brackets must directly follow a text block (e.g. (text)[ACTION]). If you intended a literal ']]', escape it by doubling: ']]'", i), i
-                );
-            }
 
             else if (character == ')') {
                 throw new MessageParseException(
-                        String.format("Unexpected ')' at index %d. Closing parentheses must match an opening '(' that starts a text block. If you intended a literal ')', escape it by doubling: '))'", i), i
+                        String.format("Unexpected ')' at index %d. Parenthesis must directly follow a text block e.g. \"[text](ACTION)\". If you intended a literal ')', escape it by doubling: '))'", i), i
+                );
+            }
+
+            else if (character == ']') {
+                throw new MessageParseException(
+                        String.format("Unexpected ']' at index %d. Closing bracket ']' must match an opening bracket '[' that starts a text block. If you intended a literal ']', escape it by doubling: ']]'", i), i
                 );
             }
 
@@ -272,37 +272,37 @@ public class MessageParser {
         return components;
     }
 
-    private int getClosingParenthesis(int openingParenthesis, int i) {
-        int closingParenthesis = -1;
+    private int getClosingParenthesis(int openingBracket, int i) {
+        int closingBracket = -1;
 
-        for (int j = openingParenthesis; j + 1 < unparsed.length(); j++) { // Immediately find closing character
+        for (int j = openingBracket; j + 1 < unparsed.length(); j++) { // Immediately find closing character
 
-            if (j != i && unparsed.charAt(j) == '(' && unparsed.charAt(j + 1) == '(') { // characters are escaped - increment by j += 2 (here and in the loop definition)
+            if (j != i && unparsed.charAt(j) == '[' && unparsed.charAt(j + 1) == '[') { // characters are escaped - increment by j += 2 (here and in the loop definition)
                 j++;
                 continue;
             }
 
-            if (j != i && unparsed.charAt(j) == ')' && unparsed.charAt(j + 1) == ')') { // characters are escaped - increment by j += 2 (here and in the loop definition)
+            if (j != i && unparsed.charAt(j) == ']' && unparsed.charAt(j + 1) == ']') { // characters are escaped - increment by j += 2 (here and in the loop definition)
                 j++;
                 continue;
             }
 
-            if (j != i && unparsed.charAt(j) == '(' && unparsed.charAt(j + 1) != '(') { // There is an unexpected parenthesis that is not escaped
+            if (j != i && unparsed.charAt(j) == '[' && unparsed.charAt(j + 1) != '[') { // There is an unexpected bracket that is not escaped
                 throw new MessageParseException(
-                        String.format("Unexpected '(' at index %d. If you intended a literal '(', escape it by doubling: '(('", j)
+                        String.format("Unexpected '[' at index %d. If you intended a literal '[', escape it by doubling: '[['", j)
                         , j);
             }
 
-            if (unparsed.charAt(j) == ')' && unparsed.charAt(j + 1) != ')') { // Closing character (Not doubled/escaped)
-                closingParenthesis = j;
+            if (unparsed.charAt(j) == ']' && unparsed.charAt(j + 1) != ']') { // Closing character (Not doubled/escaped)
+                closingBracket = j;
                 break;
             }
         }
 
-        if (closingParenthesis == -1) { // Closing parenthesis does not exist. Throw error!
+        if (closingBracket == -1) { // Closing bracket does not exist.
             throw new MessageParseException(String.format("Expected closing character to match opening character at %d in text block!", i));
         }
-        return closingParenthesis;
+        return closingBracket;
     }
 
     public List<SimpleTextComponent> applyPlaceholders(List<SimpleTextComponent> components) {

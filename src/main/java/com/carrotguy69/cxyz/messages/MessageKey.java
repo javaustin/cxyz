@@ -161,6 +161,7 @@ public enum MessageKey {
     FRIEND_ERROR_ALREADY_FRIENDS("commands.friend.error.already-friends"),
     FRIEND_ERROR_NOT_FRIENDS("commands.friend.error.not-friends"),
     FRIEND_ERROR_DUPLICATE_REQUEST("commands.friend.error.duplicate-request"),
+    FRIEND_ERROR_FAIL("commands.friend.error.fail"),
     FRIEND_ERROR_NO_REQUEST("commands.friend.error.no-request"),
     FRIEND_ERROR_REQUEST_EXPIRED("commands.friend.error.request-expired"),
 

@@ -91,9 +91,13 @@ public class FriendAdd implements CommandExecutor {
             return;
         }
 
-        if (FriendRequest.getLastFriendRequest(sender, recipient) != null) { // duplicate request "you already friend requested this player"
-            commonMap.putAll(MapFormatters.playerFormatter(recipient));
-            MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.FRIEND_ERROR_DUPLICATE_REQUEST, commonMap); // duplicate request "you already friend requested this player"
+        if (FriendRequest.getLastFriendRequest(sender, recipient) != null) {
+            MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.FRIEND_ERROR_DUPLICATE_REQUEST, commonMap);
+            return;
+        }
+
+        if (recipient.getFriendPrivacy().equals(NetworkPlayer.FriendRequestPrivacy.DISALLOWED)) {
+            MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.FRIEND_ERROR_FAIL, commonMap);
             return;
         }
 

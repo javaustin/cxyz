@@ -100,10 +100,12 @@ public class ShorthandUtils {
                 return cosmetics.stream().map(Cosmetic::getId).collect(Collectors.toList());
 
             case "equipped-cosmetic":
-                return np.getEquippedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList());
+                if (np != null)
+                    return np.getEquippedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList());
 
             case "owned-cosmetic":
-                return np.getOwnedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList());
+                if (np != null)
+                    return np.getOwnedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList());
         }
 
         return List.of();

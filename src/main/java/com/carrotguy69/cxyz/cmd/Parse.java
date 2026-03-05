@@ -24,7 +24,7 @@ public class Parse implements CommandExecutor {
         /*
         SYNTAX:
             /parse <message>
-            /parse (&eHello World)[HOVER:&aClick me!][RUN_COMMAND:/parse Thanks {player}!]
+            /parse [&eHello World](HOVER:&aClick me!)(RUN_COMMAND:/parse Thanks {player}!)
         */
 
         if (CommandRestrictor.handleRestricted(command, sender))

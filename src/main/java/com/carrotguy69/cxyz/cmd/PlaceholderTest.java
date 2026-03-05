@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 
 public class PlaceholderTest implements CommandExecutor {
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.

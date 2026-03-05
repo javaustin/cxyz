@@ -273,11 +273,10 @@ public abstract class BaseChannel {
             if (np.canAccessChannel(channel) && !np.isMutingChannel(channel)) {
                 MessageUtils.sendParsedMessage(p, chatFormat, formatMap);
             }
-
-            if (channel.isConsoleEnabled()) {
-                MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), chatFormat, formatMap);
-            }
         }
 
+        if (channel.isConsoleEnabled()) {
+            MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), chatFormat, formatMap);
+        }
     }
 }

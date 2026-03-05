@@ -5,14 +5,14 @@
 # General (non-command specific) errors
 errors:
   command:
-    restricted: "(&cYou do not have access to this command!)[HOVER:Command: {command}\nRequired rank: {rank}\nRequired level: {level}]" # Format: requiredLevel, requiredRank, minLevel, minRank, player map formatter.
-    no-access: "(&cYou do not have access to this command!)[HOVER:&cYou do not have the required permission: {permission}]" # Format: permission
+    restricted: "[&cYou do not have access to this command!](HOVER:Command: {command}\nRequired rank: {rank}\nRequired level: {level})" # Format: requiredLevel, requiredRank, minLevel, minRank, player map formatter.
+    no-access: "[&cYou do not have access to this command!](HOVER:&cYou do not have the required permission: {permission})" # Format: permission
     wrong-server: "&cYou cannot use this command on this server!" # no format
     player-only: "&cThis command must be used by a player!" # no format
 
   player:
     is-self: "&cYou cannot use this command on yourself!" # no format
-    not-found: "(&cPlayer not found!)[HOVER:&7Could not find player with the username of &f{username}&7!]" # Format: username
+    not-found: "[&cPlayer not found!](HOVER:&7Could not find player with the username of &f{username}&7!)" # Format: username
     outranks-sender: "&cYou cannot use this command on a player which outranks you!" # Format: MessageFormatters.playerSenderFormatter(...);
     is-offline: "&cThis player is offline!" # Format MF.playerFormatter(target);
 
@@ -22,7 +22,7 @@ errors:
       content: "&cYou cannot send a blank message!" # no format
 
     invalid:
-      boolean: "(&cPlease provide a valid boolean!)[HOVER:((Ex: true/false))]"
+      boolean: "[&cPlease provide a valid boolean!](HOVER:((Ex: true/false)))"
       channel: "&cPlease provide a valid channel!"
       color: "&cPlease provide a valid color!"
       cosmetic: "&cPlease provide a valid cosmetic!"
@@ -30,14 +30,14 @@ errors:
       duration: "&cPlease provide a valid duration!"
       item: "&cPlease provide a valid item to buy!"
       number: "&cPlease provide a valid number!"
-      page: "(&cPlease provide a valid page between {min} and {max}!)[HOVER:Your input: {page}]"
+      page: "[&cPlease provide a valid page between {min} and {max}!](HOVER:Your input: {page})"
       player: "&cPlease provide a valid player!"
       punishment: "&cNo punishment found with this case ID!"
       rank: "&cPlease provide a valid rank name!"
       timezone: "&cPlease provide a valid timezone!"
-      friend-privacy-value: "(&cPlease provide a valid value!)[HOVER:((Ex: ALLOWED/DISALLOWED))]"
-      message-privacy-value: "(&cPlease provide a valid value!)[HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED))]"
-      party-privacy-value: "(&cPlease provide a valid value!)[HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED))]"
+      friend-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/DISALLOWED)))"
+      message-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"
+      party-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"
       nickname-length: "&cNickname must be between 3 and 16 characters." # format {input}
       nickname-characters: "&cA nickname must be made up of letters, numbers, and underscores only." # format {input}
       nickname-taken: "&cThis nickname is taken!" # format {input}
@@ -92,7 +92,7 @@ commands:
     set: "&aChat color set to {code}{color}!"
     reset: "&aChat color reset!"
     view: "&aYour chat color is set to {code}{color}!"
-    invalid-color: "(&cPlease provide a valid color!)[HOVER:\n&0Black&r, &1Dark Blue&r, &2Dark Green&r, &3Dark Aqua&r, &4Dark Red&r, \n&5Dark Purple&r, &6Gold&r, &7Gray&r, &8Dark Gray&r, &9Blue&r,\n &aGreen&r, &bAqua&r, &cRed&r, &dLight Purple&r, &eYellow&r, &fWhite&r]"
+    invalid-color: "[&cPlease provide a valid color!](HOVER:\n&0Black&r, &1Dark Blue&r, &2Dark Green&r, &3Dark Aqua&r, &4Dark Red&r, \n&5Dark Purple&r, &6Gold&r, &7Gray&r, &8Dark Gray&r, &9Blue&r,\n &aGreen&r, &bAqua&r, &cRed&r, &dLight Purple&r, &eYellow&r, &fWhite&r)"
     duplicate-state: "&eYour chat color is already set to this!"
 
   coins: # Format: playerFormatter, amount
@@ -128,21 +128,21 @@ commands:
       error.already-equipped: "&cThis cosmetic is already equipped!"
       error.not-owned: "&cYou do not own this cosmetic!"
       error.insufficient-rank: "&cYou cannot apply this cosmetic as you do not have the required {cosmetic-required-rank-prefix-display} &crank."
-      success: "&aYou have equipped ({cosmetic-display-stripped})[HOVER:{cosmetic-lore}]"
+      success: "&aYou have equipped [{cosmetic-display-stripped}](HOVER:{cosmetic-lore})"
 
     unequip: # Accepts cosmeticFormatter
       error.not-equipped: "&cThis cosmetic is not equipped!"
       error.not-owned: "&cYou do not own this cosmetic!"
-      success: "&aYou have unequipped ({cosmetic-display})[HOVER:{cosmetic-lore}]"
+      success: "&aYou have unequipped [{cosmetic-display}](HOVER:{cosmetic-lore})"
 
     list:
       all:
         message: |
           &bAll server cosmetics
           {cosmetics}
-          (&f< Previous)[RUN_COMMAND:/cosmetic list all {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/cosmetic list all {previous-page}]
+          [&f< Previous](RUN_COMMAND:/cosmetic list all {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/cosmetic list all {previous-page})
         blank: "&eNo cosmetics found!"
-        entry-format: "({cosmetic-display-stripped})[HOVER:{cosmetic-lore}] ((({cosmetic-id})))[HOVER:Type: &e{cosmetic-type}]  &f&f&f  (&a[[Buy]])[RUN_COMMAND:/cosmetic buy {cosmetic-id}] (&a[[Equip]])[RUN_COMMAND:/cosmetic equip {cosmetic-id}] (&e[[Unequip]])[RUN_COMMAND:/cosmetic unequip {cosmetic-id}]"
+        entry-format: "[{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})"
         separator: "\n"
         max-entries-per-page: 8
 
@@ -150,9 +150,9 @@ commands:
         message: |
           {player-rank-color}{player-display-name}'s equipped cosmetics
           {cosmetics}
-          (&f< Previous)[RUN_COMMAND:/cosmetic list equipped {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/cosmetic list equipped {player} {previous-page}]
+          [&f< Previous](RUN_COMMAND:/cosmetic list equipped {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/cosmetic list equipped {previous-page})
         blank: "&eNo cosmetics are equipped!"
-        entry-format: "({cosmetic-display-stripped})[HOVER:{cosmetic-lore}] ((({cosmetic-id})))[HOVER:Type: &e{cosmetic-type}]  &f&f&f  (&e[[Buy]])[RUN_COMMAND:/cosmetic buy {cosmetic-id}] (&e[[Equip]])[RUN_COMMAND:/cosmetic equip {cosmetic-id}] (&e[[Unequip]])[RUN_COMMAND:/cosmetic unequip {cosmetic-id}]"
+        entry-format: "[{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})"
         separator: "\n"
         max-entries-per-page: 8
 
@@ -160,9 +160,9 @@ commands:
         message: |
           {player-rank-color}{player-display-name}'s owned cosmetics
           {cosmetics}
-          (&f< Previous)[RUN_COMMAND:/cosmetic list owned {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/cosmetic list owned {player} {previous-page}]
+          [&f< Previous](RUN_COMMAND:/cosmetic list owned {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/cosmetic list owned {previous-page})
         blank: "&eNo cosmetics are owned!"
-        entry-format: "({cosmetic-display-stripped})[HOVER:{cosmetic-lore}] ((({cosmetic-id})))[HOVER:Type: &e{cosmetic-type}]  &f&f&f  (&e[[Buy]])[RUN_COMMAND:/cosmetic buy {cosmetic-id}] (&e[[Equip]])[RUN_COMMAND:/cosmetic equip {cosmetic-id}] (&e[[Unequip]])[RUN_COMMAND:/cosmetic unequip {cosmetic-id}]"
+        entry-format: "[{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})"
         separator: "\n"
         max-entries-per-page: 8
 
@@ -178,6 +178,7 @@ commands:
   friend:
     error.already-friends: "&eYou are already friends with this player." # Accepts playerSender
     error.duplicate-request: "&eYou already sent a request to this player."
+    error.fail: "&cThis player does not accept incoming friend requests."
     error.no-request: "&eYou haven't received a request from this player."
     error.request-expired: "&eThis friend request has expired."
     error.not-friends: "&cYou are not friends with this player."
@@ -185,7 +186,7 @@ commands:
     friend-list:
       message: "{player-rank-color}{player-display-name}'s friends [[{size}]]: {friends}"
       blank: "&eNo friends found for this player :(("
-      entry-format: "({player-rank-color}{player-display-name})[HOVER:{player-online-status}!]"
+      entry-format: "[{player-rank-color}{player-display-name}](HOVER:{player-online-status}!)"
       separator: "&r, "
       max-entries-per-page: -1
 
@@ -197,10 +198,10 @@ commands:
     
     request-sent: "&eYou sent a friend request to {player-rank-color}{player-display-name}. &eThey have 5 minutes to accept."
     request-received:  |
-      (&f----------------------------------------------------
+      [&f----------------------------------------------------
       {sender-rank-color}{sender-display-name} &r&7has requested to be your friend.
       &e&lClick to accept!
-      &f----------------------------------------------------)[HOVER:&7Click to add {sender-rank-color}{sender-display-name} &r&7as a friend!][RUN_COMMAND:/friend accept {sender-display-name}]
+      &f----------------------------------------------------](HOVER:&7Click to add {sender-rank-color}{sender-display-name} &r&7as a friend!)(RUN_COMMAND:/friend accept {sender-display-name})
     request-accepted: "&eYou are now friends with {player-rank-color}{player-display-name}"
     request-accept-received: "&eYou are now friends with {sender-rank-color}{sender-display-name}"
     request-denied: "&eYou have denied {sender-rank-color}{sender-display-name}'s &efriend request."
@@ -210,7 +211,7 @@ commands:
 
   info: |
     {player-rank-color}Player info for {player}
-    &fUUID:&7 ({player-uuid})[HOVER:&7Click to copy!][COPY_TO_CLIPBOARD:{player-uuid}][RUN_COMMAND:/parse &aCopied!]
+    &fUUID:&7 [{player-uuid}](HOVER:&7Click to copy!)(COPY_TO_CLIPBOARD:{player-uuid})(RUN_COMMAND:/parse &aCopied!)
     &fUsername:&7 {player-rank-color}{player-username}
     &fNickname:&7 {player-rank-color}{player-display-name}
     &fRank:&7 {player-rank-prefix-display}
@@ -228,11 +229,11 @@ commands:
     &fMessage settings:&7 {player-message-privacy}
     &fFriend settings:&7 {player-friend-privacy}
     &fParty settings:&7 {player-party-privacy}
-    (&fFriends:&7 {player-friend-list-size})[HOVER:&7Click to view][RUN_COMMAND:/friend list]
-    (&fIgnored Players:&7 {player-ignore-list-size})[HOVER:&7Click to view][RUN_COMMAND:/ignore]
-    (&fOwned Cosmetics:&7 {player-owned-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list owned 1 {player}]
-    (&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size})[HOVER:&7Click to view][RUN_COMMAND:/cosmetic list equipped 1 {player}]
-    (&fIgnored Channels:&7 {player-ignored-channels-list-size})[HOVER:&7Click to view][RUN_COMMAND:/channel ignore]
+    [&fFriends:&7 {player-friend-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/friend list)
+    [&fIgnored Players:&7 {player-ignore-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/ignore)
+    [&fOwned Cosmetics:&7 {player-owned-cosmetics-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/cosmetic list owned 1 {player})
+    [&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/cosmetic list equipped 1 {player})
+    [&fIgnored Channels:&7 {player-ignored-channels-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/channel ignore)
     
 
   message: # All except channel-changed and reply-fail should user MF.playerSender. + add content
@@ -294,10 +295,10 @@ commands:
     invite-fail: "&cYou cannot invite this player!"
     invite-sent: "&9Party> {player-rank-prefix}{player-rank-color}{player-display-name} &r&7has been invited to the party. They have 60 seconds to accept."
     invite-received: |
-      (&f----------------------------------------------------
+      [&f----------------------------------------------------
       {inviter-rank-prefix}{inviter-rank-color}{inviter-display-name} &r&7has invited you to their party.
       &e&lClick to accept!
-      &f----------------------------------------------------)[HOVER:&7Click to join {inviter-rank-color}{inviter-display-name}'s &r&7party!][RUN_COMMAND:/party join {inviter-display-name}]
+      &f----------------------------------------------------](HOVER:&7Click to join {inviter-rank-color}{inviter-display-name}'s &r&7party!)(RUN_COMMAND:/party join {inviter-display-name})
     
 
     party-list:
@@ -307,7 +308,7 @@ commands:
         &6Players [[{size}/{max-size}]]: {players}
         &6Type: {type}
         &f---------------------------------------------
-      entry-format: "({player-rank-color}{player-display-name})[HOVER:This is {player-display-name}!]"
+      entry-format: "[{player-rank-color}{player-display-name}](HOVER:This is {player-display-name}!)"
       separator: ", "
       max-entries-per-page: -1
 
@@ -367,7 +368,7 @@ commands:
     not-ignored-player: "&e{player} is not on your ignore list!"
 
     ignore-list:
-      message: "&d{player}'s ignored players: {ignored-players}"
+      message: "{player-rank-color}{player}'s ignored players: {ignored-players}"
       blank: "&eNo ignored players found for this player."
       entry-format: "{player-rank-color}{player-display-name}"
       separator: "&r, "
@@ -446,17 +447,17 @@ commands:
 
     clear: "&aCleared all punishments from player {player}."
     delete: "&aDeleted {type} #{case-id} from player {player}."
-    edit: "(&aSuccessfully updated punishment {attribute}!)[HOVER:New value: {value}]"
+    edit: "[&aSuccessfully updated punishment {attribute}!](HOVER:New value: {value})"
 
 
     info: |
       &cPunishment #{case-id}
-      &fOffender: ({player-rank-color}{player-username})[HOVER:&7Click to copy UUID][COPY_TO_CLIPBOARD:{player-uuid}]
-      &fModerator: ({mod-rank-color}{mod-username})[HOVER:&7Click to copy UUID][COPY_TO_CLIPBOARD:{mod-uuid}]
+      &fOffender: [{player-rank-color}{player-username}](HOVER:&7Click to copy UUID)(COPY_TO_CLIPBOARD:{player-uuid})
+      &fModerator: [{mod-rank-color}{mod-username}](HOVER:&7Click to copy UUID)(COPY_TO_CLIPBOARD:{mod-uuid})
       &fType: &7{type}
       &fIssue date: &7{date}
-      &fDuration: (&7{duration-short})[HOVER:Effective until: {effective-until-short} in {effective-until-countdown-short}]
-      &fRecord Expires: (&7{expire-time-short})[HOVER:In {expire-time-countdown-short}]
+      &fDuration: [&7{duration-short}](HOVER:Effective until: {effective-until-short} in {effective-until-countdown-short})
+      &fRecord Expires: [&7{expire-time-short}](HOVER:In {expire-time-countdown-short})
       &fReason: &7{reason}
       &fEnforced: &7{enforced}
       &fEdited by &7{editor-mod-rank-color}{editor-mod-username}
@@ -465,7 +466,7 @@ commands:
       message: |
         &f---------- {player-rank-color}{player}'s punishment history &r&f----------
         {punishments}
-        (&f< Previous)[RUN_COMMAND:/punishment history {player} {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/punishment history {player} {next-page}]
+        [&f< Previous](RUN_COMMAND:/punishment history {player} {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/punishment history {player} {next-page})
       blank: "&eNo punishments found for this player!"
       entry-format: "&e#[[{case-id}]] &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short}"
       separator: "\n"
@@ -475,7 +476,7 @@ commands:
       message: |
         &f---------- server punishment history &r&f----------
         {punishments}
-        (&f< Previous)[RUN_COMMAND:/punishment history * {previous-page}]   &7Page {page}/{max-pages}   (&fNext >)[RUN_COMMAND:/punishment history * {next-page}]
+        [&f< Previous](RUN_COMMAND:/punishment history * {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/punishment history * {next-page})
       blank: "&eNo punishments found for this player!"
       entry-format: "&e#[[{case-id}]] {player-rank-color}{player} &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short}"
       separator: "\n"

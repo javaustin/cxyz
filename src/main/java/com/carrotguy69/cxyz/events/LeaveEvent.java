@@ -24,6 +24,10 @@ public class LeaveEvent {
 
         NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
 
+        if (!np.isOnline()) {
+            return;
+        }
+
         long currentPlaytime = np.getPlaytime();
         long playtimeSession = TimeUtils.unixTimeNow() - np.getLastJoin();
 
