@@ -12,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
+import static com.carrotguy69.cxyz.CXYZ.f;
+
 public class PlaceholderTest implements CommandExecutor {
 
     @Override
@@ -38,8 +40,12 @@ public class PlaceholderTest implements CommandExecutor {
             p = (Player) sender;
         }
 
-        sender.sendMessage(PlaceholderAPI.setPlaceholders(p, String.join(" ", args)));
-
+        try {
+            sender.sendMessage(f(PlaceholderAPI.setPlaceholders(p, String.join(" ", args))));
+        }
+        catch (RuntimeException e) {
+            sender.sendMessage(String.join(" ", args));
+        }
         return true;
     }
 }

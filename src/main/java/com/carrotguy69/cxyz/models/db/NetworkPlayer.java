@@ -850,9 +850,9 @@ public class NetworkPlayer {
     public void kick(String reason) {
         // [!] There can be no cases where the players server mismatches the database value.
 
-        if (!this.isOnline()) {
-            return;
-        }
+//        if (!this.isOnline()) {
+//            return;
+//        }
 
         if (Objects.equals(this.getServer().getIdentifier(), CXYZ.thisServer.getIdentifier())) {
             // If the player is on our current server, we can bypass the just kick them through Bukkit.

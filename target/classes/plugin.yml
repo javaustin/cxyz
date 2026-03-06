@@ -58,13 +58,13 @@ commands:
   reply:
     description: Reply to a message from a player on the network
     usage: /reply [content]
-    permission: "cxyz.reply"
+    permission: "cxyz.message.reply"
     aliases: [r]
 
   message:
     description: Send a message to a player on the network
     usage: /message <player> [content]
-    permission: "cxyz.message"
+    permission: "cxyz.message.send"
     aliases: [msg, m]
 
   party:
@@ -319,6 +319,8 @@ permissions:
   cxyz.party.invite:
     default: true
   cxyz.party.join:
+    default: true
+  cxyz.party.leave:
     default: true
   cxyz.party.list:
     default: true

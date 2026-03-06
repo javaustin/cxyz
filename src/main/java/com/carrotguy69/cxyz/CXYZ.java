@@ -49,6 +49,7 @@ import static com.carrotguy69.cxyz.events.InteractEvent.onInteract;
 import static com.carrotguy69.cxyz.events.LeaveEvent.onLeave;
 import static com.carrotguy69.cxyz.events.ChatEvent.handleChat;
 import static com.carrotguy69.cxyz.events.JoinEvent.onJoin;
+import static com.carrotguy69.cxyz.events.PreJoinEvent.onPreJoin;
 import static com.carrotguy69.cxyz.events.ProjectileEvent.onProjectile;
 import static com.carrotguy69.cxyz.other.Startup.startEndpoints;
 import static com.carrotguy69.cxyz.other.Tasks.createAnnouncementTasks;
@@ -137,19 +138,17 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 /*
 
    [❌] ISSUES:
-   - Party disconnect message shows when a banned player attempts to reconnect, but doesn't actually do so (added !isOnline check in onLeave to mitigate?)
-
-   - Ensure /debug actually changes and saves config values
+   - Ensure /debug, /port actually changes and saves config values
 
 
    [➕] ADD/IMPLEMENT:
-   - front end testing of all commands & tab completers (punishment downward)
+   - ✅ front end testing of all commands & tab completers (punishment downward)
 
    - document messages.yml with proper placeholder documentation (comments)
 
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
-   - Ensure /debug actually changes the config
 
+   - CROSS SERVER TESTING!
 
 
    [🔥] v1.1 UPDATE:
@@ -263,7 +262,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         // Maybe should wait until far later, but need to account for plugin restarts with plugman.
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                onJoin(p);
+                onJoin(new PlayerJoinEvent(p, ""));
             }
         }, 1L);
 
@@ -290,7 +289,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         }
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            onLeave(p);
+            onLeave(new PlayerQuitEvent(p, ""));
             p.kickPlayer("");
         }
 
@@ -327,12 +326,17 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        onJoin(e.getPlayer());
+        onJoin(e);
+    }
+
+    @EventHandler
+    public void onPlayerPreJoin(AsyncPlayerPreLoginEvent e) {
+        onPreJoin(e);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        onLeave(e.getPlayer());
+        onLeave(e);
     }
 
     @EventHandler

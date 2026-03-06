@@ -47,25 +47,32 @@ public class Punishment implements TabCompleter {
         }
 
         if (args.length == 2) {
+            List<String> usernames = AnyPlayer.getAllUsernames();
+
             switch (args[0].toLowerCase()) {
 
                 case "delete":
                 case "remove":
                 case "info":
-
                 case "edit":
                     return List.of();
 
-                case "clear":
                 case "history":
-                    List<String> usernames = AnyPlayer.getAllUsernames();
+                    usernames.add("*");
                     for (String s : usernames) {
                         if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
                             results.add(s);
                         }
                     }
 
-                    results.add("*");
+                case "clear":
+                    for (String s : usernames) {
+                        if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
+                            results.add(s);
+                        }
+                    }
+
+                    break;
             }
 
             return results;

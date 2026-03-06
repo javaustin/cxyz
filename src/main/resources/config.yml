@@ -404,4 +404,4 @@ command-restrictions:
   chatcolor: # This should be the registered name of the command (No aliases.)
     minimum-rank: vip # Must be a rank defined under ranks in config.yml
     minimum-level: 0 # Any level below this one defined will be denied access.
-    message: &eYou may not use this unless you are a &f[[&aVIP&f]]&e! # Optional message you want sent to the player when denied access. If left blank the plugin will fallback to NO_ACCESS in messages.yml
+    message: "&eYou may not use this unless you are a &f[[&aVIP&f]]&e!" # Optional message you want sent to the player when denied access. If left blank the plugin will fallback to NO_ACCESS in messages.yml

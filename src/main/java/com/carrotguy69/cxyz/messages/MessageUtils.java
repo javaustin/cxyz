@@ -216,15 +216,19 @@ public class MessageUtils {
 
             if (!parsed) {
                 p.sendMessage(content);
-                Bukkit.getConsoleSender().sendMessage(content);
             }
 
             else {
                 MessageUtils.sendParsedMessage(p, content, formatMap);
-                MessageUtils.sendParsedMessageMain(Bukkit.getConsoleSender(), content, formatMap);
             }
 
         }
+
+        if (!parsed)
+            Bukkit.getConsoleSender().sendMessage(content);
+
+        else
+            MessageUtils.sendParsedMessageMain(Bukkit.getConsoleSender(), content, formatMap);
     }
 
 }

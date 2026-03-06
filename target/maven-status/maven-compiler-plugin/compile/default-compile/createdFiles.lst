@@ -18,6 +18,7 @@ com\carrotguy69\cxyz\messages\utils\SimpleTextComponent$Action.class
 com\carrotguy69\cxyz\cmd\friend\FriendAdd.class
 com\carrotguy69\cxyz\cmd\rank\RankAdd.class
 com\carrotguy69\cxyz\models\config\channel\coreChannels\PartyChannel.class
+com\carrotguy69\cxyz\events\PreJoinEvent.class
 com\carrotguy69\cxyz\cmd\level\LevelRemove.class
 com\carrotguy69\cxyz\cmd\punishment\Ban.class
 com\carrotguy69\cxyz\events\InteractEvent.class
@@ -172,7 +173,6 @@ com\carrotguy69\cxyz\events\JoinEvent.class
 com\carrotguy69\cxyz\cmd\xp\_XPExecutor.class
 com\carrotguy69\cxyz\cmd\Timezone.class
 com\carrotguy69\cxyz\tabCompleters\Unignore.class
-com\carrotguy69\cxyz\events\JoinEvent$1.class
 com\carrotguy69\cxyz\other\Tasks$3.class
 com\carrotguy69\cxyz\cmd\channel\ChannelIgnoreList.class
 com\carrotguy69\cxyz\utils\CommandRestrictor.class

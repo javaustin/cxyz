@@ -178,6 +178,7 @@ commands:
   friend:
     error.already-friends: "&eYou are already friends with this player." # Accepts playerSender
     error.duplicate-request: "&eYou already sent a request to this player."
+    error.fail: "&cThis player does not accept incoming friend requests."
     error.no-request: "&eYou haven't received a request from this player."
     error.request-expired: "&eThis friend request has expired."
     error.not-friends: "&cYou are not friends with this player."
@@ -367,7 +368,7 @@ commands:
     not-ignored-player: "&e{player} is not on your ignore list!"
 
     ignore-list:
-      message: "&d{player}'s ignored players: {ignored-players}"
+      message: "{player-rank-color}{player}'s ignored players: {ignored-players}"
       blank: "&eNo ignored players found for this player."
       entry-format: "{player-rank-color}{player-display-name}"
       separator: "&r, "

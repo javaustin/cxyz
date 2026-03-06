@@ -8,6 +8,7 @@ import com.carrotguy69.cxyz.models.db.PartyExpire;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Map;
@@ -16,7 +17,8 @@ import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class LeaveEvent {
 
-    public static void onLeave(Player p) {
+    public static void onLeave(PlayerQuitEvent e) {
+        Player p = e.getPlayer();
 
         if (users.isEmpty()) {
             return;
@@ -24,9 +26,6 @@ public class LeaveEvent {
 
         NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
 
-        if (!np.isOnline()) {
-            return;
-        }
 
         long currentPlaytime = np.getPlaytime();
         long playtimeSession = TimeUtils.unixTimeNow() - np.getLastJoin();

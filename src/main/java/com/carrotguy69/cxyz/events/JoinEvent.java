@@ -11,43 +11,27 @@ import com.carrotguy69.cxyz.utils.TimeUtils;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.Map;
 import java.util.Objects;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
-import static com.carrotguy69.cxyz.messages.MessageParser.unescape;
 
 public class JoinEvent {
 
-    public static void onJoin(Player p) {
+    public static void onJoin(PlayerJoinEvent e) {
+
+        Player p = e.getPlayer();
         NetworkPlayer np;
         boolean create = false;
-
-        if (!isInitialized()) {
-            p.kickPlayer(f("&eServer is not finished initializing. Please wait!"));
-            return;
-        }
 
         try {
             np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
         }
-        catch (Exception e) {
+        catch (Exception ex) {
             np = new NetworkPlayer().createFromPlayer(p);
             create = true;
-        }
-
-        if (np.isBanned()) {
-            Punishment ban = Punishment.getActivePunishment(np, Punishment.PunishmentType.BAN);
-            Map<String, Object> map = MapFormatters.punishmentFormatter(np.getPlayer(), ban);
-
-            if (ban.isPermanent())
-                p.kickPlayer(f(String.join("\n", unescape(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_PLAYER_MESSAGE_PERMANENT, map)))));
-            else
-                p.kickPlayer(f(String.join("\n", unescape(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_PLAYER_MESSAGE, map)))));
-
-            return;
         }
 
         // Update missing values
@@ -78,25 +62,6 @@ public class JoinEvent {
         np.setLastIP(p.getAddress() != null ? p.getAddress().getAddress().getHostAddress() : null);
         np.setOnline(true);
 
-        if (create) {
-            np.create();
-        }
-        else {
-            np.sync();
-        }
-
-        if (!np.isOnline()) {
-            Logger.severe("NetworkPlayer " + np.getUsername() + " is offline apparently but they just joined!?");
-            Logger.log(np.toString());
-
-            NetworkPlayer finalNp = np;
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    Logger.log("NetworkPlayer joined (after 10s): " + NetworkPlayer.getPlayerByUUID(finalNp.getUUID()).toString());
-                }
-            }.runTaskLater(plugin, 200L);
-        }
 
         // remove party expire if it exists
         PartyExpire expire = partyExpires.get(np.getUUID());
@@ -133,6 +98,13 @@ public class JoinEvent {
             }
 
             np.equipCosmetic(cosmetic);
+        }
+
+        if (create) {
+            np.create();
+        }
+        else {
+            np.sync();
         }
     }
 
