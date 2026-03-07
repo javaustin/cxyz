@@ -142,6 +142,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
 
    [➕] ADD/IMPLEMENT:
+   - we are in code cleanup mode
+
    - ✅ front end testing of all commands & tab completers (punishment downward)
 
    - document messages.yml with proper placeholder documentation (comments)
@@ -149,6 +151,10 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
 
    - CROSS SERVER TESTING!
+
+   - better debugger (make a list of things that need to get printed when a debugger is enabled) - eliminate bloat
+
+   - channel lock override permission
 
 
    [🔥] v1.1 UPDATE:

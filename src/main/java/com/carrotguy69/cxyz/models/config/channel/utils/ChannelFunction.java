@@ -7,5 +7,5 @@ public enum ChannelFunction {
     ANNOUNCEMENT,
     PUNISHMENT,
     XRAY,
-    ERRORS,
+    ERRORS
 }

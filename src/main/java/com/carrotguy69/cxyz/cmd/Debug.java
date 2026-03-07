@@ -16,17 +16,17 @@ import static com.carrotguy69.cxyz.CXYZ.*;
 public class Debug implements CommandExecutor {
 
     public enum DebugValue {
+        COSMETIC,
+        FRIEND_REQUEST,
+        GAME_STAT,
+        MAP,
         MESSAGE_PARSER,
-        REQUESTS,
-        SHORTHAND_COMMANDS,
-        PUNISHMENT,
-        USER,
         PARTY,
         PLAYER_MESSAGE,
-        FRIEND_REQUEST,
-        COSMETIC,
-        MAP,
-        GAME_STAT
+        PUNISHMENT,
+        REQUESTS,
+        SHORTHAND_COMMANDS,
+        USER
     }
 
     @Override
@@ -34,7 +34,7 @@ public class Debug implements CommandExecutor {
 
         /*
         SYNTAX:
-            /debug <message_parser | failed_requests | all_requests | shorthand_commands | punishment | user | party | player_message | friend_request>
+            /debug <cosmetic | friend_request | game_stat | map | message_parser | party | player_message | punishment | requests | shorthand_commands | user>
             /debug message_parser
             /debug
         */
