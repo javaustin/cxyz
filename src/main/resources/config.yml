@@ -25,7 +25,7 @@ this-server: HUB-1
 # ============================================================
 # Port used by this plugin to receive HTTP requests from other servers.
 #
-# IMPORTANT:
+# NOTE:
 # - This is NOT your Minecraft server port (usually 25565)
 # - Choose an unused port between 49152–65535
 # - This port is only used for internal server communication
@@ -149,7 +149,7 @@ ranks:
 # Permissions required to use a channel:
 #   cxyz.chat.{channel}
 #
-# Important rules:
+# NOTE:
 # - Channel names must be unique
 # - Channel names are NOT case-sensitive
 # - Do NOT reuse trigger-prefix values
