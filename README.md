@@ -2,7 +2,7 @@
   
 Named after my abbreviated Minecraft server IP (cerrot.xyz), this is a core plugin that provides all non-negotiable features for any serious [Bukkit](https://dev.bukkit.org/) or [Spigot](https://hub.spigotmc.org) based server. Rather than weakly stitching together features from various plugins, allow CXYZ to authoritively handle chat, ranks, parties, custom commands, moderation, and cosmetics across multiple servers.
   
-This plugin is built to integrate with an external API [(see here)](https://github.com/javaustin/cxyz/edit/main/README.md#%EF%B8%8F-important-notes) because many of its systems are network-wide by nature, not tied to a single server instance. Using an API allows the plugin to remain fast, consistent, and scalable without sacrificing simplicity.
+This plugin is built to integrate with an external API [(see here)](https://github.com/javaustin/cxyz/main/README.md#%EF%B8%8F-important-notes) because many of its systems are network-wide by nature, not tied to a single server instance. Using an API allows the plugin to remain fast, consistent, and scalable without sacrificing simplicity.
 <br></br>
 #### ⚠️ Important Notes
 - This plugin is meant to work with a custom API and database setup. Please refer to my [cxyzAPI](https://github.com/javaustin/cxyzAPI) project.
