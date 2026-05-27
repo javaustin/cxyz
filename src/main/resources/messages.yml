@@ -234,7 +234,10 @@ commands:
     [&fOwned Cosmetics:&7 {player-owned-cosmetics-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/cosmetic list owned 1 {player})
     [&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/cosmetic list equipped 1 {player})
     [&fIgnored Channels:&7 {player-ignored-channels-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/channel ignore)
-    
+
+  location:
+    short: "&7{x}, {y}, {z}"
+    long: "&7{world: {world}, x: {block_x}, y: {block_y}, z: {block_z}, yaw: {yaw}, pitch: {pitch}}"
 
   message: # All except channel-changed and reply-fail should user MF.playerSender. + add content
     fail: "&cYou cannot message this player!"

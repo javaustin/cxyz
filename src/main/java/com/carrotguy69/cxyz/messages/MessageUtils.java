@@ -231,4 +231,10 @@ public class MessageUtils {
             MessageUtils.sendParsedMessageMain(Bukkit.getConsoleSender(), content, formatMap);
     }
 
+    public static TextComponent createMessage(String unparsedContent, Map<String, Object> map) {
+        MessageParser parser = new MessageParser(unparsedContent, map);
+        List<SimpleTextComponent> components = parser.parse();
+        return parser.toTextComponent(components);
+    }
+
 }

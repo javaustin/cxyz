@@ -55,7 +55,7 @@ public class Show implements CommandExecutor {
         NetworkPlayer np = NetworkPlayer.getPlayerByUsername(args[0]);
 
         if (np == null) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of());
+            MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", args[0]));
             return true;
         }
 

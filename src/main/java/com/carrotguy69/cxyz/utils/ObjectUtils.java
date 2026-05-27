@@ -1,7 +1,6 @@
 package com.carrotguy69.cxyz.utils;
 
 import com.google.common.collect.Multimap;
-import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -65,18 +64,7 @@ public class ObjectUtils {
         return list.toArray(array);
     }
 
-    public static String formatPlaceHolders(String template, Map<String, Object> values) {
-        for (Map.Entry<String, Object> entry : values.entrySet()) {
-            String value = entry.getValue() != null ? String.valueOf(entry.getValue()) : "";
-
-            template = template.replace("{" + entry.getKey() + "}", value);
-        }
-
-        return ChatColor.translateAlternateColorCodes('&', template);
-    }
-
     public static <K, V> boolean removeFromMultimap(Multimap<K, V> map, K key, V value) {
-
         if (!map.containsKey(key))
             return false;
 
@@ -126,6 +114,58 @@ public class ObjectUtils {
         }
 
         return reversedMap;
+    }
+
+    public static <T extends Number> T parseAs(Class<T> clazz, String input) {
+         if (clazz == null) {
+             throw new IllegalArgumentException("Class cannot be null");
+         }
+
+         if (input == null) {
+             throw new IllegalArgumentException("Input cannot be null");
+         }
+
+         String value = input.trim();
+
+         try {
+             if (clazz == Integer.class) {
+                 return (T) Integer.valueOf(value);
+             }
+
+             if (clazz == Long.class) {
+                 return (T) Long.valueOf(value);
+             }
+
+             if (clazz == Double.class) {
+                 return (T) Double.valueOf(value);
+             }
+
+             if (clazz == Float.class) {
+                 return (T) Float.valueOf(value);
+             }
+
+             if (clazz == Short.class) {
+                 return (T) Short.valueOf(value);
+             }
+
+             if (clazz == Byte.class) {
+                 return (T) Byte.valueOf(value);
+             }
+         }
+         catch (NumberFormatException ex) {
+             throw new IllegalArgumentException("Invalid number: '" + input + "'", ex);
+         }
+
+         throw new IllegalArgumentException("Unsupported number type: " + clazz.getName());
+    }
+
+    public static boolean isValidNumber(String input) {
+        try {
+            return parseAs(Double.class, input) != null;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
 }

@@ -55,6 +55,12 @@ commands:
     permission: "cxyz.level"
     aliases: [lvl]
 
+  location:
+    description: Display a players location
+    usage: /location [player]
+    permission: "cxyz.location"
+    aliases: [loc]
+
   reply:
     description: Reply to a message from a player on the network
     usage: /reply [content]

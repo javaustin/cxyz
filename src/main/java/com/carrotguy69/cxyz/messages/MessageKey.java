@@ -236,6 +236,12 @@ public enum MessageKey {
     LEVEL_VIEW("commands.level.view"),
 
     // =========================
+    // Commands - Location
+    // =========================
+    LOCATION_SHORT("commands.location.short"),
+    LOCATION_LONG("commands.location.long"),
+
+    // =========================
     // Commands - Parse
     // =========================
     PARSE_ERROR("commands.parse.error"),

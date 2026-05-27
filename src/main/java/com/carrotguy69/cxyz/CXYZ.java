@@ -135,16 +135,16 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static Random random = new Random();
 
 
-/*
+    /*
 
    [❌] ISSUES:
    - Ensure /debug, /port actually changes and saves config values
 
 
    [➕] ADD/IMPLEMENT:
-   - we are in code cleanup mode
+   - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
 
-   - ✅ front end testing of all commands & tab completers (punishment downward)
+   - add utility to locationFormatter to have a rounded yaw/pitch (rounded to every 45 degrees)
 
    - document messages.yml with proper placeholder documentation (comments)
 

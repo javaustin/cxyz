@@ -1,6 +1,7 @@
 package com.carrotguy69.cxyz.other;
 
 import com.carrotguy69.cxyz.cmd.Debug;
+import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import com.carrotguy69.cxyz.webhook.DiscordWebhook;
@@ -80,7 +81,7 @@ public class Logger {
 
         if (url != null && !url.isEmpty()) {
             new DiscordWebhook().setURL(url).setContent(
-                    ObjectUtils.formatPlaceHolders(content, Map.of("prefix", channel.getPrefix()))
+                    MessageUtils.formatPlaceholders(content, Map.of("prefix", channel.getPrefix()))
             ).send();
         }
     }

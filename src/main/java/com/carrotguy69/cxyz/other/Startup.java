@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.other;
 import com.carrotguy69.cxyz.cmd.*;
 import com.carrotguy69.cxyz.cmd.Debug;
 import com.carrotguy69.cxyz.cmd.Info;
+import com.carrotguy69.cxyz.cmd.Location;
 import com.carrotguy69.cxyz.cmd.Print;
 import com.carrotguy69.cxyz.cmd.coins._CoinsExecutor;
 import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
@@ -110,6 +111,8 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("xp")).setExecutor(new _XPExecutor());
             Objects.requireNonNull(plugin.getCommand("xp")).setTabCompleter(new CoinsXPLevel());
 
+            Objects.requireNonNull(plugin.getCommand("location")).setExecutor(new Location());
+            Objects.requireNonNull(plugin.getCommand("location")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Location());
 
         // GENERAL //
             Objects.requireNonNull(plugin.getCommand("cosmetic")).setExecutor(new _CosmeticExecutor());

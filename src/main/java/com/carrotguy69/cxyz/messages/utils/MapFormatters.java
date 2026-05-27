@@ -10,6 +10,7 @@ import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -105,7 +106,97 @@ public class MapFormatters {
 
             return String.join(delimiter, entries.subList(startIndex, endIndex + 1));
         }
+    }
 
+    public static class NumberedListFormatter {
+        private final Map<String, Object> map;
+        private final List<String> entries;
+        private final String delimiter;
+        private final int maxEntriesPerPage;
+
+        public NumberedListFormatter(List<String> entries, String delimiter, Map<String, Object> map, int maxEntriesPerPage) {
+            this.entries = entries;
+            this.delimiter = delimiter;
+            this.map = map;
+            this.maxEntriesPerPage = maxEntriesPerPage <= 0 ? 100 : maxEntriesPerPage;
+
+            Logger.debugMessage(this.toString());
+        }
+
+        public Map<String, Object> getFormatMap() {
+            return map;
+        }
+
+        public String getDelimiter() {
+            return this.delimiter;
+        }
+
+        public List<String> getEntries() {
+            return this.entries;
+        }
+
+        private String getNumberedDelimiter(int n) {
+            return delimiter.replace("{n}", String.valueOf(n));
+        }
+
+        private String getRange(int start, int end) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = start; i <= end; i++) {
+                sb.append(getNumberedDelimiter(i + 1)).append(entries.get(i));
+            }
+
+            return sb.toString();
+        }
+
+        public String getText() {
+            return getRange(0, entries.size() - 1);
+        }
+
+        public int getMaxPages() {
+            return Math.max(1, (int) Math.ceil(entries.size() / (double) maxEntriesPerPage));
+        }
+
+
+        @Override
+        public String toString() {
+            Logger.debugMap("NumberedListFormatter map: " + map.toString());
+            return String.format("NumberedListFormatter{map(size)=%d, entries=%s, delimiter=%s, maxEntriesPerPage=%d, page=%d}", map.size(), entries, delimiter, maxEntriesPerPage);
+        }
+
+        public String generatePage(int pageNumber) {
+            /*
+
+            [!] Using 1-based indexing instead of 0-based (page numbers start at 1 instead of 0)
+
+            ex:
+            let n = 21 (total entries)
+            let m = 5 (max entries per page)
+            let p = specified page number
+
+            so:
+            1 -> [0, 4]
+            2 -> [5, 9]
+            3 -> [10, 14]
+            4 -> [15, 19]
+            5 -> [20, 20] (1 entry leftover)
+
+            for each page:
+                start: (p - 1) * m
+                end: min((p * m) - 1, n -1)
+
+            available pages: ceil(double n / double m) -> ceil(21 / 5) -> ceil(4.1) -> 5
+            full page available if: available pages > p
+            half page available if: available pages == p
+            no page if: available pages < p
+            */
+
+            int size = entries.size();
+
+            int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
+            int endIndex = Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);
+
+            return getRange(startIndex, endIndex);
+        }
     }
 
 
@@ -695,6 +786,22 @@ public class MapFormatters {
         commonMap.put("rank-hierarchy", rank.getHierarchy());
         commonMap.put("rank-chat-color", rank.getDefaultChatColor());
         commonMap.put("rank-chat-cooldown", rank.getChatCooldown());
+
+        return commonMap;
+    }
+
+    public static Map<String, Object> locationFormatter(Location loc) {
+        Map<String, Object> commonMap = new HashMap<>();
+
+        commonMap.put("world", loc.getWorld().getName());
+        commonMap.put("x", loc.getX());
+        commonMap.put("y", loc.getY());
+        commonMap.put("z", loc.getZ());
+        commonMap.put("yaw", loc.getYaw());
+        commonMap.put("pitch", loc.getPitch());
+        commonMap.put("block_x", loc.getBlockX());
+        commonMap.put("block_y", loc.getBlockY());
+        commonMap.put("block_z", loc.getBlockZ());
 
         return commonMap;
     }

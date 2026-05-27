@@ -6,6 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 
@@ -52,7 +53,7 @@ public class PlayerRank {
                 }
             }
 
-            Logger.info("Loaded the following ranks from config.yml: " + results.stream().map(PlayerRank::getName));
+            Logger.info("Loaded the following ranks from config.yml: " + results.stream().map(PlayerRank::getName).collect(Collectors.toList()));
         }
 
         if (results.isEmpty()) {
