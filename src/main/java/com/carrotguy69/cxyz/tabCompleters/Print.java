@@ -25,26 +25,31 @@ public class Print implements TabCompleter {
             return List.of();
         }
 
-        List<String> options = Arrays.asList("users", "parties", "partyinvites", "partyexpires", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml", "chatfilter", "colors", "servers", "gameservers", "stats", "gamestats");
+        final List<String> EMPTY = new ArrayList<>();
 
-        options.sort(String.CASE_INSENSITIVE_ORDER);
+        List<String> results = EMPTY;
+        List<String> options = Arrays.asList("users", "parties", "partyinvites", "partyexpires", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml", "chatfilter", "colors", "servers", "gameservers", "stats", "gamestats");;
 
         if (args.length == 0) {
             return options;
         }
 
         if (args.length == 1) {
-            List<String> results = new ArrayList<>();
-
-            for (String s : options) {
-                if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
-                    results.add(s);
-                }
-            }
-
-            return results;
+            options = Arrays.asList("users", "parties", "partyinvites", "partyexpires", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml", "chatfilter", "colors", "servers", "gameservers", "stats", "gamestats");
         }
 
-        return List.of();
+        if (args.length == 2)
+            if (args[0].toLowerCase().startsWith("user"))
+                options = AnyPlayer.getAllUsernames();
+
+
+        options.sort(String.CASE_INSENSITIVE_ORDER);
+        for (String s : options) {
+            if (s.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+                results.add(s);
+            }
+        }
+
+        return results;
     }
 }

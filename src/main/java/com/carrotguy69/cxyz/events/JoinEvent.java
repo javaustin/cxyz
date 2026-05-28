@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.events;
 
+import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
@@ -97,7 +98,8 @@ public class JoinEvent {
                 continue;
             }
 
-            np.equipCosmetic(cosmetic);
+            ActiveCosmetic ac = new ActiveCosmetic(cosmetic, np);
+            ac.equip();
         }
 
         if (create) {

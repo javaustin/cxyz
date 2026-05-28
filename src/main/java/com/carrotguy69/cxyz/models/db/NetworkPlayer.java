@@ -443,29 +443,29 @@ public class NetworkPlayer {
     public void addToIgnoreList(NetworkPlayer np) {
         String uuid = np.getUUID().toString();
 
-        List<String> list = JsonConverters.toList(this.ignore_list);
+        List<String> ignoreList = JsonConverters.toList(this.ignore_list);
 
-        list.add(uuid);
+        ignoreList.add(uuid);
 
-        this.ignore_list = gson.toJson(list);
+        this.ignore_list = gson.toJson(ignoreList);
     }
 
     public void removeFromIgnoreList(NetworkPlayer np) {
         String uuid = np.getUUID().toString();
 
-        List<String> list = JsonConverters.toList(this.ignore_list);
+        List<String> ignoreList = JsonConverters.toList(this.ignore_list);
 
-        list.remove(uuid);
+        ignoreList.remove(uuid);
 
-        this.ignore_list = gson.toJson(list);
+        this.ignore_list = gson.toJson(ignoreList);
     }
 
     public boolean isIgnoring(NetworkPlayer np) {
         String uuid = np.getUUID().toString();
 
-        List<String> list = JsonConverters.toList(this.ignore_list);
+        List<String> ignoreList = JsonConverters.toList(this.ignore_list);
 
-        return list.contains(uuid);
+        return ignoreList.contains(uuid);
     }
 
 
@@ -575,8 +575,6 @@ public class NetworkPlayer {
     public void setChatTag(String chatTag) {
         this.chat_tag = chatTag;
     }
-
-
 
 
     public List<NetworkPlayer> getFriends() {
@@ -698,18 +696,15 @@ public class NetworkPlayer {
     }
 
     public void equipCosmetic(Cosmetic cosmetic) {
-        // Functionally different from addEquippedCosmetic(); This function physically creates and runs the equipActions with the current NetworkPlayer.
+        // Updates player data, creates an ActiveCosmetic, runs the equipActions with respect to the current NetworkPlayer.
 
         List<String> list = JsonConverters.toList(this.equipped_cosmetics);
+
+        Logger.debugCosmetic(String.format("size of equipped_cosmetics for %s: %d", this.getDisplayName(), list.size()));
 
         list.add(cosmetic.getId());
 
         this.equipped_cosmetics = gson.toJson(list);
-
-
-        ActiveCosmetic ac = new ActiveCosmetic(cosmetic, this);
-        ac.equip();
-
     }
 
     public void unEquipCosmeticOfType(Cosmetic.CosmeticType type) {
@@ -724,7 +719,8 @@ public class NetworkPlayer {
         // For database consistency
         List<String> list = JsonConverters.toList(this.equipped_cosmetics);
 
-        list.remove(cosmetic.getId());
+        while (list.contains(cosmetic.getId()))
+            list.remove(cosmetic.getId());
 
         this.equipped_cosmetics = gson.toJson(list);
 
@@ -747,8 +743,6 @@ public class NetworkPlayer {
     }
 
     public void unEquipActiveCosmetics() {
-
-
         List<ActiveCosmetic> activeCosmetics = ActiveCosmetic.activeCosmeticMap.get(this.getUUID());
 
         List<ActiveCosmetic> toRemove = new ArrayList<>();

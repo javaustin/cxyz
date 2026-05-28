@@ -43,6 +43,7 @@ public class Port implements CommandExecutor {
 
             configYaml.set("port", newValue);
             plugin.saveConfig();
+            plugin.reloadConfig();
 
             thisPort = newValue;
 

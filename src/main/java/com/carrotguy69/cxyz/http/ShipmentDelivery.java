@@ -6,7 +6,6 @@ import com.carrotguy69.cxyz.other.Tasks;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.annotations.SerializedName;
-import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -131,16 +130,6 @@ public class ShipmentDelivery {
                 Logger.debugUser("[+] Added an entry to users. " + np);
                 users.put(np.getUUID(), np);
             }
-
-
-            Player p = np.getPlayer();
-            if (p != null && p.isOnline() && !np.isOnline()) {
-                Logger.warning(String.format("This NetworkPlayer delivery seems to have outdated data. The Bukkit player is online but the NetworkPlayer is listed as not. NetworkPlayer: %s. Player: %s", np, p));
-
-                Logger.log(p.toString());
-                Logger.log(np.toString());
-            }
-
         }
 
     }

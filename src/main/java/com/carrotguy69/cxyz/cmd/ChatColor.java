@@ -69,7 +69,7 @@ public class ChatColor implements CommandExecutor {
             return true;
         }
 
-        Color color = getColor(args[0]);
+        Color color = getColorValue(args[0]);
 
         if (color == null) {
             np.setChatColor("");
@@ -100,7 +100,7 @@ public class ChatColor implements CommandExecutor {
         return true;
     }
 
-    public static Color getColor(String input) {
+    public static Color getColorValue(String input) {
         if (input.equalsIgnoreCase("reset") || input.equalsIgnoreCase("none")) {
             return null;
         }

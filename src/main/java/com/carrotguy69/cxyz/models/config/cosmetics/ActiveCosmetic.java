@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static com.carrotguy69.cxyz.cmd.ChatColor.getColor;
+import static com.carrotguy69.cxyz.cmd.ChatColor.getColorValue;
 
 public class ActiveCosmetic extends Cosmetic {
 
@@ -84,7 +84,6 @@ public class ActiveCosmetic extends Cosmetic {
 
     public void equip() {
 
-
         activeCosmeticMap.computeIfAbsent(this.player.getUUID(), k -> new ArrayList<>()).add(this);
         originalCosmetic.getEquipAction().accept(this);
 
@@ -101,12 +100,12 @@ public class ActiveCosmetic extends Cosmetic {
 
                 // So to work around this issue, we use the color map as defined in config.yml. Its keys are the registered names of the colors (e.g. 'blue', 'dark_red'), and the values are the corresponding color codes.
                 // This map also supports custom colors to be integrated with the plugin, so you can define 'fancy_purple' and map that value to '&x&a&b&6&5&c&e'.
-                // Then you can look up colors by that custom name, an extension of already existing legacy colors.
+                // Then you can look up colors by that custom name, effectively creating an extension of already existing legacy colors.
 
-                String value = this.getDisplay().strip();
+                String display = this.getDisplay().strip();
 
 
-                ChatColor.Color color = getColor(value);
+                ChatColor.Color color = getColorValue(display);
 
                 if (color == null) {
                     this.player.setChatColor("");

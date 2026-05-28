@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.cmd;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.messages.MessageKey;
@@ -13,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 
@@ -42,7 +44,23 @@ public class Print implements CommandExecutor {
             switch (args[0].toLowerCase()) {
                 case "users":
                 case "user":
-                    Logger.info(users.toString());
+
+                    if (args.length >= 2) {
+                        NetworkPlayer np = NetworkPlayer.getPlayerByUsername(args[1]);
+                        if (np == null) {
+                            try {
+                                np = NetworkPlayer.getPlayerByUUID(UUID.fromString(args[1]));
+                            }
+                            catch (RuntimeException ignore) {
+                            }
+                        }
+                        if (np != null) {
+                            Logger.info(np.toString());
+                        }
+                    }
+                    else
+                        Logger.info(users.toString());
+
                     return true;
                 case "party":
                 case "parties":

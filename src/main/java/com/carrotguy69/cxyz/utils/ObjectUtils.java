@@ -128,6 +128,7 @@ public class ObjectUtils {
          String value = input.trim();
 
          try {
+
              if (clazz == Integer.class) {
                  return (T) Integer.valueOf(value);
              }
@@ -166,6 +167,36 @@ public class ObjectUtils {
         catch (Exception e) {
             return false;
         }
+    }
+
+    public static float roundAngle(float input, float nearestDegreeInterval) {
+        if (nearestDegreeInterval <= 0) {
+            throw new IllegalArgumentException("Argument nearestDegreeInterval must be greater than 0.");
+        }
+
+        int numOfPoints = (int) (360 / nearestDegreeInterval);
+
+        float[] points = new float[numOfPoints];
+
+        for (int i = 0; i < numOfPoints; i++) {
+            points[i] = i * nearestDegreeInterval;
+        }
+
+        return findNearestPoint(input, points);
+    }
+
+    public static float findNearestPoint(float input, float[] options) {
+        float nearest = 0F;
+
+        for (float option : options) {
+            float distance = Math.abs(option - input);
+
+            if (distance < Math.abs(nearest - input)) {
+                nearest = option;
+            }
+        }
+
+        return nearest;
     }
 
 }

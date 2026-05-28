@@ -40,7 +40,6 @@ public class Location implements CommandExecutor {
 
         if (args.length == 0 || !sender.hasPermission(node2)) {
             p = (Player) sender;
-            return true;
         }
 
         else {

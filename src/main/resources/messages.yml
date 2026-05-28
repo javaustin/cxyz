@@ -236,8 +236,8 @@ commands:
     [&fIgnored Channels:&7 {player-ignored-channels-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/channel ignore)
 
   location:
-    short: "&7{x}, {y}, {z}"
-    long: "&7{world: {world}, x: {block_x}, y: {block_y}, z: {block_z}, yaw: {yaw}, pitch: {pitch}}"
+    short: "&fYour location: &7{block_x}, {block_y}, {block_z}"
+    long: "&fYour location: &7{world: {world}, x: {block_x}, y: {block_y}, z: {block_z}, yaw: {rounded_yaw}, pitch: {rounded_pitch}}"
 
   message: # All except channel-changed and reply-fail should user MF.playerSender. + add content
     fail: "&cYou cannot message this player!"

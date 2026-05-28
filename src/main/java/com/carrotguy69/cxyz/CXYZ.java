@@ -138,13 +138,11 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     /*
 
    [❌] ISSUES:
-   - Ensure /debug, /port actually changes and saves config values
+   - (resolved) FATAL equipped_cosmetics bug (we should NOT be able to have two of the same cosmetics equipped at once) {having a hard time recreating it, not sure the context}
 
 
    [➕] ADD/IMPLEMENT:
    - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
-
-   - add utility to locationFormatter to have a rounded yaw/pitch (rounded to every 45 degrees)
 
    - document messages.yml with proper placeholder documentation (comments)
 
@@ -189,7 +187,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - Levelup: Add a player level up message (and play the sound)
    - Events other plugins can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
 
-   [⚠️] NON REPLICABLE ISSUES
+   [⚠️] NON REPLICABLE (or hard to replicate) ISSUES
    - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
    - why does "&d[phat]" have a formatter color code character before f() is applied?
    - it may be possible for two of the same cosmetics to be equipped (my equip list had two rainbow armors and i ran /unequip twice)

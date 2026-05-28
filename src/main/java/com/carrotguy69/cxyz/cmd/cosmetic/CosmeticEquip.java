@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.cmd.cosmetic;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
@@ -87,6 +88,8 @@ public class CosmeticEquip implements CommandExecutor {
         }
 
         np.equipCosmetic(cosmetic);
+        ActiveCosmetic ac = new ActiveCosmetic(cosmetic, np);
+        ac.equip();
         np.sync();
 
         MessageUtils.sendParsedMessage(p, MessageKey.COSMETIC_EQUIP_SUCCESS, commonMap);

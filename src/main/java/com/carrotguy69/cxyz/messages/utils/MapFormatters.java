@@ -21,7 +21,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
-import static com.carrotguy69.cxyz.cmd.ChatColor.getColor;
+import static com.carrotguy69.cxyz.cmd.ChatColor.getColorValue;
+import static com.carrotguy69.cxyz.utils.ObjectUtils.roundAngle;
 import static com.carrotguy69.cxyz.utils.TimeUtils.*;
 
 public class MapFormatters {
@@ -710,7 +711,7 @@ public class MapFormatters {
         if (cosmetic.getType().equals(Cosmetic.CosmeticType.CHAT_COLOR)) {
             String value = cosmetic.getDisplay().strip();
 
-            com.carrotguy69.cxyz.cmd.ChatColor.Color color = getColor(value);
+            com.carrotguy69.cxyz.cmd.ChatColor.Color color = getColorValue(value);
 
             if (color == null) {
                 color = new com.carrotguy69.cxyz.cmd.ChatColor.Color("reset", "&r");
@@ -799,6 +800,8 @@ public class MapFormatters {
         commonMap.put("z", loc.getZ());
         commonMap.put("yaw", loc.getYaw());
         commonMap.put("pitch", loc.getPitch());
+        commonMap.put("rounded_yaw", roundAngle(loc.getYaw(), 45F));
+        commonMap.put("rounded_pitch", roundAngle(loc.getPitch(), 45F));
         commonMap.put("block_x", loc.getBlockX());
         commonMap.put("block_y", loc.getBlockY());
         commonMap.put("block_z", loc.getBlockZ());

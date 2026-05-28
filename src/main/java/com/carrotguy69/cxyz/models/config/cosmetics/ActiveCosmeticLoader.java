@@ -34,54 +34,54 @@ public class ActiveCosmeticLoader {
 
         /*
 
-        Cosmetic exampleCosmetic = Cosmetic.getCosmetic("example-cosmetic-id");
+            Cosmetic exampleCosmetic = Cosmetic.getCosmetic("example-cosmetic-id");
 
-        // Setting equip/unequip actions
-        exampleCosmetic.setEquipAction(activeCosmetic -> {
-            // For this example we will give the player a diamond
+            // Setting equip/unequip actions
+            exampleCosmetic.setEquipAction(activeCosmetic -> {
+                // For this example we will give the player a diamond
 
-            Player p = activeCosmetic.getNetworkPlayer().getPlayer();
+                Player p = activeCosmetic.getNetworkPlayer().getPlayer();
 
-            p.getInventory().addItem(new ItemStack(Material.DIAMOND, 1));
-        });
+                p.getInventory().addItem(new ItemStack(Material.DIAMOND, 1));
+            });
 
-        exampleCosmetic.setUnequipAction(activeCosmetic -> {
-            // Take the diamond away
+            exampleCosmetic.setUnequipAction(activeCosmetic -> {
+                // Take the diamond away
 
-            Player p = activeCosmetic.getNetworkPlayer().getPlayer();
+                Player p = activeCosmetic.getNetworkPlayer().getPlayer();
 
-            for (int i = 0; i < p.getInventory().getSize(); i++) {
-                ItemStack is = p.getInventory().getItem(i);
+                for (int i = 0; i < p.getInventory().getSize(); i++) {
+                    ItemStack is = p.getInventory().getItem(i);
 
-                if (is != null && is.getType() == Material.DIAMOND) {
-                    p.getInventory().setItem(i, null);
+                    if (is != null && is.getType() == Material.DIAMOND) {
+                        p.getInventory().setItem(i, null);
+                    }
+                }
+
+            });
+
+            // Implement custom listeners
+            rainbowArmor.on(PlayerDropItemEvent.class, ((event, ac) -> {
+                // We will cancel the player from dropping the diamond
+
+                ItemStack itemStack = event.getItemDrop().getItemStack();
+
+                if (itemStack.getType() == Material.DIAMOND) {
+                    event.setCancelled(true);
+                }
+            }));
+
+            // Ensure for any custom listener, that the event listener of that class is registered, and the execution is handled.
+
+            // In Main.java
+            @EventHandler
+            public void onPlayerDropItem(PlayerDropItemEvent event) {
+                List<ActiveCosmetic> activeCosmetics = ActiveCosmetic.activeCosmeticMap.get(event.getPlayer().getUniqueId());
+
+                for (ActiveCosmetic ac : activeCosmetics) {
+                    ac.handleEvent(event);
                 }
             }
-
-        });
-
-        // Implement custom listeners
-        rainbowArmor.on(PlayerDropItemEvent.class, ((event, ac) -> {
-            // We will cancel the player from dropping the diamond
-
-            ItemStack itemStack = event.getItemDrop().getItemStack();
-
-            if (itemStack.getType() == Material.DIAMOND) {
-                event.setCancelled(true);
-            }
-        }));
-
-        // Ensure for any custom listener, that the event listener of that class is registered, and the execution is handled.
-
-        // In Main.java
-        @EventHandler
-        public void onPlayerDropItem(PlayerDropItemEvent event) {
-            List<ActiveCosmetic> activeCosmetics = ActiveCosmetic.activeCosmeticMap.get(event.getPlayer().getUniqueId());
-
-            for (ActiveCosmetic ac : activeCosmetics) {
-                ac.handleEvent(event);
-            }
-        }
 
 
          */
