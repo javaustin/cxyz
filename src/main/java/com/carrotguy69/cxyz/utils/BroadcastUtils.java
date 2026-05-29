@@ -5,12 +5,14 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+import static com.carrotguy69.cxyz.CXYZ.f;
+
 public class BroadcastUtils {
     public static void sendTitle(List<Player> players, String title, String subtitle, int fadeInTicks, int stayTicks, int fadeOutTicks) {
         for (Player p : players) {
             p.sendTitle(
-                    title,
-                    subtitle,
+                    f(title),
+                    f(subtitle),
                     fadeInTicks,
                     stayTicks,
                     fadeOutTicks

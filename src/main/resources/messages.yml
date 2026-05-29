@@ -237,7 +237,7 @@ commands:
 
   location:
     short: "&fYour location: &7{block_x}, {block_y}, {block_z}"
-    long: "&fYour location: &7{world: {world}, x: {block_x}, y: {block_y}, z: {block_z}, yaw: {rounded_yaw}, pitch: {rounded_pitch}}"
+    long: "&fYour location: &7{world: \"{world}\", x: {block_x}, y: {block_y}, z: {block_z}, yaw: {rounded_yaw}, pitch: {rounded_pitch}}"
 
   message: # All except channel-changed and reply-fail should user MF.playerSender. + add content
     fail: "&cYou cannot message this player!"

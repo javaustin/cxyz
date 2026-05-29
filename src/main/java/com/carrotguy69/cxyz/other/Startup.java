@@ -36,7 +36,6 @@ import com.carrotguy69.cxyz.tabCompleters.*;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
-import java.net.BindException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,19 +54,7 @@ public class Startup {
     }
 
     public static void startEndpoints() throws IOException {
-        try {
-            listener = new Listener(thisPort);
-        }
-        catch (IOException ex) {
-
-            if (ex instanceof BindException) {
-                Logger.severe("BindException, HTTP endpoint not registered! Use /port to set a new port and then restart this plugin!");
-            }
-            else {
-                Logger.logStackTrace(ex);
-            }
-            throw new RuntimeException();
-        }
+        listener = new Listener(thisPort);
     }
 
     public static void registerCommands() {

@@ -9,6 +9,7 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -98,7 +99,7 @@ public class PublicChannel extends CoreChannel {
 
         lastMessage.put(np.getUUID(), TimeUtils.unixTimeNow());
 
-
+        TextComponent component = MessageUtils.createMessage(this.getChatFormat(), commonMap);
         for (Player pl : Bukkit.getOnlinePlayers()) {
 
             NetworkPlayer n = NetworkPlayer.getPlayerByUUID(pl.getUniqueId());
@@ -107,7 +108,7 @@ public class PublicChannel extends CoreChannel {
                 continue;
             }
 
-            MessageUtils.sendParsedMessage(pl, this.getChatFormat(), commonMap);
+            pl.spigot().sendMessage(component);
         }
 
     }

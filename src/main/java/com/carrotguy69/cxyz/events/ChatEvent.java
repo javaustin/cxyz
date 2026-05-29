@@ -9,7 +9,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class ChatEvent {
 
     public static void handleChat(AsyncPlayerChatEvent e) {
-        // Mind e.getCancelled(bool) in this inner function. We don't want to cancel the event.
+        // Mind e.getCancelled() in this inner function. We don't want to cancel the event.
         // We'll want to refactor it and just set the message to blank, once we are done testing out channels.
 
         Player p = e.getPlayer();
@@ -25,7 +25,7 @@ public class ChatEvent {
             if (channel.getTriggerPrefix() != null && !channel.getTriggerPrefix().isBlank() && content.startsWith(channel.getTriggerPrefix()) && np.canAccessChannel(channel)) {
                 chatChannel = channel;
                 triggered = true;
-                content = content.substring(1, content.length() - 1);
+                content = content.substring(channel.getTriggerPrefix().length()).stripLeading();
                 // If the user's message starts with a trigger prefix.
             }
         }

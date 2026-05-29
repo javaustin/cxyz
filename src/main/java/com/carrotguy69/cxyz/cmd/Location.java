@@ -5,13 +5,13 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public class Location implements CommandExecutor {
@@ -27,11 +27,17 @@ public class Location implements CommandExecutor {
         }
 
         Player p = null;
-        boolean longFlag = String.join(" ", args).toLowerCase().contains("-l");
-        String s = "LONG";
-        if (longFlag) {
-            s = "SHORT";
+        boolean longFlag = false;
+
+        for (String arg : args) {
+            if (arg.equalsIgnoreCase("-l")) {
+                longFlag = true;
+                break;
+            }
         }
+
+        if (longFlag)
+            args = ObjectUtils.removeItem(args, "-l");
 
         if (args.length == 0 && !(sender instanceof Player)) {
             MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.MISSING_GENERAL), Map.of("missing-args", "player"));
@@ -47,7 +53,12 @@ public class Location implements CommandExecutor {
             if (np != null)
                 p = np.getPlayer();
 
-            else {
+            if (p == null && np != null) {
+                MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.PLAYER_IS_OFFLINE), MapFormatters.playerFormatter(np));
+                return true;
+            }
+
+            else if (np == null) {
                 MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.PLAYER_NOT_FOUND), Map.of("username", args[0]));
                 return true;
             }
@@ -57,7 +68,7 @@ public class Location implements CommandExecutor {
 
         MessageUtils.sendParsedMessage(
                 sender,
-                MessageGrabber.grab(MessageKey.valueOf("LOCATION_" + s)),
+                MessageGrabber.grab(MessageKey.valueOf("LOCATION_" + (longFlag ? "LONG" : "SHORT"))),
                 commonMap
         );
 

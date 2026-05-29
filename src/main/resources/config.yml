@@ -4,7 +4,6 @@
 # Settings used to connect this server to the central network API.
 
 api:
-
   identifier: "API" # Identifier used when this server authenticates with the API (case-sensitive)
   endpoint: http://localhost:5000 # Base URL of your backend API (e.g., http://localhost:5000).
   secret: "super-secret-key-1" # Your own secret key used to authenticate requests server to server. This value MUST match the key configured in the API.
@@ -27,7 +26,7 @@ this-server: HUB-1
 #
 # NOTE:
 # - This is NOT your Minecraft server port (usually 25565)
-# - Choose an unused port between 49152–65535
+# - I recommend an unused port between 49152–65535
 # - This port is only used for internal server communication
 this-port: 59152
 
@@ -44,7 +43,7 @@ this-port: 59152
 # configured on the destination server.
 servers:
   HUB-1:
-    ip-address: "http://localhost:59152" # The IP address the API will send requests back to
+    ip-address: "http://localhost:59152" # The IP address the API will send requests back to. Common format: {server-ip}:{this-port}
     secret: "super-secret-key-2" # The servers' secret key. This value must match the secret for the same server in the API config.json file.
 
 # NOTE: This plugin cannot alone send players to another server, you must have a proxy like BungeeCord, Velocity, set up.

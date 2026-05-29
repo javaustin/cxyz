@@ -146,7 +146,16 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    - document messages.yml with proper placeholder documentation (comments)
 
-   - Add QOL commands (fb, heal, fly, smite, repair, tpall, tpa, sudo, invsee, report)
+   - trigger prefix needs to be removed from the message
+
+   - Add /heal
+   - Add /back
+   - Add /fly
+   - Add /smite
+   - Add /repair
+   - Add /tpa system
+   - Add /sudo
+   - Add /invsee
 
    - CROSS SERVER TESTING!
 

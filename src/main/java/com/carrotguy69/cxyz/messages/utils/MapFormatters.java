@@ -450,6 +450,18 @@ public class MapFormatters {
         commonMap.put("player-muted-channels-list-size", 0);
         commonMap.put("player-ignored-channels-list-size", 0);
 
+        commonMap.put("player-world", "world");
+        commonMap.put("player-x", 0);
+        commonMap.put("player-y", 0);
+        commonMap.put("player-z", 0);
+        commonMap.put("player-yaw", 0);
+        commonMap.put("player-pitch", 0);
+        commonMap.put("player-rounded_yaw", 0);
+        commonMap.put("player-rounded_pitch", 0);
+        commonMap.put("player-block_x", 0);
+        commonMap.put("player-block_y", 0);
+        commonMap.put("player-block_z", 0);
+
         return commonMap;
     }
 
@@ -478,16 +490,26 @@ public class MapFormatters {
     }
 
     public static Map<String, Object> cloneFormaterToNewKey(Map<String, Object> originalMap, String fromKey, String toKey) {
-        // Clones the playerFormatter so it can use player objets in different use cases.
-        // e.g.: clonePlayerFormatter(playerFormatter(np), player, moderator) -> {player} will be {mod}
+        // Clones the playerFormatter so it can rename the player map keys for different use cases.
+        // e.g.: clonePlayerFormatter(playerFormatter(np), "player", "mod") -> {player} will be {mod}
 
         Map<String, Object> result = new HashMap<>();
 
-        for (Map.Entry<String, Object> entry : originalMap.entrySet()) {
-            String newKey = entry.getKey().replace(fromKey, toKey);
-            Object value = entry.getValue();
+        if (fromKey != null && !fromKey.isBlank()) {
+            for (Map.Entry<String, Object> entry : originalMap.entrySet()) {
+                String newKey = entry.getKey().replace(fromKey, toKey);
+                Object value = entry.getValue();
 
-            result.put(newKey, value);
+                result.put(newKey, value);
+            }
+        }
+        else {
+            for (Map.Entry<String, Object> entry : originalMap.entrySet()) {
+                String newKey = toKey + entry.getKey();
+                Object value = entry.getValue();
+
+                result.put(newKey, value);
+            }
         }
 
         return result;
@@ -520,11 +542,11 @@ public class MapFormatters {
 
         commonMap.put("player-custom-rankplate", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : "");
         commonMap.put("player-custom-rankplate-display", player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : "");
-        commonMap.put("player-custom-rankplate-lore", ""); // keep this - this is fulfilled later
+        commonMap.put("player-custom-rankplate-lore", ""); // fulfilled later (if applicable)
 
         commonMap.put("player-tag", player.getChatTag() != null && !player.getChatTag().isBlank() ? player.getChatTag() : "");
         commonMap.put("player-tag-display", player.getChatTag() != null && !player.getChatTag().isBlank() ? player.getChatTag() : "None");
-        commonMap.put("player-tag-lore", ""); // i know what im doing
+        commonMap.put("player-tag-lore", ""); // fulfilled later (if applicable)
 
         commonMap.put("player-chat-color", player.getChatColor() != null && !player.getChatColor().isBlank() ? player.getChatColor() : player.getTopRank().getDefaultChatColor());
         commonMap.put("player-chat-color-name", player.getChatColor() != null && !player.getChatColor().isBlank() ? com.carrotguy69.cxyz.cmd.ChatColor.getColorNameByCode(player.getChatColor()) : com.carrotguy69.cxyz.cmd.ChatColor.getColorNameByCode(player.getTopRank().getDefaultChatColor()));
@@ -538,6 +560,11 @@ public class MapFormatters {
                 commonMap.put("player-tag-lore", player.getChatTag() != null && !player.getChatTag().isBlank() ? cosmetic.getLore() : "");
             }
         }
+
+        if (player.getPlayer() != null) {
+            cloneFormaterToNewKey(locationFormatter(player.getPlayer().getLocation()), "", "player-");
+        }
+
 
         commonMap.put("player-chat-channel", player.getChatChannel().getName());
         commonMap.put("player-chat-channel-prefix", player.getChatChannel().getPrefix());
