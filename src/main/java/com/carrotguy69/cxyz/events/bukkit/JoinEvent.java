@@ -1,11 +1,10 @@
-package com.carrotguy69.cxyz.events;
+package com.carrotguy69.cxyz.events.bukkit;
 
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.db.PartyExpire;
-import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.utils.TimeUtils;

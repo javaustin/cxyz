@@ -1,5 +1,7 @@
 package com.carrotguy69.cxyz.models.config.channel.coreChannels;
 
+import com.carrotguy69.cxyz.events.custom.PublicChatEvent;
+import com.carrotguy69.cxyz.events.custom.service.EventService;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
@@ -99,6 +101,18 @@ public class PublicChannel extends CoreChannel {
 
         lastMessage.put(np.getUUID(), TimeUtils.unixTimeNow());
 
+        // Send to the event service so it can handle it. If no handlers are present, the event service will call handlePublicChatFallback itself.
+        PublicChatEvent pce = new PublicChatEvent(np, content);
+        EventService.dispatch(pce);
+    }
+
+    public void handlePublicChatFallback(NetworkPlayer np, String content) {
+        Map<String, Object> commonMap = MapFormatters.channelFormatter(this);
+        commonMap.putAll(MapFormatters.playerFormatter(np));
+
+        commonMap.put("content", content);
+        commonMap.put("message", content);
+
         TextComponent component = MessageUtils.createMessage(this.getChatFormat(), commonMap);
         for (Player pl : Bukkit.getOnlinePlayers()) {
 
@@ -110,7 +124,6 @@ public class PublicChannel extends CoreChannel {
 
             pl.spigot().sendMessage(component);
         }
-
     }
 
     @Override

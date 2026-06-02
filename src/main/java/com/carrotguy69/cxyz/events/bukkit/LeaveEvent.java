@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.events;
+package com.carrotguy69.cxyz.events.bukkit;
 
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;

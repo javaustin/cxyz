@@ -1,12 +1,13 @@
-package com.carrotguy69.cxyz.events;
+package com.carrotguy69.cxyz.events.bukkit;
 
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 
 import java.util.List;
 
-public class InteractEvent {
-    public static void onInteract(PlayerInteractEvent event) {
+public class DropEvent {
+
+    public static void onDrop(PlayerDropItemEvent event) {
         List<ActiveCosmetic> activeCosmetics = ActiveCosmetic.activeCosmeticMap.get(event.getPlayer().getUniqueId());
 
         if (activeCosmetics == null) {

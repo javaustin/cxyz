@@ -161,7 +161,7 @@ public class MapFormatters {
         @Override
         public String toString() {
             Logger.debugMap("NumberedListFormatter map: " + map.toString());
-            return String.format("NumberedListFormatter{map(size)=%d, entries=%s, delimiter=%s, maxEntriesPerPage=%d, page=%d}", map.size(), entries, delimiter, maxEntriesPerPage);
+            return String.format("NumberedListFormatter{map(size)=%d, entries=%s, delimiter=%s, maxEntriesPerPage=%d}", map.size(), entries, delimiter, maxEntriesPerPage);
         }
 
         public String generatePage(int pageNumber) {

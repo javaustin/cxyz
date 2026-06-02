@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.events;
+package com.carrotguy69.cxyz.events.bukkit;
 
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;

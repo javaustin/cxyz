@@ -1,5 +1,7 @@
 package com.carrotguy69.cxyz;
 
+import com.carrotguy69.cxyz.events.custom.PublicChatEvent;
+import com.carrotguy69.cxyz.events.custom.base.EventHandler;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
@@ -22,7 +24,6 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
@@ -34,23 +35,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.carrotguy69.cxyz.events.ClickEvent.onClick;
-import static com.carrotguy69.cxyz.events.DropEvent.onDrop;
-import static com.carrotguy69.cxyz.events.FishEvent.onFish;
-import static com.carrotguy69.cxyz.events.InteractEvent.onInteract;
-import static com.carrotguy69.cxyz.events.LeaveEvent.onLeave;
-import static com.carrotguy69.cxyz.events.ChatEvent.handleChat;
-import static com.carrotguy69.cxyz.events.JoinEvent.onJoin;
-import static com.carrotguy69.cxyz.events.PreJoinEvent.onPreJoin;
-import static com.carrotguy69.cxyz.events.ProjectileEvent.onProjectile;
+import static com.carrotguy69.cxyz.events.bukkit.ClickEvent.onClick;
+import static com.carrotguy69.cxyz.events.bukkit.DropEvent.onDrop;
+import static com.carrotguy69.cxyz.events.bukkit.FishEvent.onFish;
+import static com.carrotguy69.cxyz.events.bukkit.InteractEvent.onInteract;
+import static com.carrotguy69.cxyz.events.bukkit.LeaveEvent.onLeave;
+import static com.carrotguy69.cxyz.events.bukkit.ChatEvent.handleChat;
+import static com.carrotguy69.cxyz.events.bukkit.JoinEvent.onJoin;
+import static com.carrotguy69.cxyz.events.bukkit.PreJoinEvent.onPreJoin;
+import static com.carrotguy69.cxyz.events.bukkit.ProjectileEvent.onProjectile;
 import static com.carrotguy69.cxyz.other.Startup.startEndpoints;
 import static com.carrotguy69.cxyz.other.Tasks.createAnnouncementTasks;
 
@@ -109,6 +105,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
     public static Map<String, Boolean> initializedMap = new HashMap<>();
+
+    public static final List<EventHandler<PublicChatEvent>> pceHandlers = new ArrayList<>();
 
 
     public static boolean isInitialized() {
@@ -337,47 +335,47 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         Bukkit.getScheduler().cancelTasks(plugin);
     }
 
-    @EventHandler
+    @org.bukkit.event.EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         onJoin(e);
     }
 
-    @EventHandler
+    @org.bukkit.event.EventHandler
     public void onPlayerPreJoin(AsyncPlayerPreLoginEvent e) {
         onPreJoin(e);
     }
 
-    @EventHandler
+    @org.bukkit.event.EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         onLeave(e);
     }
 
-    @EventHandler
+    @org.bukkit.event.EventHandler
     public void onAsyncPlayerChat(AsyncPlayerChatEvent e) {
         handleChat(e);
     }
 
-    @EventHandler
+    @org.bukkit.event.EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         onInteract(event);
     }
 
-    @EventHandler
+    @org.bukkit.event.EventHandler
     public void onPlayerFish(PlayerFishEvent event) {
         onFish(event);
     }
 
-    @EventHandler
+    @org.bukkit.event.EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         onDrop(event);
     }
 
-    @EventHandler
+    @org.bukkit.event.EventHandler
     public void onInventoryClickEvent(InventoryClickEvent event) {
         onClick(event);
     }
 
-    @EventHandler
+    @org.bukkit.event.EventHandler
     public void onProjectileThrow(ProjectileLaunchEvent event) {
         onProjectile(event);
     }
