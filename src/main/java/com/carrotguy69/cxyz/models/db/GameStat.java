@@ -4,6 +4,7 @@ import com.carrotguy69.cxyz.http.Request;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,24 +13,27 @@ import static com.carrotguy69.cxyz.CXYZ.*;
 public class GameStat {
 
     private final String uuid;
-    private final String gameID;
     private final String statID;
     private String value;
     public int version;
 
-    public GameStat(UUID uuid, String gameID, String statID, String value, int version) {
+    public GameStat(UUID uuid, String statID, String value, int version) {
         this.uuid = uuid.toString();
-        this.gameID = gameID;
         this.statID = statID;
         this.value = value;
         this.version = version;
     }
 
-    public static GameStat getStat(UUID uuid, String gameID, String statID) {
-        Collection<GameStat> stats = statUUIDMap.get(uuid);
+    public static List<GameStat> getStats(UUID playerUUID) {
+        Collection<GameStat> stats = statUUIDMap.get(playerUUID);
 
-        for (GameStat stat : stats) {
-            if (gameID.equalsIgnoreCase(stat.gameID) && statID.equalsIgnoreCase(stat.statID))
+        return new ArrayList<>(stats);
+    }
+
+    public static GameStat getStat(UUID playerUUID, String statID) {
+
+        for (GameStat stat : getStats(playerUUID)) {
+            if (statID.equalsIgnoreCase(stat.statID))
                 return stat;
         }
 
@@ -42,7 +46,7 @@ public class GameStat {
         for (Map.Entry<UUID, GameStat> entry : statUUIDMap.entries()) {
             GameStat stat = entry.getValue();
 
-            if (gameID.equalsIgnoreCase(stat.gameID) && statID.equalsIgnoreCase(stat.statID)) {
+            if (statID.equalsIgnoreCase(stat.statID)) {
                 toRemove.add(stat);
             }
         }
@@ -56,10 +60,6 @@ public class GameStat {
 
     public UUID getUUID() {
         return UUID.fromString(uuid);
-    }
-
-    public String getGameID() {
-        return gameID;
     }
 
     public String getStatID() {
@@ -77,7 +77,6 @@ public class GameStat {
     @Override
     public String toString() {
         return "GameStat{uuid=" + uuid + "," +
-        "gameID=" + gameID + "," +
         "statID=" + statID + "," +
         "value=" + value + "," +
         "version=" + version + "}";

@@ -50,10 +50,10 @@ public class Test implements CommandExecutor {
 //        }
 
         if (sender instanceof Player) {
-            GameStat stat = GameStat.getStat(((Player) sender).getUniqueId(), "sg", "kills");
+            GameStat stat = GameStat.getStat(((Player) sender).getUniqueId(), "sg-kills");
 
             if (stat == null)
-                stat = new GameStat(((Player) sender).getUniqueId(), "sg", "kills", args[0], 0);
+                stat = new GameStat(((Player) sender).getUniqueId(),  "kills", args[0], 0);
 
             else {
                 stat.setValue(args[0]);

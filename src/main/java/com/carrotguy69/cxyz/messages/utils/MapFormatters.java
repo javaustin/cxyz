@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.messages.utils;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
+import com.carrotguy69.cxyz.models.db.GameStat;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.db.Punishment;
@@ -136,8 +137,8 @@ public class MapFormatters {
             return this.entries;
         }
 
-        private String getNumberedDelimiter(int n) {
-            return delimiter.replace("{n}", String.valueOf(n));
+        private String getNumberedDelimiter(int i) {
+            return delimiter.replace("{i}", String.valueOf(i));
         }
 
         private String getRange(int start, int end) {
@@ -602,6 +603,9 @@ public class MapFormatters {
         commonMap.put("player-muted-channels-list-size", player.getMutedChannels().size());
         commonMap.put("player-ignored-channels-list-size", player.getMutedChannels().size());
 
+        for (GameStat stat : GameStat.getStats(player.getUUID())) {
+            commonMap.put("player-stat-" + stat.getStatID(), stat.getValue());
+        }
 
         return commonMap;
     }
