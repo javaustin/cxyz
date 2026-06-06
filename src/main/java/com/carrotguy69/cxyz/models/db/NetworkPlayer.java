@@ -160,6 +160,7 @@ public class NetworkPlayer {
                 ", xp=" + getXP() +
                 ", level=" + getLevel() +
                 ", playtime=" + getPlaytime() +
+                ", livePlaytime=" + getLivePlaytime() +
                 ", timezone='" + getTimezone() + '\'' +
                 ", vanished=" + isVanished() +
                 ", messagePrivacy='" + getMessagePrivacy() + '\'' +
@@ -372,6 +373,10 @@ public class NetworkPlayer {
 
     public long getPlaytime() {
         return playtime;
+    }
+
+    public long getLivePlaytime() {
+        return getPlaytime() + TimeUtils.unixTimeNow() - getLastJoin();
     }
 
     public void setPlaytime(long playtime) {

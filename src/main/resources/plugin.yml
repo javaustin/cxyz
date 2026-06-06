@@ -435,6 +435,13 @@ permissions:
   cxyz.test:
     default: op
 
+  cxyz.show:
+    default: true
+
+  cxyz.location:
+    default: true
+  cxyz.location.others:
+    default: op
 
   cxyz.placeholdertest:
     default: op

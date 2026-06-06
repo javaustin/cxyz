@@ -18,6 +18,7 @@ public class TimeUtils {
     public static long unixTimeNow() {
         return System.currentTimeMillis() / 1000;
     }
+
     public static String dateOf(long timestamp, String timeZone) {
         if (timestamp < 0) {
             return permanentString;

@@ -19,6 +19,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
 public class PublicChannel extends CoreChannel {
 
@@ -123,6 +124,10 @@ public class PublicChannel extends CoreChannel {
             }
 
             pl.spigot().sendMessage(component);
+        }
+
+        if (this.isConsoleEnabled()) {
+            Bukkit.getConsoleSender().sendMessage(f(formatPlaceholders(this.getChatFormat(), commonMap)));
         }
     }
 

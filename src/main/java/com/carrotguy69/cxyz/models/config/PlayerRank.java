@@ -52,14 +52,6 @@ public class PlayerRank {
                     }
                 }
             }
-
-            StringBuilder rankMessage = new StringBuilder("Loaded the following ranks from config.yml: ");
-
-            for (PlayerRank rank : results) {
-                rankMessage.append(f(rank.getColor())).append(rank.getName());
-            }
-
-            Logger.info(rankMessage.toString());
         }
 
         if (results.isEmpty()) {

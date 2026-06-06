@@ -12,12 +12,14 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.f;
+import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
 public class MessageChannel extends CoreChannel {
 
@@ -112,6 +114,11 @@ public class MessageChannel extends CoreChannel {
             // We are also strict about which messages one can follow up with. The original messages have been sent within 5 minutes of the current time, and they MUST be blank messages (openers).
             // If the player sent a previous opener message to the player, this will follow it up, and send it as a non-reply message (as in the message itself is not a reply, it is in fact reply-able).
             MessageSend.sendMessage(np, lastSent.getRecipient().getDisplayName(), content, false);
+
+            if (this.isConsoleEnabled()) {
+                Bukkit.getConsoleSender().sendMessage(f(formatPlaceholders(this.getChatFormat(), commonMap)));
+            }
+
             return;
         }
 
@@ -119,7 +126,6 @@ public class MessageChannel extends CoreChannel {
         np.setChatChannel("public");
 
         MessageUtils.sendParsedMessage(p, MessageKey.MESSAGE_CHANNEL_CHANGED, Map.of());
-
     }
 
     @Override

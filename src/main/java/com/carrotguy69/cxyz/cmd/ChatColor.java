@@ -135,4 +135,16 @@ public class ChatColor implements CommandExecutor {
 
         return possibleValue;
     }
+
+    private static String toLegacyHexColor(int rgb) {
+        String hex = String.format("%06X", rgb);
+
+        StringBuilder sb = new StringBuilder("&x");
+
+        for (char c : hex.toCharArray()) {
+            sb.append('&').append(Character.toLowerCase(c));
+        }
+
+        return sb.toString();
+    }
 }

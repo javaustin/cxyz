@@ -14,6 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -459,9 +460,9 @@ public class MapFormatters {
         commonMap.put("player-pitch", 0);
         commonMap.put("player-rounded_yaw", 0);
         commonMap.put("player-rounded_pitch", 0);
-        commonMap.put("player-block_x", 0);
-        commonMap.put("player-block_y", 0);
-        commonMap.put("player-block_z", 0);
+        commonMap.put("player-block-x", 0);
+        commonMap.put("player-block-y", 0);
+        commonMap.put("player-block-z", 0);
 
         return commonMap;
     }
@@ -583,7 +584,7 @@ public class MapFormatters {
         commonMap.put("player-last-online-short", TimeUtils.dateOfShort(player.getLastOnline(), player.getTimezone()));
 
         commonMap.put("player-timezone", player.getTimezone());
-        commonMap.put("player-playtime", TimeUtils.countdownShort(player.getPlaytime() + TimeUtils.unixTimeNow() - player.getLastJoin()));
+        commonMap.put("player-playtime", TimeUtils.countdownShort(player.getLivePlaytime()));
         commonMap.put("player-last-ip", player.getLastIP());
 
         commonMap.put("player-coins", player.getCoins());
@@ -606,6 +607,8 @@ public class MapFormatters {
         for (GameStat stat : GameStat.getStats(player.getUUID())) {
             commonMap.put("player-stat-" + stat.getStatID(), stat.getValue());
         }
+
+        commonMap.putAll(MapFormatters.locationFormatter(player.getPlayer().getLocation()));
 
         return commonMap;
     }
@@ -822,20 +825,20 @@ public class MapFormatters {
         return commonMap;
     }
 
-    public static Map<String, Object> locationFormatter(Location loc) {
+    public static Map<String, Object> locationFormatter(@Nullable Location loc) {
         Map<String, Object> commonMap = new HashMap<>();
 
-        commonMap.put("world", loc.getWorld().getName());
-        commonMap.put("x", loc.getX());
-        commonMap.put("y", loc.getY());
-        commonMap.put("z", loc.getZ());
-        commonMap.put("yaw", loc.getYaw());
-        commonMap.put("pitch", loc.getPitch());
-        commonMap.put("rounded_yaw", roundAngle(loc.getYaw(), 45F));
-        commonMap.put("rounded_pitch", roundAngle(loc.getPitch(), 45F));
-        commonMap.put("block_x", loc.getBlockX());
-        commonMap.put("block_y", loc.getBlockY());
-        commonMap.put("block_z", loc.getBlockZ());
+        commonMap.put("world", loc != null && loc.getWorld() != null ? loc.getWorld().getName() : "");
+        commonMap.put("x", loc != null ? loc.getX() : "");
+        commonMap.put("y", loc != null ? loc.getY() : "");
+        commonMap.put("z", loc != null ? loc.getZ() : "");
+        commonMap.put("yaw", loc != null ? loc.getYaw() : "");
+        commonMap.put("pitch", loc != null ? loc.getPitch()  : "");
+        commonMap.put("rounded_yaw", loc != null ? roundAngle(loc.getYaw(), 45F) : "");
+        commonMap.put("rounded_pitch", loc != null ? roundAngle(loc.getPitch(), 45F) : "");
+        commonMap.put("block-x", loc != null ? loc.getBlockX() : "");
+        commonMap.put("block-y", loc != null ? loc.getBlockY() : "");
+        commonMap.put("block-z", loc != null ? loc.getBlockZ() : "");
 
         return commonMap;
     }

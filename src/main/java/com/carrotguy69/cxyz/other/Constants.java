@@ -2,6 +2,7 @@ package com.carrotguy69.cxyz.other;
 
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
+import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
@@ -15,6 +16,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
@@ -87,6 +89,14 @@ public class Constants {
         muteRestrictions = yaml.getStringList("punishments.mute-restrictions");
         ranks = PlayerRank.getRanks();
 
+        StringBuilder rankLog = new StringBuilder("Loaded ranks: ");
+
+        for (PlayerRank rank : ranks) {
+            rankLog.append(f(rank.getColor())).append(rank.getName()).append(", ");
+        }
+
+        Logger.log(rankLog.substring(0, rankLog.length() - 2));
+
         chatFilterEnabled = yaml.getBoolean("chat.chat-filter.enabled", false);
         partiesEnabled = yaml.getBoolean("parties.enabled", false);
 
@@ -104,25 +114,45 @@ public class Constants {
                 colorMap.put(key.toUpperCase(), value.toLowerCase());
             }
         }
+        StringBuilder colorLog = new StringBuilder("Loaded color map: ");
+
+        for (Map.Entry<String, String> entry : colorMap.entrySet()) {
+            colorLog.append(f(entry.getValue())).append(entry.getKey()).append(", ");
+        }
+
+        Logger.log(colorLog.substring(0, colorLog.length() - 2));
 
 
         enabledCosmeticTypes = cosmeticsYML.getStringList("enabled-types").stream().map(Cosmetic.CosmeticType::valueOf).collect(Collectors.toList());
         cosmetics = Cosmetic.getCosmetics();
         try {
             ActiveCosmetic.loadActiveCosmetics();
+            Logger.log("Loaded cosmetics: " + cosmetics.stream().map(Cosmetic::getId).collect(Collectors.joining(", ")));
+
         } // Loading so Cosmetics can use this supplementary class.
         catch (InvalidConfigException ex) {
             Logger.logStackTrace(ex);
-            Logger.warning("Since an exception was thrown in the ActiveCosmetic loader, some cosmetics may not have loaded properly.");
+            Logger.warning("Since an exception was thrown in the ActiveCosmetic loader, some physical cosmetics may not have loaded properly.");
         }
 
         channels.addAll(CustomChannel.getCustomChannels());
         channels.addAll(CoreChannel.getCoreChannels());
-
-        chatFilterRules.addAll(ChatFilterRule.getChatFilterRules());
-
         ChannelRegistry.loadAssociations();
 
+        StringBuilder channelLog = new StringBuilder("&fLoaded chat channels: ");
+        for (CoreChannel channel : CoreChannel.getCoreChannels()) {
+            channelLog.append(channel.getName()).append("*").append(", ");
+        }
+        for (CustomChannel channel : CustomChannel.getCustomChannels()) {
+            channelLog.append(channel.getName()).append(", ");
+        }
+
+        Logger.log(channelLog.substring(0, channelLog.length() - 2));
+
+        chatFilterRules.addAll(ChatFilterRule.getChatFilterRules());
+        Logger.log("Loaded chat filter rules: " + chatFilterRules.stream().map(ChatFilterRule::getName).collect(Collectors.joining(", ")));
+
         shorthandCommands = Shorthand.getShorthandCommands();
+        Logger.log("Loaded shorthand commands: " + shorthandCommands.stream().map(Shorthand::getCommandName).collect(Collectors.joining(", ")));
     }
 }

@@ -179,7 +179,7 @@ chat:
     party:
       prefix: '&9PARTY'
       read-only: false
-      console: true
+      console: false
       ignorable: true
       webhook-url: ''
       chat-format: ''
@@ -191,7 +191,7 @@ chat:
     message:
       prefix: '&dMESSAGE'
       read-only: false
-      console: true
+      console: false
       ignorable: true
       webhook-url: ''
       chat-format: ''
@@ -417,12 +417,6 @@ shorthand-commands:
     actions:
       - ban {player} permanent {reason}
 
-  rules:
-    description: View the server rules
-    trigger: rules
-    actions:
-      - "show {sender-username} &aHere are the rules for you {sender}:\n&c1. No hacking\n&62. No being frowny\n&e3. Have fun!"
-
   hi:
     description: Say hi!
     trigger: hi
@@ -458,7 +452,6 @@ shorthand-commands:
     trigger: unlock {locked-channel}
     actions:
       - channel unlock {locked-channel}
-
 
 # ============================================================
 # COMMAND ACCESS RESTRICTIONS

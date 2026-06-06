@@ -137,9 +137,14 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    [❌] ISSUES:
    - (resolved) FATAL equipped_cosmetics bug (we should NOT be able to have two of the same cosmetics equipped at once) {having a hard time recreating it, not sure the context}
-
+   - tab completer for /rank add {rank} {player} doesn't return available players
+   - /channel set {channel} tab completer doesn't return available channels
+   - rank add should use the map formatter after the rank has been applied because the current behavior causes ("added {new-rank-prefix} to {old-rank-color}{player}")
 
    [➕] ADD/IMPLEMENT:
+   - NetworkPlayer command suite (set, get, get-async) to set a raw value
+
+
    - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
 
    - document messages.yml with proper placeholder documentation (comments)
@@ -234,10 +239,10 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         saveDefaultConfig();
         reloadConfig();
 
-        File messageYML = new File(getDataFolder(), "messages.yml");
-        if (!messageYML.exists()) {
-            saveResource("messages.yml", false);
-        }
+//        File messageYML = new File(getDataFolder(), "messages.yml");
+//        if (!messageYML.exists()) {
+//            saveResource("messages.yml", false);
+//        }
 
         getConfig().options().copyDefaults(true); // Copies default values (values that are not set by user.) Keep this as it will be useful for version changes.
 
