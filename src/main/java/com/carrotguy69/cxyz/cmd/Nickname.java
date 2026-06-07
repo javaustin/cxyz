@@ -42,7 +42,7 @@ public class Nickname implements CommandExecutor {
 
             Player player = (Player) sender;
 
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(player.getUniqueId());
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(player.getUniqueId());
 
             MessageUtils.sendParsedMessage(player, MessageKey.NICKNAME_VIEW, MapFormatters.playerFormatter(np));
             return true;
@@ -56,7 +56,7 @@ public class Nickname implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(player.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(player.getUniqueId());
 
         String nickname = args[0];
 

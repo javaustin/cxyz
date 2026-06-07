@@ -7,7 +7,9 @@ import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.webhook.DiscordWebhook;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -20,7 +22,6 @@ import java.util.Set;
 
 import static com.carrotguy69.cxyz.CXYZ.configYaml;
 import static com.carrotguy69.cxyz.CXYZ.f;
-import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
 public class CustomChannel extends BaseChannel {
 
@@ -92,7 +93,7 @@ public class CustomChannel extends BaseChannel {
 
         Player p = e.getPlayer();
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         Map<String, Object> commonMap = MapFormatters.channelFormatter(this);
         commonMap.putAll(MapFormatters.playerFormatter(np));
@@ -144,11 +145,6 @@ public class CustomChannel extends BaseChannel {
 
 
         this.sendChannelMessage(this.getChatFormat(), commonMap);
-
-        if (this.isConsoleEnabled()) {
-            Bukkit.getConsoleSender().sendMessage(f(formatPlaceholders(this.getChatFormat(), commonMap)));
-        }
-
     }
 
     @Override

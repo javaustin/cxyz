@@ -49,7 +49,7 @@ public class PartyRemove implements CommandExecutor {
 
         Player p  = (Player) sender;
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
         NetworkPlayer target = NetworkPlayer.getPlayerByUsername(args[0]);
 
         if (target == null) {

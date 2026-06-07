@@ -56,7 +56,7 @@ public class CosmeticBuy implements CommandExecutor {
         // Check if the player has the required rank and level. Then check for coins.
         // Check if the player already has the cosmetic.
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         Cosmetic cosmetic = Cosmetic.getCosmetic(cosmeticID);
         if (cosmetic == null) {

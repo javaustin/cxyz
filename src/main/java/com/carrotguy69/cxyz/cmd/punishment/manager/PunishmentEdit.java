@@ -140,7 +140,7 @@ public class PunishmentEdit implements CommandExecutor {
         }
 
         else {
-            NetworkPlayer editorMod = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+            NetworkPlayer editorMod = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
             punishment.setEditorMod(editorMod);
         }
 

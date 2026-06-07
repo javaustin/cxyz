@@ -27,7 +27,7 @@ public class PreJoinEvent {
 
         NetworkPlayer np;
         try {
-            np = NetworkPlayer.getPlayerByUUID(e.getUniqueId());
+            np = NetworkPlayer.resolvePlayer(e.getUniqueId());
         }
         catch (RuntimeException ex) {
             return;

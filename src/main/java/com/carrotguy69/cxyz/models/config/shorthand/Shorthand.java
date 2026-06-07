@@ -128,7 +128,7 @@ public class Shorthand implements ShorthandExecutor, ShorthandTabCompleter {
         NetworkPlayer np = null;
 
         if (sender instanceof Player) {
-            np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+            np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
         }
 
         List<String> results = new ArrayList<>();

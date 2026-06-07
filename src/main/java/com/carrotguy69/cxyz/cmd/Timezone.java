@@ -45,7 +45,7 @@ public class Timezone implements CommandExecutor {
         if (args.length == 0) {
             Player p = (Player) sender;
 
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
             String timeZone = np.getTimezone();
 
@@ -61,7 +61,7 @@ public class Timezone implements CommandExecutor {
         if (args.length == 1) {
             Player p = (Player) sender;
 
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
 
             for (String tz : ZoneId.getAvailableZoneIds()) {

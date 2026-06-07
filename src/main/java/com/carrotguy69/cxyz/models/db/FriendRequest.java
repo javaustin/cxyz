@@ -32,11 +32,11 @@ public class FriendRequest {
     }
 
     public NetworkPlayer getSender() {
-        return NetworkPlayer.getPlayerByUUID(UUID.fromString(sender));
+        return NetworkPlayer.resolvePlayer(UUID.fromString(sender));
     }
 
     public NetworkPlayer getRecipient() {
-        return NetworkPlayer.getPlayerByUUID(UUID.fromString(recipient));
+        return NetworkPlayer.resolvePlayer(UUID.fromString(recipient));
     }
 
     public UUID getSenderUUID() {

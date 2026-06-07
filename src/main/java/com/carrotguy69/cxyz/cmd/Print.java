@@ -2,7 +2,7 @@ package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.Announcement;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.other.Logger;
@@ -49,7 +49,7 @@ public class Print implements CommandExecutor {
                         NetworkPlayer np = NetworkPlayer.getPlayerByUsername(args[1]);
                         if (np == null) {
                             try {
-                                np = NetworkPlayer.getPlayerByUUID(UUID.fromString(args[1]));
+                                np = NetworkPlayer.resolvePlayer(UUID.fromString(args[1]));
                             }
                             catch (RuntimeException ignore) {
                             }

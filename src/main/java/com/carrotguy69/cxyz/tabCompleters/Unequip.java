@@ -20,7 +20,7 @@ public class Unequip implements TabCompleter {
             return List.of();
         }
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
 
 
         List<String> cosmeticIDs = new ArrayList<>();

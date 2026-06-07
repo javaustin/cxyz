@@ -244,7 +244,7 @@ public class Listener extends NanoHTTPD {
         Map<String, Object> formatMap = gson.fromJson(map.get("formatMap"), new TypeToken<Map<String, Object>>() {}.getType());
 
 
-        NetworkPlayer recipientNP = NetworkPlayer.getPlayerByUUID(UUID.fromString(recipient));
+        NetworkPlayer recipientNP = NetworkPlayer.resolvePlayer(UUID.fromString(recipient));
 
         Player p = recipientNP.getPlayer();
 

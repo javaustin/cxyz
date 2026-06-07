@@ -61,7 +61,7 @@ public class PartyInvite implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         invite(np, args[0]);
 

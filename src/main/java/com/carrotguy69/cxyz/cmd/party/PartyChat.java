@@ -3,8 +3,8 @@ package com.carrotguy69.cxyz.cmd.party;
 import com.carrotguy69.cxyz.cmd.channel.ChannelSet;
 import com.carrotguy69.cxyz.models.config.channel.coreChannels.PartyChannel;
 import com.carrotguy69.cxyz.models.config.channel.coreChannels.PublicChannel;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelFunction;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
@@ -62,7 +62,7 @@ public class PartyChat implements CommandExecutor {
     public static void chat(Player p, String content) {
         Party party = Party.getPlayerParty(p.getUniqueId());
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         PartyChannel partyChannel = (PartyChannel) ChannelRegistry.getChannelByFunction(ChannelFunction.PARTY);
 

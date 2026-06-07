@@ -31,11 +31,13 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/bukkit/LeaveEvent.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Privacy.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/privacy/FriendPrivacy.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/channel/registry/ChannelFunction.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/rank/RankList.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/xp/XPSet.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/http/RequestType.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/other/Constants.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/friend/FriendDeny.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/channel/registry/ChannelRegistry.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Location.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/papi/RelationalExpansion.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Nickname.java
@@ -59,7 +61,6 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/party/PartySetLeader.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/party/PartyPrivate.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/punishment/manager/PunishmentInfo.java
-/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/channel/utils/ChannelRegistry.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/punishment/Ban.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Info.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Unmute.java
@@ -92,7 +93,6 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/coins/CoinsRemove.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/cosmetics/Cosmetic.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/PlayerRank.java
-/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/channel/utils/ChannelFunction.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/custom/service/EventService.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/channel/_ChannelExecutor.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/party/_PartyExecutor.java
@@ -122,6 +122,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/db/PartyInvite.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/party/PartyWarp.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Ignore.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/channel/registry/FunctionalChannel.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/shorthand/interfaces/ShorthandExecutor.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/party/PartyJoin.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/channel/channelTypes/CoreChannel.java
@@ -161,7 +162,6 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/shorthand/utils/ShorthandUtils.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/messages/utils/SimpleTextComponent.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/services/Service.java
-/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/channel/utils/FunctionalChannel.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/coins/CoinsSet.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Unban.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Ban.java

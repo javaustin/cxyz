@@ -32,7 +32,7 @@ public class Party implements TabCompleter {
         }
 
         Player p = (Player) commandSender;
-        np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        np = NetworkPlayer.resolvePlayer(p.getUniqueId());
         com.carrotguy69.cxyz.models.db.Party party = com.carrotguy69.cxyz.models.db.Party.getPlayerParty(np.getUUID());
 
 
@@ -130,7 +130,7 @@ public class Party implements TabCompleter {
                     }
 
                     for (String playerUUID : party.getPlayers()) {
-                        NetworkPlayer partyPlayer = NetworkPlayer.getPlayerByUUID(UUID.fromString(playerUUID));
+                        NetworkPlayer partyPlayer = NetworkPlayer.resolvePlayer(UUID.fromString(playerUUID));
 
                         if (partyPlayer.getDisplayName().toLowerCase().startsWith(args[1].toLowerCase())) {
                             if (partyPlayer.isOnline() && partyPlayer.isVisibleTo(np)) {

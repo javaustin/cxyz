@@ -1,7 +1,7 @@
 package com.carrotguy69.cxyz.events.bukkit;
 
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -15,7 +15,7 @@ public class ChatEvent {
         Player p = e.getPlayer();
         String content = e.getMessage();
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         BaseChannel chatChannel = null; // We only set a chatChannel after we confirmed that the player did not use a trigger prefix.
 

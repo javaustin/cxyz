@@ -52,7 +52,7 @@ public class Expansion extends PlaceholderExpansion {
     public String fulfill(UUID uuid, @NotNull String params) {
         NetworkPlayer np;
         try {
-            np = NetworkPlayer.getPlayerByUUID(uuid);
+            np = NetworkPlayer.resolvePlayer(uuid);
         }
         catch (RuntimeException e) {
             Logger.warning(String.format("Attempted to fulfill PAPI placeholder='%s' with playerUUID='%s' whom does not exist", params, uuid.toString()));

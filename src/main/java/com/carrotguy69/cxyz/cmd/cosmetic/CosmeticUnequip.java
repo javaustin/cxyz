@@ -67,7 +67,7 @@ public class CosmeticUnequip implements CommandExecutor {
 
         Cosmetic cosmetic = Cosmetic.getCosmetic(cosmeticName);
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         if (cosmetic == null) {
             MessageUtils.sendParsedMessage(p, MessageKey.INVALID_COSMETIC, Map.of("input", cosmeticName));

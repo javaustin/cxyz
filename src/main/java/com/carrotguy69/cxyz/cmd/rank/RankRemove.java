@@ -63,7 +63,7 @@ public class RankRemove implements CommandExecutor {
             }
 
             else {
-                NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+                NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
                 removeRank(sender, np, args[0]);
             }

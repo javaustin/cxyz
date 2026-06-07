@@ -75,15 +75,6 @@ public class Logger {
         }
 
         channel.sendChannelMessage(content, map);
-
-
-        String url = channel.getWebhookURL();
-
-        if (url != null && !url.isEmpty()) {
-            new DiscordWebhook().setURL(url).setContent(
-                    MessageUtils.formatPlaceholders(content, Map.of("prefix", channel.getPrefix()))
-            ).send();
-        }
     }
 
     public static void punishment(String content, Map<String, Object> map) {

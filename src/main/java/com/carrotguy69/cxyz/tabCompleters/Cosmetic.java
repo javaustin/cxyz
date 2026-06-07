@@ -74,7 +74,7 @@ public class Cosmetic implements TabCompleter {
                     return List.of();
                 }
 
-                np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+                np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
                 cosmeticIDs = new ArrayList<>();
 
                 if (np.getOwnedCosmetics() != null && !np.getOwnedCosmetics().isEmpty()) {
@@ -106,7 +106,7 @@ public class Cosmetic implements TabCompleter {
                     return List.of();
                 }
 
-                np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+                np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
 
 
                 cosmeticIDs = new ArrayList<>();

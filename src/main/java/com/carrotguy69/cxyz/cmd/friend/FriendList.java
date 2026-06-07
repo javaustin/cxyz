@@ -60,7 +60,7 @@ public class FriendList implements CommandExecutor {
 
         if (np == null) {
             if (sender instanceof Player) {
-                np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+                np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
             }
             else {
                 MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player"));

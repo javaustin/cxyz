@@ -2,6 +2,9 @@ package com.carrotguy69.cxyz.models.db;
 
 import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
@@ -9,8 +12,8 @@ import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelFunction;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.other.*;
 
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -128,6 +131,75 @@ public class NetworkPlayer {
         return this;
     }
 
+    public void updateWithPlayer(Player p) {
+        // Update missing values
+        if (!Objects.equals(this.getUsername(), p.getName())) {
+            this.setUsername(p.getName());
+        }
+
+        if (this.getNickname() != null) {
+            this.getPlayer().setDisplayName(this.getNickname());
+        }
+
+        this.getPlayer().setDisplayName(this.getTopRank().getColor() + this.getDisplayName());
+        this.getPlayer().setPlayerListName(this.getDisplayName());
+
+
+        String rank = "default";
+        if (this.getTopRank() != null) { // If a rank somehow became invalid (config updated)
+            rank = this.getTopRank().getName();
+        }
+        p.addAttachment(plugin).setPermission("cxyz.rank." + rank, true);
+        // update to support LuckPerms - p.addAttachment() is a temporary permission. We need to send it to LuckPerms either through API or simple commands.
+
+
+        // Updates outdated values - set to new ones
+        this.setServer(thisServer);
+        this.setLastOnline(TimeUtils.unixTimeNow());
+        this.setLastJoin(TimeUtils.unixTimeNow());
+        this.setLastIP(p.getAddress() != null ? p.getAddress().getAddress().getHostAddress() : null);
+        this.setOnline(true);
+
+
+        // remove party expire if it exists
+        PartyExpire expire = partyExpires.get(this.getUUID());
+        if (expire != null) {
+            expire.delete();
+            partyExpires.remove(expire.getUUID());
+
+            if (this.isInParty() && this.isOnline()) {
+
+                Party party = Party.getPlayerParty(this.getUUID());
+
+                if (party != null) {
+
+                    Map<String, Object> commonMap = MapFormatters.partyFormatter(party);
+                    commonMap.putAll(MapFormatters.playerFormatter(this));
+
+                    party.announce(MessageGrabber.grab(MessageKey.PARTY_PLAYER_RECONNECT), commonMap);
+                }
+                else {
+                    Logger.warning("party should not be null with np.isInParty() check. Ignoring because onJoin is a critical process.");
+                }
+
+            }
+        }
+
+        // Apply equipped cosmetics if the server allows
+        for (Cosmetic cosmetic : this.getEquippedCosmetics()) {
+            if (!(cosmetic.isEnabled() && enabledCosmeticTypes.contains(cosmetic.getType()))) {
+                continue;
+            }
+
+            if (cosmetic.getType() == Cosmetic.CosmeticType.RANK_PLATE && cosmetic.getRequiredRank().getHierarchy() > this.getTopRank().getHierarchy()) {
+                continue;
+            }
+
+            ActiveCosmetic ac = new ActiveCosmetic(cosmetic, this);
+            ac.equip();
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -180,14 +252,33 @@ public class NetworkPlayer {
                 '}';
     }
 
+    public static boolean exists(UUID uuid) {
+        return users.get(uuid) != null;
+    }
+
+    @Deprecated(forRemoval = true)
     public static NetworkPlayer getPlayerByUUID(UUID uuid) {
+        return resolvePlayer(uuid);
+    }
+
+    public static NetworkPlayer resolvePlayer(UUID uuid) {
 
         NetworkPlayer np = users.get(uuid);
 
-        if (np != null)
+        if (np != null) {
             return np;
+        }
 
-        throw new RuntimeException("NetworkPlayer with uuid of " + uuid.toString() + " could not be found.");
+        Player p = Bukkit.getPlayer(uuid);
+
+        if (p == null) {
+            throw new RuntimeException("NetworkPlayer with uuid=%s does not exist and could not be constructed through player.");
+        }
+
+        np = new NetworkPlayer().createFromPlayer(p);
+        np.updateWithPlayer(p);
+
+        return np;
     }
 
     public static NetworkPlayer getPlayerByUsername(String username) {

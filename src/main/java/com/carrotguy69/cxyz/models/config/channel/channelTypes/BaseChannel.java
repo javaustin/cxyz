@@ -1,14 +1,15 @@
 package com.carrotguy69.cxyz.models.config.channel.channelTypes;
 
 import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.messages.MessageParser;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.webhook.DiscordWebhook;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -166,7 +167,7 @@ public abstract class BaseChannel {
                 // was getting async errors so i wrapped this in a task
                 Bukkit.getScheduler().runTask(plugin, () -> {
                     for (String action : rule.getActions()) {
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtils.formatPlaceholders(action, commonMap));
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), formatPlaceholders(action, commonMap));
                     }
                 });
 
@@ -248,15 +249,16 @@ public abstract class BaseChannel {
 
         }
 
-        if (!this.getWebhookURL().isBlank()) {
-            String url = this.getWebhookURL();
+        String stripped = MessageParser.getStrippedText(new MessageParser(chatFormat, formatMap).parse());
+
+        Logger.debugMessage("Channel message content (stripped): " + stripped);
+
+
+        if (this.getWebhookURL() != null && !this.getWebhookURL().isBlank()) {
 
             DiscordWebhook webhook = new DiscordWebhook()
-                    .setURL(url)
-                    .setContent(
-                            ChatColor.stripColor(formatPlaceholders(chatFormat, formatMap))
-                    );
-
+                    .setURL(this.getWebhookURL())
+                    .setContent(ChatColor.stripColor(f(formatPlaceholders(stripped, formatMap))));
             webhook.send();
         }
     }
@@ -268,7 +270,7 @@ public abstract class BaseChannel {
         // This is the function that can be called by the HTTP listener, because it won't make any other requests.
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
             if (np.canAccessChannel(channel) && !np.isMutingChannel(channel)) {
                 MessageUtils.sendParsedMessage(p, chatFormat, formatMap);
@@ -278,5 +280,6 @@ public abstract class BaseChannel {
         if (channel.isConsoleEnabled()) {
             MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), chatFormat, formatMap);
         }
+
     }
 }

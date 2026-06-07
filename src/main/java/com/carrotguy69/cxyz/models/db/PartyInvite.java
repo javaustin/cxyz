@@ -50,11 +50,11 @@ public class PartyInvite {
 //    }
 
     public NetworkPlayer getInviter() {
-        return NetworkPlayer.getPlayerByUUID(UUID.fromString(inviter));
+        return NetworkPlayer.resolvePlayer(UUID.fromString(inviter));
     }
 
     public NetworkPlayer getRecipient() {
-        return NetworkPlayer.getPlayerByUUID(UUID.fromString(recipient));
+        return NetworkPlayer.resolvePlayer(UUID.fromString(recipient));
     }
 
     public UUID getInviterUUID() {

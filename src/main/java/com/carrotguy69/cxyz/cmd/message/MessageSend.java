@@ -5,8 +5,8 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.config.channel.coreChannels.MessageChannel;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelFunction;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.models.db.Message;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
@@ -59,7 +59,7 @@ public class MessageSend implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         if (args.length == 0) {
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player, content"));

@@ -17,11 +17,11 @@ public class GameStat {
     private String value;
     public int version;
 
-    public GameStat(UUID uuid, String statID, String value, int version) {
+    public GameStat(UUID uuid, String statID, String value) {
         this.uuid = uuid.toString();
         this.statID = statID;
         this.value = value;
-        this.version = version;
+        this.version = 0;
     }
 
     public static List<GameStat> getStats(UUID playerUUID) {

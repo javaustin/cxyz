@@ -51,7 +51,7 @@ public class FriendAccept implements CommandExecutor {
 
         Player p  = (Player) sender;
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         accept(np, args[0]);
 

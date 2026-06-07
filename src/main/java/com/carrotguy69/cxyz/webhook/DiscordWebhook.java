@@ -2,6 +2,7 @@ package com.carrotguy69.cxyz.webhook;
 import com.carrotguy69.cxyz.http.Request;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,25 +35,24 @@ public class DiscordWebhook {
 
     public void send() {
 
+        Map<String, Object> postMap = new HashMap<>();
         List<Map<String, Object>> embedMap = new ArrayList<>();
 
         for (DiscordEmbed embed : embeds) {
-            embedMap.add(Map.of(
-                    "title", embed.getTitle(),
-                    "description", embed.getDescription(),
-                    "color", embed.getColor()
-            ));
+            Map<String, Object> embedEntry = new HashMap<>();
+
+            embedEntry.put("title", embed.getTitle());
+            embedEntry.put("description", embed.getDescription());
+            embedEntry.put("color", embed.getColor());
+
+            embedMap.add(embedEntry);
         }
 
+        postMap.put("content", content);
+        postMap.put("embeds", embedMap);
+        postMap.put("attachments", new ArrayList<>());
 
-        String postData = gson.toJson(
-                Map.of(
-                "content", content,
-                "embeds", embedMap,
-                "attachments", new ArrayList<>()
-                )
-        );
 
-        Request.postRequest(url, postData);
+        Request.postRequest(url, gson.toJson(postMap));
     }
 }

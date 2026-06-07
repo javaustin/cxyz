@@ -43,7 +43,7 @@ public class IgnoreList implements CommandExecutor {
         }
 
         Player p = (Player) sender;
-        NetworkPlayer sp = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer sp = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         int page = 1;
         try {

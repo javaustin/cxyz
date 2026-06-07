@@ -45,7 +45,7 @@ public class LevelView implements CommandExecutor {
         }
 
         else if (args.length == 0) {
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
 
             view(sender, np);
 
@@ -56,7 +56,7 @@ public class LevelView implements CommandExecutor {
 
             String nodeOthers = "cxyz.level.view.others";
             if (!sender.hasPermission(nodeOthers)) {
-                view(sender, NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId()));
+                view(sender, NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId()));
                 return true;
             }
 

@@ -45,7 +45,7 @@ public class Parse implements CommandExecutor {
         if (sender instanceof Player) {
             Player p = (Player) sender;
 
-            commonMap.putAll(MapFormatters.playerFormatter(NetworkPlayer.getPlayerByUUID(p.getUniqueId())));
+            commonMap.putAll(MapFormatters.playerFormatter(NetworkPlayer.resolvePlayer(p.getUniqueId())));
         }
 
         try {

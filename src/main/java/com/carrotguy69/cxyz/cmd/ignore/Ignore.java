@@ -41,7 +41,7 @@ public class Ignore implements CommandExecutor {
         }
 
         Player p = (Player) sender;
-        NetworkPlayer sp = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer sp = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         if (args.length == 0) {
             IgnoreList.ignoreList(sender, sp, 1);

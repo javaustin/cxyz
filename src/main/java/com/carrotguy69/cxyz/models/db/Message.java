@@ -87,11 +87,11 @@ public class Message {
     }
 
     public NetworkPlayer getSender() {
-        return NetworkPlayer.getPlayerByUUID(getSenderUUID());
+        return NetworkPlayer.resolvePlayer(getSenderUUID());
     }
 
     public NetworkPlayer getRecipient() {
-        return NetworkPlayer.getPlayerByUUID(getRecipientUUID());
+        return NetworkPlayer.resolvePlayer(getRecipientUUID());
     }
 
     public String getContent() {

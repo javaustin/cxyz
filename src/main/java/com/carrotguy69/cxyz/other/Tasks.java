@@ -34,7 +34,7 @@ public class Tasks {
                 if (p == null || !p.isOnline())
                     continue;
 
-                NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+                NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
                 if (!np.isOnline() && p.isOnline()) {
                     Logger.warning(String.format("NetworkPlayer %s is offline but their Player is really online!", np.getUsername()));
@@ -57,7 +57,7 @@ public class Tasks {
 
             for (PartyExpire expire : partyExpires.values()) {
                 if (TimeUtils.unixTimeNow() > expire.getTimestamp()) {
-                    NetworkPlayer np = NetworkPlayer.getPlayerByUUID(expire.getUUID());
+                    NetworkPlayer np = NetworkPlayer.resolvePlayer(expire.getUUID());
 
                     if (!np.isOnline()) {
                         Party party = Party.getPlayerParty(np.getUUID());
@@ -204,7 +204,7 @@ public class Tasks {
         new BukkitRunnable() { public void run() {
 
             for (Party party : parties.values()) {
-                NetworkPlayer owner = NetworkPlayer.getPlayerByUUID(party.getOwnerUUID());
+                NetworkPlayer owner = NetworkPlayer.resolvePlayer(party.getOwnerUUID());
                 boolean allOffline = true;
 
                 if (owner.isOnline()) {
@@ -212,7 +212,7 @@ public class Tasks {
                 }
 
                 for (String uuidString : party.getPlayers()) {
-                    NetworkPlayer partyPlayer = NetworkPlayer.getPlayerByUUID(UUID.fromString(uuidString));
+                    NetworkPlayer partyPlayer = NetworkPlayer.resolvePlayer(UUID.fromString(uuidString));
 
                     if (partyPlayer.isOnline()) {
                         allOffline = false;

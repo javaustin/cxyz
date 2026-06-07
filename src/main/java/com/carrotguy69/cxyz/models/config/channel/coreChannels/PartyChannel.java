@@ -10,7 +10,9 @@ import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.webhook.DiscordWebhook;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -18,7 +20,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.f;
-import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
 public class PartyChannel extends CoreChannel {
 
@@ -41,7 +42,7 @@ public class PartyChannel extends CoreChannel {
 
         Player p = e.getPlayer();
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         Map<String, Object> commonMap = MapFormatters.channelFormatter(this);
         commonMap.putAll(MapFormatters.playerFormatter(np));
@@ -94,7 +95,7 @@ public class PartyChannel extends CoreChannel {
         PartyChat.chat(e.getPlayer(), content);
 
         if (this.isConsoleEnabled()) {
-            Bukkit.getConsoleSender().sendMessage(f(formatPlaceholders(this.getChatFormat(), commonMap)));
+            MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), this.getChatFormat(), commonMap);
         }
     }
 

@@ -59,7 +59,7 @@ public class PartyJoin implements CommandExecutor {
 
         Player p  = (Player) sender;
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         join(np, args[0]);
 

@@ -53,7 +53,7 @@ public class Ban implements TabCompleter {
 
         NetworkPlayer np = null;
         if (sender instanceof Player) {
-            np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+            np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
         }
 
 

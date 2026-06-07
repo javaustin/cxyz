@@ -84,7 +84,7 @@ public class Unmute implements CommandExecutor {
 
             if (sender instanceof Player) {
                 Player editorModPlayer = (Player) sender;
-                NetworkPlayer editorMod = NetworkPlayer.getPlayerByUUID(editorModPlayer.getUniqueId());
+                NetworkPlayer editorMod = NetworkPlayer.resolvePlayer(editorModPlayer.getUniqueId());
                 punishment.setEditorMod(editorMod);
             }
             else {

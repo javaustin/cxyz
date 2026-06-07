@@ -67,7 +67,7 @@ public class Rank implements TabCompleter {
                     }
 
                     else {
-                        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+                        NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
 
                         for (PlayerRank rank : np.getRanks()) {
                             if (rank.getName().toLowerCase().startsWith(args[1].toLowerCase()))

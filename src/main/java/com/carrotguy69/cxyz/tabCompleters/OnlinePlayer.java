@@ -24,7 +24,7 @@ public class OnlinePlayer implements TabCompleter {
 
         if (sender instanceof Player) {
             p = (Player) sender;
-            np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+            np = NetworkPlayer.resolvePlayer(p.getUniqueId());
         }
 
         List<String> visibleUsernames = getVisibleUsernames(sender, np);

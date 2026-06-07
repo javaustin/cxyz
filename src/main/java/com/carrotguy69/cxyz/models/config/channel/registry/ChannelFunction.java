@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.models.config.channel.utils;
+package com.carrotguy69.cxyz.models.config.channel.registry;
 
 public enum ChannelFunction {
     PUBLIC,

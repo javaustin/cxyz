@@ -28,7 +28,7 @@ public class Location implements TabCompleter {
 
         if (sender instanceof Player) {
             p = (Player) sender;
-            np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+            np = NetworkPlayer.resolvePlayer(p.getUniqueId());
         }
 
         boolean longFlag = String.join(" ", args).contains("-l");

@@ -49,7 +49,7 @@ public class PartyCreate implements CommandExecutor {
 
         Player player = ((Player) sender);
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(player.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(player.getUniqueId());
 
         createParty(np);
 

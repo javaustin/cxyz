@@ -70,7 +70,7 @@ commands:
     not-muted: "&eThis channel is not muted!"
     already-muted: "&eThis channel is already muted!"
     error.not-mutable: "&cThis channel cannot be ignored!"
-    channel-muted: "&eYou tried sending a message in the {channel-name} chat, but you have this channel muted! Use &f/unmutechannel {channel-name} and then try again!"
+    channel-muted: "&eYou tried sending a message in the {channel-name} chat, but you have this channel muted! Use &f/channel unignore {channel-name} &eand then try again!"
 
     already-locked: "&eThe {channel-name} channel is already locked!"
     already-unlocked: "&eThe {channel-name} channel is not locked!"
@@ -471,7 +471,7 @@ commands:
         {punishments}
         [&f< Previous](RUN_COMMAND:/punishment history {player} {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/punishment history {player} {next-page})
       blank: "&eNo punishments found for this player!"
-      entry-format: "&e#[[{case-id}]] &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short}"
+      entry-format: "&e#[[{case-id}]] &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} &ffor &e{reason} &fon &f{date-short}"
       separator: "\n"
       max-entries-per-page: 5
 

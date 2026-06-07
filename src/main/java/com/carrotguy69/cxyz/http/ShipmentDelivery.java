@@ -121,7 +121,7 @@ public class ShipmentDelivery {
                 }
 
                 Logger.debugUser("[~] Modified an entry to users. " + np);
-                NetworkPlayer reference = NetworkPlayer.getPlayerByUUID(np.getUUID());
+                NetworkPlayer reference = NetworkPlayer.resolvePlayer(np.getUUID());
 
                 ShipmentDelivery.copyTo(np, reference);
             }

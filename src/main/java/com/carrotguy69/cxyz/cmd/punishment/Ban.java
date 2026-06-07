@@ -146,7 +146,7 @@ public class Ban implements CommandExecutor {
         else {
             Player modPlayer = (Player) sender;
 
-            NetworkPlayer moderator = NetworkPlayer.getPlayerByUUID(modPlayer.getUniqueId());
+            NetworkPlayer moderator = NetworkPlayer.resolvePlayer(modPlayer.getUniqueId());
 
             if (moderator.getTopRank().getHierarchy() <= player.getTopRank().getHierarchy()) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_OUTRANKS_SENDER, MapFormatters.playerSenderFormatter(player, moderator));

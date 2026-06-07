@@ -47,7 +47,7 @@ public class PartyList implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         int page = 1;
         try {
@@ -76,9 +76,9 @@ public class PartyList implements CommandExecutor {
         // The party owner by design is separate, so they aren't really in the players list. But for good 'ol, UI's sake, it makes more sense if they are, so we'll fake it.
         List<NetworkPlayer> effectivePlayers = new ArrayList<>();
         for (String uuid : party.getPlayers()){
-            effectivePlayers.add(NetworkPlayer.getPlayerByUUID(UUID.fromString(uuid)));
+            effectivePlayers.add(NetworkPlayer.resolvePlayer(UUID.fromString(uuid)));
         }
-        effectivePlayers.add(NetworkPlayer.getPlayerByUUID(party.getOwnerUUID()));
+        effectivePlayers.add(NetworkPlayer.resolvePlayer(party.getOwnerUUID()));
 
         // Get the format and delimiter from messages.yml
         Map<String, Object> commonMap = MapFormatters.partyFormatter(party);

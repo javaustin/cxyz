@@ -50,7 +50,7 @@ public class FriendRemove implements CommandExecutor {
 
         Player p  = (Player) sender;
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         remove(np, args[0]);
 

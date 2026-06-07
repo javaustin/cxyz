@@ -62,7 +62,7 @@ public class CoinsAdd implements CommandExecutor {
                 return true;
             }
 
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
             add(sender, np, amt);
             return true;

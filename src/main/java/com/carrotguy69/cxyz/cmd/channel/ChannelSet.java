@@ -1,7 +1,7 @@
 package com.carrotguy69.cxyz.cmd.channel;
 
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
@@ -45,7 +45,7 @@ public class ChannelSet implements CommandExecutor {
             return true;
         }
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
 
 
         Map<String, Object> commonMap = MapFormatters.channelFormatter(np.getChatChannel());

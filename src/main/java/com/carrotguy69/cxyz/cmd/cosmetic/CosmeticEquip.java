@@ -62,7 +62,7 @@ public class CosmeticEquip implements CommandExecutor {
 
         Map<String, Object> commonMap = MapFormatters.cosmeticFormatter(cosmetic);
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         commonMap.putAll(MapFormatters.playerFormatter(np));
 

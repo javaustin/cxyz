@@ -88,7 +88,7 @@ public class CommandRestrictor implements CommandExecutor {
         }
 
         // A restriction exists. Let's see if the player can access it.
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         boolean restricted = restriction.getMinLevel() > np.getLevel()
                 || restriction.getMinRank().getHierarchy() > np.getTopRank().getHierarchy();
@@ -124,7 +124,7 @@ public class CommandRestrictor implements CommandExecutor {
         }
 
         // A restriction exists. Let's see if the player can access it.
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
 
         return restriction.getMinLevel() > np.getLevel()

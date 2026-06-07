@@ -63,7 +63,7 @@ public class XPSet implements CommandExecutor {
                 return true;
             }
 
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
             set(sender, np, amt);
             return true;

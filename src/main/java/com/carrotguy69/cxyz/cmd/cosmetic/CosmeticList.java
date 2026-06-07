@@ -59,7 +59,7 @@ public class CosmeticList implements CommandExecutor {
                 listAll(sender, 1);
             }
             else {
-                NetworkPlayer np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+                NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
                 listOwned(sender, np, 1);
             }
             return true;
@@ -105,7 +105,7 @@ public class CosmeticList implements CommandExecutor {
                 return true;
             }
             else {
-                np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+                np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
             }
         }
 

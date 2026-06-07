@@ -40,7 +40,7 @@ public class Ping implements CommandExecutor {
         }
 
         else if (args.length == 0) {
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
 
             viewPing(sender, np);
 
@@ -51,7 +51,7 @@ public class Ping implements CommandExecutor {
 
             String nodeOthers = "cxyz.ping.others";
             if (!sender.hasPermission(nodeOthers)) {
-                viewPing(sender, NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId()));
+                viewPing(sender, NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId()));
                 return true;
             }
 

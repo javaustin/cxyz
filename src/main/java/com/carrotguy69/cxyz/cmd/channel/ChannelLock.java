@@ -1,8 +1,8 @@
 package com.carrotguy69.cxyz.cmd.channel;
 
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelFunction;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;

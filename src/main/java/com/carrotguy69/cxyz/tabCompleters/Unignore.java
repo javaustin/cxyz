@@ -22,7 +22,7 @@ public class Unignore implements TabCompleter {
             return List.of();
         }
 
-        NetworkPlayer senderNP = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+        NetworkPlayer senderNP = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
 
         List<String> usernames = new ArrayList<>();
 

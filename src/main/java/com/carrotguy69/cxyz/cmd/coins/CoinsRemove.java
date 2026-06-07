@@ -63,7 +63,7 @@ public class CoinsRemove implements CommandExecutor {
                 return true;
             }
 
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
 
             remove(sender, np, amt);

@@ -39,7 +39,7 @@ public class Info implements CommandExecutor {
             return true;
         }
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
 
         if (args.length >= 1 && sender.hasPermission("cxyz.info.others")) {
             np = NetworkPlayer.getPlayerByUsername(args[0]);

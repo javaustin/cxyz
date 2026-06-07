@@ -6,8 +6,8 @@ import com.carrotguy69.cxyz.events.custom.base.Event;
 import com.carrotguy69.cxyz.events.custom.base.EventHandler;
 import com.carrotguy69.cxyz.events.custom.base.Priority;
 import com.carrotguy69.cxyz.models.config.channel.coreChannels.PublicChannel;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelFunction;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 
 import javax.annotation.Nullable;
 import java.util.Objects;

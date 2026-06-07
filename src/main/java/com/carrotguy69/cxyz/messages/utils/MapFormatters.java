@@ -617,7 +617,7 @@ public class MapFormatters {
 
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
             return playerFormatter(np);
         }
@@ -649,7 +649,7 @@ public class MapFormatters {
     public static Map<String, Object> punishmentFormatter(CommandSender sender, Punishment punishment) {
         // We added sender to allow timezones to be interpreted per user.
 
-        NetworkPlayer punishedPlayer = NetworkPlayer.getPlayerByUUID(UUID.fromString(punishment.getUUID()));
+        NetworkPlayer punishedPlayer = NetworkPlayer.resolvePlayer(UUID.fromString(punishment.getUUID()));
 
         Map<String, Object> punishedPlayerMap = playerFormatter(punishedPlayer);
 
@@ -662,7 +662,7 @@ public class MapFormatters {
         }
 
         else if (punishment.getModUsername() != null && !punishment.getModUsername().isBlank()) {
-            NetworkPlayer mod = NetworkPlayer.getPlayerByUUID(UUID.fromString(punishment.getModUUID()));
+            NetworkPlayer mod = NetworkPlayer.resolvePlayer(UUID.fromString(punishment.getModUUID()));
 
             commonMap.putAll(cloneFormaterToNewKey(playerFormatter(mod), "player", "mod"));
         }
@@ -675,7 +675,7 @@ public class MapFormatters {
         }
 
         else if (!ObjectUtils.equalsIgnoreCaseNullSafe(punishment.getEditorModUsername(), "console")) {
-            NetworkPlayer editorMod = NetworkPlayer.getPlayerByUUID(UUID.fromString(punishment.getEditorModUUID()));
+            NetworkPlayer editorMod = NetworkPlayer.resolvePlayer(UUID.fromString(punishment.getEditorModUUID()));
 
             commonMap.putAll(cloneFormaterToNewKey(playerFormatter(editorMod), "player", "editor-mod"));
         }
@@ -690,7 +690,7 @@ public class MapFormatters {
 
 
         // We use the senders timezone instead of the requested players. This is why punished players should receive countdown messages.
-        String tz = sender instanceof Player ? NetworkPlayer.getPlayerByUUID(((Player) sender).getUniqueId()).getTimezone() : timezone;
+        String tz = sender instanceof Player ? NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId()).getTimezone() : timezone;
 
         long issueTimestamp = punishment.getIssuedTimestamp();
         long effectiveUntilTimestamp = punishment.getEffectiveUntilTimestamp();
@@ -796,7 +796,7 @@ public class MapFormatters {
             uuids.add(party.getOwnerUUID().toString());
         }
 
-        NetworkPlayer owner = NetworkPlayer.getPlayerByUUID(party.getOwnerUUID());
+        NetworkPlayer owner = NetworkPlayer.resolvePlayer(party.getOwnerUUID());
         Map<String, Object> commonMap = cloneFormaterToNewKey(playerFormatter(owner), "player", "owner");
 
         commonMap.put("size", party.size() + 1);

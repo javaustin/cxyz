@@ -66,7 +66,7 @@ public class RankList implements CommandExecutor {
         }
 
         else if (args.length == 0)  // Player p is not null, and console is NOT the sender. The player is.
-            np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+            np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
 
         else

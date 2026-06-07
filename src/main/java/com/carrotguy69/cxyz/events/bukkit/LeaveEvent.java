@@ -24,7 +24,7 @@ public class LeaveEvent {
             return;
         }
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
 
         long currentPlaytime = np.getPlaytime();

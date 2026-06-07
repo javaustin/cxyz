@@ -5,16 +5,24 @@ import com.carrotguy69.cxyz.events.custom.base.EventHandler;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
-import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
-import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
+import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
+import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.config.shorthand.Shorthand;
-import com.carrotguy69.cxyz.models.db.*;
-import com.carrotguy69.cxyz.other.*;
+import com.carrotguy69.cxyz.models.db.FriendRequest;
+import com.carrotguy69.cxyz.models.db.GameStat;
+import com.carrotguy69.cxyz.models.db.Message;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.Party;
+import com.carrotguy69.cxyz.models.db.PartyExpire;
+import com.carrotguy69.cxyz.models.db.PartyInvite;
+import com.carrotguy69.cxyz.models.db.Punishment;
+import com.carrotguy69.cxyz.other.Constants;
+import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.other.Startup;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
@@ -26,25 +34,35 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.carrotguy69.cxyz.events.bukkit.ChatEvent.handleChat;
 import static com.carrotguy69.cxyz.events.bukkit.ClickEvent.onClick;
 import static com.carrotguy69.cxyz.events.bukkit.DropEvent.onDrop;
 import static com.carrotguy69.cxyz.events.bukkit.FishEvent.onFish;
 import static com.carrotguy69.cxyz.events.bukkit.InteractEvent.onInteract;
-import static com.carrotguy69.cxyz.events.bukkit.LeaveEvent.onLeave;
-import static com.carrotguy69.cxyz.events.bukkit.ChatEvent.handleChat;
 import static com.carrotguy69.cxyz.events.bukkit.JoinEvent.onJoin;
+import static com.carrotguy69.cxyz.events.bukkit.LeaveEvent.onLeave;
 import static com.carrotguy69.cxyz.events.bukkit.PreJoinEvent.onPreJoin;
 import static com.carrotguy69.cxyz.events.bukkit.ProjectileEvent.onProjectile;
 import static com.carrotguy69.cxyz.other.Startup.startEndpoints;
@@ -140,10 +158,14 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - tab completer for /rank add {rank} {player} doesn't return available players
    - /channel set {channel} tab completer doesn't return available channels
    - rank add should use the map formatter after the rank has been applied because the current behavior causes ("added {new-rank-prefix} to {old-rank-color}{player}")
+   - the player ignore system fundamentally does not make sense sever to server
 
    [➕] ADD/IMPLEMENT:
    - NetworkPlayer command suite (set, get, get-async) to set a raw value
 
+   - stat commands (set, get)
+
+   - better backend logging on failed actions
 
    - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
 
@@ -238,11 +260,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
         saveDefaultConfig();
         reloadConfig();
-
-//        File messageYML = new File(getDataFolder(), "messages.yml");
-//        if (!messageYML.exists()) {
-//            saveResource("messages.yml", false);
-//        }
 
         getConfig().options().copyDefaults(true); // Copies default values (values that are not set by user.) Keep this as it will be useful for version changes.
 

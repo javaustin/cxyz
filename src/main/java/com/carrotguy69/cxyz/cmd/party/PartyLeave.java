@@ -44,7 +44,7 @@ public class PartyLeave implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         leave(np);
 

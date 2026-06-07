@@ -45,7 +45,7 @@ public class ChannelIgnore implements CommandExecutor {
         Player p = (Player) sender;
 
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         List<String> allowedChannels = new ArrayList<>();
         for (BaseChannel channel : BaseChannel.getAllChannels()) {

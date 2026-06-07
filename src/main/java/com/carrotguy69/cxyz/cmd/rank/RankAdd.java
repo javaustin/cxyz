@@ -62,7 +62,7 @@ public class RankAdd implements CommandExecutor {
             }
 
             else {
-                NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+                NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
                 addRank(sender, np, args[0]);
             }

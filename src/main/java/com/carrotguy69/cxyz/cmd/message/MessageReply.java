@@ -60,8 +60,8 @@ public class MessageReply implements CommandExecutor {
 
         // This is the sender of the message we are referencing the reply from.
         // In other words it is who we are replying to - our target player.
-        NetworkPlayer target = NetworkPlayer.getPlayerByUUID(lastMessage.getSenderUUID());
-        MessageSend.sendMessage(NetworkPlayer.getPlayerByUUID(senderPlayer.getUniqueId()), target.getDisplayName(), content, true);
+        NetworkPlayer target = NetworkPlayer.resolvePlayer(lastMessage.getSenderUUID());
+        MessageSend.sendMessage(NetworkPlayer.resolvePlayer(senderPlayer.getUniqueId()), target.getDisplayName(), content, true);
 
     }
 

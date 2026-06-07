@@ -2,14 +2,17 @@ package com.carrotguy69.cxyz.models.config.channel.coreChannels;
 
 import com.carrotguy69.cxyz.events.custom.PublicChatEvent;
 import com.carrotguy69.cxyz.events.custom.service.EventService;
+import com.carrotguy69.cxyz.messages.MessageParser;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
+import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.webhook.DiscordWebhook;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -42,7 +45,7 @@ public class PublicChannel extends CoreChannel {
 
         Player p = e.getPlayer();
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         Map<String, Object> commonMap = MapFormatters.channelFormatter(this);
         commonMap.putAll(MapFormatters.playerFormatter(np));
@@ -108,6 +111,8 @@ public class PublicChannel extends CoreChannel {
     }
 
     public void handlePublicChatFallback(NetworkPlayer np, String content) {
+        // Custom channels use BaseChannel.sendChannelMessage() to propagate messages. However, we have specific more specific needs.
+
         Map<String, Object> commonMap = MapFormatters.channelFormatter(this);
         commonMap.putAll(MapFormatters.playerFormatter(np));
 
@@ -117,9 +122,9 @@ public class PublicChannel extends CoreChannel {
         TextComponent component = MessageUtils.createMessage(this.getChatFormat(), commonMap);
         for (Player pl : Bukkit.getOnlinePlayers()) {
 
-            NetworkPlayer n = NetworkPlayer.getPlayerByUUID(pl.getUniqueId());
+            NetworkPlayer n = NetworkPlayer.resolvePlayer(pl.getUniqueId());
 
-            if (n.isMutingChannel(this) && this.isIgnorable()) {
+            if ((n.isMutingChannel(this) && this.isIgnorable()) || !n.canAccessChannel(this) || n.isIgnoring(np)) {
                 continue;
             }
 
@@ -127,8 +132,21 @@ public class PublicChannel extends CoreChannel {
         }
 
         if (this.isConsoleEnabled()) {
-            Bukkit.getConsoleSender().sendMessage(f(formatPlaceholders(this.getChatFormat(), commonMap)));
+            MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), chatFormat, commonMap);
         }
+
+
+        if (this.getWebhookURL() != null && !this.getWebhookURL().isBlank()) {
+            String webhookContent = MessageParser.getStrippedText(new MessageParser(chatFormat, commonMap).parse());
+
+            Logger.debugMessage("Public message webhook content (stripped): " + webhookContent);
+
+            DiscordWebhook webhook = new DiscordWebhook()
+                    .setURL(this.getWebhookURL())
+                    .setContent(ChatColor.stripColor(f(formatPlaceholders(webhookContent, commonMap))));
+            webhook.send();
+        }
+
     }
 
     @Override

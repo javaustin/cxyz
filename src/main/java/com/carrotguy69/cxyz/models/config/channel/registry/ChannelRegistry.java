@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.models.config.channel.utils;
+package com.carrotguy69.cxyz.models.config.channel.registry;
 
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CustomChannel;

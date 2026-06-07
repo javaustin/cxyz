@@ -5,8 +5,8 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.config.channel.coreChannels.PartyChannel;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelFunction;
-import com.carrotguy69.cxyz.models.config.channel.utils.ChannelRegistry;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelFunction;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.google.gson.annotations.SerializedName;
@@ -159,11 +159,11 @@ public class Party {
         List<NetworkPlayer> partyMembers = new ArrayList<>();
 
         for (String uuid : this.getPlayers()) {
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(UUID.fromString(uuid));
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(UUID.fromString(uuid));
             partyMembers.add(np);
         }
 
-        partyMembers.add(NetworkPlayer.getPlayerByUUID(UUID.fromString(ownerUUID)));
+        partyMembers.add(NetworkPlayer.resolvePlayer(UUID.fromString(ownerUUID)));
 
 
         for (NetworkPlayer np : partyMembers) {
@@ -189,13 +189,13 @@ public class Party {
         playerFormatter.put("message", content);
 
         for (String uuid : getPlayers()) {
-            NetworkPlayer np = NetworkPlayer.getPlayerByUUID(UUID.fromString(uuid));
+            NetworkPlayer np = NetworkPlayer.resolvePlayer(UUID.fromString(uuid));
 
             if (!np.isMutingChannel(partyChannel))
                 np.sendMessage(MessageGrabber.grab(MessageKey.PARTY_CHAT_MESSAGE), playerFormatter);
         }
 
-        NetworkPlayer owner = NetworkPlayer.getPlayerByUUID(UUID.fromString(ownerUUID));
+        NetworkPlayer owner = NetworkPlayer.resolvePlayer(UUID.fromString(ownerUUID));
 
         if (!owner.isMutingChannel(partyChannel))
             owner.sendMessage(MessageGrabber.grab(MessageKey.PARTY_CHAT_MESSAGE), playerFormatter);

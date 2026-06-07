@@ -55,7 +55,7 @@ public class PartyWarp implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        NetworkPlayer np = NetworkPlayer.getPlayerByUUID(p.getUniqueId());
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         if (args.length > 0) {
             warp(np, GameServer.getServerFromName(args[0]));
@@ -91,7 +91,7 @@ public class PartyWarp implements CommandExecutor {
 
 //        party.addPlayer(owner.getUUID()); // don't worry, we will not save this object in memory or sync it. is this nigga stupid this is exactly what happened?
         for (String uuid : party.getPlayers()) {
-            NetworkPlayer partyPlayer = NetworkPlayer.getPlayerByUUID(UUID.fromString(uuid));
+            NetworkPlayer partyPlayer = NetworkPlayer.resolvePlayer(UUID.fromString(uuid));
 
             if (!partyPlayer.isOnline() ) {
                 MessageUtils.sendParsedMessage(owner.getPlayer(), MessageKey.PARTY_ERROR_WARP_FAILED, MapFormatters.partyFormatter(party));
@@ -119,7 +119,7 @@ public class PartyWarp implements CommandExecutor {
                 Iterator<String> iterator = unArrived.iterator();
                 while (iterator.hasNext()) {
                     String uuid = iterator.next();
-                    NetworkPlayer partyPlayer = NetworkPlayer.getPlayerByUUID(UUID.fromString(uuid));
+                    NetworkPlayer partyPlayer = NetworkPlayer.resolvePlayer(UUID.fromString(uuid));
 
                     if (Objects.equals(partyPlayer.getServer().getIdentifier(), finalDestinationServer.getIdentifier())) {
                         partyPlayer.sendMessage(MessageGrabber.grab(MessageKey.PARTY_WARP_ANNOUNCEMENT), commonMap);
