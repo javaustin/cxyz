@@ -1,22 +1,19 @@
 package com.carrotguy69.cxyz.models.db;
 
 import com.carrotguy69.cxyz.CXYZ;
+import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
 import com.carrotguy69.cxyz.http.Request;
-import com.carrotguy69.cxyz.messages.MessageKey;
-import com.carrotguy69.cxyz.messages.utils.MapFormatters;
-import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
+import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.models.config.PlayerRank;
+import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelFunction;
+import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.services.GameServer;
-import com.carrotguy69.cxyz.models.config.PlayerRank;
-import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
-import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
-import com.carrotguy69.cxyz.models.config.channel.registry.ChannelFunction;
-import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
-import com.carrotguy69.cxyz.other.*;
-
-import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.other.Constants;
+import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.Bukkit;
@@ -27,13 +24,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.Objects;
-
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.CXYZ.apiEndpoint;
+import static com.carrotguy69.cxyz.CXYZ.defaultRank;
+import static com.carrotguy69.cxyz.CXYZ.enabledCosmeticTypes;
 import static com.carrotguy69.cxyz.CXYZ.f;
+import static com.carrotguy69.cxyz.CXYZ.gson;
+import static com.carrotguy69.cxyz.CXYZ.plugin;
+import static com.carrotguy69.cxyz.CXYZ.thisServer;
+import static com.carrotguy69.cxyz.CXYZ.users;
 import static com.carrotguy69.cxyz.models.config.PlayerRank.getRankByName;
 
 public class NetworkPlayer {
@@ -162,28 +164,28 @@ public class NetworkPlayer {
 
 
         // remove party expire if it exists
-        PartyExpire expire = partyExpires.get(this.getUUID());
-        if (expire != null) {
-            expire.delete();
-            partyExpires.remove(expire.getUUID());
-
-            if (this.isInParty() && this.isOnline()) {
-
-                Party party = Party.getPlayerParty(this.getUUID());
-
-                if (party != null) {
-
-                    Map<String, Object> commonMap = MapFormatters.partyFormatter(party);
-                    commonMap.putAll(MapFormatters.playerFormatter(this));
-
-                    party.announce(MessageGrabber.grab(MessageKey.PARTY_PLAYER_RECONNECT), commonMap);
-                }
-                else {
-                    Logger.warning("party should not be null with np.isInParty() check. Ignoring because onJoin is a critical process.");
-                }
-
-            }
-        }
+//        PartyExpire expire = partyExpires.get(this.getUUID());
+//        if (expire != null) {
+//            expire.delete();
+//            partyExpires.remove(expire.getUUID());
+//
+//            if (this.isInParty() && this.isOnline()) {
+//
+//                Party party = Party.getPlayerParty(this.getUUID());
+//
+//                if (party != null) {
+//
+//                    Map<String, Object> commonMap = MapFormatters.partyFormatter(party);
+//                    commonMap.putAll(MapFormatters.playerFormatter(this));
+//
+//                    party.announce(MessageGrabber.grab(MessageKey.PARTY_PLAYER_RECONNECT), commonMap);
+//                }
+//                else {
+//                    Logger.warning("party should not be null with np.isInParty() check. Ignoring because onJoin is a critical process.");
+//                }
+//
+//            }
+//        }
 
         // Apply equipped cosmetics if the server allows
         for (Cosmetic cosmetic : this.getEquippedCosmetics()) {

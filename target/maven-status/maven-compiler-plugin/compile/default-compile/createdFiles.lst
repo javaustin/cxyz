@@ -47,9 +47,7 @@ com/carrotguy69/cxyz/events/bukkit/LeaveEvent.class
 com/carrotguy69/cxyz/cmd/xp/XPSet.class
 com/carrotguy69/cxyz/utils/JsonConverters$1.class
 com/carrotguy69/cxyz/models/config/cosmetics/ActiveCosmeticLoader.class
-com/carrotguy69/cxyz/other/Tasks$8.class
 com/carrotguy69/cxyz/cmd/party/_PartyExecutor.class
-com/carrotguy69/cxyz/events/bukkit/LeaveEvent$1.class
 com/carrotguy69/cxyz/cmd/level/LevelSet.class
 com/carrotguy69/cxyz/tabCompleters/Cosmetic.class
 com/carrotguy69/cxyz/models/config/channel/registry/ChannelFunction.class
@@ -149,7 +147,6 @@ com/carrotguy69/cxyz/cmd/coins/CoinsAdd.class
 com/carrotguy69/cxyz/cmd/ChatColor$Color.class
 com/carrotguy69/cxyz/cmd/coins/CoinsRemove.class
 com/carrotguy69/cxyz/cmd/xp/XPView.class
-com/carrotguy69/cxyz/http/ShipmentDelivery$PartyExpireShipmentWrapper.class
 com/carrotguy69/cxyz/models/config/cosmetics/CosmeticListener.class
 com/carrotguy69/cxyz/tabCompleters/OnlinePlayer.class
 com/carrotguy69/cxyz/tabCompleters/Debug.class
@@ -233,7 +230,6 @@ com/carrotguy69/cxyz/messages/utils/MessageGrabber.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$MessageShipmentWrapper.class
 com/carrotguy69/cxyz/cmd/party/PartySetLeader.class
 com/carrotguy69/cxyz/cmd/Parse.class
-com/carrotguy69/cxyz/http/ShipmentDelivery$PartyExpireDeliveryWrapper.class
 com/carrotguy69/cxyz/http/Listener.class
 com/carrotguy69/cxyz/tabCompleters/Ban.class
 com/carrotguy69/cxyz/cmd/punishment/Mute.class

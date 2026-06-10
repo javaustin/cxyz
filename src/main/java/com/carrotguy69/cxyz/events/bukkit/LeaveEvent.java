@@ -41,30 +41,30 @@ public class LeaveEvent {
 
 
         // Create a party expire (task). Only if the plugin is enabled still (not shutting down)
-        if (plugin.isEnabled()) {
-            new BukkitRunnable() {
-                public void run() {
-
-                    if (np.isInParty() && !np.isOnline() && partyAutoKickAfter > 0) {
-                        PartyExpire expire = new PartyExpire(np.getUUID().toString(), TimeUtils.unixTimeNow() + partyAutoKickAfter);
-                        partyExpires.put(np.getUUID(), expire);
-                        expire.create();
-
-                        Party party = Party.getPlayerParty(np.getUUID());
-
-                        if (party == null) {
-                            throw new RuntimeException("Party.getPlayerParty(np.getUUID()) should not be null if np.isInParty() is true.");
-                        }
-
-                        Map<String, Object> commonMap = MapFormatters.partyFormatter(party);
-                        commonMap.putAll(MapFormatters.playerFormatter(np));
-
-                        party.announce(MessageGrabber.grab(MessageKey.PARTY_PLAYER_DISCONNECT), commonMap);
-                    }
-                }
-            }
-                    .runTaskLater(plugin, 5L);
-        }
+//        if (plugin.isEnabled()) {
+//            new BukkitRunnable() {
+//                public void run() {
+//
+//                    if (np.isInParty() && !np.isOnline() && partyAutoKickAfter > 0) {
+//                        PartyExpire expire = new PartyExpire(np.getUUID().toString(), TimeUtils.unixTimeNow() + partyAutoKickAfter);
+//                        partyExpires.put(np.getUUID(), expire);
+//                        expire.create();
+//
+//                        Party party = Party.getPlayerParty(np.getUUID());
+//
+//                        if (party == null) {
+//                            throw new RuntimeException("Party.getPlayerParty(np.getUUID()) should not be null if np.isInParty() is true.");
+//                        }
+//
+//                        Map<String, Object> commonMap = MapFormatters.partyFormatter(party);
+//                        commonMap.putAll(MapFormatters.playerFormatter(np));
+//
+//                        party.announce(MessageGrabber.grab(MessageKey.PARTY_PLAYER_DISCONNECT), commonMap);
+//                    }
+//                }
+//            }
+//                    .runTaskLater(plugin, 5L);
+//        }
 
     }
 

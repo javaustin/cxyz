@@ -1,6 +1,12 @@
 package com.carrotguy69.cxyz.http;
 
-import com.carrotguy69.cxyz.models.db.*;
+import com.carrotguy69.cxyz.models.db.FriendRequest;
+import com.carrotguy69.cxyz.models.db.GameStat;
+import com.carrotguy69.cxyz.models.db.Message;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.Party;
+import com.carrotguy69.cxyz.models.db.PartyInvite;
+import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.Tasks;
 import com.google.common.collect.ArrayListMultimap;
@@ -9,11 +15,19 @@ import com.google.gson.annotations.SerializedName;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.HashMap;
-import static com.carrotguy69.cxyz.CXYZ.*;
+
+import static com.carrotguy69.cxyz.CXYZ.friendRequests;
+import static com.carrotguy69.cxyz.CXYZ.gson;
+import static com.carrotguy69.cxyz.CXYZ.messageMap;
+import static com.carrotguy69.cxyz.CXYZ.parties;
+import static com.carrotguy69.cxyz.CXYZ.partyInvites;
+import static com.carrotguy69.cxyz.CXYZ.punishmentIDMap;
+import static com.carrotguy69.cxyz.CXYZ.statUUIDMap;
+import static com.carrotguy69.cxyz.CXYZ.users;
 
 public class ShipmentDelivery {
 
@@ -294,77 +308,77 @@ public class ShipmentDelivery {
 
 
 
-
-
-
-    static class PartyExpireShipmentWrapper {
-        @SerializedName("data")
-        private List<PartyExpire> data;
-
-        public List<PartyExpire> getData() {
-            return data;
-        }
-    }
-
-    public static void handlePartyExpireShipment(String json) {
-        // This is the method we call when the delivery includes an entire table. So we don't need to update any values, we will just add them from our data.
-
-        PartyExpireShipmentWrapper wrapper = gson.fromJson(json, PartyExpireShipmentWrapper.class);
-
-
-        List<PartyExpire> expires = wrapper.getData();
-
-        Map<UUID, PartyExpire> tempMap = new HashMap<>();
-
-        for (PartyExpire expire : expires) {
-            // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
-            // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-            tempMap.put(expire.getUUID(), expire);
-        }
-
-        partyExpires.clear();
-        partyExpires.putAll(tempMap);
-
-        Logger.info("✅ PartyExpire table shipment received!");
-
-    }
-
-
-    static class PartyExpireDeliveryWrapper {
-        @SerializedName("old_data")
-        private List<PartyExpire> old_data;
-
-        @SerializedName("new_data")
-        private List<PartyExpire> new_data;
-
-        public List<PartyExpire> getDeletedData() {
-            return old_data;
-        }
-
-        public List<PartyExpire> getNewData() {
-            return new_data;
-        }
-    }
-
-    public static void handlePartyExpireDelivery(String json) {
-        // This is the method we call when the delivery includes a few rows. We already have data, so we will update the data by adding, modifying, or deleting rows.
-
-        PartyExpireDeliveryWrapper wrapper = gson.fromJson(json, PartyExpireDeliveryWrapper.class);
-
-        // Remove the old data first, and then add the new data!
-
-        for (PartyExpire expire : wrapper.getDeletedData()) {
-            Logger.debugParty("[-] Deleted an entry from partyExpires! " + expire.toString());
-            partyExpires.remove(expire.getUUID(), expire);
-        }
-
-        for (PartyExpire expire : wrapper.getNewData()) {
-            Logger.debugParty("[+] Added/Modified an entry to partyExpires. " + expire.toString());
-
-            partyExpires.put(expire.getUUID(), expire);
-        }
-
-    }
+//
+//
+//
+//    static class PartyExpireShipmentWrapper {
+//        @SerializedName("data")
+//        private List<PartyExpire> data;
+//
+//        public List<PartyExpire> getData() {
+//            return data;
+//        }
+//    }
+//
+//    public static void handlePartyExpireShipment(String json) {
+//        // This is the method we call when the delivery includes an entire table. So we don't need to update any values, we will just add them from our data.
+//
+//        PartyExpireShipmentWrapper wrapper = gson.fromJson(json, PartyExpireShipmentWrapper.class);
+//
+//
+//        List<PartyExpire> expires = wrapper.getData();
+//
+//        Map<UUID, PartyExpire> tempMap = new HashMap<>();
+//
+//        for (PartyExpire expire : expires) {
+//            // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
+//            // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
+//            tempMap.put(expire.getUUID(), expire);
+//        }
+//
+//        partyExpires.clear();
+//        partyExpires.putAll(tempMap);
+//
+//        Logger.info("✅ PartyExpire table shipment received!");
+//
+//    }
+//
+//
+//    static class PartyExpireDeliveryWrapper {
+//        @SerializedName("old_data")
+//        private List<PartyExpire> old_data;
+//
+//        @SerializedName("new_data")
+//        private List<PartyExpire> new_data;
+//
+//        public List<PartyExpire> getDeletedData() {
+//            return old_data;
+//        }
+//
+//        public List<PartyExpire> getNewData() {
+//            return new_data;
+//        }
+//    }
+//
+//    public static void handlePartyExpireDelivery(String json) {
+//        // This is the method we call when the delivery includes a few rows. We already have data, so we will update the data by adding, modifying, or deleting rows.
+//
+//        PartyExpireDeliveryWrapper wrapper = gson.fromJson(json, PartyExpireDeliveryWrapper.class);
+//
+//        // Remove the old data first, and then add the new data!
+//
+//        for (PartyExpire expire : wrapper.getDeletedData()) {
+//            Logger.debugParty("[-] Deleted an entry from partyExpires! " + expire.toString());
+//            partyExpires.remove(expire.getUUID(), expire);
+//        }
+//
+//        for (PartyExpire expire : wrapper.getNewData()) {
+//            Logger.debugParty("[+] Added/Modified an entry to partyExpires. " + expire.toString());
+//
+//            partyExpires.put(expire.getUUID(), expire);
+//        }
+//
+//    }
 
 
 

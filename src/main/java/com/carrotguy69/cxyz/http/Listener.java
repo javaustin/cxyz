@@ -149,14 +149,14 @@ public class Listener extends NanoHTTPD {
 
 
 
-                    case "/partyExpiresShipment":
-                        initializedMap.put("partyExpires", true);
-                        handlePartyExpireShipment(postData);
-                        break;
-
-                    case "/partyExpiresDelivery":
-                        handlePartyExpireDelivery(postData);
-                        break;
+//                    case "/partyExpiresShipment":
+//                        initializedMap.put("partyExpires", true);
+//                        handlePartyExpireShipment(postData);
+//                        break;
+//
+//                    case "/partyExpiresDelivery":
+//                        handlePartyExpireDelivery(postData);
+//                        break;
 
 
 

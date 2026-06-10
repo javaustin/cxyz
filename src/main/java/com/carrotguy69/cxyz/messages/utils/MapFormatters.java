@@ -608,7 +608,7 @@ public class MapFormatters {
             commonMap.put("player-stat-" + stat.getStatID(), stat.getValue());
         }
 
-        commonMap.putAll(MapFormatters.locationFormatter(player.getPlayer().getLocation()));
+        commonMap.putAll(player.getPlayer() != null ? MapFormatters.locationFormatter(player.getPlayer().getLocation()) : locationFormatter(null));
 
         return commonMap;
     }

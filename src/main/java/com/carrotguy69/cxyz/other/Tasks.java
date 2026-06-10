@@ -8,7 +8,6 @@ import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
-import com.carrotguy69.cxyz.models.db.PartyExpire;
 import com.carrotguy69.cxyz.models.db.PartyInvite;
 import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.carrotguy69.cxyz.utils.TimeUtils;
@@ -49,54 +48,54 @@ public class Tasks {
     }
 
     public static void handlePartyExpires() {
-        if (partyAutoKickAfter < 0)
-            return;
-
-        int id = new BukkitRunnable() {public void run() {
-
-
-            for (PartyExpire expire : partyExpires.values()) {
-                if (TimeUtils.unixTimeNow() > expire.getTimestamp()) {
-                    NetworkPlayer np = NetworkPlayer.resolvePlayer(expire.getUUID());
-
-                    if (!np.isOnline()) {
-                        Party party = Party.getPlayerParty(np.getUUID());
-
-                        if (party != null && party.getPlayers() != null) {
-
-                            if (party.getOwnerUUID().equals(np.getUUID())) { // If the owner is offline and kind of abandoned their party, then it will auto disband.
-                                party.announce(MessageGrabber.grab(MessageKey.PARTY_DISBAND), MapFormatters.partyFormatter(party));
-                                party.delete();
-                                parties.remove(party.getOwnerUUID(), party);
-                            }
-
-                            else {
-                                Map<String, Object> map = MapFormatters.playerFormatter(np);
-                                map.putAll(MapFormatters.partyFormatter(party));
-
-                                party.removePlayer(np.getUUID());
-
-                                party.announce(MessageGrabber.grab(MessageKey.PARTY_REMOVE_INACTIVE_ANNOUNCEMENT), map); // This is not true! The player does not actually get removed, and this behavior is unpredictable at runtime.
-
-                                party.sync();
-
-                                parties.put(party.getOwnerUUID(), party);
-                            }
-                        }
-
-                        partyExpires.remove(np.getUUID(), expire);
-                        expire.delete();
-                    }
-
-                    else
-                        Logger.warning(String.format("In cancelling party expires, Player %s was expected to be offline according to the expire map, but was found online! Ignoring!", np.getUsername()));
-                }
-            }
-
-
-        }}.runTaskTimer(plugin, 0L, 10 * 20).getTaskId();
-
-        taskIDs.add(id);
+//        if (partyAutoKickAfter < 0)
+//            return;
+//
+//        int id = new BukkitRunnable() {public void run() {
+//
+//
+//            for (PartyExpire expire : partyExpires.values()) {
+//                if (TimeUtils.unixTimeNow() > expire.getTimestamp()) {
+//                    NetworkPlayer np = NetworkPlayer.resolvePlayer(expire.getUUID());
+//
+//                    if (!np.isOnline()) {
+//                        Party party = Party.getPlayerParty(np.getUUID());
+//
+//                        if (party != null && party.getPlayers() != null) {
+//
+//                            if (party.getOwnerUUID().equals(np.getUUID())) { // If the owner is offline and kind of abandoned their party, then it will auto disband.
+//                                party.announce(MessageGrabber.grab(MessageKey.PARTY_DISBAND), MapFormatters.partyFormatter(party));
+//                                party.delete();
+//                                parties.remove(party.getOwnerUUID(), party);
+//                            }
+//
+//                            else {
+//                                Map<String, Object> map = MapFormatters.playerFormatter(np);
+//                                map.putAll(MapFormatters.partyFormatter(party));
+//
+//                                party.removePlayer(np.getUUID());
+//
+//                                party.announce(MessageGrabber.grab(MessageKey.PARTY_REMOVE_INACTIVE_ANNOUNCEMENT), map); // This is not true! The player does not actually get removed, and this behavior is unpredictable at runtime.
+//
+//                                party.sync();
+//
+//                                parties.put(party.getOwnerUUID(), party);
+//                            }
+//                        }
+//
+//                        partyExpires.remove(np.getUUID(), expire);
+//                        expire.delete();
+//                    }
+//
+//                    else
+//                        Logger.warning(String.format("In cancelling party expires, Player %s was expected to be offline according to the expire map, but was found online! Ignoring!", np.getUsername()));
+//                }
+//            }
+//
+//
+//        }}.runTaskTimer(plugin, 0L, 10 * 20).getTaskId();
+//
+//        taskIDs.add(id);
     }
 
     public static void handlePartyInvites() {

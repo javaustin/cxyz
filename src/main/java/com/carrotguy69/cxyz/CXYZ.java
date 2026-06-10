@@ -159,6 +159,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
    - /channel set {channel} tab completer doesn't return available channels
    - rank add should use the map formatter after the rank has been applied because the current behavior causes ("added {new-rank-prefix} to {old-rank-color}{player}")
    - the player ignore system fundamentally does not make sense sever to server
+   - party expires is too unreliable and architecturally expensive to support. we should delete it and come up with a new schema later
 
    [➕] ADD/IMPLEMENT:
    - NetworkPlayer command suite (set, get, get-async) to set a raw value
@@ -283,7 +284,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         initializedMap.put("users", false);
         initializedMap.put("parties", false);
         initializedMap.put("partyInvites", false);
-        initializedMap.put("partyExpires", false);
+        initializedMap.put("partyExpires", true); // we are effectively ignoring expires because of how incredibly buggy they are
         initializedMap.put("messages", false);
         initializedMap.put("punishments", false);
         initializedMap.put("friendRequests", false);
