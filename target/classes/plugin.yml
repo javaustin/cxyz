@@ -181,12 +181,6 @@ commands:
     permission: "cxyz.info"
     aliases: [whois]
 
-  inventorysee:
-    description: View a player's inventory
-    usage: /inventorysee <player>
-    permission: "cxyz.inventorysee"
-    aliases: [invsee, inventory, inv]
-
   nickname:
     description: Set a server nickname
     usage: /nickname [name]
@@ -434,8 +428,6 @@ permissions:
   cxyz.info:
     default: true
 
-  cxyz.inventorysee:
-    default: op
 
   cxyz.nickname:
     default: true

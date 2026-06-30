@@ -6,7 +6,6 @@ import com.carrotguy69.cxyz.cmd.Debug;
 import com.carrotguy69.cxyz.cmd.EnderChestSee;
 import com.carrotguy69.cxyz.cmd.Fullbright;
 import com.carrotguy69.cxyz.cmd.Info;
-import com.carrotguy69.cxyz.cmd.InventorySee;
 import com.carrotguy69.cxyz.cmd.Location;
 import com.carrotguy69.cxyz.cmd.Nickname;
 import com.carrotguy69.cxyz.cmd.Parse;
@@ -137,9 +136,6 @@ public class Startup {
 
             Objects.requireNonNull(plugin.getCommand("chatcolor")).setExecutor(new ChatColor());
             Objects.requireNonNull(plugin.getCommand("chatcolor")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatColor());
-
-            Objects.requireNonNull(plugin.getCommand("inventorysee")).setExecutor(new InventorySee());
-            Objects.requireNonNull(plugin.getCommand("inventorysee")).setTabCompleter(new LocalOnlinePlayer());
 
             Objects.requireNonNull(plugin.getCommand("info")).setExecutor(new Info());
             Objects.requireNonNull(plugin.getCommand("info")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Info());

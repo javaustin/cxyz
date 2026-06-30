@@ -150,7 +150,6 @@ com/carrotguy69/cxyz/cmd/coins/CoinsAdd.class
 com/carrotguy69/cxyz/cmd/ChatColor$Color.class
 com/carrotguy69/cxyz/cmd/coins/CoinsRemove.class
 com/carrotguy69/cxyz/cmd/xp/XPView.class
-com/carrotguy69/cxyz/cmd/InventorySee.class
 com/carrotguy69/cxyz/models/config/cosmetics/CosmeticListener.class
 com/carrotguy69/cxyz/tabCompleters/OnlinePlayer.class
 com/carrotguy69/cxyz/tabCompleters/Debug.class

@@ -162,7 +162,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     - the player ignore system fundamentally does not make sense sever to server [??? holy vague]
     - ✅️ party expires is too unreliable and architecturally expensive to support. we should delete it and come up with a new schema later
     - pretty much all times are incorrect (playtime, lastJoin, lastOnline), in production lastJoin is the same as firstJoin so last join must not be being updated.
-    -
+    - we attempted to do inventory see but that failed disasterously. try again when less tired
 ️ ️️ ️
     [➕] ADD/IMPLEMENT:
     - NetworkPlayer command suite (set, get, get-async) to set a raw value
