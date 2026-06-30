@@ -165,7 +165,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     - we attempted to do inventory see but that failed disasterously. try again when less tired
 ️ ️️ ️
     [➕] ADD/IMPLEMENT:
-    - NetworkPlayer command suite (set, get, get-async) to set a raw value
+    - ! NetworkPlayer command suite (set, get, get-async) to set a raw value
 
     - stat commands (set, get)
 

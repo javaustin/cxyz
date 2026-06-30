@@ -190,11 +190,6 @@ public enum MessageKey {
     INFO("commands.info"),
 
     // =========================
-    // Commands - Info
-    // =========================
-    INVENTORY_VIEW("commands.inventory-view"),
-
-    // =========================
     // Commands - Ignore
     // =========================
 

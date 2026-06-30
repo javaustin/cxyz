@@ -237,8 +237,6 @@ commands:
     [&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/cosmetic list equipped 1 {player})
     [&fIgnored Channels:&7 {player-ignored-channels-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/channel ignore)
 
-  inventory-view: "&aYou are viewing {player-display-name}'s inventory."
-
   location:
     short: "&fYour location: &7{block-x}, {block-y}, {block-z}"
     long: "&fYour location: &7{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}}"
