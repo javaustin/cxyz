@@ -98,7 +98,7 @@ public class Tasks {
 //        taskIDs.add(id);
     }
 
-    public static void handlePartyInvites() {
+    public static void clearPartyInvites() {
         if (partyInvitesExpireAfter < 0)
             return;
 
@@ -119,7 +119,8 @@ public class Tasks {
                 Party party = Party.getPlayerParty(invite.getInviterUUID());
 
                 if (party != null) {
-                    party.announce(MessageGrabber.grab(MessageKey.PARTY_INVITE_EXPIRED), MapFormatters.inviterRecipientFormat(invite.getInviter(), invite.getRecipient()));
+                    party.announce(MessageGrabber.grab(MessageKey.PARTY_INVITE_EXPIRED_ANNOUNCEMENT), MapFormatters.inviterRecipientFormat(invite.getInviter(), invite.getRecipient()));
+                    invite.getInviter().sendMessage(MessageGrabber.grab(MessageKey.PARTY_INVITE_EXPIRED), MapFormatters.playerFormatter(invite.getRecipient()));
                 }
 
                 partyInvites.remove(invite.getInviterUUID(), invite);

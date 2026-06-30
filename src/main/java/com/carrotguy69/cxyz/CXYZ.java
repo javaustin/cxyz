@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz;
 
+import com.carrotguy69.cxyz.events.custom.JoinEvent;
 import com.carrotguy69.cxyz.events.custom.PublicChatEvent;
 import com.carrotguy69.cxyz.events.custom.base.EventHandler;
 import com.carrotguy69.cxyz.http.Listener;
@@ -125,6 +126,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static Map<String, Boolean> initializedMap = new HashMap<>();
 
     public static final List<EventHandler<PublicChatEvent>> pceHandlers = new ArrayList<>();
+    public static final List<EventHandler<JoinEvent>> jeHandlers = new ArrayList<>();
 
 
     public static boolean isInitialized() {
@@ -153,59 +155,60 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     /*
 
-   [❌] ISSUES:
-   - (resolved) FATAL equipped_cosmetics bug (we should NOT be able to have two of the same cosmetics equipped at once) {having a hard time recreating it, not sure the context}
-   - tab completer for /rank add {rank} {player} doesn't return available players
-   - /channel set {channel} tab completer doesn't return available channels
-   - rank add should use the map formatter after the rank has been applied because the current behavior causes ("added {new-rank-prefix} to {old-rank-color}{player}")
-   - the player ignore system fundamentally does not make sense sever to server
-   - party expires is too unreliable and architecturally expensive to support. we should delete it and come up with a new schema later
+    [❌] ISSUES:
+    - ✅️ tab completer for /rank add/remove/... {rank} {player} doesn't return available players
+    - ️✅️ /channel set {channel} tab completer doesn't return available channels
+    - ✅️ rank add should use the map formatter after the rank has been applied because the current behavior causes ("added {new-rank-prefix} to {old-rank-color}{player}")
+    - the player ignore system fundamentally does not make sense sever to server [??? holy vague]
+    - ✅️ party expires is too unreliable and architecturally expensive to support. we should delete it and come up with a new schema later
+    - pretty much all times are incorrect (playtime, lastJoin, lastOnline), in production lastJoin is the same as firstJoin so last join must not be being updated.
+    -
+️ ️️ ️
+    [➕] ADD/IMPLEMENT:
+    - NetworkPlayer command suite (set, get, get-async) to set a raw value
 
-   [➕] ADD/IMPLEMENT:
-   - NetworkPlayer command suite (set, get, get-async) to set a raw value
+    - stat commands (set, get)
 
-   - stat commands (set, get)
+    - better backend logging on failed actions
 
-   - better backend logging on failed actions
+    - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
 
-   - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
+    - document messages.yml with proper placeholder documentation (comments)
 
-   - document messages.yml with proper placeholder documentation (comments)
+    - trigger prefix needs to be removed from the message
 
-   - trigger prefix needs to be removed from the message
+    - Add /heal
+    - Add /back
+    - Add /fly
+    - Add /smite
+    - Add /repair
+    - Add /tpa system
+    - Add /sudo
+    - Add /invsee
 
-   - Add /heal
-   - Add /back
-   - Add /fly
-   - Add /smite
-   - Add /repair
-   - Add /tpa system
-   - Add /sudo
-   - Add /invsee
+    - CROSS SERVER TESTING!
 
-   - CROSS SERVER TESTING!
+    - better debugger (make a list of things that need to get printed when a debugger is enabled) - eliminate bloat
 
-   - better debugger (make a list of things that need to get printed when a debugger is enabled) - eliminate bloat
-
-   - channel lock override permission
+    - channel lock override permission
 
 
-   [🔥] v1.1 UPDATE:
-   - Table shipments should be split up into pages (the plugin doesn't know how many pages, so it's up to the API to send all the data we need). We shouldn't have to modify any code plugin-side
-   - /ignore is odd lol
-   - Admin tools to fix database (remove deleted ranks)
-   - Enable Cosmetics w/ full GUI support
-   - Rank up notifications (public or private) (including if a new cosmetic is available).
-   - Ping sound to a player when their name is mentioned in the chat
-   - On hover: "View Player". On click: open gui. options (player info, add friend, message player, invite to party, warp to server)
-   - /info command to supplement this ^
-   - A database table that simply logs all player actions that involve the API.
-   - Figure out how to restrict certain non-command-based features to ranked users (like in MessageSend.sendMessage(), the color is stripped for non default users, add some functionality!)
-   - A /color command that changes your name color (like in that one Skeppy video)
-   - More detailed & sensible Logging
-   - A way to convert RGB colors to legacy colors (for hover, tab text)
-   - Quest system with Quest NPC. Awards coins/xp on completion of quests. There should be only a select amount of quests available to a player weekly - and they should be generated uniquely to the player.
-   - Queued message system
+    [🔥] v1.1 UPDATE:
+    - Table shipments should be split up into pages (the plugin doesn't know how many pages, so it's up to the API to send all the data we need). We shouldn't have to modify any code plugin-side
+    - /ignore is odd lol
+    - Admin tools to fix database (remove deleted ranks)
+    - Enable Cosmetics w/ full GUI support
+    - Rank up notifications (public or private) (including if a new cosmetic is available).
+    - Ping sound to a player when their name is mentioned in the chat
+    - On hover: "View Player". On click: open gui. options (player info, add friend, message player, invite to party, warp to server)
+    - /info command to supplement this ^
+    - A database table that simply logs all player actions that involve the API.
+    - Figure out how to restrict certain non-command-based features to ranked users (like in MessageSend.sendMessage(), the color is stripped for non default users, add some functionality!)
+    - A /color command that changes your name color (like in that one Skeppy video)
+    - More detailed & sensible Logging
+    - A way to convert RGB colors to legacy colors (for hover, tab text)
+    - Quest system with Quest NPC. Awards coins/xp on completion of quests. There should be only a select amount of quests available to a player weekly - and they should be generated uniquely to the player.
+    - Queued message system
        Add queued_messages column in DB table.
        NP.addQueuedMessage(String)
        removeQueuedMessage(int index)
@@ -214,18 +217,17 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
        Mass remove should remove the message by its content.
        {player} placeholder should be used and formatted at send time
 
-   Event system other plugins can subscribe to (extensive):
-   - I want to develop minigames. Since minigames will require some core data, the minigame plugins can extend off some plugin code already (getting various objects).
-   - The problem still remains, how can we broadcast (non-cancellable) events for other plugins to use immediately and reliably.
-   - Solution: Create or use an event system to broadcast events to any who subscribe
-   - Levelup: Add a player facing XP and coin add message (can be left blank in config if admin desires)
-   - Levelup: Add a player level up message (and play the sound)
-   - Events other plugins can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
+    Event system other plugins can subscribe to (extensive):
+    - I want to develop minigames. Since minigames will require some core data, the minigame plugins can extend off some plugin code already (getting various objects).
+    - The problem still remains, how can we broadcast (non-cancellable) events for other plugins to use immediately and reliably.
+    - Solution: Create or use an event system to broadcast events to any who subscribe
+    - Levelup: Add a player facing XP and coin add message (can be left blank in config if admin desires)
+    - Levelup: Add a player level up message (and play the sound)
+    - Events other plugins can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
 
-   [⚠️] NON REPLICABLE (or hard to replicate) ISSUES
-   - I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
-   - why does "&d[phat]" have a formatter color code character before f() is applied?
-   - it may be possible for two of the same cosmetics to be equipped (my equip list had two rainbow armors and i ran /unequip twice)
+    [⚠️] NON REPLICABLE (or hard to replicate) ISSUES
+    - ✅️ I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
+    - why does "&d[phat]" have a formatter color code character before f() is applied?
 
    */
 

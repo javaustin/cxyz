@@ -47,6 +47,7 @@ com/carrotguy69/cxyz/events/bukkit/LeaveEvent.class
 com/carrotguy69/cxyz/cmd/xp/XPSet.class
 com/carrotguy69/cxyz/utils/JsonConverters$1.class
 com/carrotguy69/cxyz/models/config/cosmetics/ActiveCosmeticLoader.class
+com/carrotguy69/cxyz/events/custom/LeaveEvent.class
 com/carrotguy69/cxyz/cmd/party/_PartyExecutor.class
 com/carrotguy69/cxyz/cmd/level/LevelSet.class
 com/carrotguy69/cxyz/tabCompleters/Cosmetic.class
@@ -101,6 +102,7 @@ com/carrotguy69/cxyz/events/bukkit/JoinEvent.class
 com/carrotguy69/cxyz/events/bukkit/PreJoinEvent.class
 com/carrotguy69/cxyz/cmd/Nickname.class
 com/carrotguy69/cxyz/tabCompleters/Ignore.class
+com/carrotguy69/cxyz/tabCompleters/LocalOnlinePlayer.class
 com/carrotguy69/cxyz/events/custom/PublicChatEvent.class
 com/carrotguy69/cxyz/models/config/cosmetics/Cosmetic$CosmeticType.class
 com/carrotguy69/cxyz/cmd/cosmetic/_CosmeticExecutor.class
@@ -135,6 +137,7 @@ com/carrotguy69/cxyz/models/db/NetworkPlayer$PartyInvitePrivacy.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$PartyInviteShipmentWrapper.class
 com/carrotguy69/cxyz/tabCompleters/Nickname.class
 com/carrotguy69/cxyz/models/db/NetworkPlayer$MessagePrivacy.class
+com/carrotguy69/cxyz/events/custom/JoinEvent.class
 com/carrotguy69/cxyz/messages/MessageParser.class
 com/carrotguy69/cxyz/cmd/coins/CoinsSet.class
 com/carrotguy69/cxyz/models/db/Party.class
@@ -147,6 +150,7 @@ com/carrotguy69/cxyz/cmd/coins/CoinsAdd.class
 com/carrotguy69/cxyz/cmd/ChatColor$Color.class
 com/carrotguy69/cxyz/cmd/coins/CoinsRemove.class
 com/carrotguy69/cxyz/cmd/xp/XPView.class
+com/carrotguy69/cxyz/cmd/InventorySee.class
 com/carrotguy69/cxyz/models/config/cosmetics/CosmeticListener.class
 com/carrotguy69/cxyz/tabCompleters/OnlinePlayer.class
 com/carrotguy69/cxyz/tabCompleters/Debug.class
@@ -175,6 +179,7 @@ com/carrotguy69/cxyz/other/Logger$DefaultChannelType.class
 com/carrotguy69/cxyz/cmd/party/PartyPublic.class
 com/carrotguy69/cxyz/models/config/channel/registry/FunctionalChannel.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$PartyShipmentWrapper.class
+com/carrotguy69/cxyz/cmd/EnderChestSee.class
 com/carrotguy69/cxyz/cmd/punishment/Warn.class
 com/carrotguy69/cxyz/messages/utils/SimpleTextComponent.class
 com/carrotguy69/cxyz/utils/BroadcastUtils.class

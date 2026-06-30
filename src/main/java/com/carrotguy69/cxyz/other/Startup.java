@@ -1,38 +1,55 @@
 package com.carrotguy69.cxyz.other;
 
-import com.carrotguy69.cxyz.cmd.*;
-import com.carrotguy69.cxyz.cmd.Debug;
-import com.carrotguy69.cxyz.cmd.Info;
-import com.carrotguy69.cxyz.cmd.Location;
-import com.carrotguy69.cxyz.cmd.Print;
-import com.carrotguy69.cxyz.cmd.coins._CoinsExecutor;
-import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
-import com.carrotguy69.cxyz.cmd.punishment.*;
-import com.carrotguy69.cxyz.cmd.punishment.Ban;
-import com.carrotguy69.cxyz.cmd.punishment.Unban;
-import com.carrotguy69.cxyz.cmd.punishment.Unmute;
-import com.carrotguy69.cxyz.cmd.rank._RankExecutor;
-import com.carrotguy69.cxyz.cmd.xp._XPExecutor;
+import com.carrotguy69.cxyz.cmd.Broadcast;
 import com.carrotguy69.cxyz.cmd.ChatColor;
+import com.carrotguy69.cxyz.cmd.Debug;
+import com.carrotguy69.cxyz.cmd.EnderChestSee;
+import com.carrotguy69.cxyz.cmd.Fullbright;
+import com.carrotguy69.cxyz.cmd.Info;
+import com.carrotguy69.cxyz.cmd.InventorySee;
+import com.carrotguy69.cxyz.cmd.Location;
 import com.carrotguy69.cxyz.cmd.Nickname;
+import com.carrotguy69.cxyz.cmd.Parse;
+import com.carrotguy69.cxyz.cmd.Ping;
+import com.carrotguy69.cxyz.cmd.PlaceholderTest;
+import com.carrotguy69.cxyz.cmd.Port;
+import com.carrotguy69.cxyz.cmd.Print;
+import com.carrotguy69.cxyz.cmd.Show;
+import com.carrotguy69.cxyz.cmd.Test;
 import com.carrotguy69.cxyz.cmd.Timezone;
 import com.carrotguy69.cxyz.cmd.channel._ChannelExecutor;
+import com.carrotguy69.cxyz.cmd.coins._CoinsExecutor;
 import com.carrotguy69.cxyz.cmd.cosmetic._CosmeticExecutor;
 import com.carrotguy69.cxyz.cmd.friend._FriendExecutor;
+import com.carrotguy69.cxyz.cmd.ignore.Unignore;
+import com.carrotguy69.cxyz.cmd.ignore._IgnoreExecutor;
+import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
 import com.carrotguy69.cxyz.cmd.message.MessageReply;
 import com.carrotguy69.cxyz.cmd.message.MessageSend;
 import com.carrotguy69.cxyz.cmd.party._PartyExecutor;
 import com.carrotguy69.cxyz.cmd.privacy.FriendPrivacy;
 import com.carrotguy69.cxyz.cmd.privacy.MessagePrivacy;
 import com.carrotguy69.cxyz.cmd.privacy.PartyPrivacy;
-import com.carrotguy69.cxyz.cmd.ignore.Unignore;
-import com.carrotguy69.cxyz.cmd.ignore._IgnoreExecutor;
+import com.carrotguy69.cxyz.cmd.punishment.Ban;
+import com.carrotguy69.cxyz.cmd.punishment.Kick;
+import com.carrotguy69.cxyz.cmd.punishment.Mute;
+import com.carrotguy69.cxyz.cmd.punishment.Unban;
+import com.carrotguy69.cxyz.cmd.punishment.Unmute;
+import com.carrotguy69.cxyz.cmd.punishment.Warn;
 import com.carrotguy69.cxyz.cmd.punishment.manager._PunishmentExecutor;
+import com.carrotguy69.cxyz.cmd.rank._RankExecutor;
+import com.carrotguy69.cxyz.cmd.xp._XPExecutor;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.papi.Expansion;
 import com.carrotguy69.cxyz.papi.RelationalExpansion;
-import com.carrotguy69.cxyz.tabCompleters.*;
+import com.carrotguy69.cxyz.tabCompleters.Blank;
+import com.carrotguy69.cxyz.tabCompleters.CoinsXPLevel;
+import com.carrotguy69.cxyz.tabCompleters.LocalOnlinePlayer;
+import com.carrotguy69.cxyz.tabCompleters.OnlinePlayer;
+import com.carrotguy69.cxyz.tabCompleters.Party;
+import com.carrotguy69.cxyz.tabCompleters.Privacy;
+import com.carrotguy69.cxyz.tabCompleters.Rank;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
@@ -41,8 +58,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.carrotguy69.cxyz.CXYZ.*;
-import static com.carrotguy69.cxyz.other.Tasks.*;
+import static com.carrotguy69.cxyz.CXYZ.apiEndpoint;
+import static com.carrotguy69.cxyz.CXYZ.gson;
+import static com.carrotguy69.cxyz.CXYZ.initializedMap;
+import static com.carrotguy69.cxyz.CXYZ.listener;
+import static com.carrotguy69.cxyz.CXYZ.plugin;
+import static com.carrotguy69.cxyz.CXYZ.thisPort;
+import static com.carrotguy69.cxyz.other.Tasks.deleteOfflineParties;
+import static com.carrotguy69.cxyz.other.Tasks.fixOnlinePlayers;
+import static com.carrotguy69.cxyz.other.Tasks.handlePartyExpires;
+import static com.carrotguy69.cxyz.other.Tasks.clearPartyInvites;
+import static com.carrotguy69.cxyz.other.Tasks.runPunishmentSeq;
+import static com.carrotguy69.cxyz.other.Tasks.updateLastOnlineValues;
 
 public class Startup {
 
@@ -111,8 +138,14 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("chatcolor")).setExecutor(new ChatColor());
             Objects.requireNonNull(plugin.getCommand("chatcolor")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatColor());
 
+            Objects.requireNonNull(plugin.getCommand("inventorysee")).setExecutor(new InventorySee());
+            Objects.requireNonNull(plugin.getCommand("inventorysee")).setTabCompleter(new LocalOnlinePlayer());
+
             Objects.requireNonNull(plugin.getCommand("info")).setExecutor(new Info());
             Objects.requireNonNull(plugin.getCommand("info")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Info());
+
+            Objects.requireNonNull(plugin.getCommand("enderchest")).setExecutor(new EnderChestSee());
+            Objects.requireNonNull(plugin.getCommand("enderchest")).setTabCompleter(new LocalOnlinePlayer());
 
             Objects.requireNonNull(plugin.getCommand("fullbright")).setExecutor(new Fullbright());
 
@@ -181,7 +214,7 @@ public class Startup {
 
     public static void startTasks() {
         handlePartyExpires();
-        handlePartyInvites();
+        clearPartyInvites();
         fixOnlinePlayers();
         updateLastOnlineValues();
         deleteOfflineParties();
@@ -205,7 +238,7 @@ public class Startup {
 
     public static void registerPlaceholders() {
         if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            Logger.warning("Could not find PlaceholderAPI on this server. Ignoring...");
+            Logger.info("Could not find PlaceholderAPI on this server. Ignoring...");
             return;
         }
 

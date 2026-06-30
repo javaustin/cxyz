@@ -13,12 +13,15 @@ public class JoinEvent {
         boolean create = !NetworkPlayer.exists(p.getUniqueId());
         NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
-        if (create)
+        np.updateWithPlayer(p);
+
+        if (create) {
             np.create();
+        }
 
-        else
+        else {
             np.sync();
-
+        }
     }
 
 }

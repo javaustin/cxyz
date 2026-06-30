@@ -14,6 +14,16 @@ import java.util.stream.Collectors;
 
 public class ObjectUtils {
 
+    public static boolean parseBoolean(String s) {
+        // "false", "0" -> false; all else true
+
+        return s != null && !s.equalsIgnoreCase("0") && !s.equalsIgnoreCase("false");
+    }
+
+    public static boolean parseBoolean(int i) {
+        return i != 0;
+    }
+
     public static boolean containsIgnoreCase(Collection<String> collection, String sequence) {
         for (String s : collection) {
             if (s.toLowerCase().contains(sequence.toLowerCase())) {

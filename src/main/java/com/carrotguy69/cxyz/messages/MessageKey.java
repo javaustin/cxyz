@@ -152,6 +152,9 @@ public enum MessageKey {
     DEBUG_VIEW("commands.debug.view"),
 
 
+    ECHEST_VIEW("command.echest-view"),
+
+
     FULLBRIGHT_TOGGLE_ON("commands.fullbright.toggle-on"),
     FULLBRIGHT_TOGGLE_OFF("commands.fullbright.toggle-off"),
 
@@ -186,6 +189,10 @@ public enum MessageKey {
     // =========================
     INFO("commands.info"),
 
+    // =========================
+    // Commands - Info
+    // =========================
+    INVENTORY_VIEW("commands.inventory-view"),
 
     // =========================
     // Commands - Ignore
@@ -256,6 +263,7 @@ public enum MessageKey {
     PARTY_DISBAND_INACTIVE("commands.party.disband-inactive"),
     PARTY_DISBAND_SOLO("commands.party.disband-solo"),
     PARTY_INVITE_EXPIRED("commands.party.invite-expired"),
+    PARTY_INVITE_EXPIRED_ANNOUNCEMENT("commands.party.invite-expired-announcement"),
     PARTY_INVITE_FAIL("commands.party.invite-fail"),
     PARTY_INVITE_SENT("commands.party.invite-sent"),
     PARTY_INVITE_RECEIVED("commands.party.invite-received"),

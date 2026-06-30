@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.carrotguy69.cxyz.CXYZ.ranks;
 import static com.carrotguy69.cxyz.CXYZ.users;
@@ -20,79 +21,54 @@ public class Rank implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        List<String> subcommands = new ArrayList<>(List.of("add", "remove", "list"));
-        subcommands.removeIf(subcommand -> !(sender.hasPermission(String.format("cxyz.rank.%s", subcommand))));
-
-        if (args.length == 0) {
-            return subcommands;
-        }
-
-        if (args.length == 1) {
-            List<String> results = new ArrayList<>();
-
-            for (String s : subcommands) {
-                if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
-                    results.add(s);
-                }
-            }
-
-            return results;
-        }
+        List<String> results = new ArrayList<>();
+        List<String> options = new ArrayList<>(List.of("add", "remove", "list"));
+        options.removeIf(subcommand -> !(sender.hasPermission(String.format("cxyz.rank.%s", subcommand))));
 
         if (args.length == 2) {
+            if (!sender.hasPermission(String.format("cxyz.rank.%s", args[0])))
+                return List.of();
 
-            List<String> results = new ArrayList<>();
-
-            switch (args[0]) {
+            switch (args[0].toLowerCase()) {
                 case "add":
-                    if (!sender.hasPermission(String.format("cxyz.rank.%s", args[0])))
-                        return List.of();
+                    options = ranks.stream().map(PlayerRank::getName).collect(Collectors.toList());
+                    break;
 
-                    for (PlayerRank rank : ranks) {
-                        if (rank.getName().toLowerCase().startsWith(args[1].toLowerCase()))
-                            results.add(rank.getName().toLowerCase());
-                    }
-
-                    return results;
 
                 case "remove":
-                    if (!sender.hasPermission(String.format("cxyz.rank.%s", args[0])))
-                        return List.of();
-
-                    if (!(sender instanceof Player)) {
-                        for (PlayerRank rank : ranks) {
-                            if (rank.getName().toLowerCase().startsWith(args[1].toLowerCase()))
-                                results.add(rank.getName().toLowerCase());
-                        }
-                    }
-
-                    else {
+                    if (sender instanceof Player) {
                         NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
-
-                        for (PlayerRank rank : np.getRanks()) {
-                            if (rank.getName().toLowerCase().startsWith(args[1].toLowerCase()))
-                                results.add(rank.getName().toLowerCase());
-                        }
+                        options = np.getRanks().stream().map(PlayerRank::getName).collect(Collectors.toList());
                     }
-
-                    return results;
+                    break;
 
                 case "list":
-                    if (!sender.hasPermission(String.format("cxyz.rank.%s", args[0])))
-                        return List.of();
-
-                    for (NetworkPlayer np : users.values()) {
-                        // No need to check for online or vanish status, because this command accepts all players anyway, regardless of those statuses.
-                        if (np.getDisplayName().toLowerCase().startsWith(args[1].toLowerCase())) {
-                            results.add(np.getDisplayName());
-                        }
-                    }
-
-                    return results;
+                    options = users.values().stream().map(NetworkPlayer::getDisplayName).collect(Collectors.toList());
+                    break;
             }
         }
 
-        return List.of();
+        if (args.length == 3) {
+            options = AnyPlayer.getAllUsernames();
+        }
+
+        if (args.length >= 4) {
+            options = List.of();
+        }
+
+        if (options.isEmpty() && args.length == 2) {
+            // The default behavior in /rank remove is to only list ranks that a sender has.
+            // If a sender does not have any relevant ranks to remove or is typing something different, we will return all the ranks, not just the senders.
+                options = ranks.stream().map(PlayerRank::getName).collect(Collectors.toList());
+        }
+
+        for (String option : options) {
+            if (option.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+                results.add(option);
+            }
+        }
+
+        return results;
     }
 
 

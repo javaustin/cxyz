@@ -1,6 +1,7 @@
 package com.carrotguy69.cxyz.events.custom.service;
 
 import com.carrotguy69.cxyz.CXYZ;
+import com.carrotguy69.cxyz.events.custom.JoinEvent;
 import com.carrotguy69.cxyz.events.custom.PublicChatEvent;
 import com.carrotguy69.cxyz.events.custom.base.Event;
 import com.carrotguy69.cxyz.events.custom.base.EventHandler;
@@ -32,6 +33,19 @@ public class EventService {
                 );
                 channel.handlePublicChatFallback(pce.getSender(), pce.getContent());
             }
+        }
+
+        if (e instanceof JoinEvent) {
+            JoinEvent je = (JoinEvent) e;
+
+            boolean isHandled = false;
+            for (EventHandler<JoinEvent> jeHandler : CXYZ.jeHandlers) {
+                if (jeHandler.handle(je)) {
+                    isHandled = true;
+                }
+            }
+
+            // cxyz logic runs regardless of handled or not
         }
     }
 

@@ -90,8 +90,7 @@ public class RankAdd implements CommandExecutor {
         try {
             PlayerRank rank = PlayerRank.getRankByName(rankName);
 
-            Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
-            commonMap.putAll(MapFormatters.rankFormatter(rank));
+            Map<String, Object> commonMap = MapFormatters.rankFormatter(rank);
 
             if (np.hasRank(rank)) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.RANK_ERROR_HAS_RANK, commonMap);
@@ -101,7 +100,8 @@ public class RankAdd implements CommandExecutor {
             np.addRank(rank);
             np.sync();
 
-            commonMap.putAll(MapFormatters.rankFormatter(rank));
+            commonMap.putAll(MapFormatters.playerFormatter(np));
+
             MessageUtils.sendParsedMessage(sender, MessageKey.RANK_ADD, commonMap);
 
         }

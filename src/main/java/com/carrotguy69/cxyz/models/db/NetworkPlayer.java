@@ -223,7 +223,6 @@ public class NetworkPlayer {
                 "uuid=" + getUUID() +
                 ", username='" + getUsername() + '\'' +
                 ", nickname='" + getNickname() + '\'' +
-                ", topRank=" + getTopRank().getName() +
                 ", server=" + getServer().getIdentifier() +
                 ", online=" + isOnline() +
                 ", firstJoin=" + getFirstJoin() +
@@ -241,6 +240,7 @@ public class NetworkPlayer {
                 ", friendPrivacy='" + getFriendPrivacy() + '\'' +
                 ", partyPrivacy='" + getPartyPrivacy() + '\'' +
                 ", ranks='" + (ranks != null ? ranks : "[]") +
+                ", topRank=" + getTopRank().getName() +
                 ", ignoreList=" + (ignore_list != null ? getIgnoreList().stream().map(NetworkPlayer::getUsername).collect(Collectors.toList()) : "[]") +
                 ", friends=" + (friends != null ? getFriends().stream().map(NetworkPlayer::getUsername).collect(Collectors.toList())  : "[]") +
                 ", ownedCosmetics=" + (owned_cosmetics != null ? getOwnedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList())  : "[]") +
@@ -399,7 +399,7 @@ public class NetworkPlayer {
     }
 
     public boolean isOnline() {
-        return parseBoolean(online);
+        return online != 0;
     }
 
     public void setOnline(boolean value) {

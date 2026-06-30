@@ -100,7 +100,11 @@ public class PartyInvite implements CommandExecutor {
             return;
         }
 
-        if (recipient.getPartyPrivacy().equals(NetworkPlayer.PartyInvitePrivacy.DISALLOWED) || (recipient.getPartyPrivacy().equals(NetworkPlayer.PartyInvitePrivacy.FRIENDS_ONLY) && !recipient.isFriendsWith(inviter)) && !recipient.isIgnoring(inviter)) {
+        if (
+                recipient.getPartyPrivacy().equals(NetworkPlayer.PartyInvitePrivacy.DISALLOWED)
+                    || (recipient.getPartyPrivacy().equals(NetworkPlayer.PartyInvitePrivacy.FRIENDS_ONLY) && !recipient.isFriendsWith(inviter))
+                    || !recipient.isIgnoring(inviter)
+        ) {
             MessageUtils.sendParsedMessage(inviter.getPlayer(), MessageKey.PARTY_INVITE_FAIL, MapFormatters.playerFormatter(recipient));
             return;
         }

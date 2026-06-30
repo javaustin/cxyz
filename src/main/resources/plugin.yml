@@ -169,11 +169,23 @@ commands:
     permission: "cxyz.debug"
     aliases: []
 
+  enderchest:
+    description: View a player's ender chest
+    usage: /enderchest [player]
+    permission: "cxyz.enderchest"
+    aliases: []
+
   info:
     description: View info on any network player
     usage: /info [player]
     permission: "cxyz.info"
     aliases: [whois]
+
+  inventorysee:
+    description: View a player's inventory
+    usage: /inventorysee <player>
+    permission: "cxyz.inventorysee"
+    aliases: [invsee, inventory, inv]
 
   nickname:
     description: Set a server nickname
@@ -359,7 +371,7 @@ permissions:
   cxyz.punishment.edit:
     default: op
   cxyz.punishment.history:
-    default: true
+    default: op
   cxyz.punishment.history.others:
     default: op
   cxyz.punishment.info:
@@ -414,8 +426,16 @@ permissions:
   cxyz.debug:
     default: op
 
+  cxyz.enderchest:
+    default: op
+  cxyz.enderchest.others:
+    default: op
+
   cxyz.info:
     default: true
+
+  cxyz.inventorysee:
+    default: op
 
   cxyz.nickname:
     default: true

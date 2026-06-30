@@ -14,9 +14,10 @@ import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class PartyInvite {
 
-    private final String inviter;
-    private final String recipient;
-    private final long expireTimestamp;
+    // dont set to final because of gson populating (i think)
+    private String inviter;
+    private String recipient;
+    private long expireTimestamp;
 
     /*
     PartyInvite

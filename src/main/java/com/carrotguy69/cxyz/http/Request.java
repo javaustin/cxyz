@@ -41,6 +41,9 @@ public class Request {
         CompletableFuture<RequestResult> resultFuture = new CompletableFuture<>();
         sendAttempt(resultFuture);
         Logger.debugRequest(String.format("[🔃] %s in progress: %s", type.name(), url));
+        if (type.name().equalsIgnoreCase("post") && !requestBody.isEmpty()) {
+            Logger.debugRequest(String.format("POST BODY: " + requestBody));
+        }
         return resultFuture;
     }
 

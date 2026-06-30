@@ -171,6 +171,8 @@ commands:
     unset: "&a{value} debugger has been disabled!"
     view: "&aEnabled debuggers: &f{debuggers}"
 
+  echest-view: "&aYou are viewing {player-display-name}'s ender chest."
+
   fullbright:
     toggle-on: "&aFakeFullbright enabled"
     toggle-off: "&aFakeFullbright disabled"
@@ -235,6 +237,8 @@ commands:
     [&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/cosmetic list equipped 1 {player})
     [&fIgnored Channels:&7 {player-ignored-channels-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/channel ignore)
 
+  inventory-view: "&aYou are viewing {player-display-name}'s inventory."
+
   location:
     short: "&fYour location: &7{block-x}, {block-y}, {block-z}"
     long: "&fYour location: &7{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}}"
@@ -294,7 +298,8 @@ commands:
     disband: "&eThe party has been disbanded."
     disband-inactive: "&eThe party has been disbanded since the owner has been offline too long!"
     disband-solo: "&eSince you were the only player in the party, your party has disbanded."
-    invite-expired: "&9Party>&e The invite to {recipient-rank-color}{recipient-display-name}&e has expired."
+    invite-expired: "&9Party>&e The invite to {inviter-rank-color}{inviter-display-name}'s &eparty has expired."
+    invite-expired-announcement: "&9Party>&e The invite to {recipient-rank-color}{recipient-display-name}&e has expired."
     invite-fail: "&cYou cannot invite this player!"
     invite-sent: "&9Party> {player-rank-prefix}{player-rank-color}{player-display-name} &r&7has been invited to the party. They have 60 seconds to accept."
     invite-received: |

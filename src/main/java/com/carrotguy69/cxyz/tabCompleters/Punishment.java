@@ -58,6 +58,11 @@ public class Punishment implements TabCompleter {
                     return List.of();
 
                 case "history":
+
+                    if (!sender.hasPermission(node + ".others")) {
+                        return List.of();
+                    }
+
                     usernames.add("*");
                     for (String s : usernames) {
                         if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
