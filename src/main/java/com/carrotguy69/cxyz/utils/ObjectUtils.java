@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import org.checkerframework.checker.units.qual.A;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -211,6 +212,16 @@ public class ObjectUtils {
         }
 
         return findNearestPoint(input, points);
+    }
+
+    public static boolean isParsableAsNumber(String s) {
+        try {
+            parseAs(Double.class, s);
+            return true;
+        }
+        catch (RuntimeException e) {
+            return false;
+        }
     }
 
     public static float findNearestPoint(float input, float[] options) {

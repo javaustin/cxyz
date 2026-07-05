@@ -14,7 +14,8 @@ public enum MessageKey {
     // Errors - Player
     // =========================
     PLAYER_IS_SELF("errors.player.is-self"),
-    PLAYER_NOT_FOUND("errors.player.not-found"),
+    PLAYER_NOT_FOUND("errors.player.not-found-username"),
+    PLAYER_NOT_FOUND_UUID("errors.player.not-found-uuid"),
     PLAYER_OUTRANKS_SENDER("errors.player.outranks-sender"),
     PLAYER_IS_OFFLINE("errors.player.is-offline"),
 

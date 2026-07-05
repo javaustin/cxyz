@@ -12,7 +12,8 @@ errors:
 
   player:
     is-self: "&cYou cannot use this command on yourself!" # no format
-    not-found: "[&cPlayer not found!](HOVER:&7Could not find player with the username of &f{username}&7!)" # Format: username
+    not-found-username: "[&cPlayer not found!](HOVER:&7Could not find player with the username of &f{username}&7!)" # Format: username
+    not-found-uuid: "[&cPlayer not found!](HOVER:&7Could not find player with the uuid of &f{uuid}&7!)" # Format: username
     outranks-sender: "&cYou cannot use this command on a player which outranks you!" # Format: MessageFormatters.playerSenderFormatter(...);
     is-offline: "&cThis player is offline!" # Format MF.playerFormatter(target);
 
@@ -172,9 +173,9 @@ commands:
     # formatter: {attribute}, {value}, networkPlayerFormatter
     networkplayer:
       get: "Attribute {attribute} for {player-username} is: {value}"
-      get-async: "Attribute (async) {attribute} for {player-username} is: {value}"
+      get-async: "Attribute ((async)) {attribute} for {player-username} is: {value}"
       set: "Set {attribute} to {value} for network player {player-username}."
-      set-async: "Set (async) {attribute} to {value} for network player {player-username}."
+      set-async: "Set ((async)) {attribute} to {value} for network player {player-username}."
 
 
   debug:
