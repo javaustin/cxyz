@@ -6,19 +6,27 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Nickname implements TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        List<String> options = List.of("reset");
 
         if (args.length == 0) {
-            return List.of("reset");
+            return options;
         }
 
-        else {
-            return List.of();
+        List<String> results = new ArrayList<>();
+
+        for (String option : options) {
+            if (option.startsWith(args[args.length - 1])) {
+                results.add(option);
+            }
         }
+
+        return results;
     }
 }

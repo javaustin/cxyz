@@ -26,6 +26,7 @@ public class ChatEvent {
                 chatChannel = channel;
                 triggered = true;
                 content = content.substring(channel.getTriggerPrefix().length()).stripLeading();
+                e.setMessage(content);
                 // If the user's message starts with a trigger prefix.
             }
         }

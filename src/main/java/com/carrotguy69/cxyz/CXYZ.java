@@ -160,21 +160,15 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     /*
 
     [❌] ISSUES:
-    - ✅ party invites should not be sent from an ignored player to the respective ignorer
     - pretty much all times are incorrect (playtime, lastJoin, lastOnline), in production lastJoin is the same as firstJoin so last join must not be being updated.
-    - we attempted to do inventory see but that failed disastrously. try again when less tired
 ️ ️️ ️
     [➕] ADD/IMPLEMENT:
-    - ! NetworkPlayer command suite (set, get, get-async) to set a raw value
 
     - stat commands (set, get)
 
     - better backend logging on failed actions
 
     - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
-
-
-    - trigger prefix needs to be removed from the message
 
     - Add /heal
     - Add /back
