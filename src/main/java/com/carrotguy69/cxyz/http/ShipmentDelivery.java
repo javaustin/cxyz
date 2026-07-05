@@ -12,6 +12,7 @@ import com.carrotguy69.cxyz.other.Tasks;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.annotations.SerializedName;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.carrotguy69.cxyz.CXYZ.friendRequests;
 import static com.carrotguy69.cxyz.CXYZ.gson;
@@ -27,22 +29,24 @@ import static com.carrotguy69.cxyz.CXYZ.parties;
 import static com.carrotguy69.cxyz.CXYZ.partyInvites;
 import static com.carrotguy69.cxyz.CXYZ.punishmentIDMap;
 import static com.carrotguy69.cxyz.CXYZ.statUUIDMap;
+import static com.carrotguy69.cxyz.CXYZ.usernames;
 import static com.carrotguy69.cxyz.CXYZ.users;
+import static com.carrotguy69.cxyz.CXYZ.uuids;
 
 public class ShipmentDelivery {
 
-    public static <T> void copyTo(T fromData, T destinationReference) {
+    public static <T> void copyTo(T origin, T destination) {
         // Copies attributes from the provided NetworkPlayer to the provided destination
 
-        if (destinationReference == null) {
+        if (destination == null) {
             throw new IllegalArgumentException("destinationReference cannot be null");
         }
 
-        if (fromData.getClass() != destinationReference.getClass()) {
+        if (origin.getClass() != destination.getClass()) {
             throw new IllegalArgumentException("Classes must be the same");
         }
 
-        Field[] fields = fromData.getClass().getDeclaredFields();
+        Field[] fields = origin.getClass().getDeclaredFields();
 
         for (Field field : fields) {
             field.setAccessible(true);
@@ -52,10 +56,26 @@ public class ShipmentDelivery {
             if (Modifier.isTransient(mods)) continue;
 
             try {
-                field.set(destinationReference, field.get(fromData));
+                field.set(destination, field.get(origin));
             }
             catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private static void updateCachedNames(@Nullable NetworkPlayer oldUser, NetworkPlayer newUser) {
+        if (oldUser != null) {
+            uuids.remove(oldUser.getUUID().toString());
+            usernames.remove(oldUser.getUsername());
+            usernames.remove(oldUser.getNickname());
+        }
+
+        if (newUser != null) {
+            uuids.add(newUser.getUUID().toString());
+            usernames.add(newUser.getUsername());
+            if (newUser.getNickname() != null && !newUser.getNickname().isBlank() && !newUser.getNickname().equalsIgnoreCase(newUser.getUsername())) {
+                usernames.add(newUser.getNickname());
             }
         }
     }
@@ -80,14 +100,21 @@ public class ShipmentDelivery {
 
         Map<UUID, NetworkPlayer> tempMap = new HashMap<>();
 
+        users.clear();
+        uuids.clear();
+        usernames.clear();
+
         for (NetworkPlayer np : npList) {
             // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
             // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
             tempMap.put(np.getUUID(), np);
+
+            updateCachedNames(null, np);
         }
 
         // stop warning me
-        users.clear();
+
+
         users.putAll(tempMap);
 
         Logger.info("✅ NetworkPlayer table shipment received!");
@@ -118,6 +145,8 @@ public class ShipmentDelivery {
 
         for (NetworkPlayer np : wrapper.getDeletedData()) {
             Logger.debugUser("[-] Deleted an entry from users! " + np.getUUID());
+            updateCachedNames(np, null);
+
             users.remove(np.getUUID());
         }
 
@@ -125,7 +154,6 @@ public class ShipmentDelivery {
 
             // Modifies or adds new.
 
-            Logger.debugUser("users(before completion): " + users);
 
             if (users.get(np.getUUID()) != null) {
 
@@ -135,14 +163,18 @@ public class ShipmentDelivery {
                 }
 
                 Logger.debugUser("[~] Modified an entry to users. " + np);
-                NetworkPlayer reference = NetworkPlayer.resolvePlayer(np.getUUID());
+                NetworkPlayer newReference = NetworkPlayer.resolvePlayer(np.getUUID());
 
-                ShipmentDelivery.copyTo(np, reference);
+                ShipmentDelivery.copyTo(np, newReference);
+
+                updateCachedNames(np, newReference);
             }
 
             else {
                 Logger.debugUser("[+] Added an entry to users. " + np);
                 users.put(np.getUUID(), np);
+
+                updateCachedNames(null, np);
             }
         }
 

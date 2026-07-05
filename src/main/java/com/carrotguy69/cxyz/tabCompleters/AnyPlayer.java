@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -10,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.carrotguy69.cxyz.CXYZ.users;
+import static com.carrotguy69.cxyz.CXYZ.usernames;
 
 public class AnyPlayer implements TabCompleter {
 
@@ -44,18 +43,6 @@ public class AnyPlayer implements TabCompleter {
     }
 
     public static List<String> getAllUsernames() {
-        List<String> visibleUsernames = new ArrayList<>();
-
-
-        for (NetworkPlayer user : users.values()) {
-
-            visibleUsernames.add(user.getDisplayName());
-            if (!user.getDisplayName().equalsIgnoreCase(user.getUsername()))
-                visibleUsernames.add(user.getUsername());
-        }
-
-        visibleUsernames.sort(String.CASE_INSENSITIVE_ORDER);
-
-        return visibleUsernames;
+        return usernames;
     }
 }

@@ -24,12 +24,14 @@ public enum MessageKey {
     MISSING_GENERAL("errors.args.missing.general"),
     MISSING_CONTENT("errors.args.missing.content"),
 
+    INVALID_ATTRIBUTE("errors.args.invalid.attribute"),
     INVALID_BOOLEAN("errors.args.invalid.boolean"),
     INVALID_CHANNEL("errors.args.invalid.channel"),
     INVALID_COLOR("errors.args.invalid.color"),
     INVALID_COSMETIC("errors.args.invalid.cosmetic"),
     INVALID_DEBUG("errors.args.invalid.debug"),
     INVALID_DURATION("errors.args.invalid.duration"),
+    INVALID_ENTRY("errors.args.invalid.entry"),
     INVALID_ITEM("errors.args.invalid.item"),
     INVALID_NUMBER("errors.args.invalid.number"),
     INVALID_PAGE("errors.args.invalid.page"),
@@ -142,6 +144,14 @@ public enum MessageKey {
     COSMETIC_UNEQUIP_ERROR_NOT_OWNED("commands.cosmetic.unequip.error.not-owned"),
     COSMETIC_UNEQUIP_SUCCESS("commands.cosmetic.unequip.success"),
 
+    // =========================
+    // Commands - Data
+    // =========================
+    DATA_NETWORKPLAYER_GET("commands.data.networkplayer.get"),
+    DATA_NETWORKPLAYER_GET_ASYNC("commands.data.networkplayer.get-async"),
+    DATA_NETWORKPLAYER_SET("commands.data.networkplayer.set"),
+    DATA_NETWORKPLAYER_SET_ASYNC("commands.data.networkplayer.set-async"),
+
 
     // =========================
     // Commands - Debug
@@ -152,7 +162,7 @@ public enum MessageKey {
     DEBUG_VIEW("commands.debug.view"),
 
 
-    ECHEST_VIEW("command.echest-view"),
+    ECHEST_VIEW("commands.echest-view"),
 
 
     FULLBRIGHT_TOGGLE_ON("commands.fullbright.toggle-on"),
@@ -185,11 +195,6 @@ public enum MessageKey {
     FRIEND_LIST_MAX_ENTRIES("commands.friend.friend-list.max-entries-per-page"),
 
     // =========================
-    // Commands - Info
-    // =========================
-    INFO("commands.info"),
-
-    // =========================
     // Commands - Ignore
     // =========================
 
@@ -203,6 +208,17 @@ public enum MessageKey {
     IGNORE_LIST_FORMAT("commands.privacy.ignore-list.entry-format"),
     IGNORE_LIST_SEPARATOR("commands.privacy.ignore-list.separator"),
     IGNORE_LIST_MAX_ENTRIES("commands.privacy.ignore-list.max-entries-per-page"),
+
+    // =========================
+    // Commands - Info
+    // =========================
+    INFO("commands.info"),
+
+
+    // =========================
+    // Commands - Inventory View
+    // =========================
+    INVENTORY_VIEW("commands.inventory-view"),
 
 
     // =========================

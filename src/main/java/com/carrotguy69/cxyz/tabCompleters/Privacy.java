@@ -32,7 +32,7 @@ public class Privacy implements TabCompleter {
                 // if args.length >= 1
 
                 for (String s : values) {
-                    if (s.startsWith(args[0])) {
+                    if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
                         results.add(s);
                     }
                 }
@@ -52,7 +52,7 @@ public class Privacy implements TabCompleter {
                 // if args.length >= 1
 
                 for (String s : values) {
-                    if (s.startsWith(args[0])) {
+                    if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
                         results.add(s);
                     }
                 }
@@ -72,7 +72,7 @@ public class Privacy implements TabCompleter {
                 // if args.length >= 1
 
                 for (String s : values) {
-                    if (s.startsWith(args[0])) {
+                    if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
                         results.add(s);
                     }
                 }

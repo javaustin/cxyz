@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -43,13 +44,20 @@ public class EnderChestSee implements CommandExecutor {
         if (args.length >= 1 && sender.hasPermission("cxyz.enderchest.others")) {
             np = NetworkPlayer.getPlayerByUsername(args[0]);
 
-            if (np == null || np.getPlayer() == null) {
+            if (np == null) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", args[0]));
+                return true;
+            }
+
+            if (np.getPlayer() == null) {
+                MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(np));
                 return true;
             }
         }
 
-        ((Player) sender).openInventory(np.getPlayer().getInventory());
+        Inventory inv = np.getPlayer().getEnderChest();
+
+        ((Player) sender).openInventory(inv);
 
         MessageUtils.sendParsedMessage(sender, MessageKey.ECHEST_VIEW, MapFormatters.playerFormatter(np));
 

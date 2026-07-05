@@ -137,7 +137,6 @@ public class Request {
     public static String generateSignature(String identifier, String secret, long timestamp, String method, String path, String payloadJSON) throws Exception {
         String message = identifier + " | " + timestamp + " | " + method + " | " + path + " | " + payloadJSON;
 
-
         Mac mac = Mac.getInstance("HmacSHA256");
 
         SecretKeySpec key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
@@ -148,7 +147,7 @@ public class Request {
 
         String signature = Base64.getEncoder().encodeToString(raw);
 
-//        Logger.log("Generating signature with: " + message + "\n\tSignature: " + signature);
+        Logger.debugRequest("[SENSITIVE] Generating signature with string: " + message + "\n\tResult: " + signature);
 
         return signature;
     }

@@ -26,7 +26,7 @@ public class ChatColor implements TabCompleter {
 
         for (String s : colors) {
             if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
-                results.add(s);
+                results.add(s.toLowerCase());
             }
         }
 
@@ -35,7 +35,7 @@ public class ChatColor implements TabCompleter {
 
             for (String s : colors) {
                 if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
-                    results.add(s);
+                    results.add(s.toLowerCase());
                 }
             }
         }

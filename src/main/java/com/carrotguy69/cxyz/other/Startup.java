@@ -6,6 +6,7 @@ import com.carrotguy69.cxyz.cmd.Debug;
 import com.carrotguy69.cxyz.cmd.EnderChestSee;
 import com.carrotguy69.cxyz.cmd.Fullbright;
 import com.carrotguy69.cxyz.cmd.Info;
+import com.carrotguy69.cxyz.cmd.InventorySee;
 import com.carrotguy69.cxyz.cmd.Location;
 import com.carrotguy69.cxyz.cmd.Nickname;
 import com.carrotguy69.cxyz.cmd.Parse;
@@ -19,6 +20,7 @@ import com.carrotguy69.cxyz.cmd.Timezone;
 import com.carrotguy69.cxyz.cmd.channel._ChannelExecutor;
 import com.carrotguy69.cxyz.cmd.coins._CoinsExecutor;
 import com.carrotguy69.cxyz.cmd.cosmetic._CosmeticExecutor;
+import com.carrotguy69.cxyz.cmd.data._DataExecutor;
 import com.carrotguy69.cxyz.cmd.friend._FriendExecutor;
 import com.carrotguy69.cxyz.cmd.ignore.Unignore;
 import com.carrotguy69.cxyz.cmd.ignore._IgnoreExecutor;
@@ -44,6 +46,7 @@ import com.carrotguy69.cxyz.papi.Expansion;
 import com.carrotguy69.cxyz.papi.RelationalExpansion;
 import com.carrotguy69.cxyz.tabCompleters.Blank;
 import com.carrotguy69.cxyz.tabCompleters.CoinsXPLevel;
+import com.carrotguy69.cxyz.tabCompleters.Data;
 import com.carrotguy69.cxyz.tabCompleters.LocalOnlinePlayer;
 import com.carrotguy69.cxyz.tabCompleters.OnlinePlayer;
 import com.carrotguy69.cxyz.tabCompleters.Party;
@@ -100,6 +103,9 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("debug")).setExecutor(new Debug());
             Objects.requireNonNull(plugin.getCommand("debug")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Debug());
 
+            Objects.requireNonNull(plugin.getCommand("data")).setExecutor(new _DataExecutor());
+            Objects.requireNonNull(plugin.getCommand("data")).setTabCompleter(new Data());
+
             Objects.requireNonNull(plugin.getCommand("ping")).setExecutor(new Ping());
             Objects.requireNonNull(plugin.getCommand("ping")).setTabCompleter(new OnlinePlayer());
 
@@ -139,6 +145,9 @@ public class Startup {
 
             Objects.requireNonNull(plugin.getCommand("info")).setExecutor(new Info());
             Objects.requireNonNull(plugin.getCommand("info")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Info());
+
+            Objects.requireNonNull(plugin.getCommand("invsee")).setExecutor(new InventorySee());
+            Objects.requireNonNull(plugin.getCommand("invsee")).setTabCompleter(new LocalOnlinePlayer());
 
             Objects.requireNonNull(plugin.getCommand("enderchest")).setExecutor(new EnderChestSee());
             Objects.requireNonNull(plugin.getCommand("enderchest")).setTabCompleter(new LocalOnlinePlayer());

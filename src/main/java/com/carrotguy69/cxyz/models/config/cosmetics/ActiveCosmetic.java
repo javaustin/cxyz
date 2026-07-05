@@ -128,7 +128,6 @@ public class ActiveCosmetic extends Cosmetic {
 
     public void unEquip() {
 
-        Logger.debugUser(this.getType().toString());
         switch (this.getType()) {
             case CHAT_TAG:
                 this.player.setChatTag("");

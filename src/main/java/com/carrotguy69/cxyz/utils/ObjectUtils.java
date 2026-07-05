@@ -1,8 +1,12 @@
 package com.carrotguy69.cxyz.utils;
 
+import com.carrotguy69.cxyz.other.Logger;
 import com.google.common.collect.Multimap;
+import org.checkerframework.checker.units.qual.A;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Collection;
 import java.util.Objects;
@@ -68,7 +72,21 @@ public class ObjectUtils {
 
     public static String[] removeItem(String[] array, String item) {
         ArrayList<String> list = new ArrayList<>(Arrays.asList(array));
-        list.remove(item);
+
+        String toRemove = null;
+
+        for (String s : list) {
+            if (s.equalsIgnoreCase(item)) {
+                toRemove = s;
+                break;
+            }
+        }
+
+        if (toRemove == null) {
+            return list.toArray(array);
+        }
+
+        list.remove(toRemove);
         array = new String[list.size()];
 
         return list.toArray(array);
@@ -207,6 +225,15 @@ public class ObjectUtils {
         }
 
         return nearest;
+    }
+
+    public static Object castFromString(Field field, String s) throws IllegalAccessException {
+        Class<?> type = field.getType();
+        if (type == Integer.class || type == int.class) return s == null ? null : Integer.parseInt(s);
+        if (type == Long.class || type == long.class) return s == null ? null : Long.parseLong(s);
+        if (type == Double.class || type == double.class) return s == null ? null : Double.parseDouble(s);
+        if (type == String.class) return s;
+        return s;
     }
 
 }

@@ -45,7 +45,7 @@ public class Listener extends NanoHTTPD {
         // * NanoHTTPD headers are lowercased
         String identifier = headers.get("x-identifier");
         String timestampString = headers.get("x-timestamp");
-        String signature = headers.get("x-signature");
+        String providedSignature = headers.get("x-signature");
 
         if (identifier == null) {
             throw new AuthenticationFailException("\"X-Identifier\" is required for interacting with this service.");
@@ -55,7 +55,7 @@ public class Listener extends NanoHTTPD {
             throw new AuthenticationFailException("\"X-Timestamp\" is required for interacting with this service.");
         }
 
-        if (signature == null) {
+        if (providedSignature == null) {
             throw new AuthenticationFailException("\"X-Signature\" is required for interacting with this service.");
         }
 
@@ -72,18 +72,19 @@ public class Listener extends NanoHTTPD {
             throw new AuthenticationFailException("Request timestamp expired.");
         }
 
-        Service sendingService = Service.getServerByIdentifier(identifier);
+        Service sender = Service.getServerByIdentifier(identifier);
 
-        if (sendingService == null) {
+        if (sender == null) {
             throw new AuthenticationFailException(String.format("No service with identifier=%s is registered.", identifier));
         }
 
         String method = session.getMethod().name();
         String path = session.getUri();
 
-        String localSignature = generateSignature(sendingService, timestamp, method, path, payload);
+        String correctSignature = generateSignature(sender, timestamp, method, path, payload);
 
-        if (!MessageDigest.isEqual(localSignature.getBytes(StandardCharsets.UTF_8), signature.getBytes(StandardCharsets.UTF_8))) {
+
+        if (!MessageDigest.isEqual(correctSignature.getBytes(StandardCharsets.UTF_8), providedSignature.getBytes(StandardCharsets.UTF_8))) {
             throw new AuthenticationFailException("Signature is invalid.");
         }
 

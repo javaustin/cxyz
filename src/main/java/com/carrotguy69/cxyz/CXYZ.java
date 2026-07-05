@@ -83,6 +83,10 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static GameServer thisServer;
 
     public static Map<UUID, NetworkPlayer> users = new ConcurrentHashMap<>();
+
+    public static List<String> uuids = new ArrayList<>();
+    public static List<String> usernames = new ArrayList<>();
+
     public static Map<Long, Punishment> punishmentIDMap = new ConcurrentHashMap<>(); // This is the real unique map that stores all punishments.
     public static Map<UUID, Party> parties = new ConcurrentHashMap<>(); // <Owner, Party>
     public static Map<UUID, PartyExpire> partyExpires = new HashMap<>(); // <Player(UUID), PartyExpire>
@@ -156,13 +160,9 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     /*
 
     [❌] ISSUES:
-    - ✅️ tab completer for /rank add/remove/... {rank} {player} doesn't return available players
-    - ️✅️ /channel set {channel} tab completer doesn't return available channels
-    - ✅️ rank add should use the map formatter after the rank has been applied because the current behavior causes ("added {new-rank-prefix} to {old-rank-color}{player}")
-    - the player ignore system fundamentally does not make sense sever to server [??? holy vague]
-    - ✅️ party expires is too unreliable and architecturally expensive to support. we should delete it and come up with a new schema later
+    - ✅ party invites should not be sent from an ignored player to the respective ignorer
     - pretty much all times are incorrect (playtime, lastJoin, lastOnline), in production lastJoin is the same as firstJoin so last join must not be being updated.
-    - we attempted to do inventory see but that failed disasterously. try again when less tired
+    - we attempted to do inventory see but that failed disastrously. try again when less tired
 ️ ️️ ️
     [➕] ADD/IMPLEMENT:
     - ! NetworkPlayer command suite (set, get, get-async) to set a raw value
@@ -173,7 +173,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
 
-    - document messages.yml with proper placeholder documentation (comments)
 
     - trigger prefix needs to be removed from the message
 

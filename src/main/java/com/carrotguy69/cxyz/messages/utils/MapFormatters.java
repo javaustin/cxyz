@@ -14,6 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -519,7 +520,7 @@ public class MapFormatters {
 
 
 
-    public static Map<String, Object> playerFormatter(NetworkPlayer player) {
+    public static Map<String, Object> playerFormatter(@NotNull NetworkPlayer player) {
 
         Map<String, Object> commonMap = new HashMap<>();
 

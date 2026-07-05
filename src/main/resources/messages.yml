@@ -22,12 +22,14 @@ errors:
       content: "&cYou cannot send a blank message!" # no format
 
     invalid:
+      attribute: "[&cAttribute not found!](HOVER:&7Could not find an attribute named {attribute} in the entry!)"
       boolean: "[&cPlease provide a valid boolean!](HOVER:((Ex: true/false)))"
       channel: "&cPlease provide a valid channel!"
       color: "&cPlease provide a valid color!"
       cosmetic: "&cPlease provide a valid cosmetic!"
       debug: "&cPlease provide a valid debugger!"
       duration: "&cPlease provide a valid duration!"
+      entry: "[&cEntry not found!](HOVER:&7Could not find an entry with the key {key}!)"
       item: "&cPlease provide a valid item to buy!"
       number: "&cPlease provide a valid number!"
       page: "[&cPlease provide a valid page between {min} and {max}!](HOVER:Your input: {page})"
@@ -166,6 +168,15 @@ commands:
         separator: "\n"
         max-entries-per-page: 8
 
+  data:
+    # formatter: {attribute}, {value}, networkPlayerFormatter
+    networkplayer:
+      get: "Attribute {attribute} for {player-username} is: {value}"
+      get-async: "Attribute (async) {attribute} for {player-username} is: {value}"
+      set: "Set {attribute} to {value} for network player {player-username}."
+      set-async: "Set (async) {attribute} to {value} for network player {player-username}."
+
+
   debug:
     set: "&a{value} debugger has been enabled!"
     unset: "&a{value} debugger has been disabled!"
@@ -236,6 +247,8 @@ commands:
     [&fOwned Cosmetics:&7 {player-owned-cosmetics-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/cosmetic list owned 1 {player})
     [&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/cosmetic list equipped 1 {player})
     [&fIgnored Channels:&7 {player-ignored-channels-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/channel ignore)
+
+  inventory-view: "&aYou are viewing {player-display-name}'s inventory."
 
   location:
     short: "&fYour location: &7{block-x}, {block-y}, {block-z}"

@@ -163,6 +163,12 @@ commands:
     permission: "cxyz.chatcolor"
     aliases: [chatcolor]
 
+  data:
+    description: Manage plugin data entries
+    usage: /data <type> <get | get-async | set | set-async> <entry-id> [attribute] [value]
+    permission: "cxyz.data"
+    aliases: [coredata]
+
   debug:
     description: Enable or disable any plugin debugger
     usage: /debug <debugger>
@@ -173,13 +179,19 @@ commands:
     description: View a player's ender chest
     usage: /enderchest [player]
     permission: "cxyz.enderchest"
-    aliases: []
+    aliases: [echest]
 
   info:
     description: View info on any network player
     usage: /info [player]
     permission: "cxyz.info"
     aliases: [whois]
+
+  invsee:
+    description: View a player's inventory
+    usage: /invsee [player]
+    permission: "cxyz.invsee"
+    aliases: [inventory, inventorysee]
 
   nickname:
     description: Set a server nickname
@@ -276,9 +288,26 @@ permissions:
   cxyz.cosmetic.unequip:
     default: true
 
+  cxyz.data:
+    default: op
+  cxyz.data.networkplayer:
+    default: op
+  cxyz.data.networkplayer.get:
+    default: op
+  cxyz.data.networkplayer.get-async:
+    default: op
+  cxyz.data.networkplayer.set:
+    default: op
+  cxyz.data.networkplayer.set-async:
+    default: op
+
   cxyz.fullbright:
     default: true
 
+  cxyz.enderchest:
+    default: op
+  cxyz.enderchest.others:
+    default: op
 
   cxyz.friend:
     default: true
@@ -420,14 +449,11 @@ permissions:
   cxyz.debug:
     default: op
 
-  cxyz.enderchest:
-    default: op
-  cxyz.enderchest.others:
-    default: op
-
   cxyz.info:
     default: true
 
+  cxyz.invsee:
+    default: op
 
   cxyz.nickname:
     default: true

@@ -35,6 +35,7 @@ import static com.carrotguy69.cxyz.CXYZ.f;
 import static com.carrotguy69.cxyz.CXYZ.gson;
 import static com.carrotguy69.cxyz.CXYZ.plugin;
 import static com.carrotguy69.cxyz.CXYZ.thisServer;
+import static com.carrotguy69.cxyz.CXYZ.usernames;
 import static com.carrotguy69.cxyz.CXYZ.users;
 import static com.carrotguy69.cxyz.models.config.PlayerRank.getRankByName;
 
@@ -303,20 +304,17 @@ public class NetworkPlayer {
         return UUID.fromString(uuid);
     }
 
-    public void setUUID(UUID uuid) {
-        this.uuid = uuid.toString();
-    }
-
-    public void setUUID(String uuid) {
-        this.uuid = uuid;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
+        if (this.username != null) {
+            usernames.remove(this.username);
+        }
+
         this.username = username;
+        usernames.add(username);
     }
 
     public String getNickname() {
@@ -324,12 +322,20 @@ public class NetworkPlayer {
     }
 
     public void setNickname(String nickname) {
+        if (this.nickname != null) {
+            usernames.remove(this.nickname);
+        }
+
         this.nickname = nickname;
+
+        if (!nickname.isBlank()) {
+            usernames.add(nickname);
+        }
     }
 
     public String getDisplayName() {
         // Returns the nickname if it exists, username if not.
-        if (nickname.isEmpty()) {
+        if (nickname.isBlank()) {
             return username;
         }
 

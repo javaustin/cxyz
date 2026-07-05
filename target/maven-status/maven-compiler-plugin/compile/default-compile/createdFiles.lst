@@ -1,3 +1,4 @@
+com/carrotguy69/cxyz/cmd/data/networkplayer/NetworkPlayerSet.class
 com/carrotguy69/cxyz/models/db/GameStat.class
 com/carrotguy69/cxyz/events/custom/base/Priority.class
 com/carrotguy69/cxyz/http/RequestType.class
@@ -111,6 +112,7 @@ com/carrotguy69/cxyz/cmd/rank/_RankExecutor.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$NetworkPlayerDeliveryWrapper.class
 com/carrotguy69/cxyz/events/custom/service/EventService.class
 com/carrotguy69/cxyz/cmd/rank/RankRemove.class
+com/carrotguy69/cxyz/cmd/data/networkplayer/_NetworkPlayerDataExecutor.class
 com/carrotguy69/cxyz/exceptions/AuthenticationFailException.class
 com/carrotguy69/cxyz/cmd/channel/_ChannelExecutor.class
 com/carrotguy69/cxyz/models/config/PlayerRank.class
@@ -150,6 +152,8 @@ com/carrotguy69/cxyz/cmd/coins/CoinsAdd.class
 com/carrotguy69/cxyz/cmd/ChatColor$Color.class
 com/carrotguy69/cxyz/cmd/coins/CoinsRemove.class
 com/carrotguy69/cxyz/cmd/xp/XPView.class
+com/carrotguy69/cxyz/cmd/data/networkplayer/NetworkPlayerGet.class
+com/carrotguy69/cxyz/cmd/InventorySee.class
 com/carrotguy69/cxyz/models/config/cosmetics/CosmeticListener.class
 com/carrotguy69/cxyz/tabCompleters/OnlinePlayer.class
 com/carrotguy69/cxyz/tabCompleters/Debug.class
@@ -188,6 +192,7 @@ com/carrotguy69/cxyz/other/Startup.class
 com/carrotguy69/cxyz/CXYZ.class
 com/carrotguy69/cxyz/tabCompleters/Print.class
 com/carrotguy69/cxyz/cmd/channel/ChannelIgnoreList.class
+com/carrotguy69/cxyz/cmd/data/_DataExecutor.class
 com/carrotguy69/cxyz/cmd/punishment/manager/_PunishmentExecutor.class
 com/carrotguy69/cxyz/tabCompleters/Unban.class
 com/carrotguy69/cxyz/events/bukkit/InteractEvent.class
@@ -199,12 +204,15 @@ com/carrotguy69/cxyz/models/config/cosmetics/Cosmetic.class
 com/carrotguy69/cxyz/cmd/Ping.class
 com/carrotguy69/cxyz/models/config/shorthand/Shorthand.class
 com/carrotguy69/cxyz/utils/NotePitch.class
+com/carrotguy69/cxyz/cmd/data/networkplayer/NetworkPlayerGetAsync.class
 com/carrotguy69/cxyz/cmd/party/PartyDisband.class
 com/carrotguy69/cxyz/utils/JsonConverters.class
 com/carrotguy69/cxyz/cmd/party/PartyLeave.class
 com/carrotguy69/cxyz/models/config/channel/coreChannels/PartyChannel.class
+com/carrotguy69/cxyz/cmd/data/networkplayer/NetworkPlayerSetAsync.class
 com/carrotguy69/cxyz/models/db/Punishment.class
 com/carrotguy69/cxyz/messages/utils/SimpleTextComponent$Action$ActionType.class
+com/carrotguy69/cxyz/tabCompleters/Data.class
 com/carrotguy69/cxyz/http/Listener$1.class
 com/carrotguy69/cxyz/other/Tasks$1.class
 com/carrotguy69/cxyz/tabCompleters/Timezone.class
