@@ -47,6 +47,7 @@ com/carrotguy69/cxyz/models/db/Punishment$PunishmentType.class
 com/carrotguy69/cxyz/models/db/NetworkPlayer$FriendRequestPrivacy.class
 com/carrotguy69/cxyz/cmd/punishment/manager/PunishmentEdit.class
 com/carrotguy69/cxyz/events/bukkit/LeaveEvent.class
+com/carrotguy69/cxyz/cmd/Sudo.class
 com/carrotguy69/cxyz/cmd/xp/XPSet.class
 com/carrotguy69/cxyz/utils/JsonConverters$1.class
 com/carrotguy69/cxyz/cmd/Fly.class
@@ -100,6 +101,7 @@ com/carrotguy69/cxyz/http/ShipmentDelivery$PunishmentShipmentWrapper.class
 com/carrotguy69/cxyz/events/bukkit/DropEvent.class
 com/carrotguy69/cxyz/other/Constants.class
 com/carrotguy69/cxyz/cmd/party/PartyList.class
+com/carrotguy69/cxyz/tabCompleters/Sudo.class
 com/carrotguy69/cxyz/cmd/rank/RankList.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$GameStatShipmentWrapper.class
 com/carrotguy69/cxyz/events/bukkit/JoinEvent.class

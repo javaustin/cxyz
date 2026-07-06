@@ -44,7 +44,7 @@ public class Show implements CommandExecutor {
             return true;
         }
 
-        String content = String.join(" ", ObjectUtils.slice_(args, 1));
+        String content = String.join(" ", ObjectUtils.sliceToString(args, 1));
         content = content.replace("\\n", "\n");
 
         if (args[0].equalsIgnoreCase("console")) {

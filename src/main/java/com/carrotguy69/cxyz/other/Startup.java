@@ -19,6 +19,7 @@ import com.carrotguy69.cxyz.cmd.Port;
 import com.carrotguy69.cxyz.cmd.Print;
 import com.carrotguy69.cxyz.cmd.Show;
 import com.carrotguy69.cxyz.cmd.Smite;
+import com.carrotguy69.cxyz.cmd.Sudo;
 import com.carrotguy69.cxyz.cmd.Test;
 import com.carrotguy69.cxyz.cmd.Timezone;
 import com.carrotguy69.cxyz.cmd.channel._ChannelExecutor;
@@ -92,7 +93,6 @@ public class Startup {
     }
 
     public static void registerCommands() {
-        // ADMIN //
             Objects.requireNonNull(plugin.getCommand("coins")).setExecutor(new _CoinsExecutor());
             Objects.requireNonNull(plugin.getCommand("coins")).setTabCompleter(new CoinsXPLevel());
 
@@ -132,13 +132,15 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("print")).setExecutor(new Print());
             Objects.requireNonNull(plugin.getCommand("print")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Print());
 
+            Objects.requireNonNull(plugin.getCommand("sudo")).setExecutor(new Sudo());
+            Objects.requireNonNull(plugin.getCommand("sudo")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Sudo());
+
             Objects.requireNonNull(plugin.getCommand("xp")).setExecutor(new _XPExecutor());
             Objects.requireNonNull(plugin.getCommand("xp")).setTabCompleter(new CoinsXPLevel());
 
             Objects.requireNonNull(plugin.getCommand("location")).setExecutor(new Location());
             Objects.requireNonNull(plugin.getCommand("location")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Location());
 
-        // GENERAL //
             Objects.requireNonNull(plugin.getCommand("cosmetic")).setExecutor(new _CosmeticExecutor());
             Objects.requireNonNull(plugin.getCommand("cosmetic")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Cosmetic());
 
@@ -177,7 +179,6 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("party")).setExecutor(new _PartyExecutor());
             Objects.requireNonNull(plugin.getCommand("party")).setTabCompleter(new Party());
 
-            // privacy settings
             Objects.requireNonNull(plugin.getCommand("messageprivacy")).setExecutor(new MessagePrivacy());
             Objects.requireNonNull(plugin.getCommand("messageprivacy")).setTabCompleter(new Privacy());
             Objects.requireNonNull(plugin.getCommand("partyprivacy")).setExecutor(new PartyPrivacy());

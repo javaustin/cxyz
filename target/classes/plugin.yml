@@ -252,6 +252,12 @@ commands:
     permission: "cxyz.smite"
     aliases: [strike]
 
+  sudo:
+    description: Force a player to run a command
+    usage: /sudo <player> <command-line>
+    permission: "cxyz.sudo"
+    aliases: []
+
   test:
     description: Test command
     usage: /test <args*>
@@ -509,6 +515,9 @@ permissions:
   cxyz.smite:
     default: op
   cxyz.smite.others:
+    default: op
+
+  cxyz.sudo:
     default: op
 
   cxyz.mend:

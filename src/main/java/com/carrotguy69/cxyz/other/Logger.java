@@ -141,6 +141,10 @@ public class Logger {
         debug(Debug.DebugValue.GAME_STAT, content);
     }
 
+    public static void debug(String content) {
+        debug(Debug.DebugValue.GENERAL, content);
+    }
+
 
     public static void info(String content) {
         Bukkit.getScheduler().runTask(plugin, () -> plugin.getLogger().info(content));

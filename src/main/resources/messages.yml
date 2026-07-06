@@ -544,6 +544,9 @@ commands:
   smite: "&aSmiting {player-display-name}."
   smite-all: "&aSmiting {amount} targets."
 
+  sudo: "&aForcing {player} to run command: &e{command}"
+  sudo-message: "&aForcing {player} to send message: &e{message}"
+
   timezone:
     set: "&aTime zone set to {timezone-id-short} (({timezone-id}))."
     view: "&aYour timezone is currently set to {timezone-id-short} (({timezone-id}))."

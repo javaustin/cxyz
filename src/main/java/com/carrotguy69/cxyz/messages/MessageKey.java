@@ -444,6 +444,11 @@ public enum MessageKey {
     SMITE("commands.smite"),
     SMITE_ALL("commands.smite-all"),
 
+    // =========================
+    // Commands - Sudo
+    // =========================
+    SUDO("commands.sudo"),
+    SUDO_MESSAGE("commands.sudo-message"),
 
     TIMEZONE_SET("commands.timezone.set"),
     TIMEZONE_ERROR_DUPLICATE_STATE("commands.timezone.error.duplicate-state"),

@@ -149,7 +149,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static boolean chatFilterEnabled = false;
     public static boolean partiesEnabled = false;
 
-    public CommandMap commandMap = null;
+    public static CommandMap commandMap = null;
 
     public static FileConfiguration cosmeticsYML = null;
     public static FileConfiguration msgYML = null;
@@ -162,7 +162,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     /*
 
     [❌] ISSUES:
-    - (maybe fixed)pretty much all times are incorrect (playtime, lastJoin, lastOnline), in production lastJoin is the same as firstJoin so last join must not be being updated.
+    - (maybe fixed) pretty much all times are incorrect (playtime, lastJoin, lastOnline), in production lastJoin is the same as firstJoin so last join must not be being updated.
 ️ ️️ ️
     [➕] ADD/IMPLEMENT:
 
@@ -170,15 +170,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     - better backend logging on failed actions
 
-    - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
-
-    - ✅ Add /heal
-    - ✅ Add /fly
-    - ✅ Add /smite
-    - ✅ Add /repair
     - Add /tpa system
-    - Add /sudo
-    - ✅ Add /invsee
+    - add /powertool
 
     - CROSS SERVER TESTING!
 
@@ -226,7 +219,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
    */
 
-    private CommandMap getCommandMap() {
+    public static CommandMap getCommandMap() {
         try {
             PluginManager pm = Bukkit.getPluginManager();
 
@@ -250,6 +243,12 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public static Map<String, Command> getCommands() throws ReflectiveOperationException {
+        Field f = SimpleCommandMap.class.getDeclaredField("knownCommands");
+        f.setAccessible(true);
+        return (Map<String, Command>) f.get(commandMap);
+    }
 
 
     @Override

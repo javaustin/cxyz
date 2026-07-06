@@ -92,8 +92,10 @@ public class Party implements TabCompleter {
                                 results.add(pl.getDisplayName());
                             }
                         }
-
                     }
+
+                    results.remove(np.getUsername());
+                    results.remove(np.getNickname());
 
                     results.sort(String.CASE_INSENSITIVE_ORDER);
                     return results;

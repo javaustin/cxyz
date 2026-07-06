@@ -74,7 +74,7 @@ public class Warn implements CommandExecutor {
             // All necessary args are provided
 
             String targetPlayer = args[0];
-            String reason = ObjectUtils.slice_(args, 1);
+            String reason = ObjectUtils.sliceToString(args, 1);
 
             warn(sender, targetPlayer, reason, silent, force);
         }

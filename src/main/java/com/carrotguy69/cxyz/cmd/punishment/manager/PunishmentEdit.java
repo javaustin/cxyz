@@ -76,7 +76,7 @@ public class PunishmentEdit implements CommandExecutor {
         }
 
 
-        String stringValue = ObjectUtils.slice_(args, 2);
+        String stringValue = ObjectUtils.sliceToString(args, 2);
         Map<String, Object> commonMap = new HashMap<>();
 
         switch (args[1].toLowerCase()) {

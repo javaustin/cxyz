@@ -1,11 +1,8 @@
 package com.carrotguy69.cxyz.utils;
 
-import com.carrotguy69.cxyz.other.Logger;
 import com.google.common.collect.Multimap;
-import org.checkerframework.checker.units.qual.A;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +67,7 @@ public class ObjectUtils {
         return Arrays.copyOfRange(array, Math.max(0, Math.min(start, array.length)), array.length);
     }
 
-    public static String slice_(String[] array, int start) {
+    public static String sliceToString(String[] array, int start) {
         String[] new_array = Arrays.copyOfRange(array, Math.max(0, Math.min(start, array.length)), array.length);
         return String.join(" ", new_array);
     }

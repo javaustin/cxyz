@@ -26,7 +26,8 @@ public class Debug implements CommandExecutor {
         PUNISHMENT,
         REQUESTS,
         SHORTHAND_COMMANDS,
-        USER
+        USER,
+        GENERAL
     }
 
     @Override

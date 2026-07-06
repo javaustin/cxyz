@@ -10,7 +10,6 @@ import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
-import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -72,7 +71,7 @@ public class NetworkPlayerSetAsync implements CommandExecutor {
 
 
         String fieldName = args[1];
-        String value = ObjectUtils.slice_(args, 2);
+        String value = ObjectUtils.sliceToString(args, 2);
 
         String url = CXYZ.apiEndpoint + "/user/modify";
 
