@@ -172,10 +172,10 @@ commands:
   data:
     # formatter: {attribute}, {value}, networkPlayerFormatter
     networkplayer:
-      get: "Attribute {attribute} for {player-username} is: {value}"
-      get-async: "Attribute ((async)) {attribute} for {player-username} is: {value}"
-      set: "Set {attribute} to {value} for network player {player-username}."
-      set-async: "Set ((async)) {attribute} to {value} for network player {player-username}."
+      get: "Attribute {attribute} for {player-username} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
+      get-async: "Attribute ((async)) {attribute} for {player-username} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
+      set: "Set [{attribute}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{attribute}) to [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})for network player {player-username}."
+      set-async: "Set ((async)) [{attribute}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{attribute}) to [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value}) for network player {player-username}."
 
 
   debug:

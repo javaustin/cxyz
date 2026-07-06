@@ -156,6 +156,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     public static Random random = new Random();
 
+    public static boolean shutdownFlag = false;
+
 
     /*
 
@@ -253,6 +255,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     @Override
     public void onEnable() {
         plugin = JavaPlugin.getPlugin(CXYZ.class);
+        shutdownFlag = false;
 
         saveDefaultConfig();
         reloadConfig();
@@ -313,6 +316,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     @Override
     public void onDisable() {
+        shutdownFlag = true;
+
         if (thisServer != null) {
             Request.postRequest(apiEndpoint + "/markOffline", gson.toJson(Map.of("server", thisServer.getIdentifier())));
         }
@@ -365,6 +370,10 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     @org.bukkit.event.EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
+        if (shutdownFlag) {
+            return;
+        }
+
         onLeave(e);
     }
 

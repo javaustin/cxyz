@@ -475,7 +475,11 @@ public class NetworkPlayer {
     }
 
     public long getLivePlaytime() {
-        return getPlaytime() + TimeUtils.unixTimeNow() - getLastJoin();
+
+        if (this.isOnline()) {
+            return getPlaytime() + TimeUtils.unixTimeNow() - getLastJoin();
+        }
+        return playtime;
     }
 
     public void setPlaytime(long playtime) {
