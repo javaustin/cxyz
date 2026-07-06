@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.cmd;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import org.bukkit.Bukkit;
@@ -27,31 +28,40 @@ public class Smite implements CommandExecutor {
             return true;
         }
 
-        if (!(sender instanceof Player)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
+
+        Player p = null;
+
+        if (args.length == 0 && !(sender instanceof Player)) {
+            MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.MISSING_GENERAL), Map.of("missing-args", "player"));
             return true;
         }
 
-        NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
+        if (args.length == 0 || !sender.hasPermission(node + ".others")) {
+            p = (Player) sender;
+        }
 
-        if (args.length >= 1 && sender.hasPermission(node + ".others")) {
+        else {
             if (args[0].equalsIgnoreCase("*")) {
                 smiteAll(sender);
                 return true;
             }
 
-            np = NetworkPlayer.getPlayerByUsername(args[0]);
+            NetworkPlayer np = NetworkPlayer.getPlayerByUsername(args[0]);
+            if (np != null)
+                p = np.getPlayer();
 
-            if (np == null) {
-                MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", args[0]));
+            if (p == null && np != null) {
+                MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.PLAYER_IS_OFFLINE), MapFormatters.playerFormatter(np));
                 return true;
             }
 
-            if (np.getPlayer() == null) {
-                MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(np));
+            else if (np == null) {
+                MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.PLAYER_NOT_FOUND), Map.of("username", args[0]));
                 return true;
             }
         }
+
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         smiteOne(sender, np);
 

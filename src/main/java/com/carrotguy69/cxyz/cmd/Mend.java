@@ -2,6 +2,8 @@ package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import org.bukkit.command.Command;
@@ -13,6 +15,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Mend implements CommandExecutor {
@@ -28,16 +31,42 @@ public class Mend implements CommandExecutor {
             return true;
         }
 
-        if (!(sender instanceof Player)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
+        Player p = null;
+
+        if (args.length == 0 && !(sender instanceof Player)) {
+            MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.MISSING_GENERAL), Map.of("missing-args", "player"));
             return true;
         }
 
-        NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
+        if (args.length == 0 || !sender.hasPermission(node + ".others")) {
+            p = (Player) sender;
+        }
 
-        ItemStack is = np.getPlayer().getInventory().getItemInMainHand();
+        else {
+            NetworkPlayer np = NetworkPlayer.getPlayerByUsername(args[0]);
+            if (np != null)
+                p = np.getPlayer();
+
+            if (p == null && np != null) {
+                MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.PLAYER_IS_OFFLINE), MapFormatters.playerFormatter(np));
+                return true;
+            }
+
+            else if (np == null) {
+                MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.PLAYER_NOT_FOUND), Map.of("username", args[0]));
+                return true;
+            }
+        }
+
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
+
+        ItemStack is = p.getInventory().getItemInMainHand();
 
         ItemMeta meta = is.getItemMeta();
+
+        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
+        commonMap.put("item", is.getType().name());
+
 
         if (meta instanceof Damageable) {
             Damageable damagableMeta = (Damageable) meta;
@@ -45,10 +74,10 @@ public class Mend implements CommandExecutor {
             ((Damageable) meta).setDamage(0);
 
             is.setItemMeta(damagableMeta);
-            MessageUtils.sendParsedMessage(sender, MessageKey.MEND, Map.of());
+            MessageUtils.sendParsedMessage(sender, MessageKey.MEND, commonMap);
         }
         else {
-            MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_REPAIRABLE_ITEM, Map.of("item", is.getType().name()));
+            MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_REPAIRABLE_ITEM, commonMap);
             return true;
         }
 

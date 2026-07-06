@@ -201,6 +201,7 @@ public class Startup {
 
 
             Objects.requireNonNull(plugin.getCommand("mend")).setExecutor(new Mend());
+            Objects.requireNonNull(plugin.getCommand("mend")).setTabCompleter(new LocalOnlinePlayer());
 
 
         // MOD //

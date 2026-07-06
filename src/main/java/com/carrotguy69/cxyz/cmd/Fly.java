@@ -12,7 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-
 import java.util.Map;
 
 public class Fly implements CommandExecutor {
@@ -30,49 +29,53 @@ public class Fly implements CommandExecutor {
             return true;
         }
 
-        if (!(sender instanceof Player)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
+        if (args.length == 0 && sender instanceof Player) {
+            setFlight(sender, NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId()), !((Player) sender).getAllowFlight());
             return true;
         }
 
-        NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
-
-        boolean value = false;
-        boolean isSet = false;
-
-        if (args.length >= 1) {
-            value = !ObjectUtils.parseCasualBoolean(args[0]);
-            isSet = true;
+        else if (args.length == 0) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "value, player"));
+            return true;
         }
 
-        if (args.length >= 2 && sender.hasPermission(node + ".others")) {
-            np = NetworkPlayer.getPlayerByUsername(args[1]);
+        if (args.length == 1 && sender instanceof Player) {
+            setFlight(sender, NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId()), ObjectUtils.parseCasualBoolean(args[0]));
+            return true;
+        }
 
-            if (np == null) {
+        else if (args.length == 1) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player"));
+            return true;
+        }
+
+        if (args.length == 2 && sender.hasPermission(node + ".others")) {
+            NetworkPlayer target = NetworkPlayer.getPlayerByUsername(args[1]);
+
+            if (target == null) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", args[1]));
                 return true;
             }
 
-            if (np.getPlayer() == null) {
-                MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(np));
+            if (target.getPlayer() == null) {
+                MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(target));
                 return true;
             }
+
+            setFlight(sender, target, ObjectUtils.parseCasualBoolean(args[0]));
         }
 
-        Player p = np.getPlayer();
+        // An edge case may exist where a non player sender attempts to run the command but without permissions. Not sure if I care about fixing it.
+        return true;
+    }
 
-        if (!isSet) {
-            value = !p.getAllowFlight();
-        }
+    private static void setFlight(CommandSender sender, NetworkPlayer target, boolean value) {
+        target.getPlayer().setAllowFlight(value);
 
-        p.setAllowFlight(value);
-
-        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
+        Map<String, Object> commonMap = MapFormatters.playerFormatter(target);
         commonMap.put("toggle", value ? "enabled" : "disabled");
 
         MessageUtils.sendParsedMessage(sender, MessageKey.valueOf("FLY_" + (value ? "ENABLE" : "DISABLE")), commonMap);
-
-        return true;
     }
 
 

@@ -175,7 +175,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     - ✅ Add /heal
     - ✅ Add /fly
     - ✅ Add /smite
-    - Add /repair
+    - ✅ Add /repair
     - Add /tpa system
     - Add /sudo
     - ✅ Add /invsee

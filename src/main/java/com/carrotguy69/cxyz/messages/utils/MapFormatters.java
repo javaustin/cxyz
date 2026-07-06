@@ -835,8 +835,8 @@ public class MapFormatters {
         commonMap.put("z", loc != null ? loc.getZ() : "");
         commonMap.put("yaw", loc != null ? loc.getYaw() : "");
         commonMap.put("pitch", loc != null ? loc.getPitch()  : "");
-        commonMap.put("rounded_yaw", loc != null ? roundAngle(loc.getYaw(), 45F) : "");
-        commonMap.put("rounded_pitch", loc != null ? roundAngle(loc.getPitch(), 45F) : "");
+        commonMap.put("rounded-yaw", loc != null ? roundAngle(loc.getYaw(), 45F) : "");
+        commonMap.put("rounded-pitch", loc != null ? roundAngle(loc.getPitch(), 45F) : "");
         commonMap.put("block-x", loc != null ? loc.getBlockX() : "");
         commonMap.put("block-y", loc != null ? loc.getBlockY() : "");
         commonMap.put("block-z", loc != null ? loc.getBlockZ() : "");

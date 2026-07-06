@@ -21,11 +21,13 @@ public class Fly implements TabCompleter {
             return options;
         }
 
+        // if args.length == 1: options is still ["enable", "disable"]
+
         if (args.length == 2) {
             options = LocalOnlinePlayer.getUsernames();
         }
 
-        if (args.length >= 2) {
+        if (args.length > 2) {
             return List.of();
         }
 

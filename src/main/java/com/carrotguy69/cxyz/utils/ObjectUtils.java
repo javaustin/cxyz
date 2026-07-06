@@ -30,7 +30,7 @@ public class ObjectUtils {
     }
 
     public static boolean parseCasualBoolean(String s) {
-        return List.of("no", "disable", "disabled", "off", "false").contains(s.toLowerCase());
+        return !List.of("no", "disable", "disabled", "off", "false", "0").contains(s.toLowerCase());
     }
 
     public static boolean containsIgnoreCase(Collection<String> collection, String sequence) {
