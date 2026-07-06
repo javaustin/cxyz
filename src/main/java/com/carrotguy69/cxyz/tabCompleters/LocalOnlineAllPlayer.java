@@ -26,15 +26,7 @@ public class LocalOnlineAllPlayer implements TabCompleter {
             np = NetworkPlayer.resolvePlayer(p.getUniqueId());
         }
 
-        List<String> visibleUsernames = new ArrayList<>();
-
-        for (Player pl : Bukkit.getOnlinePlayers()) {
-            NetworkPlayer user = NetworkPlayer.resolvePlayer(pl.getUniqueId());
-
-            visibleUsernames.add(user.getDisplayName());
-            if (!user.getDisplayName().equalsIgnoreCase(user.getUsername()))
-                visibleUsernames.add(user.getUsername());
-        }
+        List<String> visibleUsernames = LocalOnlinePlayer.getUsernames();
 
 
         if (np != null) {

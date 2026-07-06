@@ -37,6 +37,7 @@ errors:
       player: "&cPlease provide a valid player!"
       punishment: "&cNo punishment found with this case ID!"
       rank: "&cPlease provide a valid rank name!"
+      repairable-item: "&cItem does not have a durability attribute."
       timezone: "&cPlease provide a valid timezone!"
       friend-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/DISALLOWED)))"
       message-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"
@@ -290,6 +291,8 @@ commands:
     set: "&aSuccessfully set {amount} levels to {player}!"
     view: "&a{player} has {amount} levels!"
 
+  mend: "&aRepaired item!"
+
   parse:
     error: "&cFailed to parse text: {error}"
 
@@ -537,6 +540,9 @@ commands:
   reload:
     success: "&aSuccessfully reloaded plugin in &7{time}ms&a!"
     fail: "&cFailed to reload plugin! {error}"
+
+  smite: "&aSmiting {player-display-name}."
+  smite-all: "&aSmiting {amount} targets."
 
   timezone:
     set: "&aTime zone set to {timezone-id-short} (({timezone-id}))."

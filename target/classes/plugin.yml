@@ -204,6 +204,11 @@ commands:
     usage: /heal [player]
     permission: "cxyz.heal"
     aliases: []
+  mend:
+    description: Repair an item's durability
+    usage: /mend
+    permission: "cxyz.mend"
+    aliases: [repair]
 
   nickname:
     description: Set a server nickname
@@ -240,6 +245,12 @@ commands:
     usage: /show [content]
     permission: "cxyz.show"
     aliases: []
+
+  smite:
+    description: Smite one or many players
+    usage: /smite [player]
+    permission: "cxyz.smite"
+    aliases: [strike]
 
   test:
     description: Test command
@@ -494,6 +505,14 @@ permissions:
 
   cxyz.show:
     default: true
+
+  cxyz.smite:
+    default: op
+  cxyz.smite.others:
+    default: op
+
+  cxyz.mend:
+    default: op
 
   cxyz.location:
     default: true

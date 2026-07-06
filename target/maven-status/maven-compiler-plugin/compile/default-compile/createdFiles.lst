@@ -1,6 +1,7 @@
 com/carrotguy69/cxyz/cmd/data/networkplayer/NetworkPlayerSet.class
 com/carrotguy69/cxyz/models/db/GameStat.class
 com/carrotguy69/cxyz/events/custom/base/Priority.class
+com/carrotguy69/cxyz/cmd/Smite.class
 com/carrotguy69/cxyz/http/RequestType.class
 com/carrotguy69/cxyz/http/Listener$3.class
 com/carrotguy69/cxyz/cmd/Debug.class
@@ -137,6 +138,7 @@ com/carrotguy69/cxyz/models/config/channel/registry/ChannelRegistry.class
 com/carrotguy69/cxyz/tabCompleters/Unequip.class
 com/carrotguy69/cxyz/tabCompleters/Location.class
 com/carrotguy69/cxyz/utils/CommandRestrictor$CommandRestriction.class
+com/carrotguy69/cxyz/cmd/Mend.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$PartyInviteDeliveryWrapper.class
 com/carrotguy69/cxyz/http/RequestResult.class
 com/carrotguy69/cxyz/models/db/NetworkPlayer$PartyInvitePrivacy.class

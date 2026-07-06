@@ -10,6 +10,7 @@ import com.carrotguy69.cxyz.cmd.Heal;
 import com.carrotguy69.cxyz.cmd.Info;
 import com.carrotguy69.cxyz.cmd.InventorySee;
 import com.carrotguy69.cxyz.cmd.Location;
+import com.carrotguy69.cxyz.cmd.Mend;
 import com.carrotguy69.cxyz.cmd.Nickname;
 import com.carrotguy69.cxyz.cmd.Parse;
 import com.carrotguy69.cxyz.cmd.Ping;
@@ -17,6 +18,7 @@ import com.carrotguy69.cxyz.cmd.PlaceholderTest;
 import com.carrotguy69.cxyz.cmd.Port;
 import com.carrotguy69.cxyz.cmd.Print;
 import com.carrotguy69.cxyz.cmd.Show;
+import com.carrotguy69.cxyz.cmd.Smite;
 import com.carrotguy69.cxyz.cmd.Test;
 import com.carrotguy69.cxyz.cmd.Timezone;
 import com.carrotguy69.cxyz.cmd.channel._ChannelExecutor;
@@ -188,7 +190,8 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("unignore")).setExecutor(new Unignore());
             Objects.requireNonNull(plugin.getCommand("unignore")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unignore());
 
-
+            Objects.requireNonNull(plugin.getCommand("smite")).setExecutor(new Smite());
+            Objects.requireNonNull(plugin.getCommand("smite")).setTabCompleter(new LocalOnlineAllPlayer());
 
             Objects.requireNonNull(plugin.getCommand("reply")).setExecutor(new MessageReply());
             Objects.requireNonNull(plugin.getCommand("reply")).setTabCompleter(new Blank()); // blank tab completer, to stop Bukkit from automatically filling arguments
@@ -196,6 +199,8 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("timezone")).setExecutor(new Timezone());
             Objects.requireNonNull(plugin.getCommand("timezone")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Timezone());
 
+
+            Objects.requireNonNull(plugin.getCommand("mend")).setExecutor(new Mend());
 
 
         // MOD //

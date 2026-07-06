@@ -30,10 +30,11 @@ public class Fly implements TabCompleter {
         }
 
         for (String s : options) {
-            if (args[args.length - 1].startsWith(s)) {
+            if (s.startsWith(args[args.length - 1])) {
                 results.add(s);
             }
         }
+
         return results;
     }
 }

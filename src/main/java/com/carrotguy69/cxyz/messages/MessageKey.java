@@ -39,6 +39,7 @@ public enum MessageKey {
     INVALID_PLAYER("errors.args.invalid.player"),
     INVALID_PUNISHMENT("errors.args.invalid.punishment"),
     INVALID_RANK("errors.args.invalid.rank"),
+    INVALID_REPAIRABLE_ITEM("errors.args.invalid.repairable-item"),
     INVALID_FRIEND_PRIVACY_VALUE("errors.args.invalid.friend-privacy-value"),
     INVALID_MESSAGE_PRIVACY_VALUE("errors.args.invalid.message-privacy-value"),
     INVALID_PARTY_PRIVACY_VALUE("errors.args.invalid.party-privacy-value"),
@@ -272,6 +273,11 @@ public enum MessageKey {
     LOCATION_LONG("commands.location.long"),
 
     // =========================
+    // Commands - Mend
+    // =========================
+    MEND("commands.mend"),
+
+    // =========================
     // Commands - Parse
     // =========================
     PARSE_ERROR("commands.parse.error"),
@@ -432,6 +438,11 @@ public enum MessageKey {
     RELOAD_SUCCESS("commands.reload.success"),
     RELOAD_FAIL("commands.reload.fail"),
 
+    // =========================
+    // Commands - Smite
+    // =========================
+    SMITE("commands.smite"),
+    SMITE_ALL("commands.smite-all"),
 
 
     TIMEZONE_SET("commands.timezone.set"),

@@ -173,9 +173,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
 
     - ✅ Add /heal
-    - Add /back
-    - Add /fly
-    - Add /smite
+    - ✅ Add /fly
+    - ✅ Add /smite
     - Add /repair
     - Add /tpa system
     - Add /sudo
