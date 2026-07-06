@@ -40,6 +40,7 @@ com/carrotguy69/cxyz/cmd/cosmetic/CosmeticEquip.class
 com/carrotguy69/cxyz/models/db/NetworkPlayer.class
 com/carrotguy69/cxyz/cmd/party/PartyPrivate.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$GameStatDeliveryWrapper.class
+com/carrotguy69/cxyz/tabCompleters/LocalOnlineAllPlayer.class
 com/carrotguy69/cxyz/cmd/PlaceholderTest.class
 com/carrotguy69/cxyz/models/db/Punishment$PunishmentType.class
 com/carrotguy69/cxyz/models/db/NetworkPlayer$FriendRequestPrivacy.class
@@ -47,6 +48,7 @@ com/carrotguy69/cxyz/cmd/punishment/manager/PunishmentEdit.class
 com/carrotguy69/cxyz/events/bukkit/LeaveEvent.class
 com/carrotguy69/cxyz/cmd/xp/XPSet.class
 com/carrotguy69/cxyz/utils/JsonConverters$1.class
+com/carrotguy69/cxyz/cmd/Fly.class
 com/carrotguy69/cxyz/models/config/cosmetics/ActiveCosmeticLoader.class
 com/carrotguy69/cxyz/events/custom/LeaveEvent.class
 com/carrotguy69/cxyz/cmd/party/_PartyExecutor.class
@@ -102,6 +104,7 @@ com/carrotguy69/cxyz/http/ShipmentDelivery$GameStatShipmentWrapper.class
 com/carrotguy69/cxyz/events/bukkit/JoinEvent.class
 com/carrotguy69/cxyz/events/bukkit/PreJoinEvent.class
 com/carrotguy69/cxyz/cmd/Nickname.class
+com/carrotguy69/cxyz/cmd/Heal.class
 com/carrotguy69/cxyz/tabCompleters/Ignore.class
 com/carrotguy69/cxyz/tabCompleters/LocalOnlinePlayer.class
 com/carrotguy69/cxyz/events/custom/PublicChatEvent.class
@@ -129,6 +132,7 @@ com/carrotguy69/cxyz/cmd/xp/XPRemove.class
 com/carrotguy69/cxyz/cmd/message/MessageSend.class
 com/carrotguy69/cxyz/cmd/Print.class
 com/carrotguy69/cxyz/webhook/DiscordEmbed.class
+com/carrotguy69/cxyz/tabCompleters/Fly.class
 com/carrotguy69/cxyz/models/config/channel/registry/ChannelRegistry.class
 com/carrotguy69/cxyz/tabCompleters/Unequip.class
 com/carrotguy69/cxyz/tabCompleters/Location.class

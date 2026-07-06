@@ -181,6 +181,12 @@ commands:
     permission: "cxyz.enderchest"
     aliases: [echest]
 
+  fly:
+    description: Toggle flight mode for a player
+    usage: /fly [player]
+    permission: "cxyz.fly"
+    aliases: []
+
   info:
     description: View info on any network player
     usage: /info [player]
@@ -192,6 +198,12 @@ commands:
     usage: /invsee [player]
     permission: "cxyz.invsee"
     aliases: [inventory, inventorysee]
+
+  heal:
+    description: Heal a player
+    usage: /heal [player]
+    permission: "cxyz.heal"
+    aliases: []
 
   nickname:
     description: Set a server nickname
@@ -301,6 +313,9 @@ permissions:
   cxyz.data.networkplayer.set-async:
     default: op
 
+  cxyz.fly:
+    default: op
+
   cxyz.fullbright:
     default: true
 
@@ -328,6 +343,10 @@ permissions:
   cxyz.unignore:
     default: true
 
+  cxyz.heal:
+    default: op
+  cxyz.heal.others:
+    default: op
 
   cxyz.level:
     default: true

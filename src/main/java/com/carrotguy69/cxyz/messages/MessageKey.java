@@ -196,6 +196,12 @@ public enum MessageKey {
     FRIEND_LIST_MAX_ENTRIES("commands.friend.friend-list.max-entries-per-page"),
 
     // =========================
+    // Commands - Friend
+    // =========================
+    FLY_ENABLE("commands.fly-enable"),
+    FLY_DISABLE("commands.fly-disable"),
+
+    // =========================
     // Commands - Ignore
     // =========================
 
@@ -215,6 +221,11 @@ public enum MessageKey {
     // =========================
     INFO("commands.info"),
 
+    // =========================
+    // Commands - Heal
+    // =========================
+    HEAL("commands.heal"),
+    HEAL_ALL("commands.heal-all"),
 
     // =========================
     // Commands - Inventory View

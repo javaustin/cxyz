@@ -29,6 +29,10 @@ public class ObjectUtils {
         return i != 0;
     }
 
+    public static boolean parseCasualBoolean(String s) {
+        return List.of("no", "disable", "disabled", "off", "false").contains(s.toLowerCase());
+    }
+
     public static boolean containsIgnoreCase(Collection<String> collection, String sequence) {
         for (String s : collection) {
             if (s.toLowerCase().contains(sequence.toLowerCase())) {

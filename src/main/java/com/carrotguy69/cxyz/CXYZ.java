@@ -162,7 +162,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     /*
 
     [❌] ISSUES:
-    - pretty much all times are incorrect (playtime, lastJoin, lastOnline), in production lastJoin is the same as firstJoin so last join must not be being updated.
+    - (maybe fixed)pretty much all times are incorrect (playtime, lastJoin, lastOnline), in production lastJoin is the same as firstJoin so last join must not be being updated.
 ️ ️️ ️
     [➕] ADD/IMPLEMENT:
 
@@ -172,14 +172,14 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     - figure out what the pageNumber parameter is used for in list formatters. to get a page by a page number, it should be a separate call to .generatePage(n) ? right?
 
-    - Add /heal
+    - ✅ Add /heal
     - Add /back
     - Add /fly
     - Add /smite
     - Add /repair
     - Add /tpa system
     - Add /sudo
-    - Add /invsee
+    - ✅ Add /invsee
 
     - CROSS SERVER TESTING!
 
@@ -221,8 +221,9 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     - Events other plugins can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
 
     [⚠️] NON REPLICABLE (or hard to replicate) ISSUES
-    - ✅️ I will often get marked as offline with: (NetworkPlayer.isOnline() == false). What causes this, the join event registers? Maybe there is a task that is setting me offline?
     - why does "&d[phat]" have a formatter color code character before f() is applied?
+    - playtime can become extremely high
+    - player last_join values can be the same as the first_join values
 
    */
 

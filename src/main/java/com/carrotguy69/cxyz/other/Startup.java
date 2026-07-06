@@ -4,7 +4,9 @@ import com.carrotguy69.cxyz.cmd.Broadcast;
 import com.carrotguy69.cxyz.cmd.ChatColor;
 import com.carrotguy69.cxyz.cmd.Debug;
 import com.carrotguy69.cxyz.cmd.EnderChestSee;
+import com.carrotguy69.cxyz.cmd.Fly;
 import com.carrotguy69.cxyz.cmd.Fullbright;
+import com.carrotguy69.cxyz.cmd.Heal;
 import com.carrotguy69.cxyz.cmd.Info;
 import com.carrotguy69.cxyz.cmd.InventorySee;
 import com.carrotguy69.cxyz.cmd.Location;
@@ -47,6 +49,7 @@ import com.carrotguy69.cxyz.papi.RelationalExpansion;
 import com.carrotguy69.cxyz.tabCompleters.Blank;
 import com.carrotguy69.cxyz.tabCompleters.CoinsXPLevel;
 import com.carrotguy69.cxyz.tabCompleters.Data;
+import com.carrotguy69.cxyz.tabCompleters.LocalOnlineAllPlayer;
 import com.carrotguy69.cxyz.tabCompleters.LocalOnlinePlayer;
 import com.carrotguy69.cxyz.tabCompleters.OnlinePlayer;
 import com.carrotguy69.cxyz.tabCompleters.Party;
@@ -149,8 +152,14 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("invsee")).setExecutor(new InventorySee());
             Objects.requireNonNull(plugin.getCommand("invsee")).setTabCompleter(new LocalOnlinePlayer());
 
+            Objects.requireNonNull(plugin.getCommand("heal")).setExecutor(new Heal());
+            Objects.requireNonNull(plugin.getCommand("heal")).setTabCompleter(new LocalOnlineAllPlayer());
+
             Objects.requireNonNull(plugin.getCommand("enderchest")).setExecutor(new EnderChestSee());
             Objects.requireNonNull(plugin.getCommand("enderchest")).setTabCompleter(new LocalOnlinePlayer());
+
+            Objects.requireNonNull(plugin.getCommand("fly")).setExecutor(new Fly());
+            Objects.requireNonNull(plugin.getCommand("fly")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Fly());
 
             Objects.requireNonNull(plugin.getCommand("fullbright")).setExecutor(new Fullbright());
 

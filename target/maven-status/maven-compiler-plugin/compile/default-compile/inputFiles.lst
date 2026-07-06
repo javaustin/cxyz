@@ -85,6 +85,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Print.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Parse.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/party/PartyInvite.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Heal.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Rank.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/shorthand/utils/ShorthandUtils.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/services/Service.java
@@ -92,6 +93,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Ban.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Timezone.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/level/LevelView.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Fly.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/ignore/_IgnoreExecutor.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/exceptions/AuthenticationFailException.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/data/networkplayer/_NetworkPlayerDataExecutor.java
@@ -112,6 +114,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/CXYZ.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Party.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/data/_DataExecutor.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/LocalOnlineAllPlayer.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/bukkit/DropEvent.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Location.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/custom/PublicChatEvent.java
@@ -177,6 +180,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/other/Tasks.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/punishment/manager/PunishmentClear.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/ignore/IgnoreList.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Fly.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/shorthand/ShorthandBukkitCommand.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/channel/ChannelUnlock.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/http/ShipmentDelivery.java

@@ -189,6 +189,9 @@ commands:
     toggle-on: "&aFakeFullbright enabled"
     toggle-off: "&aFakeFullbright disabled"
 
+  fly-enable: "&aFlight enabled for {player-display-name}."
+  fly-disable: "&aFlight disabled for {player-display-name}."
+
   friend:
     error.already-friends: "&eYou are already friends with this player." # Accepts playerSender
     error.duplicate-request: "&eYou already sent a request to this player."
@@ -222,6 +225,9 @@ commands:
 
     removed: "&eYou are no longer friends with {player-rank-color}{player-display-name}"
     removed-received: "&eYou are no longer friends with {sender-rank-color}{sender-display-name}"
+
+  heal: "&aHealed {player-rank-color}{player-display-name}."
+  heal-all: "&aHealed {amount} targets."
 
   info: |
     {player-rank-color}Player info for {player}
