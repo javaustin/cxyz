@@ -1,13 +1,13 @@
 # CXYZ
-  
+
 Named after my abbreviated Minecraft server IP (cerrot.xyz), this is a core plugin that provides all non-negotiable features for any serious [Bukkit](https://dev.bukkit.org/) or [Spigot](https://hub.spigotmc.org) based server. Rather than weakly stitching together features from various plugins, allow CXYZ to authoritively handle chat, ranks, parties, custom commands, moderation, and cosmetics across multiple servers.
-  
+
 This plugin is built to integrate with an external API [(see here)](https://github.com/javaustin/cxyz/main/README.md#%EF%B8%8F-important-notes) because many of its systems are network-wide by nature, not tied to a single server instance. Using an API allows the plugin to remain fast, consistent, and scalable without sacrificing simplicity.
 <br></br>
 #### ⚠️ Important Notes
 - This plugin is meant to work with a custom API and database setup. Please refer to my [cxyzAPI](https://github.com/javaustin/cxyzAPI) project.
 - This plugin is IN PROGRESS as of February 2026. Please do not expect support as the plugin has not reached a finalized state.
-<br></br>
+  <br></br>
 ---
 ## Design Philosophy
 ##### Cohesion over modularity
@@ -25,13 +25,13 @@ This plugin is built to integrate with an external API [(see here)](https://gith
 - Native support for persistent network-wide player profiles allows for more flexibility when players are offline
 - A single NetworkPlayer object represents a player across all servers no matter if they are online or not
 - NetworkPlayer handles an individual players UUID, username, nickname, ranks, coins, xp, level, privacy settings, cosmetics, and many more attributes  
-![/whois command](https://i.imgur.com/Tln0qRu.png "Plugin /whois command")
+  ![/whois command](https://i.imgur.com/Tln0qRu.png "Plugin /whois command")
 
 ---
-    
+
 #### Ranks
 - An authoritative rank system with guaranteed defaults (no 'rank-less' players)
-- A fixed rank hierarchy system where hierarchy values must be assigned (i.e.: admin=4 > mod=3 > vip=2 > default=1) 
+- A fixed rank hierarchy system where hierarchy values must be assigned (i.e.: admin=4 > mod=3 > vip=2 > default=1)
 - Ranks can have configurable names, prefixes, chat colors, chat cooldowns.
 
 ```yml
@@ -60,10 +60,10 @@ This plugin is built to integrate with an external API [(see here)](https://gith
 ```
   
 ---
-  
+
 #### Chat channels
 - Multi channel chat engine with custom permissions and formatting.
-- Easily switch chat channels with `/chat <channel>` 
+- Easily switch chat channels with `/chat <channel>`
 - Core channels (public, party, and message) work out of the box.
 - Custom channels can be created just by opening the config and defining a channel.
 - Great for private staff channels, or even server announcements with a read-only channel
@@ -100,7 +100,7 @@ chat:
 
 ```
 ---
-  
+
 #### Shorthand Commands
 - Easy implementation of custom commands using config.yml
 - Simply define trigger commands and run actions
@@ -144,7 +144,7 @@ shorthand-commands:
 - Automatic cleanup for offline players and expired invites
 - Designed to be simple, fast, predictable, and power-user friendly
 - Configure admin settings by enabling/disabling parties, setting party size limits, or setting expire/autokick times
-![Plugin party system](https://i.imgur.com/awZj8Yt.png "Plugin party system")
+  ![Plugin party system](https://i.imgur.com/awZj8Yt.png "Plugin party system")
 ---
 
 #### Unlimited customization
@@ -196,7 +196,7 @@ example-message: "&aAn example legacy color message that is green. {sender-rank-
 
 ---
 #### RGB code example
-The plugin supports RGB colors in the default Bukkit message format. An RGB code is prepended by the code `&x`, and each bit is separated by `&` (e.g., #FF0000 -> &x&F&F&0&0&0&0). 
+The plugin supports RGB colors in the default Bukkit message format. An RGB code is prepended by the code `&x`, and each bit is separated by `&` (e.g., #FF0000 -> &x&F&F&0&0&0&0).
 ```yml
 example-message-2: "&x&8&F&F&B&9&6An example message with the custom RGB code: #8FFB96"
 ```
@@ -207,7 +207,7 @@ example-message-2: "&x&8&F&F&B&9&6An example message with the custom RGB code: #
 #### Clickable component example
 Brackets followed by parenthesis are assumed to be text component blocks. A text component block follows the format `[text](ACTION:actionText)`.   
 If you wish to use brackets or parenthesis outside of this, you should double them ("[" -> "[[") so the parser ignores them.   
-Valid actions are `RUN_COMMAND`, `SUGGEST_COMMAND`, `COPY_TO_CLIPBOARD`, `OPEN_URL`, `HOVER`.   
+Valid actions are `RUN_COMMAND`, `SUGGEST_COMMAND`, `COPY_TO_CLIPBOARD`, `OPEN_URL`, `HOVER`.
 ```yml
 example-message-3: "[&x&3&E&4&C&F&BAn RGB clickable example message](HOVER:&eClick me)"
 ```
@@ -215,7 +215,7 @@ example-message-3: "[&x&3&E&4&C&F&BAn RGB clickable example message](HOVER:&eCli
 
 ---
 #### Gradient example
-Gradients are supported by the legacy parser by appending each color code before each character. [Here](https://minecraft.menu/minecraft-rgb-generator) is a handy tool to generate gradients easily.  
+Gradients are supported by the legacy parser by appending each color code before each character. [Here](https://minecraft.menu/minecraft-rgb-generator) is a handy tool to generate gradients easily.
 ```yml
 example-message-4: "&x&F&B&C&4&1&Eg&x&F&B&B&E&2&2r&x&F&B&B&9&2&6a&x&F&B&B&3&2&9d&x&F&B&A&D&2&Di&x&F&B&A&7&3&1e&x&F&B&A&2&3&5n&x&F&B&9&C&3&9t&x&F&B&9&6&3&Cs &x&F&B&9&0&4&0a&x&F&B&8&B&4&4r&x&F&B&8&5&4&8e &x&F&B&7&F&4&Cs&x&F&B&7&9&4&Fu&x&F&B&7&4&5&3p&x&F&B&6&E&5&7p&x&F&B&6&8&5&Bo&x&F&B&6&2&5&Er&x&F&B&5&D&6&2t&x&F&B&5&7&6&6e&x&F&B&5&1&6&Ad &x&F&B&4&B&6&Et&x&F&B&4&6&7&1o&x&F&B&4&0&7&5o&x&F&B&3&A&7&9!"
 ```

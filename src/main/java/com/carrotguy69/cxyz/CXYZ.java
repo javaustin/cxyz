@@ -170,14 +170,11 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     - better backend logging on failed actions
 
-    - Add /tpa system
     - add /powertool
 
     - CROSS SERVER TESTING!
 
     - better debugger (make a list of things that need to get printed when a debugger is enabled) - eliminate bloat
-
-    - channel lock override permission
 
 
     [🔥] v1.1 UPDATE:

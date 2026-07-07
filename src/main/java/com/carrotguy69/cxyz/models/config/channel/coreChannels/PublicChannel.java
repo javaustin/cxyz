@@ -65,7 +65,7 @@ public class PublicChannel extends CoreChannel {
             return;
         }
 
-        if (this.isLockable() && this.isLocked()) {
+        if (this.isLockable() && this.isLocked() && !p.hasPermission(String.format("cxyz.channel.%s.lock-bypass", this.getName().toLowerCase())) && !p.isOp()) {
             MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_IS_LOCKED, commonMap);
             return;
         }

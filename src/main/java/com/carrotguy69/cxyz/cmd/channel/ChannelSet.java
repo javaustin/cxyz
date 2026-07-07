@@ -86,7 +86,6 @@ public class ChannelSet implements CommandExecutor {
             return true;
         }
 
-
         ch.onSelect(np);
 
         return true;

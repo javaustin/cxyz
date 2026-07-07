@@ -61,6 +61,12 @@ public class Sudo implements CommandExecutor {
 
         Logger.debug("sudo command line: " + line);
 
+        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
+        commonMap.put("command", line);
+        commonMap.put("message", line.substring(2));
+
+        MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.valueOf("SUDO" + (chat ? "_MESSAGE" : ""))), commonMap);
+
         if (chat) {
             // can i simulate a chat event just by creating one? do i have to register it or something?
             Event e = new AsyncPlayerChatEvent(false, np.getPlayer(), line.substring(2), new HashSet<>(Bukkit.getOnlinePlayers()));
@@ -70,11 +76,6 @@ public class Sudo implements CommandExecutor {
             Bukkit.dispatchCommand(np.getPlayer(), line);
         }
 
-        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
-        commonMap.put("command", line);
-        commonMap.put("message", line.substring(2));
-
-        MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.valueOf("SUDO" + (chat ? "_MESSAGE" : ""))), commonMap);
         return true;
     }
 }

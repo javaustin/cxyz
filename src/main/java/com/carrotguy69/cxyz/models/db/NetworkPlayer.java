@@ -645,7 +645,7 @@ public class NetworkPlayer {
 
         if (channel instanceof CoreChannel) {
             for (PermissionAttachmentInfo info : this.getPlayer().getEffectivePermissions()) {
-                if (info.getPermission().equalsIgnoreCase("cxyz.chat." + channel.getName())) {
+                if (info.getPermission().equalsIgnoreCase("cxyz.channel." + channel.getName())) {
                     return info.getValue();
                 }
             }
@@ -653,7 +653,7 @@ public class NetworkPlayer {
             return true;
         }
 
-        return this.getPlayer().hasPermission("cxyz.chat." + channel.getName().toLowerCase());
+        return this.getPlayer().hasPermission("cxyz.channel." + channel.getName().toLowerCase());
     }
 
     public BaseChannel getChatChannel() {

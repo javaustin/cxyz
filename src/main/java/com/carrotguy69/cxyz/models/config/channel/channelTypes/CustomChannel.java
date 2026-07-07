@@ -14,6 +14,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +75,18 @@ public class CustomChannel extends BaseChannel {
                 boolean locked = configYaml.getBoolean(channelNode + ".locked");
                 List<String> aliases = configYaml.getStringList(channelNode + ".aliases");
 
+                Permission channelPerm = new Permission("cxyz.channel." + name.toLowerCase());
+                channelPerm.setDefault(PermissionDefault.OP);
+
+                Permission lockOverridePerm = new Permission("cxyz.channel." + name.toLowerCase() + ".lock-bypass");
+                lockOverridePerm.setDefault(PermissionDefault.OP);
+
+                if (Bukkit.getPluginManager().getPermission(channelPerm.getName()) == null)
+                    Bukkit.getPluginManager().addPermission(channelPerm);
+
+                if (Bukkit.getPluginManager().getPermission(lockOverridePerm.getName()) == null)
+                    Bukkit.getPluginManager().addPermission(lockOverridePerm);
+
                 CustomChannel ch = new CustomChannel(name, prefix, chatFormat, webhookURL, triggerPrefix, console, ignorable, lockable, locked, readOnly, aliases);
 
                 customChannels.add(ch);
@@ -114,7 +128,7 @@ public class CustomChannel extends BaseChannel {
             return;
         }
 
-        if (this.isLockable() && this.isLocked()) {
+        if (this.isLockable() && this.isLocked() && !p.hasPermission(String.format("cxyz.channel.%s.lock-bypass", this.getName().toLowerCase())) && !p.isOp()) {
             MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_IS_LOCKED, commonMap);
             return;
         }

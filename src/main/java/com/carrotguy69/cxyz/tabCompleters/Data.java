@@ -52,6 +52,9 @@ public class Data implements TabCompleter {
 
 
         for (String option : options) {
+            if (option == null)
+                continue;
+
             if (option.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
                 results.add(option);
             }

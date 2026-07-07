@@ -1,10 +1,14 @@
 package com.carrotguy69.cxyz.models.config.channel.channelTypes;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +47,6 @@ public class CoreChannel extends BaseChannel {
 
             Set<String> channelNames = section.getKeys(false);
 
-
             for (String name : channelNames) {
                 String channelNode = "chat.core-channels." + name;
 
@@ -57,6 +60,18 @@ public class CoreChannel extends BaseChannel {
                 boolean lockable = configYaml.getBoolean(channelNode + ".lockable");
                 boolean locked = configYaml.getBoolean(channelNode + ".locked");
                 List<String> aliases = configYaml.getStringList(channelNode + ".aliases");
+
+                Permission channelPerm = new Permission("cxyz.channel." + name.toLowerCase());
+                channelPerm.setDefault(PermissionDefault.TRUE);
+
+                Permission lockOverridePerm = new Permission("cxyz.channel." + name.toLowerCase() + ".lock-bypass");
+                lockOverridePerm.setDefault(PermissionDefault.OP);
+
+                if (Bukkit.getPluginManager().getPermission(channelPerm.getName()) == null)
+                    Bukkit.getPluginManager().addPermission(channelPerm);
+
+                if (Bukkit.getPluginManager().getPermission(lockOverridePerm.getName()) == null)
+                    Bukkit.getPluginManager().addPermission(lockOverridePerm);
 
                 CoreChannel ch = new CoreChannel(name, prefix, chatFormat, webhookURL, triggerPrefix, console, ignorable, lockable, locked, readOnly, aliases);
 
