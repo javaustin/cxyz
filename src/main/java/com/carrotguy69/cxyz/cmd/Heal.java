@@ -78,7 +78,10 @@ public class Heal implements CommandExecutor {
 
         double max = attr != null ? attr.getValue() : 20.0;
 
+
         target.getPlayer().setHealth(max);
+        target.getPlayer().setFoodLevel(20);
+
 
         commonMap.put("health", String.format("%.1f", max));
         commonMap.put("player-health", String.format("%.1f", max));
@@ -96,6 +99,7 @@ public class Heal implements CommandExecutor {
             double max = attr != null ? attr.getValue() : 20.0;
 
             p.setHealth(max);
+            p.setFoodLevel(20);
         }
 
         MessageUtils.sendParsedMessage(sender, MessageKey.HEAL_ALL, Map.of("amount", amount));

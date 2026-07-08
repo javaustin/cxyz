@@ -181,6 +181,12 @@ commands:
     permission: "cxyz.enderchest"
     aliases: [echest]
 
+  enchant:
+    description: Enchant an item in your hand
+    usage: /enchant <enchantment> [level] [player]
+    permission: "cxyz.enchant"
+    aliases: []
+
   fly:
     description: Toggle flight mode for a player
     usage: /fly [player]
@@ -339,6 +345,11 @@ permissions:
   cxyz.enderchest:
     default: op
   cxyz.enderchest.others:
+    default: op
+
+  cxyz.enchant:
+    default: op
+  cxyz.enchant.others:
     default: op
 
   cxyz.friend:

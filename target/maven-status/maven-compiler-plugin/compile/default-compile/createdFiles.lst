@@ -178,6 +178,7 @@ com/carrotguy69/cxyz/tabCompleters/Blank.class
 com/carrotguy69/cxyz/messages/utils/MapFormatters$ListFormatter.class
 com/carrotguy69/cxyz/models/config/channel/channelTypes/BaseChannel.class
 com/carrotguy69/cxyz/tabCompleters/ChatChannel.class
+com/carrotguy69/cxyz/cmd/Enchant.class
 com/carrotguy69/cxyz/papi/Expansion.class
 com/carrotguy69/cxyz/events/bukkit/ChatEvent.class
 com/carrotguy69/cxyz/cmd/ignore/Ignore.class
@@ -205,6 +206,7 @@ com/carrotguy69/cxyz/cmd/punishment/manager/_PunishmentExecutor.class
 com/carrotguy69/cxyz/tabCompleters/Unban.class
 com/carrotguy69/cxyz/events/bukkit/InteractEvent.class
 com/carrotguy69/cxyz/models/db/Message.class
+com/carrotguy69/cxyz/tabCompleters/Enchant.class
 com/carrotguy69/cxyz/cmd/friend/FriendRemove.class
 com/carrotguy69/cxyz/models/config/shorthand/interfaces/ShorthandTabCompleter.class
 com/carrotguy69/cxyz/utils/JsonConverters$3.class

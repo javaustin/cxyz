@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.other;
 import com.carrotguy69.cxyz.cmd.Broadcast;
 import com.carrotguy69.cxyz.cmd.ChatColor;
 import com.carrotguy69.cxyz.cmd.Debug;
+import com.carrotguy69.cxyz.cmd.Enchant;
 import com.carrotguy69.cxyz.cmd.EnderChestSee;
 import com.carrotguy69.cxyz.cmd.Fly;
 import com.carrotguy69.cxyz.cmd.Fullbright;
@@ -203,6 +204,9 @@ public class Startup {
 
             Objects.requireNonNull(plugin.getCommand("mend")).setExecutor(new Mend());
             Objects.requireNonNull(plugin.getCommand("mend")).setTabCompleter(new LocalOnlinePlayer());
+
+            Objects.requireNonNull(plugin.getCommand("enchant")).setExecutor(new Enchant());
+            Objects.requireNonNull(plugin.getCommand("enchant")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Enchant());
 
 
         // MOD //

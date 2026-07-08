@@ -31,6 +31,8 @@ errors:
       debug: "&cPlease provide a valid debugger!"
       duration: "&cPlease provide a valid duration!"
       entry: "[&cEntry not found!](HOVER:&7Could not find an entry with the key {key}!)"
+      enchant: "&cPlease provide a valid enchant!"
+      enchantable-item: "&cItem {item} cannot be enchanted."
       item: "&cPlease provide a valid item to buy!"
       number: "&cPlease provide a valid number!"
       page: "[&cPlease provide a valid page between {min} and {max}!](HOVER:Your input: {page})"
@@ -184,7 +186,11 @@ commands:
     unset: "&a{value} debugger has been disabled!"
     view: "&aEnabled debuggers: &f{debuggers}"
 
+
   echest-view: "&aYou are viewing {player-display-name}'s ender chest."
+
+  enchant: "&aAdded {enchant} to {item} for {player-display-name}."
+  enchant-clear: "&aReset all enchants for {item} for {player-display-name}."
 
   fullbright:
     toggle-on: "&aFakeFullbright enabled"

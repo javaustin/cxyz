@@ -170,6 +170,9 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     - better backend logging on failed actions
 
+    - /enchant
+    - /dispose
+
     - add /powertool
 
     - CROSS SERVER TESTING!

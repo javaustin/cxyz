@@ -32,6 +32,8 @@ public enum MessageKey {
     INVALID_COSMETIC("errors.args.invalid.cosmetic"),
     INVALID_DEBUG("errors.args.invalid.debug"),
     INVALID_DURATION("errors.args.invalid.duration"),
+    INVALID_ENCHANT("errors.args.invalid.enchant"),
+    INVALID_ENCHANTABLE_ITEM("errors.args.invalid.enchantable-item"),
     INVALID_ENTRY("errors.args.invalid.entry"),
     INVALID_ITEM("errors.args.invalid.item"),
     INVALID_NUMBER("errors.args.invalid.number"),
@@ -163,9 +165,16 @@ public enum MessageKey {
     DEBUG_UNSET("commands.debug.unset"),
     DEBUG_VIEW("commands.debug.view"),
 
-
+    // =========================
+    // Commands - Enderchest
+    // =========================
     ECHEST_VIEW("commands.echest-view"),
 
+    // =========================
+    // Commands - Enchant
+    // =========================
+    ENCHANT("commands.enchant"),
+    ENCHANT_CLEAR("commands.enchant-clear"),
 
     FULLBRIGHT_TOGGLE_ON("commands.fullbright.toggle-on"),
     FULLBRIGHT_TOGGLE_OFF("commands.fullbright.toggle-off"),
