@@ -1,28 +1,6 @@
 package com.carrotguy69.cxyz.other;
 
-import com.carrotguy69.cxyz.cmd.Broadcast;
-import com.carrotguy69.cxyz.cmd.ChatColor;
-import com.carrotguy69.cxyz.cmd.Debug;
-import com.carrotguy69.cxyz.cmd.Enchant;
-import com.carrotguy69.cxyz.cmd.EnderChestSee;
-import com.carrotguy69.cxyz.cmd.Fly;
-import com.carrotguy69.cxyz.cmd.Fullbright;
-import com.carrotguy69.cxyz.cmd.Heal;
-import com.carrotguy69.cxyz.cmd.Info;
-import com.carrotguy69.cxyz.cmd.InventorySee;
-import com.carrotguy69.cxyz.cmd.Location;
-import com.carrotguy69.cxyz.cmd.Mend;
-import com.carrotguy69.cxyz.cmd.Nickname;
-import com.carrotguy69.cxyz.cmd.Parse;
-import com.carrotguy69.cxyz.cmd.Ping;
-import com.carrotguy69.cxyz.cmd.PlaceholderTest;
-import com.carrotguy69.cxyz.cmd.Port;
-import com.carrotguy69.cxyz.cmd.Print;
-import com.carrotguy69.cxyz.cmd.Show;
-import com.carrotguy69.cxyz.cmd.Smite;
-import com.carrotguy69.cxyz.cmd.Sudo;
-import com.carrotguy69.cxyz.cmd.Test;
-import com.carrotguy69.cxyz.cmd.Timezone;
+import com.carrotguy69.cxyz.cmd.*;
 import com.carrotguy69.cxyz.cmd.channel._ChannelExecutor;
 import com.carrotguy69.cxyz.cmd.coins._CoinsExecutor;
 import com.carrotguy69.cxyz.cmd.cosmetic._CosmeticExecutor;
@@ -205,11 +183,16 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("mend")).setExecutor(new Mend());
             Objects.requireNonNull(plugin.getCommand("mend")).setTabCompleter(new LocalOnlinePlayer());
 
+            Objects.requireNonNull(plugin.getCommand("dispose")).setExecutor(new Dispose());
+            Objects.requireNonNull(plugin.getCommand("dispose")).setTabCompleter(new LocalOnlinePlayer());
+
             Objects.requireNonNull(plugin.getCommand("enchant")).setExecutor(new Enchant());
             Objects.requireNonNull(plugin.getCommand("enchant")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Enchant());
 
+            Objects.requireNonNull(plugin.getCommand("powertool")).setExecutor(new PowerTool());
+            Objects.requireNonNull(plugin.getCommand("powertool")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.PowerTool());
 
-        // MOD //
+            // MOD //
             Objects.requireNonNull(plugin.getCommand("ban")).setExecutor(new Ban());
             Objects.requireNonNull(plugin.getCommand("ban")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Ban());
 

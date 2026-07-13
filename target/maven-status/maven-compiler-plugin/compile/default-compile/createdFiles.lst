@@ -35,6 +35,7 @@ com/carrotguy69/cxyz/cmd/party/PartyWarp.class
 com/carrotguy69/cxyz/papi/RelationalExpansion.class
 com/carrotguy69/cxyz/cmd/xp/XPAdd.class
 com/carrotguy69/cxyz/other/Tasks$7.class
+com/carrotguy69/cxyz/cmd/PowerTool$PowerToolEntry$Type.class
 com/carrotguy69/cxyz/http/ShipmentDelivery.class
 com/carrotguy69/cxyz/tabCompleters/Privacy.class
 com/carrotguy69/cxyz/cmd/cosmetic/CosmeticEquip.class
@@ -132,6 +133,7 @@ com/carrotguy69/cxyz/cmd/cosmetic/CosmeticList.class
 com/carrotguy69/cxyz/cmd/Debug$DebugValue.class
 com/carrotguy69/cxyz/cmd/friend/_FriendExecutor.class
 com/carrotguy69/cxyz/cmd/xp/XPRemove.class
+com/carrotguy69/cxyz/cmd/PowerTool$PowerToolEntry.class
 com/carrotguy69/cxyz/cmd/message/MessageSend.class
 com/carrotguy69/cxyz/cmd/Print.class
 com/carrotguy69/cxyz/webhook/DiscordEmbed.class
@@ -186,6 +188,7 @@ com/carrotguy69/cxyz/models/db/PartyInvite.class
 com/carrotguy69/cxyz/cmd/punishment/Ban.class
 com/carrotguy69/cxyz/cmd/Broadcast.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$PartyDeliveryWrapper.class
+com/carrotguy69/cxyz/cmd/PowerTool.class
 com/carrotguy69/cxyz/utils/TimeUtils.class
 com/carrotguy69/cxyz/other/Logger$DefaultChannelType.class
 com/carrotguy69/cxyz/cmd/party/PartyPublic.class
@@ -220,6 +223,7 @@ com/carrotguy69/cxyz/utils/JsonConverters.class
 com/carrotguy69/cxyz/cmd/party/PartyLeave.class
 com/carrotguy69/cxyz/models/config/channel/coreChannels/PartyChannel.class
 com/carrotguy69/cxyz/cmd/data/networkplayer/NetworkPlayerSetAsync.class
+com/carrotguy69/cxyz/tabCompleters/PowerTool.class
 com/carrotguy69/cxyz/models/db/Punishment.class
 com/carrotguy69/cxyz/messages/utils/SimpleTextComponent$Action$ActionType.class
 com/carrotguy69/cxyz/tabCompleters/Data.class
@@ -232,6 +236,7 @@ com/carrotguy69/cxyz/utils/CommandRestrictor.class
 com/carrotguy69/cxyz/cmd/Info.class
 com/carrotguy69/cxyz/CXYZ$1.class
 com/carrotguy69/cxyz/models/config/ChatFilterRule.class
+com/carrotguy69/cxyz/cmd/Dispose.class
 com/carrotguy69/cxyz/events/custom/example/MyExampleHandler.class
 com/carrotguy69/cxyz/cmd/punishment/Kick.class
 com/carrotguy69/cxyz/http/Listener$2.class

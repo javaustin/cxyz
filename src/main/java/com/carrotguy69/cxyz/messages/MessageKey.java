@@ -45,6 +45,7 @@ public enum MessageKey {
     INVALID_FRIEND_PRIVACY_VALUE("errors.args.invalid.friend-privacy-value"),
     INVALID_MESSAGE_PRIVACY_VALUE("errors.args.invalid.message-privacy-value"),
     INVALID_PARTY_PRIVACY_VALUE("errors.args.invalid.party-privacy-value"),
+    INVALID_POWERTOOL_ITEM("errors.args.invalid.powertool-item"),
     INVALID_TIMEZONE("errors.args.invalid.timezone"),
     INVALID_NICKNAME_LENGTH("errors.args.invalid.nickname-length"),
     INVALID_NICKNAME_CHARACTERS("errors.args.invalid.nickname-characters"),
@@ -164,6 +165,12 @@ public enum MessageKey {
     DEBUG_SET("commands.debug.set"),
     DEBUG_UNSET("commands.debug.unset"),
     DEBUG_VIEW("commands.debug.view"),
+
+
+    // =========================
+    // Commands - Dispose
+    // =========================
+    DISPOSE("commands.dispose"),
 
     // =========================
     // Commands - Enderchest
@@ -346,6 +353,13 @@ public enum MessageKey {
     // Commands - Ping
     // =========================
     PING("commands.ping"),
+
+    // =========================
+    // Commands - Powertool
+    // =========================
+    POWERTOOL("commands.powertool"),
+    POWERTOOL_CLEAR("commands.powertool-clear"),
+
 
     // =========================
     // Commands - Privacy

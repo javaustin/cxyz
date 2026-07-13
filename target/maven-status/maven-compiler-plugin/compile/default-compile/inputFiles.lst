@@ -1,4 +1,5 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/coins/CoinsView.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/PowerTool.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/PlaceholderTest.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/data/networkplayer/NetworkPlayerSetAsync.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/InventorySee.java
@@ -35,6 +36,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/custom/LeaveEvent.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/punishment/Ban.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Info.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Dispose.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/cosmetics/ActiveCosmeticLoader.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/rank/RankRemove.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/privacy/MessagePrivacy.java
@@ -205,5 +207,6 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/channel/channelTypes/CustomChannel.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/channel/ChannelIgnoreList.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/custom/base/Priority.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/PowerTool.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/message/MessageSend.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/http/Listener.java

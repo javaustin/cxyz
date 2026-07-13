@@ -11,20 +11,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class Mend implements CommandExecutor {
+public class Dispose implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
 
-        String node = "cxyz.mend";
+        String node = "cxyz.dispose";
         if (!sender.hasPermission(node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
@@ -58,28 +56,14 @@ public class Mend implements CommandExecutor {
         }
 
         NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
+        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
 
         ItemStack is = p.getInventory().getItemInMainHand();
 
-        ItemMeta meta = is.getItemMeta();
-
-        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
+        is.setAmount(0);
         commonMap.put("item", is.getType().name());
 
-
-        if (meta instanceof Damageable) {
-            Damageable damagableMeta = (Damageable) meta;
-
-            ((Damageable) meta).setDamage(0);
-
-            is.setItemMeta(damagableMeta);
-            MessageUtils.sendParsedMessage(sender, MessageKey.MEND, commonMap);
-        }
-        else {
-            MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_REPAIRABLE_ITEM, commonMap);
-            return true;
-        }
-
+        MessageUtils.sendParsedMessage(sender, MessageKey.DISPOSE, commonMap);
         return true;
     }
 }

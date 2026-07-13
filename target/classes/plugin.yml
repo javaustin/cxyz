@@ -103,6 +103,12 @@ commands:
     permission: "cxyz.punishment"
     aliases: []
 
+  powertool:
+    description: Bind a command to a minecraft item
+    usage: /powertool [-l, -r]
+    permissino: "cxyz.powertool"
+    aliases: []
+
   ban:
     description: Ban a player from the network
     usage: /ban <player> [duration] [reason] [-s]
@@ -173,6 +179,12 @@ commands:
     description: Enable or disable any plugin debugger
     usage: /debug <debugger>
     permission: "cxyz.debug"
+    aliases: []
+
+  dispose:
+    description: Dispose of an item stack
+    usage: /dispose [player]
+    permission: "cxyz.dispose"
     aliases: []
 
   enderchest:
@@ -347,6 +359,9 @@ permissions:
   cxyz.enderchest.others:
     default: op
 
+  cxyz.dispose:
+    default: op
+
   cxyz.enchant:
     default: op
   cxyz.enchant.others:
@@ -445,6 +460,9 @@ permissions:
   cxyz.punishment.history.others:
     default: op
   cxyz.punishment.info:
+    default: op
+
+  cxyz.powertool:
     default: op
 
   cxyz.ban:

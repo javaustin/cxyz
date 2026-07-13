@@ -44,6 +44,7 @@ errors:
       friend-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/DISALLOWED)))"
       message-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"
       party-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"
+      powertool-item: "&cItem {item} cannot be bound to."
       nickname-length: "&cNickname must be between 3 and 16 characters." # format {input}
       nickname-characters: "&cA nickname must be made up of letters, numbers, and underscores only." # format {input}
       nickname-taken: "&cThis nickname is taken!" # format {input}
@@ -185,6 +186,8 @@ commands:
     set: "&a{value} debugger has been enabled!"
     unset: "&a{value} debugger has been disabled!"
     view: "&aEnabled debuggers: &f{debuggers}"
+
+  dispose: "&aDisposed item."
 
 
   echest-view: "&aYou are viewing {player-display-name}'s ender chest."
@@ -382,6 +385,9 @@ commands:
     error.already-public: "&eThis party is already public."
 
   ping: "&a{player-display-name}'s ping: &f{ping}ms"
+
+  powertool: "&aBound command &e{command} &ato {item}"
+  powertool-clear: "&aCleared all powertool commands from {item}."
 
   privacy:
     # Accepts playerFormatter, and {value}
