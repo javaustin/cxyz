@@ -1,10 +1,35 @@
 package com.carrotguy69.cxyz.other;
 
-import com.carrotguy69.cxyz.cmd.*;
+import com.carrotguy69.cxyz.cmd.Broadcast;
+import com.carrotguy69.cxyz.cmd.ChatColor;
+import com.carrotguy69.cxyz.cmd.Debug;
+import com.carrotguy69.cxyz.cmd.Dispose;
+import com.carrotguy69.cxyz.cmd.Enchant;
+import com.carrotguy69.cxyz.cmd.Enderchest;
+import com.carrotguy69.cxyz.cmd.Fly;
+import com.carrotguy69.cxyz.cmd.Fullbright;
+import com.carrotguy69.cxyz.cmd.Heal;
+import com.carrotguy69.cxyz.cmd.Info;
+import com.carrotguy69.cxyz.cmd.InventorySee;
+import com.carrotguy69.cxyz.cmd.Location;
+import com.carrotguy69.cxyz.cmd.Mend;
+import com.carrotguy69.cxyz.cmd.Nickname;
+import com.carrotguy69.cxyz.cmd.Parse;
+import com.carrotguy69.cxyz.cmd.Ping;
+import com.carrotguy69.cxyz.cmd.Port;
+import com.carrotguy69.cxyz.cmd.PowerTool;
+import com.carrotguy69.cxyz.cmd.Print;
+import com.carrotguy69.cxyz.cmd.SQL;
+import com.carrotguy69.cxyz.cmd.Show;
+import com.carrotguy69.cxyz.cmd.Smite;
+import com.carrotguy69.cxyz.cmd.Sudo;
+import com.carrotguy69.cxyz.cmd.Test;
+import com.carrotguy69.cxyz.cmd.Timezone;
+import com.carrotguy69.cxyz.cmd.UUID;
+import com.carrotguy69.cxyz.cmd.Vanish;
 import com.carrotguy69.cxyz.cmd.channel._ChannelExecutor;
 import com.carrotguy69.cxyz.cmd.coins._CoinsExecutor;
 import com.carrotguy69.cxyz.cmd.cosmetic._CosmeticExecutor;
-import com.carrotguy69.cxyz.cmd.data._DataExecutor;
 import com.carrotguy69.cxyz.cmd.friend._FriendExecutor;
 import com.carrotguy69.cxyz.cmd.ignore.Unignore;
 import com.carrotguy69.cxyz.cmd.ignore._IgnoreExecutor;
@@ -24,19 +49,25 @@ import com.carrotguy69.cxyz.cmd.punishment.Warn;
 import com.carrotguy69.cxyz.cmd.punishment.manager._PunishmentExecutor;
 import com.carrotguy69.cxyz.cmd.rank._RankExecutor;
 import com.carrotguy69.cxyz.cmd.xp._XPExecutor;
+import com.carrotguy69.cxyz.events.custom.PublicChatEvent;
+import com.carrotguy69.cxyz.events.custom.base.Priority;
+import com.carrotguy69.cxyz.events.custom.localHandlers.ChatFallbackHandler;
+import com.carrotguy69.cxyz.events.custom.service.EventService;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.papi.Expansion;
 import com.carrotguy69.cxyz.papi.RelationalExpansion;
+import com.carrotguy69.cxyz.tabCompleters.AnyPlayer;
 import com.carrotguy69.cxyz.tabCompleters.Blank;
 import com.carrotguy69.cxyz.tabCompleters.CoinsXPLevel;
-import com.carrotguy69.cxyz.tabCompleters.Data;
 import com.carrotguy69.cxyz.tabCompleters.LocalOnlineAllPlayer;
 import com.carrotguy69.cxyz.tabCompleters.LocalOnlinePlayer;
 import com.carrotguy69.cxyz.tabCompleters.OnlinePlayer;
+import com.carrotguy69.cxyz.tabCompleters.OnlineSelfPlayer;
 import com.carrotguy69.cxyz.tabCompleters.Party;
 import com.carrotguy69.cxyz.tabCompleters.Privacy;
 import com.carrotguy69.cxyz.tabCompleters.Rank;
+import com.carrotguy69.cxyz.tabCompleters.LocalOnlinePlayerAndToggle;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
@@ -51,10 +82,10 @@ import static com.carrotguy69.cxyz.CXYZ.initializedMap;
 import static com.carrotguy69.cxyz.CXYZ.listener;
 import static com.carrotguy69.cxyz.CXYZ.plugin;
 import static com.carrotguy69.cxyz.CXYZ.thisPort;
+import static com.carrotguy69.cxyz.other.Tasks.clearPartyInvites;
 import static com.carrotguy69.cxyz.other.Tasks.deleteOfflineParties;
 import static com.carrotguy69.cxyz.other.Tasks.fixOnlinePlayers;
 import static com.carrotguy69.cxyz.other.Tasks.handlePartyExpires;
-import static com.carrotguy69.cxyz.other.Tasks.clearPartyInvites;
 import static com.carrotguy69.cxyz.other.Tasks.runPunishmentSeq;
 import static com.carrotguy69.cxyz.other.Tasks.updateLastOnlineValues;
 
@@ -87,20 +118,17 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("debug")).setExecutor(new Debug());
             Objects.requireNonNull(plugin.getCommand("debug")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Debug());
 
-            Objects.requireNonNull(plugin.getCommand("data")).setExecutor(new _DataExecutor());
-            Objects.requireNonNull(plugin.getCommand("data")).setTabCompleter(new Data());
+//            Objects.requireNonNull(plugin.getCommand("data")).setExecutor(new _DataExecutor());
+//            Objects.requireNonNull(plugin.getCommand("data")).setTabCompleter(new Data());
 
             Objects.requireNonNull(plugin.getCommand("ping")).setExecutor(new Ping());
             Objects.requireNonNull(plugin.getCommand("ping")).setTabCompleter(new OnlinePlayer());
 
             Objects.requireNonNull(plugin.getCommand("show")).setExecutor(new Show());
-            Objects.requireNonNull(plugin.getCommand("show")).setTabCompleter(new OnlinePlayer());
+            Objects.requireNonNull(plugin.getCommand("show")).setTabCompleter(new OnlineSelfPlayer());
 
             Objects.requireNonNull(plugin.getCommand("test")).setExecutor(new Test());
             Objects.requireNonNull(plugin.getCommand("test")).setTabCompleter(new Blank());
-
-            Objects.requireNonNull(plugin.getCommand("placeholdertest")).setExecutor(new PlaceholderTest());
-            Objects.requireNonNull(plugin.getCommand("placeholdertest")).setTabCompleter(new Blank());
 
             Objects.requireNonNull(plugin.getCommand("level")).setExecutor(new _LevelExecutor());
             Objects.requireNonNull(plugin.getCommand("level")).setTabCompleter(new CoinsXPLevel());
@@ -138,13 +166,14 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("heal")).setExecutor(new Heal());
             Objects.requireNonNull(plugin.getCommand("heal")).setTabCompleter(new LocalOnlineAllPlayer());
 
-            Objects.requireNonNull(plugin.getCommand("enderchest")).setExecutor(new EnderChestSee());
+            Objects.requireNonNull(plugin.getCommand("enderchest")).setExecutor(new Enderchest());
             Objects.requireNonNull(plugin.getCommand("enderchest")).setTabCompleter(new LocalOnlinePlayer());
 
             Objects.requireNonNull(plugin.getCommand("fly")).setExecutor(new Fly());
-            Objects.requireNonNull(plugin.getCommand("fly")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Fly());
+            Objects.requireNonNull(plugin.getCommand("fly")).setTabCompleter(new LocalOnlinePlayerAndToggle());
 
             Objects.requireNonNull(plugin.getCommand("fullbright")).setExecutor(new Fullbright());
+            Objects.requireNonNull(plugin.getCommand("fullbright")).setTabCompleter(new Blank());
 
             Objects.requireNonNull(plugin.getCommand("friend")).setExecutor(new _FriendExecutor());
             Objects.requireNonNull(plugin.getCommand("friend")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Friend());
@@ -178,6 +207,9 @@ public class Startup {
 
             Objects.requireNonNull(plugin.getCommand("timezone")).setExecutor(new Timezone());
             Objects.requireNonNull(plugin.getCommand("timezone")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Timezone());
+
+            Objects.requireNonNull(plugin.getCommand("uuid")).setExecutor(new UUID());
+            Objects.requireNonNull(plugin.getCommand("uuid")).setTabCompleter(new AnyPlayer());
 
 
             Objects.requireNonNull(plugin.getCommand("mend")).setExecutor(new Mend());
@@ -214,10 +246,18 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("punishment")).setExecutor(new _PunishmentExecutor());
             Objects.requireNonNull(plugin.getCommand("punishment")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Punishment());
 
+            Objects.requireNonNull(plugin.getCommand("vanish")).setExecutor(new Vanish());
+            Objects.requireNonNull(plugin.getCommand("vanish")).setTabCompleter(new LocalOnlinePlayerAndToggle());
+
+            Objects.requireNonNull(plugin.getCommand("sql")).setExecutor(new SQL());
+            Objects.requireNonNull(plugin.getCommand("sql")).setTabCompleter(new Blank()); // for security purposes we cannot give any tab completions
+
     }
 
     public static void registerEvents() {
         plugin.getServer().getPluginManager().registerEvents(plugin, plugin);
+
+        EventService.registerHandler(PublicChatEvent.class, new ChatFallbackHandler(), Priority.LOWEST);
     }
 
     public static void startTasks() {

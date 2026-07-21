@@ -49,13 +49,14 @@ public class Dispose implements CommandExecutor {
                 return true;
             }
 
-            else if (np == null) {
+            else if (np == null || !np.isVisibleTo(sender)) {
                 MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.PLAYER_NOT_FOUND), Map.of("username", args[0]));
                 return true;
             }
         }
 
         NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
+
         Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
 
         ItemStack is = p.getInventory().getItemInMainHand();

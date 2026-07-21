@@ -11,9 +11,7 @@ import com.carrotguy69.cxyz.utils.TimeUtils;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
-import com.carrotguy69.cxyz.webhook.DiscordWebhook;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -21,7 +19,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.f;
-import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
 public class MessageChannel extends CoreChannel {
 
@@ -110,7 +107,7 @@ public class MessageChannel extends CoreChannel {
         // Note that the blank messages are only for use by the player that sent that message. So they can open a chat convo.
         // If the recipient player can't access it, then they shouldn't be able to reply to it.
 
-        Message lastSent = Message.getLastSent(np.getUUID()); // This is getting the last message the player sent.
+        Message lastSent = Message.getLastSentMessage(np.getUUID()); // This is getting the last message the player sent.
 
         if (lastSent != null && lastSent.getTimestamp() > TimeUtils.unixTimeNow() - 300 && lastSent.getContent().isBlank()) {
             // We are also strict about which messages one can follow up with. The original messages have been sent within 5 minutes of the current time, and they MUST be blank messages (openers).

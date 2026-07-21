@@ -110,7 +110,9 @@ public class MessageSend implements CommandExecutor {
 
         Map<String, Object> commonMap = MapFormatters.playerSenderFormatter(recipient, sender);
 
-        if (!recipient.isOnline() || (recipient.isOnline() && !recipient.isVisibleTo(sender))) {
+        // Deny sending message if player is legitimately offline.
+        // To account for vanish, we check if the player is offline but vanished and will deny the send if it is not marked as a reply.
+        if (!recipient.isOnline() || (recipient.isOnline() && !recipient.isVisibleTo(sender) && !reply)) {
             MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(recipient));
             return;
         }
@@ -132,6 +134,7 @@ public class MessageSend implements CommandExecutor {
             commonMap.put("content", content);
         }
 
+        // Deny message if the recipients privacy settings prohibit it or the recipient is ignoring the channel or player.
         if (!isMessagable(sender, recipient) && !reply) {
             MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.MESSAGE_FAIL, commonMap);
             return;

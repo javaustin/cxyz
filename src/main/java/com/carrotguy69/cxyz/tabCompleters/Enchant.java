@@ -1,11 +1,13 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,6 +19,13 @@ public class Enchant implements TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
+
+        NetworkPlayer np = null;
+        if (sender instanceof Player) {
+            np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
+        }
+
         List<String> results = new ArrayList<>();
         List<String> options = new ArrayList<>();
 
@@ -36,7 +45,7 @@ public class Enchant implements TabCompleter {
         boolean clear = args[0].equalsIgnoreCase("clear");
 
         if (args.length == 2 && clear) {
-            options = LocalOnlinePlayer.getUsernames();
+            options = LocalOnlinePlayer.getUsernames(np);
         }
 
         else if (args.length == 2) {
@@ -52,7 +61,7 @@ public class Enchant implements TabCompleter {
         }
 
         if (args.length == 3 && !clear) {
-            options = LocalOnlinePlayer.getUsernames();
+            options = LocalOnlinePlayer.getUsernames(np);
         }
 
         if (args.length == 3 && clear) {

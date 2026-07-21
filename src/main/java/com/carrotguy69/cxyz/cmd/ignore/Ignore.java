@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.cmd.ignore;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.models.db.Message;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import org.bukkit.command.Command;
@@ -72,6 +73,8 @@ public class Ignore implements CommandExecutor {
             MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.ALREADY_IGNORED_PLAYER, MapFormatters.playerSenderFormatter(target, sender));
             return;
         }
+
+        Message.deleteAll(sender, target, null, 0);
 
         sender.addToIgnoreList(target);
         sender.sync();

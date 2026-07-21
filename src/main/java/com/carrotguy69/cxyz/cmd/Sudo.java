@@ -59,7 +59,6 @@ public class Sudo implements CommandExecutor {
 
         boolean chat = line.toLowerCase().startsWith("c:");
 
-        Logger.debug("sudo command line: " + line);
 
         Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
         commonMap.put("command", line);

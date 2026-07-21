@@ -47,15 +47,22 @@ public class RequestResult {
     public static RequestResult normalizeResponse(RequestResult r) {
         // checks if the api gave an error, will raise an exception if we don't have a useful message
 
-        Map<String, Object> json = gson.fromJson(r.responseBody, new TypeToken<Map<String, Object>>() {}.getType());
+        if (r.statusCode < 200 || r.statusCode >= 300) {
+            try {
+                Map<String, Object> json = gson.fromJson(r.responseBody, new TypeToken<Map<String, Object>>() {}.getType());
 
-        if ((r.statusCode < 200 || r.statusCode >= 300) && json.containsKey("message")) {
-            return new RequestResult(r.method, r.url, r.requestBody, r.responseBody, r.statusCode); // we can return a request result when it has body for us
+                if (json != null && json.containsKey("message")) {
+                    return new RequestResult(r.method, r.url, r.requestBody, r.responseBody, r.statusCode); // we can return a request result when it has body for us
+                }
+            }
+            catch (RuntimeException ignored) {
+                return r;
+            }
         }
         // ----- every thing below represents a successful request -----
 
 
-        if (r.url.contains("sql") && r.responseBody.contains("Operation successful!")) { // a null value is returned from the SQL script, we will return the null value with a 200 status code
+        if (r.url.contains("sql") && r.responseBody != null && r.responseBody.contains("Operation successful!")) { // a null value is returned from the SQL script, we will return the null value with a 200 status code
             return new RequestResult(r.method, r.url, r.requestBody, null, 200); // we can return a request result when it has body for us
         }
 

@@ -66,6 +66,11 @@ public class Ping implements CommandExecutor {
                 return true;
             }
 
+            if (!np.isOnline() || !np.isVisibleTo(sender)) {
+                MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(np));
+                return true;
+            }
+
             viewPing(sender, np);
         }
 

@@ -41,6 +41,8 @@ public class Print implements TabCompleter {
         if (args.length == 2)
             if (args[0].toLowerCase().startsWith("user"))
                 options = AnyPlayer.getAllUsernames();
+            else
+                options = EMPTY;
 
 
         options.sort(String.CASE_INSENSITIVE_ORDER);

@@ -169,11 +169,11 @@ commands:
     permission: "cxyz.chatcolor"
     aliases: [chatcolor]
 
-  data:
-    description: Manage plugin data entries
-    usage: /data <type> <get | get-async | set | set-async> <entry-id> [attribute] [value]
-    permission: "cxyz.data"
-    aliases: [coredata]
+#  data:
+#    description: Manage plugin data entries
+#    usage: /data <type> <get | get-async | set | set-async> <entry-id> [attribute] [value]
+#    permission: "cxyz.data"
+#    aliases: [coredata]
 
   debug:
     description: Enable or disable any plugin debugger
@@ -276,22 +276,35 @@ commands:
     permission: "cxyz.sudo"
     aliases: []
 
+  sql:
+    description: Execute an sql query on the backend server
+    usage: /sql <query> [-confirm]
+    permission: "cxyz.sql"
+    aliases: []
+
   test:
     description: Test command
     usage: /test <args*>
     permission: "cxyz.test"
     aliases: []
 
-  placeholdertest:
-    description: Test placeholder API things
-    usage: /test <content>
-    permission: "cxyz.placeholdertest"
-    aliases: [ ]
 
   timezone:
     description: Set a timezone preference
     usage: /timezone [timezone]
     permission: "cxyz.timezone"
+    aliases: []
+
+  uuid:
+    description: View a player's unique ID
+    usage: /uuid [player]
+    permission: "cxyz.uuid"
+    aliases: []
+
+  vanish:
+    description: Hide yourself from players
+    usage: /vanish [enable | disable] [player]
+    permission: "cxyz.vanish"
     aliases: []
 
 permissions:
@@ -335,18 +348,24 @@ permissions:
   cxyz.cosmetic.unequip:
     default: true
 
-  cxyz.data:
-    default: op
-  cxyz.data.networkplayer:
-    default: op
-  cxyz.data.networkplayer.get:
-    default: op
-  cxyz.data.networkplayer.get-async:
-    default: op
-  cxyz.data.networkplayer.set:
-    default: op
-  cxyz.data.networkplayer.set-async:
-    default: op
+#  cxyz.data:
+#    default: op
+#  cxyz.data.networkplayer:
+#    default: op
+#  cxyz.data.networkplayer.get:
+#    default: op
+#  cxyz.data.networkplayer.get-async:
+#    default: op
+#  cxyz.data.networkplayer.set:
+#    default: op
+#  cxyz.data.networkplayer.set-async:
+#    default: op
+#  cxyz.data.message:
+#    default: op
+#  cxyz.data.message.get:
+#    default: op
+#  cxyz.data.message.get-async:
+#    default: op
 
   cxyz.fly:
     default: op
@@ -549,6 +568,10 @@ permissions:
   cxyz.sudo:
     default: op
 
+  # Warning! This could be a very dangerous permission to grant, even to admins.
+  cxyz.sql:
+    default: false
+
   cxyz.mend:
     default: op
 
@@ -557,8 +580,13 @@ permissions:
   cxyz.location.others:
     default: op
 
-  cxyz.placeholdertest:
-    default: op
-
   cxyz.timezone:
     default: true
+
+  cxyz.uuid:
+    default: op
+
+  cxyz.vanish:
+    default: op
+  cxyz.vanish.others:
+    default: op

@@ -7,6 +7,7 @@ import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,11 +22,16 @@ public class Sudo implements TabCompleter {
             return List.of();
         }
 
+        NetworkPlayer np = null;
+        if (sender instanceof Player) {
+            np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
+        }
+
         List<String> results = new ArrayList<>();
-        List<String> options = LocalOnlinePlayer.getUsernames();
+        List<String> options = LocalOnlinePlayer.getUsernames(np);
 
         if (args.length == 0) {
-            return LocalOnlinePlayer.getUsernames();
+            return LocalOnlinePlayer.getUsernames(np);
         }
 
         // same for args.length == 1
@@ -33,10 +39,8 @@ public class Sudo implements TabCompleter {
         if (args.length == 2) {
             try {
                 options = new ArrayList<>(CXYZ.getCommands().keySet());
-                Logger.debug("options: " + options);
             }
             catch (ReflectiveOperationException e) {
-                Logger.debug("In sudo tab completer: " + e.getMessage());
                 options.clear();
             }
         }
@@ -44,7 +48,6 @@ public class Sudo implements TabCompleter {
         NetworkPlayer target = NetworkPlayer.getPlayerByUsername(args[0]);
 
         if (args.length > 2 && target != null && target.getPlayer() != null) {
-            Logger.debug("args: " + ObjectUtils.sliceToString(args, 1));
             String sudoCommandLine = ObjectUtils.sliceToString(args, 1);
 
             if (sudoCommandLine.startsWith("c:")) {
@@ -52,7 +55,6 @@ public class Sudo implements TabCompleter {
             }
 
             List<String> suggestions = CXYZ.commandMap.tabComplete(target.getPlayer(), ObjectUtils.sliceToString(args, 1));
-            Logger.debug("suggestions: " + suggestions);
 
             options = suggestions != null ? suggestions : List.of();
         }

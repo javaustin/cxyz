@@ -26,7 +26,7 @@ public class LocalOnlineAllPlayer implements TabCompleter {
             np = NetworkPlayer.resolvePlayer(p.getUniqueId());
         }
 
-        List<String> visibleUsernames = LocalOnlinePlayer.getUsernames();
+        List<String> visibleUsernames = LocalOnlinePlayer.getUsernames(np);
 
 
         if (np != null) {

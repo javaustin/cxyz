@@ -154,7 +154,6 @@ public class ShipmentDelivery {
 
             // Modifies or adds new.
 
-
             if (users.get(np.getUUID()) != null) {
 
                 if (np.version < users.get(np.getUUID()).version) {

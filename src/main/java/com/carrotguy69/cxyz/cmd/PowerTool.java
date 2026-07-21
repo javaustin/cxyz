@@ -16,14 +16,16 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 public class PowerTool implements CommandExecutor {
 
-    public static List<PowerToolEntry> powertools = new ArrayList<>();
+    public static Set<PowerToolEntry> powertools = new HashSet<>();
 
     public static class PowerToolEntry {
         public enum Type {

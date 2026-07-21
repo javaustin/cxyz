@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class EnderChestSee implements CommandExecutor {
+public class Enderchest implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -49,7 +49,7 @@ public class EnderChestSee implements CommandExecutor {
                 return true;
             }
 
-            if (np.getPlayer() == null) {
+            if (np.getPlayer() == null || !np.isVisibleTo(sender)) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(np));
                 return true;
             }

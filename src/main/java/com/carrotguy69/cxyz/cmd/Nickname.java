@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.cmd;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+
 
 public class Nickname implements CommandExecutor {
 
@@ -62,8 +64,8 @@ public class Nickname implements CommandExecutor {
 
         if (nickname.equalsIgnoreCase("reset")) {
             np.setNickname("");
-            np.getPlayer().setDisplayName(np.getUsername());
-            np.getPlayer().setPlayerListName(np.getDisplayName());
+
+            np.updateDisplayNames();
 
             np.sync();
 

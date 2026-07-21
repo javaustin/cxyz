@@ -4,6 +4,7 @@ import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
@@ -17,10 +18,12 @@ import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +36,14 @@ import static com.carrotguy69.cxyz.CXYZ.defaultRank;
 import static com.carrotguy69.cxyz.CXYZ.enabledCosmeticTypes;
 import static com.carrotguy69.cxyz.CXYZ.f;
 import static com.carrotguy69.cxyz.CXYZ.gson;
+
+import static com.carrotguy69.cxyz.CXYZ.playerDefaultDisplayName;
+import static com.carrotguy69.cxyz.CXYZ.playerDefaultListName;
 import static com.carrotguy69.cxyz.CXYZ.plugin;
 import static com.carrotguy69.cxyz.CXYZ.thisServer;
 import static com.carrotguy69.cxyz.CXYZ.usernames;
 import static com.carrotguy69.cxyz.CXYZ.users;
+import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 import static com.carrotguy69.cxyz.models.config.PlayerRank.getRankByName;
 
 public class NetworkPlayer {
@@ -242,11 +249,11 @@ public class NetworkPlayer {
                 ", partyPrivacy='" + getPartyPrivacy() + '\'' +
                 ", ranks='" + (ranks != null ? ranks : "[]") +
                 ", topRank=" + getTopRank().getName() +
-                ", ignoreList=" + (ignore_list != null ? getIgnoreList().stream().map(NetworkPlayer::getUsername).collect(Collectors.toList()) : "[]") +
-                ", friends=" + (friends != null ? getFriends().stream().map(NetworkPlayer::getUsername).collect(Collectors.toList())  : "[]") +
-                ", ownedCosmetics=" + (owned_cosmetics != null ? getOwnedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList())  : "[]") +
-                ", equippedCosmetics=" + (equipped_cosmetics != null ? getEquippedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList())  : "[]") +
-                ", mutedChannels(size)=" + (muted_channels != null ? muted_channels  : "[]") +
+                ", ignoreList=" + (!getIgnoreList().isEmpty() ? getIgnoreList().stream().map(NetworkPlayer::getUsername).collect(Collectors.toList()) : "[]") +
+                ", friends=" + (!getFriends().isEmpty() ? getFriends().stream().map(NetworkPlayer::getUsername).collect(Collectors.toList())  : "[]") +
+                ", ownedCosmetics=" + (!getOwnedCosmetics().isEmpty() ? getOwnedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList())  : "[]") +
+                ", equippedCosmetics=" + (!getEquippedCosmetics().isEmpty() ? getEquippedCosmetics().stream().map(Cosmetic::getId).collect(Collectors.toList())  : "[]") +
+                ", mutedChannels=" + (!getMutedChannels().isEmpty() ? getMutedChannels()  : "[]") +
                 ", customRankPlate='" + getCustomRankPlate() + '\'' +
                 ", chatChannel='" + getChatChannel().getName() + '\'' +
                 ", chatTag='" + getChatTag() + '\'' +
@@ -361,6 +368,14 @@ public class NetworkPlayer {
                         Comparator.comparingInt(PlayerRank::getHierarchy).reversed()
                 )
                 .collect(Collectors.toList());
+    }
+
+    public Collection<Message> getReceivedMessages() {
+        return Message.getMessagesByRecipient(this.getUUID());
+    }
+
+    public Collection<Message> getSentMessages() {
+        return Message.getMessagesBySender(this.getUUID());
     }
 
     public boolean hasRank(PlayerRank rank) {
@@ -498,13 +513,24 @@ public class NetworkPlayer {
         return parseBoolean(vanish);
     }
 
-    public boolean isVisibleTo(NetworkPlayer np) {
+    public boolean isVisibleTo(NetworkPlayer otherPlayer) {
         // A NetworkPlayer should be able to see all NetworkPlayers with a lower rank hierarchy than them, no matter the vanish mode.
-        if (this.isVanished() && this.getTopRank().getHierarchy() > np.getTopRank().getHierarchy()) {
-            return false;
+        if (otherPlayer == null) {
+            return true;
+        }
+
+        if (this.isVanished()) {
+            return this.getTopRank().getPosition() <= otherPlayer.getTopRank().getPosition();
         }
 
         else return !this.isVanished();
+    }
+
+    public boolean isVisibleTo(CommandSender sender) {
+        if (sender instanceof Player) {
+            return isVisibleTo(NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId()));
+        }
+        return true;
     }
 
     public void setVanished(boolean value) {
@@ -687,7 +713,6 @@ public class NetworkPlayer {
 
     public List<NetworkPlayer> getFriends() {
         List<NetworkPlayer> result = new ArrayList<>();
-
 
         List<String> list = JsonConverters.toList(this.friends);
 
@@ -971,6 +996,16 @@ public class NetworkPlayer {
                     )
             ));
         }
+    }
+
+    public void updateDisplayNames() {
+        if (this.getPlayer() == null)
+            return;
+
+        if (playerDefaultDisplayName != null)
+            this.getPlayer().setDisplayName(f(formatPlaceholders(CXYZ.playerDefaultDisplayName, MapFormatters.playerFormatter(this))));
+        if (playerDefaultListName != null)
+            this.getPlayer().setPlayerListName(f(formatPlaceholders(CXYZ.playerDefaultListName, MapFormatters.playerFormatter(this))));
     }
 
 

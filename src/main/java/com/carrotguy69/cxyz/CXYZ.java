@@ -1,8 +1,5 @@
 package com.carrotguy69.cxyz;
 
-import com.carrotguy69.cxyz.events.custom.JoinEvent;
-import com.carrotguy69.cxyz.events.custom.PublicChatEvent;
-import com.carrotguy69.cxyz.events.custom.base.EventHandler;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
@@ -121,6 +118,9 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static String dateTimeShortFormat;
     public static String permanentString;
 
+    public static String playerDefaultListName;
+    public static String playerDefaultDisplayName;
+
     public static Listener listener;
 
     public static List<Integer> taskIDs = new ArrayList<>(); // Any task that uses a timer must be able to be canceled on disable.
@@ -128,10 +128,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
     public static Map<String, Boolean> initializedMap = new HashMap<>();
-
-    public static final List<EventHandler<PublicChatEvent>> pceHandlers = new ArrayList<>();
-    public static final List<EventHandler<JoinEvent>> jeHandlers = new ArrayList<>();
-
 
     public static boolean isInitialized() {
         for (Map.Entry<String, Boolean> entry : initializedMap.entrySet()) {
@@ -162,23 +158,26 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     /*
 
     [❌] ISSUES:
-    - (maybe fixed) pretty much all times are incorrect (playtime, lastJoin, lastOnline), in production lastJoin is the same as firstJoin so last join must not be being updated.
-️ ️️ ️
+    - fix vanish
+    - the rules for messaging others are weird
+    - channels that were unlocked are staying locked upon restart
+    - Remove the exceptions: "X-{Header}" is required for interacting with this service... and replace with logs.
+    - is there vanish security for the "Local" prefixed tab completers?
+    - consider whether to delete normalizeResponse
+    - /fb has a weird tab completer
+    - the /print command cannot print memory sections, figure a way to debug these
+    - user/modify on the backend had another 500 aiosqlite issue (the same one as previous)
+
     [➕] ADD/IMPLEMENT:
+    - standardize a way to log 500 api errors
+    - we need to differentiate "not-found" error messages and "invalid" error messages. they mean two different things yet are used interchangibly
+
+    - allow players to reply to a message even when vanished. do not gate because "offline".
+    - note that the plugin does not handle join and leave messages, it's up to a supplemental plugin to set messages and include vanish hooks
 
     - stat commands (set, get)
 
-    - better backend logging on failed actions
-
-    - /enchant
-    - /dispose
-
-    - add /powertool
-
     - CROSS SERVER TESTING!
-
-    - better debugger (make a list of things that need to get printed when a debugger is enabled) - eliminate bloat
-
 
     [🔥] v1.1 UPDATE:
     - Table shipments should be split up into pages (the plugin doesn't know how many pages, so it's up to the API to send all the data we need). We shouldn't have to modify any code plugin-side
@@ -192,7 +191,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     - A database table that simply logs all player actions that involve the API.
     - Figure out how to restrict certain non-command-based features to ranked users (like in MessageSend.sendMessage(), the color is stripped for non default users, add some functionality!)
     - A /color command that changes your name color (like in that one Skeppy video)
-    - More detailed & sensible Logging
+    - More detailed & sensible Logging (goal: for each module, can we understand its life cycle just from reading logs)
     - A way to convert RGB colors to legacy colors (for hover, tab text)
     - Quest system with Quest NPC. Awards coins/xp on completion of quests. There should be only a select amount of quests available to a player weekly - and they should be generated uniquely to the player.
     - Queued message system
@@ -204,17 +203,9 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
        Mass remove should remove the message by its content.
        {player} placeholder should be used and formatted at send time
 
-    Event system other plugins can subscribe to (extensive):
-    - I want to develop minigames. Since minigames will require some core data, the minigame plugins can extend off some plugin code already (getting various objects).
-    - The problem still remains, how can we broadcast (non-cancellable) events for other plugins to use immediately and reliably.
-    - Solution: Create or use an event system to broadcast events to any who subscribe
-    - Levelup: Add a player facing XP and coin add message (can be left blank in config if admin desires)
-    - Levelup: Add a player level up message (and play the sound)
-    - Events other plugins can subscribe: on levelup, onXPAdd, onXPSet (check if level up),
 
-    [⚠️] NON REPLICABLE (or hard to replicate) ISSUES
+    [⚠️] HAVEN'T REPRODUCED
     - why does "&d[phat]" have a formatter color code character before f() is applied?
-    - playtime can become extremely high
     - player last_join values can be the same as the first_join values
 
    */
@@ -355,6 +346,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         }
 
         Bukkit.getScheduler().cancelTasks(plugin);
+
+        Logger.log("Goodbye world!");
     }
 
     @org.bukkit.event.EventHandler

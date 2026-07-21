@@ -71,6 +71,7 @@ public class ChannelLock implements CommandExecutor {
 
         configYaml.set(path + ".locked", true);
         plugin.saveConfig();
+        plugin.reloadConfig();
 
         commonMap = MapFormatters.channelFormatter(channel); // Because the object was updated, we use a new MapFormatter.
         commonMap.putAll(MapFormatters.senderFormatter(sender));

@@ -371,13 +371,13 @@ friends:
 # ============================================================
 punishments:
   defaults:
-    
+
     reasons:
       warn: Bad Behavior
       mute: Chat Abuse
       kick: Unspecified
       ban: Hacking
-    
+
     durations: # Enter times in SECONDS
       permanent: "permanent" # If the duration is permanent, this text will show instead of the supplied durations.
 
@@ -400,6 +400,10 @@ punishments:
   - r
   - party chat
 
+# When a player joins the server, you can configure their Minecraft display names and tab list name
+social:
+  player-default-list-name: "{player-rank-prefix}{player-rank-color}{player-display-name}"
+  player-default-display-name: "{player-rank-color}{player-display-name}"
 
 # ============================================================
 # CUSTOM COMMAND SHORTHANDS
@@ -452,6 +456,24 @@ shorthand-commands:
     trigger: unlock {locked-channel}
     actions:
       - channel unlock {locked-channel}
+
+  unvanish:
+    description: Unvanish yourself
+    trigger: unvanish {player}
+    actions:
+      - vanish disable {player}
+
+  uv:
+    description: Unvanish yourself
+    trigger: uv {player}
+    actions:
+      - vanish disable {player}
+
+  v:
+    description: Vanish yourself
+    trigger: v {player}
+    actions:
+      - vanish enable {player}
 
 # ============================================================
 # COMMAND ACCESS RESTRICTIONS

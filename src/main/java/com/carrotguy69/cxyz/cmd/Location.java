@@ -53,7 +53,7 @@ public class Location implements CommandExecutor {
             if (np != null)
                 p = np.getPlayer();
 
-            if (p == null && np != null) {
+            if ((p == null && np != null) || (np != null && !np.isVisibleTo(sender))) {
                 MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.PLAYER_IS_OFFLINE), MapFormatters.playerFormatter(np));
                 return true;
             }

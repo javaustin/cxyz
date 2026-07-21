@@ -18,8 +18,6 @@ public class Fly implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        // /fly [enable/disable/on/off] [player]
-
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
 
@@ -57,7 +55,7 @@ public class Fly implements CommandExecutor {
                 return true;
             }
 
-            if (target.getPlayer() == null) {
+            if (target.getPlayer() == null || !target.isVisibleTo(sender)) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(target));
                 return true;
             }
@@ -65,7 +63,6 @@ public class Fly implements CommandExecutor {
             setFlight(sender, target, ObjectUtils.parseCasualBoolean(args[0]));
         }
 
-        // An edge case may exist where a non player sender attempts to run the command but without permissions. Not sure if I care about fixing it.
         return true;
     }
 

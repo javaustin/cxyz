@@ -87,6 +87,8 @@ public class Constants {
         permanentString = yaml.getString("punishments.defaults.durations.permanent");
         muteRestrictions = yaml.getStringList("punishments.mute-restrictions");
         ranks = PlayerRank.getRanks();
+        playerDefaultListName = yaml.getString("social.player-default-list-name");
+        playerDefaultDisplayName = yaml.getString("social.player-default-display-name");
 
         StringBuilder rankLog = new StringBuilder("Loaded ranks: ");
 

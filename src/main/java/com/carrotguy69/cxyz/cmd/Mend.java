@@ -51,7 +51,7 @@ public class Mend implements CommandExecutor {
                 return true;
             }
 
-            else if (np == null) {
+            else if (np == null || !np.isVisibleTo(sender)) {
                 MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.PLAYER_NOT_FOUND), Map.of("username", args[0]));
                 return true;
             }

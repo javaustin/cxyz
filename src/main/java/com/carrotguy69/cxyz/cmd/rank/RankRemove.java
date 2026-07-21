@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.cmd.rank;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+
 
 
 public class RankRemove implements CommandExecutor {
@@ -110,6 +112,9 @@ public class RankRemove implements CommandExecutor {
 
             commonMap.putAll(MapFormatters.playerFormatter(np));
             MessageUtils.sendParsedMessage(sender, MessageKey.RANK_REMOVE, commonMap);
+
+            // update display
+            np.updateDisplayNames();
 
         }
         catch (IllegalArgumentException ex) {

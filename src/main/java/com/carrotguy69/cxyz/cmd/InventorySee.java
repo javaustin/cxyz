@@ -50,7 +50,7 @@ public class InventorySee implements CommandExecutor {
             return true;
         }
 
-        if (np.getPlayer() == null) {
+        if (np.getPlayer() == null || !np.isVisibleTo(sender)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(np));
             return true;
         }

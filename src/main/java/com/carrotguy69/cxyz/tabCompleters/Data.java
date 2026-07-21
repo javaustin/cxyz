@@ -25,11 +25,18 @@ public class Data implements TabCompleter {
         }
 
         if (args.length == 1) {
-            options = List.of("networkplayer");
+            options = List.of("networkplayer", "message");
         }
 
         if (args.length == 2) {
-            options = List.of("set", "get", "set-async", "get-async");
+            switch (args[0].toLowerCase()) {
+                case "networkplayer":
+                    options = List.of("set", "get", "set-async", "get-async");
+                    break;
+                case "message":
+                    options = List.of("get", "get-async");
+                    break;
+            }
         }
 
         if (args.length == 3) {
@@ -38,6 +45,9 @@ public class Data implements TabCompleter {
                     options = AnyPlayer.getAllUsernames();
                     options.addAll(CXYZ.uuids);
                     break;
+                case "message":
+                    options = List.of("as_sender", "as_recipient");
+                    break;
             }
         }
 
@@ -45,10 +55,14 @@ public class Data implements TabCompleter {
             switch (args[0].toLowerCase()) {
                 case "networkplayer":
                     options = Arrays.stream(NetworkPlayer.class.getDeclaredFields()).map(Field::getName).collect(Collectors.toList());
+                    break;
+
+                case "message":
+                    options = AnyPlayer.getAllUsernames();
+                    options.addAll(CXYZ.uuids);
+                    break;
             }
         }
-
-
 
 
         for (String option : options) {

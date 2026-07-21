@@ -5,7 +5,6 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -70,7 +69,7 @@ public class Enchant implements CommandExecutor {
                 return true;
             }
 
-            if (target.getPlayer() == null) {
+            if (target.getPlayer() == null || !target.isVisibleTo(sender)) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(target));
                 return true;
             }
@@ -105,7 +104,6 @@ public class Enchant implements CommandExecutor {
             is.addUnsafeEnchantment(enchant, level);
         }
         catch (RuntimeException e) {
-            Logger.debug("enchant command: " + e);
             MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_ENCHANTABLE_ITEM, commonMap);
             return true;
         }

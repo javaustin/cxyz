@@ -2,10 +2,18 @@ package com.carrotguy69.cxyz.models.db;
 
 
 import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.http.RequestType;
 import com.carrotguy69.cxyz.utils.TimeUtils;
+import org.jetbrains.annotations.Nullable;
 
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
@@ -37,7 +45,7 @@ public class Message {
         return lastMessage;
     }
 
-    public static Message getLastSent(UUID senderUUID) {
+    public static Message getLastSentMessage(UUID senderUUID) {
         Message lastMessage = null;
 
 
@@ -56,6 +64,61 @@ public class Message {
         return lastMessage;
     }
 
+    public static Collection<Message> getMessagesByRecipient(UUID recipientUUID) {
+        return messageMap.get(recipientUUID);
+    }
+
+    public static Collection<Message> getMessages(UUID recipientUUID, UUID senderUUID) {
+        Set<Message> results = new HashSet<>();
+
+        Collection<Message> msgs = messageMap.get(recipientUUID);
+
+        for (Message msg : msgs) {
+            if (msg.getSenderUUID() == senderUUID)
+                results.add(msg);
+        }
+
+        return results;
+    }
+
+    public static Collection<Message> getMessagesBySender(UUID senderUUID) {
+        List<Message> results = new ArrayList<>();
+
+        for (Map.Entry<UUID, Message> entry : messageMap.entries()) {
+            if (entry.getValue().getSenderUUID() == senderUUID) {
+                results.add(entry.getValue());
+            }
+        }
+
+        return results;
+    }
+
+    public static void deleteAll(@Nullable NetworkPlayer matchingSender, @Nullable NetworkPlayer matchingRecipient, @Nullable String matchingContent, long afterTimestamp) {
+        // Send a request to the API to delete any messages with the query. The API will push back the result back so we can cache it with our delivery system.
+
+        Map<String, Object> body  = new HashMap<>();
+
+        if (matchingSender != null)
+            body.put("sender_uuid", matchingSender.getUUID());
+
+        if (matchingRecipient != null)
+            body.put("recipient_uuid", matchingRecipient.getUUID());
+
+        if (matchingContent != null)
+            body.put("content", matchingContent);
+
+        if (afterTimestamp > 0)
+            body.put("timestamp", afterTimestamp);
+
+        Request req = new Request(
+                RequestType.POST,
+                apiEndpoint + "/message/delete",
+                gson.toJson(body)
+        );
+
+        req.send();
+    }
+
     public Message(NetworkPlayer sender, NetworkPlayer recipient, String content) {
         this.sender_uuid = sender.getUUID().toString();
         this.sender_name = sender.getUsername();
@@ -65,11 +128,11 @@ public class Message {
         this.timestamp = TimeUtils.unixTimeNow();
     }
 
-    public Message(String sender_uuid, String sender_name, String recipient_uuid, String recipient_name, String content, long timestamp) {
-        this.sender_uuid = sender_uuid;
-        this.sender_name = sender_name;
-        this.recipient_uuid = recipient_uuid;
-        this.recipient_name = recipient_name;
+    public Message(String senderUUID, String senderName, String recipientUUID, String recipientName, String content, long timestamp) {
+        this.sender_uuid = senderUUID;
+        this.sender_name = senderName;
+        this.recipient_uuid = recipientUUID;
+        this.recipient_name = recipientName;
         this.content = content;
         this.timestamp = timestamp;
     }

@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.cmd.data;
 
+import com.carrotguy69.cxyz.cmd.data.messages._MessageDataExecutor;
 import com.carrotguy69.cxyz.cmd.data.networkplayer._NetworkPlayerDataExecutor;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -42,6 +43,9 @@ public class _DataExecutor implements CommandExecutor {
         switch (subCommand) {
             case "networkplayer":
                 _NetworkPlayerDataExecutor.executor.onCommand(sender, command, s, slice(args, 1));
+                break;
+            case "message":
+                _MessageDataExecutor.executor.onCommand(sender, command, s, slice(args, 1));
                 break;
         }
 

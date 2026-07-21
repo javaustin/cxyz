@@ -30,6 +30,8 @@ public class Heal implements CommandExecutor {
             return true;
         }
 
+
+
         Player p = null;
 
         if (args.length == 0 && !(sender instanceof Player)) {
@@ -56,7 +58,7 @@ public class Heal implements CommandExecutor {
                 return true;
             }
 
-            else if (np == null) {
+            else if (np == null || !np.isVisibleTo(sender)) {
                 MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.PLAYER_NOT_FOUND), Map.of("username", args[0]));
                 return true;
             }

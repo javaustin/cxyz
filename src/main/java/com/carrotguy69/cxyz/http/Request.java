@@ -145,11 +145,7 @@ public class Request {
 
         byte[] raw = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
 
-        String signature = Base64.getEncoder().encodeToString(raw);
-
-        Logger.debugRequest("[SENSITIVE] Generating signature with string: " + message + "\n\tResult: " + signature);
-
-        return signature;
+        return Base64.getEncoder().encodeToString(raw);
     }
 
     public static String generateSignature(Service service, long timestamp, String method, String path, String payloadJSON) throws Exception {

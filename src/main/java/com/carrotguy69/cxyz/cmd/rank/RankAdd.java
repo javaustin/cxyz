@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.cmd.rank;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
@@ -104,6 +105,8 @@ public class RankAdd implements CommandExecutor {
 
             MessageUtils.sendParsedMessage(sender, MessageKey.RANK_ADD, commonMap);
 
+            // in case there is a chat tag or rank thing
+            np.updateDisplayNames();
         }
         catch (IllegalArgumentException ex) {
             MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_RANK, Map.of("input", rankName));

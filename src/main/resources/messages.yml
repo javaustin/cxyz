@@ -48,6 +48,7 @@ errors:
       nickname-length: "&cNickname must be between 3 and 16 characters." # format {input}
       nickname-characters: "&cA nickname must be made up of letters, numbers, and underscores only." # format {input}
       nickname-taken: "&cThis nickname is taken!" # format {input}
+      query: "[&cEntry not found!](HOVER:&7Could not find an entry with the query {query}!)"
 
   other:
     api-error: "&cThis command failed unexpectedly. Please try again later." # Format: {commandLine}
@@ -181,6 +182,9 @@ commands:
       set: "Set [{attribute}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{attribute}) to [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})for network player {player-username}."
       set-async: "Set ((async)) [{attribute}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{attribute}) to [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value}) for network player {player-username}."
 
+    message:
+      get: "The messages for {player-username} {attribute} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
+      get-async: "The messages ((async)) for {player-username} {attribute}  is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
 
   debug:
     set: "&a{value} debugger has been enabled!"
@@ -240,30 +244,17 @@ commands:
   heal-all: "&aHealed {amount} targets."
 
   info: |
-    {player-rank-color}Player info for {player}
-    &fUUID:&7 [{player-uuid}](HOVER:&7Click to copy!)(COPY_TO_CLIPBOARD:{player-uuid})(RUN_COMMAND:/parse &aCopied!)
-    &fUsername:&7 {player-rank-color}{player-username}
-    &fNickname:&7 {player-rank-color}{player-display-name}
+    ----------- [{player-rank-color}Player info for {player}](HOVER:&7Copy UUID!)(COPY_TO_CLIPBOARD:{player-uuid})(RUN_COMMAND:/parse &aCopied!) -----------
+    &fUsername:&7 {player-rank-color}{player-username} ((Display name: {player-display-name}))
     &fRank:&7 {player-rank-prefix-display}
-    &fChat color:&7 {player-chat-color}{player-chat-color-name}
-    &fServer:&7 {player-server}
-    &fStatus:&7 {player-online-status}
+    &fServer:&7 {player-server} &7(({player-online-status}&7))
     &fFirst join:&7 {player-first-join}
     &fLast join:&7 {player-last-join}
     &fLast online:&7 {player-last-online}
     &fTimezone:&7 {player-timezone}
     &fTotal playtime:&7 {player-playtime}
-    &fCoins:&7 {player-coins}
-    &fLevel:&7 {player-level}
-    &fXP:&7 {player-xp}
-    &fMessage settings:&7 {player-message-privacy}
-    &fFriend settings:&7 {player-friend-privacy}
-    &fParty settings:&7 {player-party-privacy}
-    [&fFriends:&7 {player-friend-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/friend list)
-    [&fIgnored Players:&7 {player-ignore-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/ignore)
-    [&fOwned Cosmetics:&7 {player-owned-cosmetics-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/cosmetic list owned 1 {player})
-    [&fEquipped Cosmetics:&7 {player-equipped-cosmetics-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/cosmetic list equipped 1 {player})
-    [&fIgnored Channels:&7 {player-ignored-channels-list-size}](HOVER:&7Click to view)(RUN_COMMAND:/channel ignore)
+     ----------------------------------------------- 
+
 
   inventory-view: "&aYou are viewing {player-display-name}'s inventory."
 
@@ -556,6 +547,12 @@ commands:
   smite: "&aSmiting {player-display-name}."
   smite-all: "&aSmiting {amount} targets."
 
+  sql:
+    confirm-prompt: "&cConfirm executing the query &f{query}&c on the backend database? This could be a dangerous action!\n[&a[[✅ Yes]]](RUN_COMMAND:/sql {query} -confirm)   [&c[[❌ No]]](RUN_COMMAND:/show ~ &cAction cancelled)"
+    sending: "&aSending request..."
+    error: "&cAn error occurred on the backend server: &f{error}"
+    success: "&aOperation successful! Body: &f{body}"
+
   sudo: "&aForcing {player} to run command: &e{command}"
   sudo-message: "&aForcing {player} to send message: &e{message}"
 
@@ -564,6 +561,12 @@ commands:
     view: "&aYour timezone is currently set to {timezone-id-short} (({timezone-id}))."
     error:
       duplicate-state: "&eYour timezone is already set to this value!"
+
+  uuid: "&aThe uuid of {player-rank-color}{player} &ais: &f[{uuid}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{uuid})."
+
+  vanish-enable: "&aVanished {player}."
+  vanish-disable: "&aUnvanished {player}."
+  vanish-join-action-bar: "&aYou joined in vanish mode."
 
   xp: # Format: playerFormatter, amount
     available-subcommands: |

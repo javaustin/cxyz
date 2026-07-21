@@ -2,26 +2,20 @@ package com.carrotguy69.cxyz.messages;
 
 public enum MessageKey {
 
-    // =========================
-    // Errors - Command
-    // =========================
+
     COMMAND_RESTRICTED("errors.command.restricted"),
     COMMAND_NO_ACCESS("errors.command.no-access"),
     COMMAND_WRONG_SERVER("errors.command.wrong-server"),
     COMMAND_PLAYER_ONLY("errors.command.player-only"),
 
-    // =========================
-    // Errors - Player
-    // =========================
+
     PLAYER_IS_SELF("errors.player.is-self"),
     PLAYER_NOT_FOUND("errors.player.not-found-username"),
     PLAYER_NOT_FOUND_UUID("errors.player.not-found-uuid"),
     PLAYER_OUTRANKS_SENDER("errors.player.outranks-sender"),
     PLAYER_IS_OFFLINE("errors.player.is-offline"),
 
-    // =========================
-    // Errors - Args
-    // =========================
+
     MISSING_GENERAL("errors.args.missing.general"),
     MISSING_CONTENT("errors.args.missing.content"),
 
@@ -50,24 +44,16 @@ public enum MessageKey {
     INVALID_NICKNAME_LENGTH("errors.args.invalid.nickname-length"),
     INVALID_NICKNAME_CHARACTERS("errors.args.invalid.nickname-characters"),
     INVALID_NICKNAME_TAKEN("errors.args.invalid.nickname-taken"),
+    INVALID_QUERY("errors.args.invalid.query"),
 
 
 
-    // =========================
-    // Errors - Other
-    // =========================
+
     API_ERROR("errors.other.api-error"),
 
 
-    // =========================
-    // Chat
-    // =========================
     CHAT_COOLDOWN("chat.cooldown-message"),
 
-
-    // =========================
-    // Commands - Chat Channel
-    // =========================
     CHAT_CHANNEL_AVAILABLE_SUBCOMMANDS("commands.chat-channel.available-subcommands"),
     CHAT_CHANNEL_SET("commands.chat-channel.set"),
     CHAT_CHANNEL_VIEW("commands.chat-channel.view"),
@@ -91,18 +77,12 @@ public enum MessageKey {
     CHAT_CHANNEL_LIST_CHANNEL_SEPARATOR("commands.chat-channel.ignore-list.separator"),
     CHAT_CHANNEL_LIST_CHANNEL_MAX_ENTRIES("commands.chat-channel.ignore-list.max-entries-per-page"),
 
-    // =========================
-    // Commands - Chat Color
-    // =========================
     CHAT_COLOR_AVAILABLE_SUBCOMMANDS("commands.chat-color.available-subcommands"),
     CHAT_COLOR_SET("commands.chat-color.set"),
     CHAT_COLOR_RESET("commands.chat-color.reset"),
     CHAT_COLOR_VIEW("commands.chat-color.view"),
     CHAT_COLOR_DUPLICATE_STATE("commands.chat-color.duplicate-state"),
 
-    // =========================
-    // Commands - Coins
-    // =========================
     COINS_AVAILABLE_SUBCOMMANDS("commands.coins.available-subcommands"),
     COINS_ADDED("commands.coins.added"),
     COINS_REMOVED("commands.coins.removed"),
@@ -110,9 +90,6 @@ public enum MessageKey {
     COINS_VIEW("commands.coins.view"),
 
 
-    // =========================
-    // Commands - Cosmetics
-    // =========================
     COSMETIC_AVAILABLE_SUBCOMMANDS("commands.cosmetic.available-subcommands"),
 
     COSMETIC_BUY_SUCCESS("commands.cosmetic.buy.success"),
@@ -149,46 +126,29 @@ public enum MessageKey {
     COSMETIC_UNEQUIP_ERROR_NOT_OWNED("commands.cosmetic.unequip.error.not-owned"),
     COSMETIC_UNEQUIP_SUCCESS("commands.cosmetic.unequip.success"),
 
-    // =========================
-    // Commands - Data
-    // =========================
+
     DATA_NETWORKPLAYER_GET("commands.data.networkplayer.get"),
     DATA_NETWORKPLAYER_GET_ASYNC("commands.data.networkplayer.get-async"),
     DATA_NETWORKPLAYER_SET("commands.data.networkplayer.set"),
     DATA_NETWORKPLAYER_SET_ASYNC("commands.data.networkplayer.set-async"),
 
-
-    // =========================
-    // Commands - Debug
-    // =========================
+    DATA_MESSAGE_GET("commands.data.message.get"),
+    DATA_MESSAGE_GET_ASYNC("commands.data.message.get-async"),
 
     DEBUG_SET("commands.debug.set"),
     DEBUG_UNSET("commands.debug.unset"),
     DEBUG_VIEW("commands.debug.view"),
 
-
-    // =========================
-    // Commands - Dispose
-    // =========================
     DISPOSE("commands.dispose"),
 
-    // =========================
-    // Commands - Enderchest
-    // =========================
     ECHEST_VIEW("commands.echest-view"),
 
-    // =========================
-    // Commands - Enchant
-    // =========================
     ENCHANT("commands.enchant"),
     ENCHANT_CLEAR("commands.enchant-clear"),
 
     FULLBRIGHT_TOGGLE_ON("commands.fullbright.toggle-on"),
     FULLBRIGHT_TOGGLE_OFF("commands.fullbright.toggle-off"),
 
-    // =========================
-    // Commands - Friend
-    // =========================
     FRIEND_ERROR_ALREADY_FRIENDS("commands.friend.error.already-friends"),
     FRIEND_ERROR_NOT_FRIENDS("commands.friend.error.not-friends"),
     FRIEND_ERROR_DUPLICATE_REQUEST("commands.friend.error.duplicate-request"),
@@ -212,15 +172,9 @@ public enum MessageKey {
     FRIEND_LIST_PLAYER_SEPARATOR("commands.friend.friend-list.separator"),
     FRIEND_LIST_MAX_ENTRIES("commands.friend.friend-list.max-entries-per-page"),
 
-    // =========================
-    // Commands - Friend
-    // =========================
     FLY_ENABLE("commands.fly-enable"),
     FLY_DISABLE("commands.fly-disable"),
 
-    // =========================
-    // Commands - Ignore
-    // =========================
 
     IGNORE_PLAYER("commands.privacy.ignore-player"),
     UNIGNORE_PLAYER("commands.privacy.unignore-player"),
@@ -233,26 +187,13 @@ public enum MessageKey {
     IGNORE_LIST_SEPARATOR("commands.privacy.ignore-list.separator"),
     IGNORE_LIST_MAX_ENTRIES("commands.privacy.ignore-list.max-entries-per-page"),
 
-    // =========================
-    // Commands - Info
-    // =========================
     INFO("commands.info"),
 
-    // =========================
-    // Commands - Heal
-    // =========================
     HEAL("commands.heal"),
     HEAL_ALL("commands.heal-all"),
 
-    // =========================
-    // Commands - Inventory View
-    // =========================
     INVENTORY_VIEW("commands.inventory-view"),
 
-
-    // =========================
-    // Commands - Message (DMs)
-    // =========================
     MESSAGE_FAIL("commands.message.fail"),
     MESSAGE_OPENED("commands.message.opened"),
     MESSAGE_RECEIVED("commands.message.received"),
@@ -260,47 +201,26 @@ public enum MessageKey {
     MESSAGE_SENT("commands.message.sent"),
     MESSAGE_CHANNEL_CHANGED("commands.message.channel-changed"),
 
-    // =========================
-    // Commands - MOTD
-    // =========================
     MOTD_SET("commands.motd.set"),
     MOTD_VIEW("commands.motd.view"),
 
-    // =========================
-    // Commands - Nickname
-    // =========================
     NICKNAME_SET("commands.nickname.set"),
     NICKNAME_RESET("commands.nickname.reset"),
     NICKNAME_VIEW("commands.nickname.view"),
 
-    // =========================
-    // Commands - Level
-    // =========================
     LEVEL_AVAILABLE_SUBCOMMANDS("commands.level.available-subcommands"),
     LEVEL_ADDED("commands.level.added"),
     LEVEL_REMOVED("commands.level.removed"),
     LEVEL_SET("commands.level.set"),
     LEVEL_VIEW("commands.level.view"),
 
-    // =========================
-    // Commands - Location
-    // =========================
     LOCATION_SHORT("commands.location.short"),
     LOCATION_LONG("commands.location.long"),
 
-    // =========================
-    // Commands - Mend
-    // =========================
     MEND("commands.mend"),
 
-    // =========================
-    // Commands - Parse
-    // =========================
     PARSE_ERROR("commands.parse.error"),
 
-    // =========================
-    // Commands - Party
-    // =========================
     PARTY_AVAILABLE_SUBCOMMANDS("commands.party.available-subcommands"),
     PARTY_CREATED("commands.party.created"),
     PARTY_DISBAND("commands.party.disband"),
@@ -349,21 +269,11 @@ public enum MessageKey {
     PARTY_ERROR_ALREADY_PRIVATE("commands.party.error.already-private"),
     PARTY_ERROR_ALREADY_PUBLIC("commands.party.error.already-private"),
 
-    // =========================
-    // Commands - Ping
-    // =========================
     PING("commands.ping"),
 
-    // =========================
-    // Commands - Powertool
-    // =========================
     POWERTOOL("commands.powertool"),
     POWERTOOL_CLEAR("commands.powertool-clear"),
 
-
-    // =========================
-    // Commands - Privacy
-    // =========================
 
     FRIEND_PRIVACY_SET("commands.privacy.friend-privacy-set"),
     FRIEND_PRIVACY_VIEW("commands.privacy.friend-privacy-view"),
@@ -377,10 +287,6 @@ public enum MessageKey {
     PARTY_PRIVACY_VIEW("commands.privacy.party-privacy-view"),
     PARTY_PRIVACY_ALREADY_SET("commands.privacy.party-privacy-already-set"),
 
-
-    // =========================
-    // Commands - Punishment
-    // =========================
     PUNISHMENT_ERROR_NOT_BANNED("commands.punishment.error.not-banned"),
     PUNISHMENT_ERROR_NOT_MUTED("commands.punishment.error.not-muted"),
     PUNISHMENT_ERROR_ALREADY_BANNED("commands.punishment.error.already-banned"),
@@ -433,15 +339,9 @@ public enum MessageKey {
     PUNISHMENT_HISTORY_ALL_SEPARATOR("commands.punishment.history-list-all.separator"),
     PUNISHMENT_HISTORY_ALL_MAX_ENTRIES("commands.punishment.history-list-all.separator"),
 
-    // =========================
-    // Commands - Port
-    // =========================
     PORT_SET("commands.port.set"),
     PORT_VIEW("commands.port.view"),
 
-    // =========================
-    // Commands - Rank
-    // =========================
     RANK_AVAILABLE_SUBCOMMANDS("commands.rank.available-subcommands"),
     RANK_ADD("commands.rank.add"),
     RANK_REMOVE("commands.rank.remove"),
@@ -455,31 +355,30 @@ public enum MessageKey {
     RANK_ERROR_HAS_RANK("commands.rank.error.has-rank"),
     RANK_ERROR_MISSING_RANK("commands.rank.error.missing-rank"),
 
-    // =========================
-    // Commands - Reload
-    // =========================
     RELOAD_SUCCESS("commands.reload.success"),
     RELOAD_FAIL("commands.reload.fail"),
 
-    // =========================
-    // Commands - Smite
-    // =========================
     SMITE("commands.smite"),
     SMITE_ALL("commands.smite-all"),
 
-    // =========================
-    // Commands - Sudo
-    // =========================
     SUDO("commands.sudo"),
     SUDO_MESSAGE("commands.sudo-message"),
+
+    SQL_CONFIRM_PROMPT("commands.sql.confirm-prompt"),
+    SQL_SENDING("commands.sql.sending"),
+    SQL_ERROR("commands.sql.error"),
+    SQL_SUCCESS("commands.sql.success"),
 
     TIMEZONE_SET("commands.timezone.set"),
     TIMEZONE_ERROR_DUPLICATE_STATE("commands.timezone.error.duplicate-state"),
     TIMEZONE_VIEW("commands.timezone.view"),
 
-    // =========================
-    // Commands - XP
-    // =========================
+    UUID("commands.uuid"),
+
+    VANISH_ENABLE("commands.vanish-enable"),
+    VANISH_DISABLE("commands.vanish-disable"),
+    VANISH_JOIN("commands.vanish-join-action-bar"),
+
     XP_AVAILABLE_SUBCOMMANDS("commands.xp.available-subcommands"),
     XP_ADDED("commands.xp.added"),
     XP_REMOVED("commands.xp.removed"),

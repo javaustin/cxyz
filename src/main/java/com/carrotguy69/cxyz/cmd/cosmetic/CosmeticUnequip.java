@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.cmd.cosmetic;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.cosmetics;
+
 
 public class CosmeticUnequip implements CommandExecutor {
 
@@ -86,6 +88,9 @@ public class CosmeticUnequip implements CommandExecutor {
 
         np.unEquipCosmetic(cosmetic);
         np.sync();
+
+        // in case there is a chat tag or rank thing
+        np.updateDisplayNames();
 
         MessageUtils.sendParsedMessage(p, MessageKey.COSMETIC_UNEQUIP_SUCCESS, MapFormatters.cosmeticFormatter(cosmetic));
 

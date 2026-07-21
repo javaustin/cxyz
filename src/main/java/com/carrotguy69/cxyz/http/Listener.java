@@ -32,7 +32,7 @@ public class Listener extends NanoHTTPD {
     public Listener(int port) throws IOException {
         super(port);
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
-        Logger.info("HTTP listener started on port: " + port);
+        Logger.info("HTTP listener started on: http://localhost:" + port);
     }
 
     private static void authenticateRequest(IHTTPSession session, Map<String, String> body) throws Exception {

@@ -10,8 +10,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Show implements CommandExecutor {
@@ -47,7 +49,19 @@ public class Show implements CommandExecutor {
         String content = String.join(" ", ObjectUtils.sliceToString(args, 1));
         content = content.replace("\\n", "\n");
 
-        if (args[0].equalsIgnoreCase("console")) {
+        if (args[0].equalsIgnoreCase("~")) {
+            Map<String, Object> commonMap = new HashMap<>();
+
+            if (sender instanceof Player) {
+                NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
+                commonMap.putAll(MapFormatters.playerFormatter(np));
+            }
+
+            MessageUtils.sendParsedMessage(sender, content, commonMap);
+            return true;
+        }
+
+        else if (args[0].equalsIgnoreCase("console")) {
             MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), content, Map.of());
             return true;
         }
@@ -59,12 +73,12 @@ public class Show implements CommandExecutor {
             return true;
         }
 
-        if (!np.isOnline()) {
+        if (!np.isOnline() || !np.isVisibleTo(sender)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(np));
             return true;
         }
 
-        np.sendMessage(String.join(" ", content), Map.of());
+        np.sendMessage(String.join(" ", content), MapFormatters.playerFormatter(np));
 
 
         return true;

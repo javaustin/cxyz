@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.cmd.cosmetic;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
+
 
 
 public class CosmeticEquip implements CommandExecutor {
@@ -91,6 +93,9 @@ public class CosmeticEquip implements CommandExecutor {
         ActiveCosmetic ac = new ActiveCosmetic(cosmetic, np);
         ac.equip();
         np.sync();
+
+        // in case there is a chat tag or rank thing
+        np.updateDisplayNames();
 
         MessageUtils.sendParsedMessage(p, MessageKey.COSMETIC_EQUIP_SUCCESS, commonMap);
 

@@ -1,4 +1,4 @@
-package com.carrotguy69.cxyz.events.custom.example;
+package com.carrotguy69.cxyz.events.custom.localHandlers;
 
 import com.carrotguy69.cxyz.events.custom.PublicChatEvent;
 import com.carrotguy69.cxyz.events.custom.base.EventHandler;
@@ -18,7 +18,7 @@ public class MyExampleHandler implements EventHandler<PublicChatEvent> {
     }
 
     public static void testAdd() {
-        EventService.addEventHandler(PublicChatEvent.class, new MyExampleHandler(), Priority.LOWEST);
+        EventService.registerHandler(PublicChatEvent.class, new MyExampleHandler(), Priority.NORMAL);
     }
 
     public static void testCall() {
