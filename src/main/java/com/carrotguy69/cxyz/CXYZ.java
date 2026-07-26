@@ -172,6 +172,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     - standardize a way to log 500 api errors
     - we need to differentiate "not-found" error messages and "invalid" error messages. they mean two different things yet are used interchangibly
 
+    - do not allow duplicate state for vanish - then you have duplicate join/leave messages
+
     - allow players to reply to a message even when vanished. do not gate because "offline".
     - note that the plugin does not handle join and leave messages, it's up to a supplemental plugin to set messages and include vanish hooks
 

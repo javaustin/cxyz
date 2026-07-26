@@ -36,7 +36,7 @@ import static com.carrotguy69.cxyz.CXYZ.uuids;
 public class ShipmentDelivery {
 
     public static <T> void copyTo(T origin, T destination) {
-        // Copies attributes from the provided NetworkPlayer to the provided destination
+        // Copies attributes from the provided Object to the provided destination
 
         if (destination == null) {
             throw new IllegalArgumentException("destinationReference cannot be null");
@@ -155,18 +155,19 @@ public class ShipmentDelivery {
             // Modifies or adds new.
 
             if (users.get(np.getUUID()) != null) {
+                NetworkPlayer current = users.get(np.getUUID());
 
-                if (np.version < users.get(np.getUUID()).version) {
+                if (np.version < current.version) {
                     Logger.debugUser(String.format("[~] Skipped modification for an entry to users (version %d < %d). ", np.version, users.get(np.getUUID()).version) + np);
                     continue;
                 }
 
                 Logger.debugUser("[~] Modified an entry to users. " + np);
-                NetworkPlayer newReference = NetworkPlayer.resolvePlayer(np.getUUID());
 
-                ShipmentDelivery.copyTo(np, newReference);
+                updateCachedNames(current, np);
 
-                updateCachedNames(np, newReference);
+                ShipmentDelivery.copyTo(np, current);
+
             }
 
             else {
@@ -272,7 +273,7 @@ public class ShipmentDelivery {
         for (PartyInvite invite : invites) {
             // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
             // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-            tempMap.put(invite.getRecipientUUID(), invite);
+            tempMap.put(invite.getInviterUUID(), invite);
         }
 
         partyInvites.clear();
@@ -317,7 +318,7 @@ public class ShipmentDelivery {
                 boolean exit = false;
                 for (PartyInvite collectionInvite : partyInvites.get(invite.getInviterUUID())) {
 
-                    if (collectionInvite.getRecipientUUID().equals(invite.getRecipientUUID())) {
+                    if (collectionInvite.getRecipientUUID().equals(invite.getRecipientUUID()) && collectionInvite.getExpireTimestamp() == invite.getExpireTimestamp()) {
                         // The exact same invite is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
                         Logger.debugParty("[~] Ignored duplicate entry from partyInvites! " + invite.toString());
                         exit = true;
@@ -555,16 +556,22 @@ public class ShipmentDelivery {
 
         for (Message msg : wrapper.getNewData()) {
 
+            boolean exit = false;
+
             if (messageMap.containsKey(msg.getRecipientUUID())) {
                 for (Message collectionMsg : messageMap.get(msg.getRecipientUUID())) {
-                    if (collectionMsg.getSenderUUID().equals(msg.getSenderUUID())) {
+                    if (collectionMsg.equals(msg)) {
                         // The exact same message is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
                         Logger.debugPlayerMessage("[~] Ignored duplicate entry from messages! " + msg);
-                        continue;
+                        exit = true;
+                        break;
                     }
                 }
 
             }
+
+            if (exit)
+                continue;
 
 
             // Modifies or adds new.
@@ -641,20 +648,27 @@ public class ShipmentDelivery {
 
         for (GameStat gameStat : wrapper.getNewData()) {
 
-            if (statUUIDMap.containsKey(gameStat.getUUID())) {
-                for (GameStat statCollection : statUUIDMap.get(gameStat.getUUID())) {
-                    if (statCollection.getUUID().equals(gameStat.getUUID())) {
+                boolean exit = false;
+
+            if (statUUIDMap.containsKey(gameStat.getUUID())){
+                for (GameStat stat : statUUIDMap.get(gameStat.getUUID())) {
+                    if (stat.getStatID().equals(gameStat.getStatID())) {
                         // The exact same stat is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
                         Logger.debugGameStat("[~] Ignored duplicate entry from gameStats! " + gameStat);
+                        exit = true;
+                        break;
                     }
                 }
-
             }
 
+            if (exit) {
+                continue;
+            }
 
             // Modifies or adds new.
             Logger.debugGameStat("[+] Added/Modified an entry to gameStats. " + gameStat);
-            gameStat.setStat();
+            GameStat.setStat(gameStat.getUUID(), gameStat.getStatID(), gameStat.getValue());
+
         }
     }
 
@@ -677,7 +691,6 @@ public class ShipmentDelivery {
 
         FriendRequestShipmentWrapper wrapper = gson.fromJson(json, FriendRequestShipmentWrapper.class);
 
-
         List<FriendRequest> requests = wrapper.getData();
 
         Multimap<UUID, FriendRequest> tempMap = ArrayListMultimap.create();
@@ -685,7 +698,7 @@ public class ShipmentDelivery {
         for (FriendRequest request : requests) {
             // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
             // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-            tempMap.put(request.getRecipientUUID(), request);
+            tempMap.put(request.getSenderUUID(), request);
         }
 
         friendRequests.clear();
@@ -728,8 +741,8 @@ public class ShipmentDelivery {
 
             if (friendRequests.containsKey(request.getSenderUUID())) { // This player has at least one invite. We must see if it is a duplicate or not.
                 boolean exit = false;
-                for (FriendRequest collectionInvite : friendRequests.get(request.getSenderUUID())) {
-                    if (collectionInvite.getRecipientUUID().equals(request.getRecipientUUID())) {
+                for (FriendRequest collectionFriendRequest : friendRequests.get(request.getSenderUUID())) {
+                    if (collectionFriendRequest.equals(request)) {
                         // The exact same friend request is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
                         Logger.debugFriendRequest("[~] Ignored duplicate entry from friendRequests! " + request.toString());
                         exit = true;
@@ -739,7 +752,6 @@ public class ShipmentDelivery {
 
                 if (exit)
                     continue;
-
             }
 
 
@@ -752,21 +764,3 @@ public class ShipmentDelivery {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

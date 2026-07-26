@@ -40,6 +40,7 @@ public class Constants {
         }
 
         msgYML = YamlConfiguration.loadConfiguration(msgYMLFile);
+        msgYML.options().copyDefaults(true);
 
         // cosmetics.yml
         File file = new File(plugin.getDataFolder(), "cosmetics.yml");
@@ -49,6 +50,7 @@ public class Constants {
         }
 
         cosmeticsYML = YamlConfiguration.loadConfiguration(file);
+        cosmeticsYML.options().copyDefaults(true);
     }
 
 

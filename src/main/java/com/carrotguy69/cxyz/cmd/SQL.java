@@ -57,7 +57,6 @@ public class SQL implements CommandExecutor {
         CompletableFuture<RequestResult> req = Request.postRequest(apiEndpoint + "/sql", gson.toJson(Map.of("query", query)));
 
         req.thenAccept(result -> {
-            Logger.log("hellooooooo" + result.statusCode);
 
             if (result.statusCode >= 400) {
                 Object error = result.responseBody;

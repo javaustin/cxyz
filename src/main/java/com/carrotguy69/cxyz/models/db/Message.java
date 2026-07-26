@@ -187,7 +187,7 @@ public class Message {
 
         Message msg = (Message) o;
 
-        return Objects.equals(sender_uuid, msg.recipient_uuid)
+        return Objects.equals(sender_uuid, msg.sender_uuid)
                 && Objects.equals(recipient_uuid, msg.recipient_uuid)
                 && Objects.equals(content, msg.content)
                 && timestamp == msg.timestamp;

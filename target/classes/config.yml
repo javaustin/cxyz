@@ -463,6 +463,18 @@ shorthand-commands:
     actions:
       - vanish disable {player}
 
+  uv:
+    description: Unvanish yourself
+    trigger: uv {player}
+    actions:
+      - vanish disable {player}
+
+  v:
+    description: Vanish yourself
+    trigger: v {player}
+    actions:
+      - vanish enable {player}
+
 # ============================================================
 # COMMAND ACCESS RESTRICTIONS
 # ============================================================

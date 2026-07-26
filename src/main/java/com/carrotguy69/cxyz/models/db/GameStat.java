@@ -12,13 +12,13 @@ import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class GameStat {
 
-    private final String uuid;
+    private final UUID uuid;
     private final String statID;
     private String value;
     public int version;
 
     public GameStat(UUID uuid, String statID, String value) {
-        this.uuid = uuid.toString();
+        this.uuid = uuid;
         this.statID = statID;
         this.value = value;
         this.version = 0;
@@ -40,12 +40,10 @@ public class GameStat {
         return null;
     }
 
-    public void setStat() {
+    public static GameStat setStat(UUID playerUUID, String statID, String value) {
         ArrayList<GameStat> toRemove = new ArrayList<>();
 
-        for (Map.Entry<UUID, GameStat> entry : statUUIDMap.entries()) {
-            GameStat stat = entry.getValue();
-
+        for (GameStat stat : statUUIDMap.get(playerUUID)) {
             if (statID.equalsIgnoreCase(stat.statID)) {
                 toRemove.add(stat);
             }
@@ -55,11 +53,19 @@ public class GameStat {
             statUUIDMap.remove(stat.getUUID(), stat);
         }
 
-        statUUIDMap.put(this.getUUID(), this);
+        GameStat stat = new GameStat(playerUUID, statID, value);
+
+        statUUIDMap.put(playerUUID, stat);
+
+        return stat;
+    }
+
+    public static GameStat setStat(GameStat gameStat) {
+        return setStat(gameStat.getUUID(), gameStat.getStatID(), gameStat.getValue());
     }
 
     public UUID getUUID() {
-        return UUID.fromString(uuid);
+        return uuid;
     }
 
     public String getStatID() {
@@ -69,14 +75,15 @@ public class GameStat {
     public String getValue() {
         return value;
     }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
+//
+//    public void setValue(String value) {
+//        this.value = value;
+//    }
 
     @Override
     public String toString() {
-        return "GameStat{uuid=" + uuid + "," +
+        return "GameStat{" +
+        "uuid=" + uuid + "," +
         "statID=" + statID + "," +
         "value=" + value + "," +
         "version=" + version + "}";

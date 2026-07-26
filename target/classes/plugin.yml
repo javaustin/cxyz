@@ -305,7 +305,7 @@ commands:
     description: Hide yourself from players
     usage: /vanish [enable | disable] [player]
     permission: "cxyz.vanish"
-    aliases: [v]
+    aliases: []
 
 permissions:
 
