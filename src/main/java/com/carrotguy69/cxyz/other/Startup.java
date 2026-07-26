@@ -68,6 +68,7 @@ import com.carrotguy69.cxyz.tabCompleters.Party;
 import com.carrotguy69.cxyz.tabCompleters.Privacy;
 import com.carrotguy69.cxyz.tabCompleters.Rank;
 import com.carrotguy69.cxyz.tabCompleters.LocalOnlinePlayerAndToggle;
+import com.carrotguy69.cxyz.tabCompleters.Toggle;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
@@ -173,7 +174,7 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("fly")).setTabCompleter(new LocalOnlinePlayerAndToggle());
 
             Objects.requireNonNull(plugin.getCommand("fullbright")).setExecutor(new Fullbright());
-            Objects.requireNonNull(plugin.getCommand("fullbright")).setTabCompleter(new Blank());
+            Objects.requireNonNull(plugin.getCommand("fullbright")).setTabCompleter(new Toggle());
 
             Objects.requireNonNull(plugin.getCommand("friend")).setExecutor(new _FriendExecutor());
             Objects.requireNonNull(plugin.getCommand("friend")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Friend());

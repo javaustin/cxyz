@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.cmd;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,19 +34,33 @@ public class Fullbright implements CommandExecutor {
 
         Player p = (Player) sender;
 
+        if (args.length >= 1) {
 
-        for (PotionEffect effect : p.getActivePotionEffects()) {
-            if (effect.getType() == PotionEffectType.NIGHT_VISION) {
-                p.removePotionEffect(PotionEffectType.NIGHT_VISION);
+            boolean value = ObjectUtils.parseCasualBoolean(args[0]);
 
-                MessageUtils.sendParsedMessage(p, MessageKey.FULLBRIGHT_TOGGLE_OFF, Map.of());
-                return true;
+            if (value) {
+                p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false));
+                MessageUtils.sendParsedMessage(p, MessageKey.FULLBRIGHT_TOGGLE_ON, Map.of());
             }
+            else {
+                p.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                MessageUtils.sendParsedMessage(p, MessageKey.FULLBRIGHT_TOGGLE_OFF, Map.of());
+            }
+            return true;
         }
+
+        if (p.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+            p.removePotionEffect(PotionEffectType.NIGHT_VISION);
+
+            MessageUtils.sendParsedMessage(p, MessageKey.FULLBRIGHT_TOGGLE_OFF, Map.of());
+            return true;
+        }
+
 
         p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 1, false, false));
         MessageUtils.sendParsedMessage(p, MessageKey.FULLBRIGHT_TOGGLE_ON, Map.of());
 
         return true;
     }
+
 }

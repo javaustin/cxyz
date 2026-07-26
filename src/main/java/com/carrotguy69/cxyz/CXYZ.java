@@ -160,11 +160,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     [❌] ISSUES:
     - fix vanish
     - the rules for messaging others are weird
-    - channels that were unlocked are staying locked upon restart
-    - Remove the exceptions: "X-{Header}" is required for interacting with this service... and replace with logs.
-    - is there vanish security for the "Local" prefixed tab completers?
     - consider whether to delete normalizeResponse
-    - /fb has a weird tab completer
     - the /print command cannot print memory sections, figure a way to debug these
     - user/modify on the backend had another 500 aiosqlite issue (the same one as previous)
 
@@ -172,12 +168,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     - standardize a way to log 500 api errors
     - we need to differentiate "not-found" error messages and "invalid" error messages. they mean two different things yet are used interchangibly
 
-    - do not allow duplicate state for vanish - then you have duplicate join/leave messages
-
     - allow players to reply to a message even when vanished. do not gate because "offline".
-    - note that the plugin does not handle join and leave messages, it's up to a supplemental plugin to set messages and include vanish hooks
-
-    - stat commands (set, get)
 
     - CROSS SERVER TESTING!
 

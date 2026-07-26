@@ -1,11 +1,12 @@
 package com.carrotguy69.cxyz.models.db;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.http.Request;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
@@ -17,7 +18,7 @@ public class GameStat {
     private String value;
     public int version;
 
-    public GameStat(UUID uuid, String statID, String value) {
+    private GameStat(UUID uuid, String statID, String value) {
         this.uuid = uuid;
         this.statID = statID;
         this.value = value;
@@ -41,21 +42,20 @@ public class GameStat {
     }
 
     public static GameStat setStat(UUID playerUUID, String statID, String value) {
-        ArrayList<GameStat> toRemove = new ArrayList<>();
+        GameStat stat = GameStat.getStat(playerUUID, statID);
 
-        for (GameStat stat : statUUIDMap.get(playerUUID)) {
-            if (statID.equalsIgnoreCase(stat.statID)) {
-                toRemove.add(stat);
-            }
+        if (stat == null) {
+            stat = new GameStat(playerUUID, statID, value);
         }
 
-        for (GameStat stat : toRemove) {
-            statUUIDMap.remove(stat.getUUID(), stat);
+        if (statUUIDMap.containsEntry(playerUUID, stat)) {
+            stat.setValue(value);
+            stat.version += 1;
         }
 
-        GameStat stat = new GameStat(playerUUID, statID, value);
-
-        statUUIDMap.put(playerUUID, stat);
+        else {
+            statUUIDMap.put(playerUUID, stat);
+        }
 
         return stat;
     }
@@ -75,10 +75,10 @@ public class GameStat {
     public String getValue() {
         return value;
     }
-//
-//    public void setValue(String value) {
-//        this.value = value;
-//    }
+
+    private void setValue(String value) {
+        this.value = value;
+    }
 
     @Override
     public String toString() {
@@ -87,6 +87,16 @@ public class GameStat {
         "statID=" + statID + "," +
         "value=" + value + "," +
         "version=" + version + "}";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof GameStat))
+            return false;
+
+        GameStat otherStat = (GameStat) obj;
+
+        return this.uuid == otherStat.uuid && Objects.equals(this.statID, otherStat.statID);
     }
 
     public void sync() {

@@ -88,6 +88,7 @@ com/carrotguy69/cxyz/models/config/cosmetics/ActiveCosmeticLoader$2.class
 com/carrotguy69/cxyz/other/Tasks$3.class
 com/carrotguy69/cxyz/messages/utils/MapFormatters$NumberedListFormatter.class
 com/carrotguy69/cxyz/events/custom/base/Event.class
+com/carrotguy69/cxyz/tabCompleters/Toggle.class
 com/carrotguy69/cxyz/cmd/Location.class
 com/carrotguy69/cxyz/messages/utils/MapFormatters.class
 com/carrotguy69/cxyz/cmd/ignore/IgnoreList.class

@@ -81,6 +81,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Punishment.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/party/PartyCreate.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/bukkit/FishEvent.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Toggle.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/utils/ObjectUtils.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/custom/localHandlers/ChatFallbackHandler.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/level/_LevelExecutor.java

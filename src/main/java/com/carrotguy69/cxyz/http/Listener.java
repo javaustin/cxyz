@@ -224,6 +224,10 @@ public class Listener extends NanoHTTPD {
             }
         }
 
+        catch (AuthenticationFailException ex) {
+            return newFixedLengthResponse(Response.Status.UNAUTHORIZED, "application/json", gson.toJson(Map.of("error", ex.getMessage())));
+        }
+
         catch (Exception ex) {
             Logger.logStackTrace(ex);
             return newFixedLengthResponse(Response.Status.BAD_REQUEST, "application/json", gson.toJson(Map.of("error", ex.getMessage())));
