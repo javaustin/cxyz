@@ -5,7 +5,6 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;

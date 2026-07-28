@@ -5,6 +5,7 @@ import com.carrotguy69.cxyz.events.custom.base.EventHandler;
 import com.carrotguy69.cxyz.events.custom.base.Priority;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,43 +19,43 @@ import java.util.Map;
  */
 public class EventService {
 
-    private static final Map<Class<? extends Event>, List<EventHandler<? extends Event>>> handlers = new HashMap<>();
 
-    /**
-     * Dispatches an event to all handlers registered for the event's runtime type.
-     * <p>
-     * If no handlers are registered, the method returns immediately.
-     *
-     * @param e the event to dispatch
-     */
-    @SuppressWarnings("unchecked")
-    public static void dispatch(Event e) {
+        private static final Map<Class<? extends Event>, EnumMap<Priority, List<EventHandler<? extends Event>>>> handlers = new HashMap<>();
 
-        List<EventHandler<? extends Event>> typeHandlers = handlers.get(e.getClass());
 
-        if (typeHandlers == null)
-            return;
+        @SuppressWarnings("unchecked")
+        public static void dispatch(Event e) {
+            EnumMap<Priority, List<EventHandler<? extends Event>>> byPriority = handlers.get(e.getClass());
+            if (byPriority == null) return;
 
-        for (EventHandler<? extends Event> h : typeHandlers) {
-            EventHandler<Event> cast = (EventHandler<Event>) h;
+            // iterate in priority order (lowest -> highest). For highest-first, iterate reverse.
+            for (int i = Priority.values().length - 1; i >= 0; i--) {
+                Priority p = Priority.values()[i];
 
-            if (cast.handle(e)) {
-                return;
+                List<EventHandler<? extends Event>> bucket = byPriority.get(p);
+                if (bucket == null) continue;
+
+                for (EventHandler<? extends Event> h : bucket) {
+                    EventHandler<Event> cast = (EventHandler<Event>) h;
+                    if (cast.handle(e)) return;
+                }
             }
         }
-    }
 
-    /**
-     * Registers a handler for a specific event type.
-     * <p>
-     *
-     * @param type the event class to bind to
-     * @param handler the handler to register
-     * @param priority the declared priority for the handler
-     * @param <T> the event type
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends Event> void registerHandler(Class<T> type, EventHandler<T> handler, Priority priority) {
-        handlers.computeIfAbsent(type, k -> new ArrayList<>()).add(handler);
-    }
+        @SuppressWarnings("unchecked")
+        public static <T extends Event> void registerHandler(Class<T> type, EventHandler<T> handler, Priority priority) {
+            EnumMap<Priority, List<EventHandler<? extends Event>>> byPriority =
+                    handlers.computeIfAbsent(type, k -> {
+                        EnumMap<Priority, List<EventHandler<? extends Event>>> m =
+                                new EnumMap<>(Priority.class);
+                        for (Priority p : Priority.values()) m.put(p, new ArrayList<>());
+                        return m;
+                    });
+
+            byPriority.get(priority).add(handler); // insertion order within same priority
+        }
+
+
+
+
 }

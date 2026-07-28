@@ -110,6 +110,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static int punishmentSeq = 0;
     public static int partyInvitesExpireAfter;
     public static int partyAutoKickAfter;
+
     public static int friendRequestsExpireAfter;
     public static int partyMaxSize;
 
@@ -158,9 +159,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     /*
 
     [❌] ISSUES:
-    - fix vanish
     - the rules for messaging others are weird
-    - consider whether to delete normalizeResponse
     - the /print command cannot print memory sections, figure a way to debug these
     - user/modify on the backend had another 500 aiosqlite issue (the same one as previous)
 

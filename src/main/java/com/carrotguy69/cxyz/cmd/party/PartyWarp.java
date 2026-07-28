@@ -75,7 +75,7 @@ public class PartyWarp implements CommandExecutor {
         Party party = Party.getPlayerParty(owner.getUUID());
 
         if (party == null) {
-            MessageUtils.sendParsedMessage(owner.getPlayer(), MessageKey.PARTY_ERROR_PLAYER_NOT_IN_PARTY, Map.of());
+            MessageUtils.sendParsedMessage(owner.getPlayer(), MessageKey.PARTY_ERROR_NOT_IN_PARTY, Map.of());
             return;
         }
 

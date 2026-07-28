@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.cmd;
 
-import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;

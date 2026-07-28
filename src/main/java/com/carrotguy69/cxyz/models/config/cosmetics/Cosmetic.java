@@ -176,4 +176,9 @@ public class Cosmetic {
 
         return null;
     }
+
+    public static void registerCosmetic(Cosmetic cosmetic) {
+        // Register a cosmetic at runtime
+        cosmetics.add(cosmetic);
+    }
 }

@@ -717,7 +717,10 @@ public class NetworkPlayer {
         List<String> list = JsonConverters.toList(this.friends);
 
         for (String uuid : list) {
-            result.add(users.get(UUID.fromString(uuid)));
+            NetworkPlayer np = users.get(UUID.fromString(uuid));
+
+            if (np != null)
+                result.add(np);
         }
 
         return result;

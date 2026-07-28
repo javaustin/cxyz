@@ -1,7 +1,6 @@
 package com.carrotguy69.cxyz.models.config.cosmetics;
 
 import com.carrotguy69.cxyz.cmd.ChatColor;
-import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitTask;
