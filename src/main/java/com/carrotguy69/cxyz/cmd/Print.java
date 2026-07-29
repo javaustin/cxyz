@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.cmd;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
+import com.carrotguy69.cxyz.models.db.GameStat;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.other.Logger;
@@ -149,6 +150,7 @@ public class Print implements CommandExecutor {
                 case "gamestats":
                 case "stats":
                     Logger.info(statUUIDMap.toString());
+                    Logger.info(GameStat.statIDMap.toString());
                     return true;
             }
         }

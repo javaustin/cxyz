@@ -106,7 +106,7 @@ debugger:
 # NOTE:
 # - A default rank is required and denoted by "default". If one is not provided in config this plugin will make one for you.
 # - Hierarchy is required and must be unique to the rank. Higher hierarchy values override lower ones.
-# - Ranks do not stack.
+# - Ranks do not stack.`
 ranks:
 
   default:

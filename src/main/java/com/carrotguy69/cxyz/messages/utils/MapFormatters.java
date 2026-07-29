@@ -541,9 +541,8 @@ public class MapFormatters {
         commonMap.put("player-nickname-display", player.getNickname() != null && !player.getNickname().isBlank() ? player.getNickname() : "None");
         commonMap.put("player-display-name", player.getDisplayName());
 
-        String rankPrefix = player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate() : player.getTopRank().getPrefix(); // if rank prefix == null, but rankplate is equipped, display the rankplate. if not, display the rank prefix
-        String prefixStripped = (!player.getTopRank().getPrefix().isBlank()) ? player.getTopRank().getPrefix().strip() : player.getTopRank().getName().strip(); // if prefix is not blank, display it stripped. if it is blank -> display the name stripped
-        String rankPrefixDisplay = player.getCustomRankPlate() != null && !player.getCustomRankPlate().isBlank() ? player.getCustomRankPlate().strip() : prefixStripped; //
+        String rankPrefix = !ChatColor.stripColor(player.getCustomRankPlate()).isBlank() ? player.getCustomRankPlate() : player.getTopRank().getPrefix();
+        String rankPrefixDisplay = !rankPrefix.isBlank() ? rankPrefix.strip() : player.getTopRank().getName().toUpperCase().strip();
 
         commonMap.put("player-rank", player.getTopRank().getName());
         commonMap.put("player-rank-prefix", rankPrefix);
@@ -621,8 +620,9 @@ public class MapFormatters {
         commonMap.put("player-muted-channels-list-size", player.getMutedChannels().size());
         commonMap.put("player-ignored-channels-list-size", player.getMutedChannels().size());
 
-        for (GameStat stat : GameStat.getStats(player.getUUID())) {
+        for (GameStat stat : GameStat.getStatsByUUID(player.getUUID())) {
             commonMap.put("player-stat-" + stat.getStatID(), stat.getValue());
+            commonMap.put("player-stat-" + stat.getStatID() + "-ranking", GameStat.getStatRanking(player.getUUID(), stat.getStatID()));
         }
 
         commonMap.putAll(player.getPlayer() != null ? MapFormatters.locationFormatter(player.getPlayer().getLocation()) : locationFormatter(null));

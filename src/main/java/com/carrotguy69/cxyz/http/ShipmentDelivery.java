@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.carrotguy69.cxyz.CXYZ.friendRequests;
 import static com.carrotguy69.cxyz.CXYZ.gson;
@@ -32,6 +31,7 @@ import static com.carrotguy69.cxyz.CXYZ.statUUIDMap;
 import static com.carrotguy69.cxyz.CXYZ.usernames;
 import static com.carrotguy69.cxyz.CXYZ.users;
 import static com.carrotguy69.cxyz.CXYZ.uuids;
+import static com.carrotguy69.cxyz.models.db.GameStat.statIDMap;
 
 public class ShipmentDelivery {
 
@@ -601,19 +601,24 @@ public class ShipmentDelivery {
 
         GameStatShipmentWrapper wrapper = gson.fromJson(json, GameStatShipmentWrapper.class);
 
-
         List<GameStat> gameStatList = wrapper.getData();
 
-        Multimap<UUID, GameStat> tempMap = ArrayListMultimap.create();
+        Multimap<UUID, GameStat> uuidTempMap = ArrayListMultimap.create();
+        Multimap<String, GameStat> idTempMap = ArrayListMultimap.create();
 
         for (GameStat gameStat : gameStatList) {
             // Shipments will not give us data formatted in (key, object/value), it will just give us a list of values.
             // There are ways to get the keys we want from inside the class, so we will just use those built-in attributes.
-            tempMap.put(gameStat.getUUID(), gameStat);
+            uuidTempMap.put(gameStat.getUUID(), gameStat);
+            idTempMap.put(gameStat.getStatID(), gameStat);
         }
 
         statUUIDMap.clear();
-        statUUIDMap.putAll(tempMap);
+        statUUIDMap.putAll(uuidTempMap);
+
+        statIDMap.clear();
+        statIDMap.putAll(idTempMap);
+
 
         Logger.info("✅ GameStat table shipment received!");
 
@@ -643,14 +648,15 @@ public class ShipmentDelivery {
         for (GameStat gameStat : wrapper.getDeletedData()) {
             Logger.debugGameStat("[-] Deleted an entry from gameStats! " + gameStat.toString());
             statUUIDMap.remove(gameStat.getUUID(), gameStat);
+            statIDMap.remove(gameStat.getStatID(), gameStat);
         }
 
 
         for (GameStat gameStat : wrapper.getNewData()) {
 
-                boolean exit = false;
+            boolean exit = false;
 
-            if (statUUIDMap.containsKey(gameStat.getUUID())){
+            if (statUUIDMap.containsKey(gameStat.getUUID())) {
                 for (GameStat stat : statUUIDMap.get(gameStat.getUUID())) {
                     if (stat.getStatID().equals(gameStat.getStatID())) {
                         // The exact same stat is already in our map. We want to check for and avoid duplicates because this MultiMap will actually allow them.
@@ -660,6 +666,7 @@ public class ShipmentDelivery {
                     }
                 }
             }
+
 
             if (exit) {
                 continue;
