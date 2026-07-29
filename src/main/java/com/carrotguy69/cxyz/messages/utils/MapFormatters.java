@@ -425,12 +425,19 @@ public class MapFormatters {
         commonMap.put("player-vanish-status", "&cUnvanished");
         commonMap.put("player-online-status", "&aOnline");
 
-        commonMap.put("player-first-join", TimeUtils.dateOf(0, timezone));
-        commonMap.put("player-first-join-short", TimeUtils.dateOfShort(0, timezone));
-        commonMap.put("player-last-join", TimeUtils.dateOfShort(unixTimeNow(), timezone));
-        commonMap.put("player-last-join-short", TimeUtils.dateOfShort(unixTimeNow(), timezone));
-        commonMap.put("player-last-online", TimeUtils.dateOfShort(unixTimeNow(), timezone));
-        commonMap.put("player-last-online-short", TimeUtils.dateOfShort(unixTimeNow(), timezone));
+        commonMap.put("player-first-join-date", TimeUtils.dateOf(0, timezone));
+        commonMap.put("player-first-join-short-date", TimeUtils.dateOfShort(0, timezone));
+        commonMap.put("player-last-join-date", TimeUtils.dateOf(unixTimeNow(), timezone));
+        commonMap.put("player-last-join-short-date", TimeUtils.dateOfShort(unixTimeNow(), timezone));
+        commonMap.put("player-last-online-date", TimeUtils.dateOf(unixTimeNow(), timezone));
+        commonMap.put("player-last-online-short-date", TimeUtils.dateOfShort(unixTimeNow(), timezone));
+
+        commonMap.put("player-first-join-time", TimeUtils.timeOf(0, timezone));
+        commonMap.put("player-first-join-short-time", TimeUtils.timeOfShort(0, timezone));
+        commonMap.put("player-last-join-time", TimeUtils.timeOf(unixTimeNow(), timezone));
+        commonMap.put("player-last-join-short-time", TimeUtils.timeOfShort(unixTimeNow(), timezone));
+        commonMap.put("player-last-online-time", TimeUtils.timeOf(unixTimeNow(), timezone));
+        commonMap.put("player-last-online-short-time", TimeUtils.timeOfShort(unixTimeNow(), timezone));
 
         commonMap.put("player-timezone", timezone);
         commonMap.put("player-playtime", TimeUtils.countdownShort(0));
@@ -577,12 +584,21 @@ public class MapFormatters {
         commonMap.put("player-vanish-status", player.isVanished() ? "&aVanished" : "&cUnvanished");
         commonMap.put("player-online-status", player.isOnline() && !player.isVanished() ? "&aOnline" : "&7Offline");
 
-        commonMap.put("player-first-join", TimeUtils.dateOf(player.getFirstJoin(), player.getTimezone()));
-        commonMap.put("player-first-join-short", TimeUtils.dateOfShort(player.getFirstJoin(), player.getTimezone()));
-        commonMap.put("player-last-join", TimeUtils.dateOf(player.getLastJoin(), player.getTimezone()));
-        commonMap.put("player-last-join-short", TimeUtils.dateOfShort(player.getLastOnline(), player.getTimezone()));
-        commonMap.put("player-last-online", TimeUtils.dateOf(player.getLastOnline(), player.getTimezone()));
-        commonMap.put("player-last-online-short", TimeUtils.dateOfShort(player.getLastOnline(), player.getTimezone()));
+        commonMap.put("player-first-join-date", TimeUtils.dateOf(player.getFirstJoin(), player.getTimezone()));
+        commonMap.put("player-first-join-short-date", TimeUtils.dateOfShort(player.getFirstJoin(), player.getTimezone()));
+        commonMap.put("player-last-join-date", TimeUtils.dateOf(player.getLastJoin(), player.getTimezone()));
+        commonMap.put("player-last-join-short-date", TimeUtils.dateOfShort(player.getLastOnline(), player.getTimezone()));
+        commonMap.put("player-last-online-date", TimeUtils.dateOf(player.getLastOnline(), player.getTimezone()));
+        commonMap.put("player-last-online-short-date", TimeUtils.dateOfShort(player.getLastOnline(), player.getTimezone()));
+
+        commonMap.put("player-first-join-time", TimeUtils.timeOf(player.getFirstJoin(), player.getTimezone()));
+        commonMap.put("player-first-join-short-time", TimeUtils.timeOfShort(player.getFirstJoin(), player.getTimezone()));
+        commonMap.put("player-last-join-time", TimeUtils.timeOf(player.getLastJoin(), player.getTimezone()));
+        commonMap.put("player-last-join-short-time", TimeUtils.timeOfShort(player.getLastOnline(), player.getTimezone()));
+        commonMap.put("player-last-online-time", TimeUtils.timeOf(player.getLastOnline(), player.getTimezone()));
+        commonMap.put("player-last-online-short-time", TimeUtils.timeOfShort(player.getLastOnline(), player.getTimezone()));
+
+
 
         commonMap.put("player-timezone", player.getTimezone());
         commonMap.put("player-playtime", TimeUtils.countdownShort(player.getLivePlaytime()));
@@ -705,6 +721,9 @@ public class MapFormatters {
         commonMap.put("date", TimeUtils.dateOf(issueTimestamp, tz));
         commonMap.put("date-short", TimeUtils.dateOfShort(issueTimestamp, tz));
 
+        commonMap.put("time", TimeUtils.timeOf(issueTimestamp, tz));
+        commonMap.put("time-short", TimeUtils.timeOfShort(issueTimestamp, tz));
+
         // total duration (unchanging, not a countdown)
         commonMap.put("duration", (duration != 0 ? countdown(duration) : "N/A"));
         commonMap.put("duration-short", (duration != 0 ? countdownShort(duration) : "N/A"));
@@ -712,17 +731,20 @@ public class MapFormatters {
         commonMap.put("expire-duration-short", (expireDuration != 0 ? countdownShort(expireDuration) : "N/A"));
 
         // effective until date (or countdown)
-        commonMap.put("effective-until", (duration >= 0 ? dateOf(effectiveUntilTimestamp, tz) : permanentString));
-        commonMap.put("effective-until-short", (duration >= 0 ? dateOfShort(effectiveUntilTimestamp, tz) : permanentString));
+        commonMap.put("effective-until-date", (duration >= 0 ? dateOf(effectiveUntilTimestamp, tz) : permanentString));
+        commonMap.put("effective-until-short-date", (duration >= 0 ? dateOfShort(effectiveUntilTimestamp, tz) : permanentString));
+        commonMap.put("effective-until-time", (duration >= 0 ? timeOf(effectiveUntilTimestamp, tz) : permanentString));
+        commonMap.put("effective-until-short-time", (duration >= 0 ? timeOfShort(effectiveUntilTimestamp, tz) : permanentString));
         commonMap.put("effective-until-countdown", (duration >= 0 ? (effectiveUntilTimestamp > unixTimeNow() ? unixCountdown(effectiveUntilTimestamp) : "N/A") : permanentString));
         commonMap.put("effective-until-countdown-short", (duration >= 0 ? (effectiveUntilTimestamp > unixTimeNow() ? unixCountdownShort(effectiveUntilTimestamp) : "N/A") : permanentString));
 
         // expire date (or countdown)
-        commonMap.put("expire-time", (expireDuration >= 0 ? dateOf(expireTimestamp, tz) : permanentString));
-        commonMap.put("expire-time-short", (expireDuration >= 0 ? dateOfShort(expireTimestamp, tz) : permanentString));
-        commonMap.put("expire-time-countdown", (expireDuration >= 0 ? (expireTimestamp > unixTimeNow() ? unixCountdown(expireTimestamp) : "N/A") : permanentString));
-        commonMap.put("expire-time-countdown-short", (expireDuration >= 0 ? (expireTimestamp > unixTimeNow() ? unixCountdownShort(expireTimestamp) : "N/A") : permanentString));
-        
+        commonMap.put("expire-date", (expireDuration >= 0 ? dateOf(expireTimestamp, tz) : permanentString));
+        commonMap.put("expire-date-short", (expireDuration >= 0 ? dateOfShort(expireTimestamp, tz) : permanentString));
+        commonMap.put("expire-time", (expireDuration >= 0 ? timeOf(expireTimestamp, tz) : permanentString));
+        commonMap.put("expire-time-short", (expireDuration >= 0 ? timeOfShort(expireTimestamp, tz) : permanentString));
+        commonMap.put("expire-countdown", (expireDuration >= 0 ? (expireTimestamp > unixTimeNow() ? unixCountdown(expireTimestamp) : "N/A") : permanentString));
+        commonMap.put("expire-countdown-short", (expireDuration >= 0 ? (expireTimestamp > unixTimeNow() ? unixCountdownShort(expireTimestamp) : "N/A") : permanentString));
 
         commonMap.put("enforced", String.valueOf(punishment.isEnforced()));
         commonMap.put("reason", punishment.getReason());

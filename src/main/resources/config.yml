@@ -60,8 +60,13 @@ timezone: America/Los_Angeles
 # Format used when displaying dates and times.
 # Formatting reference:
 # https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
-datetime-format: EEEE, MMMM d, yyyy, h:mma (z)
-datetime-short-format: M/d/yy h:mma (z)
+#datetime-format: EEEE, MMMM d, yyyy, h:mma (z)
+#datetime-short-format: M/d/yy h:mma (z)
+
+date-format: EEEE, MMMM d, yyyy
+date-short-format: M/d/yy
+time-format: h:mm a (z)
+time-short-format: h:mm a
 
 
 # ============================================================

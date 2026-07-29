@@ -29,8 +29,9 @@ public class OnlineSelfPlayer implements TabCompleter {
 
 
         if (np != null) {
-            visibleUsernames.remove(np.getUsername());
-            visibleUsernames.remove(np.getDisplayName());
+            // Include ourselves
+            visibleUsernames.add(np.getUsername());
+            visibleUsernames.add(np.getDisplayName());
         }
 
         if (args.length == 0) {

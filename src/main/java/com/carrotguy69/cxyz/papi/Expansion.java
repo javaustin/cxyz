@@ -4,6 +4,7 @@ import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -50,6 +51,10 @@ public class Expansion extends PlaceholderExpansion {
     }
 
     public String fulfill(UUID uuid, @NotNull String params) {
+        if (uuid == null) {
+            return fulfillGeneral(params);
+        }
+
         NetworkPlayer np;
         try {
             np = NetworkPlayer.resolvePlayer(uuid);
@@ -68,6 +73,23 @@ public class Expansion extends PlaceholderExpansion {
             return res.toString();
         }
 
+        return null;
+    }
+
+    public String fulfillGeneral(@NotNull String placeholder) {
+        switch (placeholder) {
+            case "date":
+                return TimeUtils.dateOf(TimeUtils.unixTimeNow(), CXYZ.timezone);
+
+            case "date-short":
+                return TimeUtils.dateOfShort(TimeUtils.unixTimeNow(), CXYZ.timezone);
+
+            case "time":
+                return TimeUtils.timeOf(TimeUtils.unixTimeNow(), CXYZ.timezone);
+
+            case "time-short":
+                return TimeUtils.timeOfShort(TimeUtils.unixTimeNow(), CXYZ.timezone);
+        }
         return null;
     }
 

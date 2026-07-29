@@ -179,6 +179,10 @@ public class MessageUtils {
 
     // This is the method all the others point to. It is suffixed "main" so the other methods don't accidentally call themselves.
     private static void sendParsedMessageMain(CommandSender sender, String unparsedContent, Map<String, Object> map) {
+        if (unparsedContent.isEmpty()) {
+            return;
+        }
+
         try {
             MessageParser parser = new MessageParser(unparsedContent, map);
             List<SimpleTextComponent> components = parser.parse();
@@ -198,7 +202,6 @@ public class MessageUtils {
     public static void sendParsedMessage(Player p, MessageKey key, Map<String, Object> map) {
         sendParsedMessageMain(p, MessageGrabber.grab(key), map);
     }
-
 
     public static void sendParsedMessage(Player p, String unparsedContent, Map<String, Object> map) {
         sendParsedMessageMain(p, unparsedContent, map);

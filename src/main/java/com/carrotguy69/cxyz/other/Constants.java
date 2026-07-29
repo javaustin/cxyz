@@ -84,8 +84,10 @@ public class Constants {
         partyMaxSize = Math.max(yaml.getInt("parties.max-players", 9999), 1);
         partyAutoKickAfter = yaml.getInt("parties.autokick-after", 60);
         friendRequestsExpireAfter = yaml.getInt("friends.requests-expire-after", 300);
-        dateTimeFormat = yaml.getString("datetime-format");
-        dateTimeShortFormat = yaml.getString("datetime-short-format");
+        dateFormat = yaml.getString("date-format");
+        dateShortFormat = yaml.getString("date-short-format");
+        timeFormat = yaml.getString("time-format");
+        timeShortFormat = yaml.getString("time-short-format");
         permanentString = yaml.getString("punishments.defaults.durations.permanent");
         muteRestrictions = yaml.getStringList("punishments.mute-restrictions");
         ranks = PlayerRank.getRanks();

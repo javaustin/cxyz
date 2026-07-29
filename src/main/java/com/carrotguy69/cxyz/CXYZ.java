@@ -115,8 +115,12 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static int partyMaxSize;
 
     public static String timezone;
-    public static String dateTimeFormat;
-    public static String dateTimeShortFormat;
+
+    public static String dateFormat;
+    public static String dateShortFormat;
+    public static String timeFormat;
+    public static String timeShortFormat;
+
     public static String permanentString;
 
     public static String playerDefaultListName;

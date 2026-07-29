@@ -28,7 +28,7 @@ public class TimeUtils {
 
         ZonedDateTime zonedDateTime = instant.atZone(ZoneId.of(timeZone));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateTimeFormat);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
 
         return zonedDateTime.format(formatter);
     }
@@ -42,10 +42,39 @@ public class TimeUtils {
 
         ZonedDateTime zonedDateTime = instant.atZone(ZoneId.of(timeZone));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateTimeShortFormat);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateShortFormat);
 
         return zonedDateTime.format(formatter);
     }
+
+    public static String timeOf(long timestamp, String timeZone) {
+        if (timestamp < 0) {
+            return "";
+        }
+
+        Instant instant = Instant.ofEpochSecond(timestamp);
+
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.of(timeZone));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(timeFormat);
+
+        return zonedDateTime.format(formatter);
+    }
+
+    public static String timeOfShort(long timestamp, String timeZone) {
+        if (timestamp < 0) {
+            return permanentString;
+        }
+
+        Instant instant = Instant.ofEpochSecond(timestamp);
+
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.of(timeZone));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(timeShortFormat);
+
+        return zonedDateTime.format(formatter);
+    }
+
 
     public static String countdown(long duration) {
         long countDownTime = duration;

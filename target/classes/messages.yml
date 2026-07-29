@@ -35,7 +35,7 @@ errors:
       enchantable-item: "&cItem {item} cannot be enchanted."
       item: "&cPlease provide a valid item to buy!"
       number: "&cPlease provide a valid number!"
-      page: "[&cPlease provide a valid page between {min} and {max}!](HOVER:Your input: {page})"
+      page: "[&cPlease provide a valid page between {min}-{max}!](HOVER:Your input: {page})"
       player: "&cPlease provide a valid player!"
       punishment: "&cNo punishment found with this case ID!"
       rank: "&cPlease provide a valid rank name!"
@@ -248,9 +248,9 @@ commands:
     &fUsername:&7 {player-rank-color}{player-username} ((Display name: {player-display-name}))
     &fRank:&7 {player-rank-prefix-display}
     &fServer:&7 {player-server} &7(({player-online-status}&7))
-    &fFirst join:&7 {player-first-join}
-    &fLast join:&7 {player-last-join}
-    &fLast online:&7 {player-last-online}
+    &fFirst join:&7 {player-first-join-short-date} {player-first-join-short-time}
+    &fLast join:&7 {player-last-join-short-date} {player-last-join-short-time}
+    &fLast online:&7 {player-last-online-short-date} {player-last-online-short-time}
     &fTimezone:&7 {player-timezone}
     &fTotal playtime:&7 {player-playtime}
      ----------------------------------------------- 
@@ -430,7 +430,7 @@ commands:
         &r&fID: &7#{case-id}
         &r&fPlayer: {player-rank-color}{player} 
         &r&fModerator: {mod-rank-color}{mod}
-        &r&fIssued on: &7{date}
+        &r&fIssued on: &7{date} {time}
         &r&fEffective Until: &7{effective-until}
         
         &cYou cannot rejoin until your ban expires in {effective-until-countdown}.
@@ -441,7 +441,7 @@ commands:
         &r&fID: &7#{case-id}
         &r&fPlayer: {player-rank-color}{player} 
         &r&fModerator: {mod-rank-color}{mod}
-        &r&fIssued on: &7{date}
+        &r&fIssued on: &7{date} {time}
         
         &4This ban will not expire.
         &rAppeal at: https://example.com/appeal
@@ -487,7 +487,7 @@ commands:
       &fOffender: [{player-rank-color}{player-username}](HOVER:&7Click to copy UUID)(COPY_TO_CLIPBOARD:{player-uuid})
       &fModerator: [{mod-rank-color}{mod-username}](HOVER:&7Click to copy UUID)(COPY_TO_CLIPBOARD:{mod-uuid})
       &fType: &7{type}
-      &fIssue date: &7{date}
+      &fIssue date: &7{date} {time}
       &fDuration: [&7{duration-short}](HOVER:Effective until: {effective-until-short} in {effective-until-countdown-short})
       &fRecord Expires: [&7{expire-time-short}](HOVER:In {expire-time-countdown-short})
       &fReason: &7{reason}
@@ -500,7 +500,7 @@ commands:
         {punishments}
         [&f< Previous](RUN_COMMAND:/punishment history {player} {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/punishment history {player} {next-page})
       blank: "&eNo punishments found for this player!"
-      entry-format: "&e#[[{case-id}]] &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} &ffor &e{reason} &fon &f{date-short}"
+      entry-format: "&e#[[{case-id}]] &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} &ffor &e{reason} &fon &f{date-short} {time-short}"
       separator: "\n"
       max-entries-per-page: 5
 
@@ -510,7 +510,7 @@ commands:
         {punishments}
         [&f< Previous](RUN_COMMAND:/punishment history * {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/punishment history * {next-page})
       blank: "&eNo punishments found for this player!"
-      entry-format: "&e#[[{case-id}]] {player-rank-color}{player} &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short}"
+      entry-format: "&e#[[{case-id}]] {player-rank-color}{player} &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short} {time-short}"
       separator: "\n"
       max-entries-per-page: 10
 
