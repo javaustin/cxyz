@@ -168,12 +168,12 @@ public class MessageUtils {
         return text;
     }
 
-    public static void sendUnparsedMessage(Player p, String content, Map<String, Object> formatMap) {
-        if (p == null || !p.isOnline()) {
+    public static void sendUnparsedMessage(CommandSender sender, String content, Map<String, Object> formatMap) {
+        if (sender == null) {
             return;
         }
 
-        p.sendMessage(f(formatPlaceholders(content, formatMap)));
+        sender.sendMessage(f(formatPlaceholders(content, formatMap)));
     }
 
 

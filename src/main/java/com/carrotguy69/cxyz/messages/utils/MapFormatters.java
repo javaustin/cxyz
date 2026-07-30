@@ -541,8 +541,8 @@ public class MapFormatters {
         commonMap.put("player-nickname-display", player.getNickname() != null && !player.getNickname().isBlank() ? player.getNickname() : "None");
         commonMap.put("player-display-name", player.getDisplayName());
 
-        String rankPrefix = !ChatColor.stripColor(player.getCustomRankPlate()).isBlank() ? player.getCustomRankPlate() : player.getTopRank().getPrefix();
-        String rankPrefixDisplay = !rankPrefix.isBlank() ? rankPrefix.strip() : player.getTopRank().getName().toUpperCase().strip();
+        String rankPrefix = !ChatColor.stripColor(f(player.getCustomRankPlate())).isBlank() ? player.getCustomRankPlate() : player.getTopRank().getPrefix();
+        String rankPrefixDisplay = !ChatColor.stripColor(f(rankPrefix)).isBlank() ? rankPrefix.strip() : player.getTopRank().getColor() + player.getTopRank().getName().toUpperCase().strip();
 
         commonMap.put("player-rank", player.getTopRank().getName());
         commonMap.put("player-rank-prefix", rankPrefix);
