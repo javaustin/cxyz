@@ -157,6 +157,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/cosmetics/ActiveCosmetic.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/db/Party.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/OnlinePlayer.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Item.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Ping.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/bukkit/PreJoinEvent.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/data/messages/MessageGetAsync.java
@@ -213,6 +214,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Port.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/db/NetworkPlayer.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/ChatColor.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Item.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/channel/channelTypes/CustomChannel.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/channel/ChannelIgnoreList.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/custom/base/Priority.java

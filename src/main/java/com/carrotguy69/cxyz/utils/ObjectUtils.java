@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.utils;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.google.common.collect.Multimap;
 
 import java.lang.reflect.Field;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.HashMap;
 
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ObjectUtils {
@@ -27,7 +29,11 @@ public class ObjectUtils {
     }
 
     public static boolean parseCasualBoolean(String s) {
-        return !List.of("no", "disable", "disabled", "off", "false", "0").contains(s.toLowerCase());
+        return !List.of("no", "disable", "off", "false", "0").contains(s.toLowerCase());
+    }
+
+    public static List<String> getCasualBooleanOptions() {
+        return List.of("yes", "no", "enable", "disable", "on", "off", "true", "false", "1", "0");
     }
 
     public static boolean containsIgnoreCase(Collection<String> collection, String sequence) {
@@ -246,6 +252,27 @@ public class ObjectUtils {
         if (type == Double.class || type == double.class) return s == null ? null : Double.parseDouble(s);
         if (type == String.class) return s;
         return s;
+    }
+
+    public static String generateRandom(Random random, int length) {
+
+        if (random == null) {
+            random = CXYZ.random;
+        }
+
+        if (length < 1) {
+            throw new IllegalArgumentException("parameter `length` must be within [0, ...)");
+        }
+
+        StringBuilder builder = new StringBuilder();
+
+        String charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
+        for (int i = 0; i < length; i++) {
+            builder.append(charSet.charAt(random.nextInt(0, charSet.length() - 1)));
+        }
+
+        return builder.toString();
     }
 
 }

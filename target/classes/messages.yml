@@ -33,7 +33,7 @@ errors:
       entry: "[&cEntry not found!](HOVER:&7Could not find an entry with the key {key}!)"
       enchant: "&cPlease provide a valid enchant!"
       enchantable-item: "&cItem {item} cannot be enchanted."
-      item: "&cPlease provide a valid item to buy!"
+      item: "&cPlease provide a valid item!"
       number: "&cPlease provide a valid number!"
       page: "[&cPlease provide a valid page between {min}-{max}!](HOVER:Your input: {page})"
       player: "&cPlease provide a valid player!"

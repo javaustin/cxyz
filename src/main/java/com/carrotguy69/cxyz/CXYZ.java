@@ -171,6 +171,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     - standardize a way to log 500 api errors
     - we need to differentiate "not-found" error messages and "invalid" error messages. they mean two different things yet are used interchangibly
 
+    - tab completers should only accept command senders as arguments, offload the NetworkPlayer responsibility to the tab completer class.
+
     - allow players to reply to a message even when vanished. do not gate because "offline".
 
     - CROSS SERVER TESTING!

@@ -11,6 +11,7 @@ import com.carrotguy69.cxyz.cmd.Fullbright;
 import com.carrotguy69.cxyz.cmd.Heal;
 import com.carrotguy69.cxyz.cmd.Info;
 import com.carrotguy69.cxyz.cmd.InventorySee;
+import com.carrotguy69.cxyz.cmd.Item;
 import com.carrotguy69.cxyz.cmd.Location;
 import com.carrotguy69.cxyz.cmd.Mend;
 import com.carrotguy69.cxyz.cmd.Nickname;
@@ -160,6 +161,9 @@ public class Startup {
 
             Objects.requireNonNull(plugin.getCommand("info")).setExecutor(new Info());
             Objects.requireNonNull(plugin.getCommand("info")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Info());
+
+            Objects.requireNonNull(plugin.getCommand("item")).setExecutor(new Item());
+            Objects.requireNonNull(plugin.getCommand("item")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Item());
 
             Objects.requireNonNull(plugin.getCommand("invsee")).setExecutor(new InventorySee());
             Objects.requireNonNull(plugin.getCommand("invsee")).setTabCompleter(new LocalOnlinePlayer());

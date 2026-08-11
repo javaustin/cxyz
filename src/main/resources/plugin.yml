@@ -211,6 +211,12 @@ commands:
     permission: "cxyz.info"
     aliases: [whois]
 
+  item:
+    description: Give a player an item
+    usage: /item <material> [player] [slot]
+    permission: "cxyz.item"
+    aliases: [i]
+
   invsee:
     description: View a player's inventory
     usage: /invsee [player]

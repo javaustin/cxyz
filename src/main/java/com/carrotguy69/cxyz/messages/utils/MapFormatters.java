@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.messages.utils;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
@@ -597,7 +598,10 @@ public class MapFormatters {
         commonMap.put("player-last-online-time", TimeUtils.timeOf(player.getLastOnline(), player.getTimezone()));
         commonMap.put("player-last-online-short-time", TimeUtils.timeOfShort(player.getLastOnline(), player.getTimezone()));
 
-
+        commonMap.put("player-date", TimeUtils.dateOf(unixTimeNow(), player.getTimezone()));
+        commonMap.put("player-date-short", TimeUtils.dateOfShort(unixTimeNow(), player.getTimezone()));
+        commonMap.put("player-time", TimeUtils.timeOf(unixTimeNow(), player.getTimezone()));
+        commonMap.put("player-time-short", TimeUtils.timeOfShort(unixTimeNow(), player.getTimezone()));
 
         commonMap.put("player-timezone", player.getTimezone());
         commonMap.put("player-playtime", TimeUtils.countdownShort(player.getLivePlaytime()));

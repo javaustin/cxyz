@@ -147,6 +147,7 @@ com/carrotguy69/cxyz/models/config/channel/registry/ChannelRegistry.class
 com/carrotguy69/cxyz/tabCompleters/Unequip.class
 com/carrotguy69/cxyz/cmd/SQL.class
 com/carrotguy69/cxyz/tabCompleters/Location.class
+com/carrotguy69/cxyz/cmd/Item.class
 com/carrotguy69/cxyz/utils/CommandRestrictor$CommandRestriction.class
 com/carrotguy69/cxyz/cmd/Mend.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$PartyInviteDeliveryWrapper.class
@@ -154,6 +155,7 @@ com/carrotguy69/cxyz/http/RequestResult.class
 com/carrotguy69/cxyz/cmd/Vanish.class
 com/carrotguy69/cxyz/models/db/NetworkPlayer$PartyInvitePrivacy.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$PartyInviteShipmentWrapper.class
+com/carrotguy69/cxyz/tabCompleters/Item.class
 com/carrotguy69/cxyz/tabCompleters/Nickname.class
 com/carrotguy69/cxyz/models/db/NetworkPlayer$MessagePrivacy.class
 com/carrotguy69/cxyz/events/custom/JoinEvent.class
