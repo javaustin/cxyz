@@ -64,7 +64,7 @@ timezone: America/Los_Angeles
 #datetime-short-format: M/d/yy h:mma (z)
 
 date-format: EEEE, MMMM d, yyyy
-date-short-format: M/d/yy
+date-short-format: M/d/yyyy
 time-format: h:mm a (z)
 time-short-format: h:mm a
 

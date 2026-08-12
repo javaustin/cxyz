@@ -2,6 +2,7 @@ package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import org.bukkit.Material;
@@ -109,6 +110,14 @@ public class Item implements CommandExecutor {
         }
 
         addItem(p, new ItemStack(item, amount), slot);
+
+        Map<String, Object> commonMap = MapFormatters.playerFormatter(NetworkPlayer.resolvePlayer(p.getUniqueId()));
+        commonMap.put("item", item.name());
+        commonMap.put("item-lower", item.name().toLowerCase());
+        commonMap.put("amount", amount);
+
+        MessageUtils.sendParsedMessage(sender, MessageKey.INFO, commonMap);
+
         return true;
     }
 

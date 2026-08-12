@@ -29,7 +29,7 @@ public class Item implements TabCompleter {
         }
 
         List<String> results = new ArrayList<>();
-        List<String> options = Registry.MATERIAL.stream().map(Material::name).collect(Collectors.toList());
+        List<String> options = Registry.MATERIAL.stream().map(Material::name).map(String::toLowerCase).collect(Collectors.toList());
 
         if (args.length == 0) {
             return options;

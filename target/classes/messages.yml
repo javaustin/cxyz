@@ -258,6 +258,8 @@ commands:
 
   inventory-view: "&aYou are viewing {player-display-name}'s inventory."
 
+  item: "&aAdded {amount} {item}((s)) to {player}'s inventory."
+
   location:
     short: "&fYour location: &7{block-x}, {block-y}, {block-z}"
     long: "&fYour location: &7{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}}"

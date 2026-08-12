@@ -146,6 +146,8 @@ public enum MessageKey {
     ENCHANT("commands.enchant"),
     ENCHANT_CLEAR("commands.enchant-clear"),
 
+    ITEM("commands.item"),
+
     FULLBRIGHT_TOGGLE_ON("commands.fullbright.toggle-on"),
     FULLBRIGHT_TOGGLE_OFF("commands.fullbright.toggle-off"),
 
