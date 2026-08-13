@@ -5,6 +5,7 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -98,7 +99,7 @@ public class Item implements CommandExecutor {
             p = (Player) sender;
         }
 
-        int slot = -1;
+        int slot = -10;
         if (args.length == 4) {
             try {
                 slot = Integer.parseInt(args[3]);
@@ -126,8 +127,8 @@ public class Item implements CommandExecutor {
 
         if (incoming == null) return;
 
-        // If slot == -1, normal add
-        if (slot == -1) {
+        // If slot == -10, normal add (because now armor represents -1 -> -4)
+        if (slot == -10) {
             inv.addItem(incoming);
             return;
         }
@@ -136,7 +137,7 @@ public class Item implements CommandExecutor {
 
         // Empty slot: just put it there
         if (current == null || current.getType() == Material.AIR) {
-            inv.setItem(slot, incoming);
+            ItemUtils.setItem(inv, incoming, slot);
             return;
         }
 
@@ -158,7 +159,7 @@ public class Item implements CommandExecutor {
         // Merge as much as possible into the target slot
         int toMove = Math.min(canFit, incoming.getAmount());
         current.setAmount(current.getAmount() + toMove);
-        inv.setItem(slot, current);
+        ItemUtils.setItem(inv, current, slot);
 
         // Add remainder to inventory
         int remainder = incoming.getAmount() - toMove;

@@ -173,7 +173,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     - tab completers should only accept command senders as arguments, offload the NetworkPlayer responsibility to the tab completer class.
 
-    - allow players to reply to a message even when vanished. do not gate because "offline".
+    - allow players to REPLY to a message (not send/initiate) even when vanished. do not gate because "offline".
 
     - CROSS SERVER TESTING!
 

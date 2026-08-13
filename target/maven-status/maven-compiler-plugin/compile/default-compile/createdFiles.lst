@@ -149,6 +149,7 @@ com/carrotguy69/cxyz/cmd/SQL.class
 com/carrotguy69/cxyz/tabCompleters/Location.class
 com/carrotguy69/cxyz/cmd/Item.class
 com/carrotguy69/cxyz/utils/CommandRestrictor$CommandRestriction.class
+com/carrotguy69/cxyz/utils/ColorUtils.class
 com/carrotguy69/cxyz/cmd/Mend.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$PartyInviteDeliveryWrapper.class
 com/carrotguy69/cxyz/http/RequestResult.class
@@ -168,6 +169,7 @@ com/carrotguy69/cxyz/models/config/services/Service.class
 com/carrotguy69/cxyz/cmd/privacy/PartyPrivacy.class
 com/carrotguy69/cxyz/tabCompleters/CoinsXPLevel.class
 com/carrotguy69/cxyz/cmd/coins/CoinsAdd.class
+com/carrotguy69/cxyz/utils/ItemUtils.class
 com/carrotguy69/cxyz/cmd/ChatColor$Color.class
 com/carrotguy69/cxyz/cmd/coins/CoinsRemove.class
 com/carrotguy69/cxyz/cmd/xp/XPView.class
@@ -236,6 +238,7 @@ com/carrotguy69/cxyz/cmd/party/PartyLeave.class
 com/carrotguy69/cxyz/models/config/channel/coreChannels/PartyChannel.class
 com/carrotguy69/cxyz/cmd/data/networkplayer/NetworkPlayerSetAsync.class
 com/carrotguy69/cxyz/tabCompleters/PowerTool.class
+com/carrotguy69/cxyz/utils/NumberRange.class
 com/carrotguy69/cxyz/models/db/Punishment.class
 com/carrotguy69/cxyz/messages/utils/SimpleTextComponent$Action$ActionType.class
 com/carrotguy69/cxyz/tabCompleters/Data.class

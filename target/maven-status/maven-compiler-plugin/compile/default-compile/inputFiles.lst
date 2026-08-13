@@ -17,6 +17,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/ignore/Ignore.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/db/GameStat.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Privacy.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/utils/ItemUtils.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/rank/RankList.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/http/RequestType.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/channel/registry/ChannelRegistry.java
@@ -72,6 +73,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Ignore.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/shorthand/interfaces/ShorthandExecutor.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/party/PartyJoin.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/utils/NumberRange.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/OnlineSelfPlayer.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/messages/MessageUtils.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/messages/MessageKey.java
@@ -191,6 +193,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/webhook/DiscordEmbed.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/punishment/Warn.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/custom/base/Event.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/utils/ColorUtils.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/channel/ChannelSet.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/other/Tasks.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/UUID.java
