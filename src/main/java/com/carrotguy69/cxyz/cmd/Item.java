@@ -116,7 +116,7 @@ public class Item implements CommandExecutor {
         commonMap.put("item-lower", item.name().toLowerCase());
         commonMap.put("amount", amount);
 
-        MessageUtils.sendParsedMessage(sender, MessageKey.INFO, commonMap);
+        MessageUtils.sendParsedMessage(sender, MessageKey.ITEM, commonMap);
 
         return true;
     }

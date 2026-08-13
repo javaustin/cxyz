@@ -84,7 +84,7 @@ cosmetics:
     rank-requirement: default
 
   music-trail:
-    display: "&6Music trail"
+    display: "&6Music trail "
     lore: "&eUse the power of music to shoot your enemies"
     type: PROJECTILE_TRAIL
     enabled: true

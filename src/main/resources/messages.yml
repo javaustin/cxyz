@@ -129,7 +129,7 @@ commands:
       error.insufficient-level: "&cThis item requires level {cosmetic-required-level} &c or above!"
       error.duplicate-item: "&cYou already own this item!"
       error.disabled-item: "&cYou already own this item!"
-      success: "&aYou purchased {cosmetic-display}&afor {cosmetic-price} coins!"
+      success: "&aYou purchased [{cosmetic-display}]({HOVER:cosmetic-lore})&afor {cosmetic-price} coins!"
 
 
     equip: # Accepts cosmeticFormatter
@@ -244,7 +244,7 @@ commands:
   heal-all: "&aHealed {amount} targets."
 
   info: |
-    ----------- [{player-rank-color}Player info for {player}](HOVER:&7Copy UUID!)(COPY_TO_CLIPBOARD:{player-uuid})(RUN_COMMAND:/parse &aCopied!) -----------
+    &f----------- [{player-rank-color}Player info for {player}](HOVER:&7Copy UUID!)(COPY_TO_CLIPBOARD:{player-uuid})(RUN_COMMAND:/parse &aCopied!) &f-----------
     &fUsername:&7 {player-rank-color}{player-username} ((Display name: {player-display-name}))
     &fRank:&7 {player-rank-prefix-display}
     &fServer:&7 {player-server} &7(({player-online-status}&7))
@@ -253,7 +253,7 @@ commands:
     &fLast online:&7 {player-last-online-short-date} {player-last-online-short-time}
     &fTimezone:&7 {player-timezone}
     &fTotal playtime:&7 {player-playtime}
-     ----------------------------------------------- 
+    &f----------------------------------------------- 
 
 
   inventory-view: "&aYou are viewing {player-display-name}'s inventory."
