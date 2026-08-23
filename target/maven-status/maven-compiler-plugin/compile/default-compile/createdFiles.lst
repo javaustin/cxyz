@@ -32,7 +32,6 @@ com/carrotguy69/cxyz/cmd/level/LevelView.class
 com/carrotguy69/cxyz/cmd/coins/_CoinsExecutor.class
 com/carrotguy69/cxyz/cmd/Timezone.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$FriendRequestDeliveryWrapper.class
-com/carrotguy69/cxyz/tabCompleters/OnlineSelfPlayer.class
 com/carrotguy69/cxyz/cmd/party/PartyWarp.class
 com/carrotguy69/cxyz/papi/RelationalExpansion.class
 com/carrotguy69/cxyz/cmd/xp/XPAdd.class
@@ -226,6 +225,7 @@ com/carrotguy69/cxyz/events/custom/localHandlers/ChatFallbackHandler.class
 com/carrotguy69/cxyz/models/config/shorthand/interfaces/ShorthandTabCompleter.class
 com/carrotguy69/cxyz/utils/JsonConverters$3.class
 com/carrotguy69/cxyz/models/config/cosmetics/Cosmetic.class
+com/carrotguy69/cxyz/events/custom/localHandlers/LevelUpHandler.class
 com/carrotguy69/cxyz/cmd/Ping.class
 com/carrotguy69/cxyz/models/config/shorthand/Shorthand.class
 com/carrotguy69/cxyz/cmd/data/messages/MessageGet.class
@@ -265,8 +265,10 @@ com/carrotguy69/cxyz/cmd/channel/ChannelIgnore.class
 com/carrotguy69/cxyz/cmd/friend/FriendAdd.class
 com/carrotguy69/cxyz/http/RequestResult$1.class
 com/carrotguy69/cxyz/models/config/cosmetics/ActiveCosmetic$1.class
+com/carrotguy69/cxyz/tabCompleters/Show.class
 com/carrotguy69/cxyz/cmd/friend/FriendList.class
 com/carrotguy69/cxyz/models/db/FriendRequest.class
+com/carrotguy69/cxyz/events/custom/LevelUpEvent.class
 com/carrotguy69/cxyz/messages/utils/MessageGrabber.class
 com/carrotguy69/cxyz/http/ShipmentDelivery$MessageShipmentWrapper.class
 com/carrotguy69/cxyz/cmd/party/PartySetLeader.class

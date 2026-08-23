@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.utils;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 
 public class ColorUtils {

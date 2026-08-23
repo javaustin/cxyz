@@ -216,6 +216,8 @@ public enum MessageKey {
     LEVEL_SET("commands.level.set"),
     LEVEL_VIEW("commands.level.view"),
 
+    LEVELUP("commands.level-up"),
+
     LOCATION_SHORT("commands.location.short"),
     LOCATION_LONG("commands.location.long"),
 

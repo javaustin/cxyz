@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Show implements CommandExecutor {
@@ -22,9 +23,10 @@ public class Show implements CommandExecutor {
 
         /*
         SYNTAX:
-            /show <player> <text>
+            /show <player> <text> [-actionBar]
             /show Steve Hello World!
         */
+
 
 
         if (CommandRestrictor.handleRestricted(command, sender))
@@ -41,6 +43,12 @@ public class Show implements CommandExecutor {
             return true;
         }
 
+        boolean isActionBar = List.of(args).contains("-actionBar");
+
+        if (isActionBar) {
+            args = ObjectUtils.removeItem(args, "-actionBar");
+        }
+
         if (args.length == 1) {
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_CONTENT, Map.of());
             return true;
@@ -55,6 +63,15 @@ public class Show implements CommandExecutor {
             if (sender instanceof Player) {
                 NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
                 commonMap.putAll(MapFormatters.playerFormatter(np));
+            }
+
+            if (isActionBar) {
+                if (!(sender instanceof Player p)) {
+                    return true;
+                }
+
+                MessageUtils.sendActionBar(p, MessageUtils.formatPlaceholders(String.join(" ", args), commonMap));
+                return true;
             }
 
             MessageUtils.sendParsedMessage(sender, content, commonMap);
@@ -78,8 +95,16 @@ public class Show implements CommandExecutor {
             return true;
         }
 
-        np.sendMessage(String.join(" ", content), MapFormatters.playerFormatter(np));
+        if (isActionBar) {
+            if (!(sender instanceof Player p)) {
+                return true;
+            }
 
+            MessageUtils.sendActionBar(p, MessageUtils.formatPlaceholders(String.join(" ", args), MapFormatters.playerFormatter(np)));
+            return true;
+        }
+
+        MessageUtils.sendParsedMessage(sender, String.join(" ", content), MapFormatters.playerFormatter(np));
 
         return true;
     }

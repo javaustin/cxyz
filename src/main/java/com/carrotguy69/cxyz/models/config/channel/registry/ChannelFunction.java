@@ -6,6 +6,4 @@ public enum ChannelFunction {
     MESSAGE,
     ANNOUNCEMENT,
     PUNISHMENT,
-    XRAY,
-    ERRORS
 }

@@ -26,7 +26,7 @@ this-server: HUB-1
 #
 # NOTE:
 # - This is NOT your Minecraft server port (usually 25565)
-# - I recommend an unused port between 49152–65535
+# - Choose any free port (49152–65535 are usually available)
 # - This port is only used for internal server communication
 this-port: 59152
 
@@ -42,9 +42,9 @@ this-port: 59152
 # The port in the IP address should match the "this-port" value
 # configured on the destination server.
 servers:
-#  HUB-1:
-#    ip-address: "http://localhost:59152" # The IP address the API will send requests back to. Common format: {server-ip}:{this-port}
-#    secret: "super-secret-key-2" # The servers' secret key. This value must match the secret for the same server in the API config.json file.
+  HUB-1:
+    ip-address: "http://localhost:59152" # The IP address the API will send requests back to. Common format: {server-ip}:{this-port}
+    secret: "super-secret-key-2" # The servers' secret key. This value must match the secret for the same server in the API config.json file.
 
 # NOTE: This plugin cannot alone send players to another server, you must have a proxy like BungeeCord, Velocity, set up.
 
@@ -60,8 +60,6 @@ timezone: America/Los_Angeles
 # Format used when displaying dates and times.
 # Formatting reference:
 # https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
-#datetime-format: EEEE, MMMM d, yyyy, h:mma (z)
-#datetime-short-format: M/d/yy h:mma (z)
 
 date-format: EEEE, MMMM d, yyyy
 date-short-format: M/d/yyyy
@@ -106,7 +104,7 @@ debugger:
 # NOTE:
 # - A default rank is required and denoted by "default". If one is not provided in config this plugin will make one for you.
 # - Hierarchy is required and must be unique to the rank. Higher hierarchy values override lower ones.
-# - Ranks do not stack.`
+# - Ranks are individual and do not stack.
 ranks:
 
   default:
@@ -273,15 +271,11 @@ chat:
   # PARTY,
   # MESSAGE,
   # ANNOUNCEMENT,
-  # PUNISHMENT,
-  # XRAY,
-  # ERRORS
+  # PUNISHMENT
   #
   defaults:
     announcement: announcement
-    errors: logs
     punishment: staff
-    xray: logs
     message: message
     party: party
     public: all
@@ -296,16 +290,10 @@ chat:
 
     rules:
       example-rule:
-        enabled-channels: [all]
+        enabled-channels: [all, msg]
         blacklisted-words: ["nigger", "faggot"]
         actions:
           - mute {player} 24h discriminatory language
-
-      example-rule2:
-        enabled-channels: [party]
-        blacklisted-words: ["party"]
-        actions:
-          - show {player} &4no partying allowed
 
 
 # ============================================================
@@ -344,9 +332,9 @@ colors:
 
 announcements:
 
-  example-2:
-    enabled: true
-    content: '&3hecking is forbidden on the server {player}. &4do not heck.'
+  my-example-announcement:
+    enabled: false
+    content: '&3An example announcement'
     delay: 1800
     interval: 3600
     servers:
@@ -389,7 +377,7 @@ punishments:
       effective-until: # The time until the punishment is no longer effective.
         warn: 604800 # 1 week (warns are stored but do not affect the player - to control records - modify the expiry value)
         mute: 3600 # 1 hour
-        kick: 0 # Expires immediately (kicks are not persistent by design, any value will be ignored)
+        kick: 0 # Expires immediately (kicks are not persistent by definition, any value here will be ignored)
         ban: -1 # Permanent
 
       expire: # The time until the record of the punishment is cleared.

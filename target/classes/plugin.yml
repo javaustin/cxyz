@@ -266,7 +266,7 @@ commands:
 
   show:
     description: Display text to a player using the message parser
-    usage: /show [content]
+    usage: /show [content] [-actionBar]
     permission: "cxyz.show"
     aliases: []
 
@@ -274,7 +274,7 @@ commands:
     description: Smite one or many players
     usage: /smite [player]
     permission: "cxyz.smite"
-    aliases: [strike]
+    aliases: [strike, lightning]
 
   sudo:
     description: Force a player to run a command
@@ -283,7 +283,7 @@ commands:
     aliases: []
 
   sql:
-    description: Execute an sql query on the backend server
+    description: Execute an SQL query on the backend server
     usage: /sql <query> [-confirm]
     permission: "cxyz.sql"
     aliases: []

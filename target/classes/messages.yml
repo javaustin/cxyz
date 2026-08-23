@@ -262,7 +262,7 @@ commands:
 
   location:
     short: "&fYour location: &7{block-x}, {block-y}, {block-z}"
-    long: "&fYour location: &7{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}}"
+    long: "&fYour location: &7[{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}})"
 
   message: # All except channel-changed and reply-fail should user MF.playerSender. + add content
     fail: "&cYou cannot message this player!"
@@ -292,6 +292,8 @@ commands:
     removed: "&aSuccessfully removed {amount} levels from {player}!"
     set: "&aSuccessfully set {amount} levels to {player}!"
     view: "&a{player} has {amount} levels!"
+
+  level-up: "&bCongratulations! You have leveled up to &l&fLevel {player-level}&r&b!"
 
   mend: "&aRepaired item!"
 

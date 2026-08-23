@@ -474,7 +474,12 @@ public class NetworkPlayer {
     public void setXP(long amount) {
         this.xp = amount;
 
-        this.level = _LevelExecutor.xpToLevel(amount);
+        int prevLevel = this.level;
+        int newLevel = _LevelExecutor.xpToLevel(amount);
+
+        if (newLevel > prevLevel) {
+            // todo: fulfill
+        }
     }
 
     public int getLevel() {

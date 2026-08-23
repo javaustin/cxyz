@@ -21,7 +21,6 @@ import com.carrotguy69.cxyz.cmd.Port;
 import com.carrotguy69.cxyz.cmd.PowerTool;
 import com.carrotguy69.cxyz.cmd.Print;
 import com.carrotguy69.cxyz.cmd.SQL;
-import com.carrotguy69.cxyz.cmd.Show;
 import com.carrotguy69.cxyz.cmd.Smite;
 import com.carrotguy69.cxyz.cmd.Sudo;
 import com.carrotguy69.cxyz.cmd.Test;
@@ -50,9 +49,11 @@ import com.carrotguy69.cxyz.cmd.punishment.Warn;
 import com.carrotguy69.cxyz.cmd.punishment.manager._PunishmentExecutor;
 import com.carrotguy69.cxyz.cmd.rank._RankExecutor;
 import com.carrotguy69.cxyz.cmd.xp._XPExecutor;
+import com.carrotguy69.cxyz.events.custom.LevelUpEvent;
 import com.carrotguy69.cxyz.events.custom.PublicChatEvent;
 import com.carrotguy69.cxyz.events.custom.base.Priority;
 import com.carrotguy69.cxyz.events.custom.localHandlers.ChatFallbackHandler;
+import com.carrotguy69.cxyz.events.custom.localHandlers.LevelUpHandler;
 import com.carrotguy69.cxyz.events.custom.service.EventService;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
@@ -64,7 +65,7 @@ import com.carrotguy69.cxyz.tabCompleters.CoinsXPLevel;
 import com.carrotguy69.cxyz.tabCompleters.LocalOnlineAllPlayer;
 import com.carrotguy69.cxyz.tabCompleters.LocalOnlinePlayer;
 import com.carrotguy69.cxyz.tabCompleters.OnlinePlayer;
-import com.carrotguy69.cxyz.tabCompleters.OnlineSelfPlayer;
+import com.carrotguy69.cxyz.tabCompleters.Show;
 import com.carrotguy69.cxyz.tabCompleters.Party;
 import com.carrotguy69.cxyz.tabCompleters.Privacy;
 import com.carrotguy69.cxyz.tabCompleters.Rank;
@@ -120,14 +121,11 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("debug")).setExecutor(new Debug());
             Objects.requireNonNull(plugin.getCommand("debug")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Debug());
 
-//            Objects.requireNonNull(plugin.getCommand("data")).setExecutor(new _DataExecutor());
-//            Objects.requireNonNull(plugin.getCommand("data")).setTabCompleter(new Data());
-
             Objects.requireNonNull(plugin.getCommand("ping")).setExecutor(new Ping());
             Objects.requireNonNull(plugin.getCommand("ping")).setTabCompleter(new OnlinePlayer());
 
-            Objects.requireNonNull(plugin.getCommand("show")).setExecutor(new Show());
-            Objects.requireNonNull(plugin.getCommand("show")).setTabCompleter(new OnlineSelfPlayer());
+            Objects.requireNonNull(plugin.getCommand("show")).setExecutor(new com.carrotguy69.cxyz.cmd.Show());
+            Objects.requireNonNull(plugin.getCommand("show")).setTabCompleter(new Show());
 
             Objects.requireNonNull(plugin.getCommand("test")).setExecutor(new Test());
             Objects.requireNonNull(plugin.getCommand("test")).setTabCompleter(new Blank());
@@ -263,6 +261,7 @@ public class Startup {
         plugin.getServer().getPluginManager().registerEvents(plugin, plugin);
 
         EventService.registerHandler(PublicChatEvent.class, new ChatFallbackHandler(), Priority.LOWEST);
+        EventService.registerHandler(LevelUpEvent.class, new LevelUpHandler(), Priority.LOWEST);
     }
 
     public static void startTasks() {

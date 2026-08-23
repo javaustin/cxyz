@@ -28,6 +28,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/utils/CommandRestrictor.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Test.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Unequip.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Show.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Enchant.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/party/PartyChat.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/http/Request.java
@@ -39,6 +40,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Info.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Dispose.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/cosmetics/ActiveCosmeticLoader.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/custom/localHandlers/LevelUpHandler.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/rank/RankRemove.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/privacy/MessagePrivacy.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/level/LevelAdd.java
@@ -74,7 +76,6 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/shorthand/interfaces/ShorthandExecutor.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/party/PartyJoin.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/utils/NumberRange.java
-/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/OnlineSelfPlayer.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/messages/MessageUtils.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/messages/MessageKey.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/custom/base/EventHandler.java
@@ -101,6 +102,7 @@
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/models/config/services/Service.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/coins/CoinsSet.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/tabCompleters/Ban.java
+/home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/events/custom/LevelUpEvent.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/Timezone.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/level/LevelView.java
 /home/austin/Documents/dev/cxyz/src/main/java/com/carrotguy69/cxyz/cmd/ignore/_IgnoreExecutor.java

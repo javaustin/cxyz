@@ -163,17 +163,11 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     /*
 
     [❌] ISSUES:
-    - the rules for messaging others are weird
     - the /print command cannot print memory sections, figure a way to debug these
     - user/modify on the backend had another 500 aiosqlite issue (the same one as previous)
 
     [➕] ADD/IMPLEMENT:
-    - standardize a way to log 500 api errors
-    - we need to differentiate "not-found" error messages and "invalid" error messages. they mean two different things yet are used interchangibly
 
-    - tab completers should only accept command senders as arguments, offload the NetworkPlayer responsibility to the tab completer class.
-
-    - allow players to REPLY to a message (not send/initiate) even when vanished. do not gate because "offline".
 
     - CROSS SERVER TESTING!
 
