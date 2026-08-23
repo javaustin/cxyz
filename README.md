@@ -1,224 +1,141 @@
 # CXYZ
 
-Named after my abbreviated Minecraft server IP (cerrot.xyz), this is a core plugin that provides all non-negotiable features for any serious [Bukkit](https://dev.bukkit.org/) or [Spigot](https://hub.spigotmc.org) based server. Rather than weakly stitching together features from various plugins, allow CXYZ to authoritively handle chat, ranks, parties, custom commands, moderation, and cosmetics across multiple servers.
-
-This plugin is built to integrate with an external API [(see here)](https://github.com/javaustin/cxyz/main/README.md#%EF%B8%8F-important-notes) because many of its systems are network-wide by nature, not tied to a single server instance. Using an API allows the plugin to remain fast, consistent, and scalable without sacrificing simplicity.
-<br></br>
-#### ⚠️ Important Notes
-- This plugin is meant to work with a custom API and database setup. Please refer to my [cxyzAPI](https://github.com/javaustin/cxyzAPI) project.
-- This plugin is IN PROGRESS as of February 2026. Please do not expect support as the plugin has not reached a finalized state.
-  <br></br>
----
-## Design Philosophy
-##### Cohesion over modularity
-- Systems rely on each other internally (e.g.: chat must know ranks, parties must know players, player must know chat channel)
-##### Safe defaults
-- Core objects (player, ranks, channels) always exist. Even when not defined in config, the plugin creates safe defaults to prevent breakage.
-##### Cachce locally, own data centrally
-- All game servers cache the API and recieve copies of all relevant tables. When values are modified on game servers, they are pushed to the API and back.
-##### Player-friendly, admin-friendly, and developer-friendly
-- The plugin is designed for fast interactions, powerful configuration and infinite customization, predictable behavior, and native extensibility for developers
----     
-## Key Features
-
-#### Player identity
-- Native support for persistent network-wide player profiles allows for more flexibility when players are offline
-- A single NetworkPlayer object represents a player across all servers no matter if they are online or not
-- NetworkPlayer handles an individual players UUID, username, nickname, ranks, coins, xp, level, privacy settings, cosmetics, and many more attributes  
-  ![/whois command](https://i.imgur.com/Tln0qRu.png "Plugin /whois command")
+CXYZ is a core plugin that provides all the features and commands you'd need for any [Bukkit](https://dev.bukkit.org/) or [Spigot](https://hub.spigotmc.org) based server. 
+It was created for and named after my own Minecraft network `cerrot.xyz`. 
+It can be installed on a single server, or it could be installed on many different servers on a network.
+It handles player chat, ranks, parties, moderation, leveling, and saves all this 
+data on a preconfigured [backend database](https://github.com/javaustin/cxyzAPI), with no proxy needed.
 
 ---
 
-#### Ranks
-- An authoritative rank system with guaranteed defaults (no 'rank-less' players)
-- A fixed rank hierarchy system where hierarchy values must be assigned (i.e.: admin=4 > mod=3 > vip=2 > default=1)
-- Ranks can have configurable names, prefixes, chat colors, chat cooldowns.
+## Important Notes
+- This project depends on the [cxyzAPI](https://github.com/javaustin/cxyzAPI) for its API and database solution.
+- **NO** generative AI was used to write or modify any code in this project.
 
-```yml
-# config.yml
 
-  default:
-    prefix: '&7'
-    color: '&7'
-    defaultChatColor: '&f'
-    chat-cooldown: 3
-    hierarchy: 0
+---
 
-  vip:
-    prefix: '&f[&aVIP&f] '
-    color: '&a'
-    default-chat-color: '&f'
-    chat-cooldown: 1
-    hierarchy: 1
+## Features
+_There are alot..._
+- **Player Identity**
+  - CXYZ NetworkPlayer(s) handle all the data that needs to be stored, such as ranks, nicknames, coins & xp, etc.
+  - Player data is accessible anytime by the plugin, from anywhere, even if the player is offline.
+- **Player Ranks**
+  - A fully featured player rank system can be found in this plugin, with the ability to set custom rank prefixes, chat colors, and even cooldowns.
+  - Many other systems in the project respect the rank system (e.g. you can block non VIP's from using a certain chat channel).
+  - Easily add or remove ranks with the `/rank` command.
+- **Unlimited Customizability**
+  - You have the ability to customize every single message in the plugin by modifying `messages.yml`
+  - Using the [custom message parser](https://example.com/REPLACE_ME), you can create clickable text components in any Minecraft chat message.
+  - RGB colors and gradients are also supported by using the Bukkit RGB syntax before the text (e.g., #FF0000 → &x&F&F&0&0&0&0)
+- **Multichannel Chat System**
+  - CXYZ features a multichannel chat system in which players can switch channels to their discretion.
+  - Each channel can have its own chat format, aliases, trigger prefixes, and even discord webhook integration. 
+  - Easily switch channels with the `/chat <channel>` command.
+  - Core channels (public, party, and message) work out of the box.
+  - Custom channels (like private staff channels, or even public custom channels) can be created in the config.yml.
+  - Easily set up automatic chat filters per-channel to block unwanted content. Admins can even lock a channel completely with `/channel lock`.
+- **Social**
+  - Allow players to create their own parties, invite players, kick, set new party leaders, and even warp players to new servers.
+  - Developers can reference the CXYZ party API so their minigames respect existing parties.
+  - Players can send and accept friend requests from/to each other, and see when their friends are online.
+  - Any player can ignore another players messages using `/ignore`, or `/unignore`.
+  - To prevent all interactions players can also set their message and party request settings with `/messageprivacy` and `/partyprivacy`.
+- **Server Moderation**
+  - Admins or moderators can use the full punishment suite which features bans, temp-bans, mutes, kicks, even warnings.
+  - Using `config.yml` server managers can set the default durations and default reasons for any punishment type.
+  - You may also use the `config.yml` file to restrict messaging commands for a player when they are muted.
+  - CXYZ will automatically handle unbans and unmutes when applicable.
+- **Custom Commands**
+  - CXYZ supports a **shorthand command** system where new commands can be created by only specifying a trigger and the resulting action.
+  - You can reference the sender player and all their attributes simply using the `{sender}` placeholder
+  - Nest shorthand commands together to create complex menus with ease
+- **Full Cosmetic Suite**
+  - CXYZ features a cosmetic system that includes chat tags, chat colors, custom rank plates, gadgets, wearables, particle trails, and even kill effects.
+  - Players can buy server cosmetics with custom implementations with server coins, and equip/unequip them as they choose.
+  - Cosmetic purchasing can also respect rank requirements such as requiring a VIP rank to purchase a VIP tag.
+  - Developers can use the CXYZ cosmetic API to implement equip actions and unequip actions, or effectively disallow equipping depending on a condition.
+  - Cosmetics must be defined and can be modified in the `cosmetics.yml` file.
+- **Leveling System**
+  - To help with engagement long-term, CXYZ has a level and xp system built in to the NetworkPlayer model.
+  - Network XP can be added to players using the `/xp add` command. This may be useful to give upon kills, wins, or playtime.
+  - Players automatically level up when they receive enough XP.
+  - Developers can use the CXYZ Event API (with Event, EventHandler) to implement custom actions that occur when a player levels up.
+- **Coins**
+  - Network coins can be added to players using the `/coins add` command. This may be useful to give upon kills, wins, or playtime.
+  - Developers can use the CXYZ NetworkPlayer API (using NetworkPlayer:getCoins) to implement payment logic.
+- **Simple Announcements**
+  - Send scheduled announcements to all your players locally, or network-wide.
+  - Reference a player and have the plugin automatically fill names by using the `{player}` placeholder.
+- **Essential Utilities**
+  - Dispose an item held in the hand with `/dispose`
+  - Enchant an item held in the hand with `/enchant`
+  - Get an item with `/i`
+  - Force a player to run a command with `/sudo` 
+  - Show a player text with the message parser using `/show`
+  - _and so much more_
+
+---
+
+## How It Works
+**Quick definitions:**
+  - Game Server: A Minecraft server which is running the CXYZ plugin
+  - Backend API: A web server which hosts the CXYZ central database and has a web API to interact with it.
+  - Model: Any object type (e.g. NetworkPlayer (user), Party, Punishment, etc.) that is stored in the central database according to a table.
+
+### Startup
+
+Upon startup, the plugin (with the data provided in it's `config.yml`) requests data by sending a POST request (`/cache`) to the backend server. The request body contains the names of the database tables the plugin needs fulfilled.
   
-  admin:
-    prefix: '&f[&cAdmin&f] '
-    color: '&c'
-    default-chat-color: '&f'
-    chat-cooldown: 0
-    hierarchy: 2
+Given the backend server is online and the request is valid (proper secret and ID), the backend will respond with a 200 OK code and prepare to send the data over. The backend then sends the data in a request to the game server endpoint matching `/{tableName}Shipment` (e.g. `/usersDelivery` for users).
+
+Now that the game server (more specifically the plugin) has all the data it requested, it can accept players.
+
+### At Runtime
+
+Game servers will need to modify data at their own discretion, but we also need this data to persist across all servers (via the backend database). To resolve this, any time a model is modified, it should finally be **synced** to the database.
+
+Syncing an example NetworkPlayer to the database:
+```java
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+
+// Get an example NetworkPlayer (user)
+NetworkPlayer player = NetworkPlayer.getPlayerByUsername("Steve");
+
+// The setNickname method will only modify the local cached object, not the database object.
+player.setNickname("BigSteve");
+
+// This sync operation pushes the new object to the database. Now our database object matches the lastest cached version.
+player.sync(); 
 ```
-  
----
 
-#### Chat channels
-- Multi channel chat engine with custom permissions and formatting.
-- Easily switch chat channels with `/chat <channel>`
-- Core channels (public, party, and message) work out of the box.
-- Custom channels can be created just by opening the config and defining a channel.
-- Great for private staff channels, or even server announcements with a read-only channel
-```yml
-# config.yml
-chat:
-  core-channels:
-    # Creating new public channels are not supported, try using custom private channels instead.
-    all:
-      prefix: '&ePUBLIC' # Only used for chat channel GUI's like /channel <set | ignore | lock>. NOT used for prefixing the chat format, you must do that manually.
-      read-only: false
-      console: true
-      ignorable: false # Can this channel be ignored? Probably not
-      webhook-url: ''
-      chat-format: '{player-tag}{player-rank-prefix}{player-rank-color}{player-display-name}: {player-chat-color}{message}' # Directly applicable to player chat
-      trigger-prefix: ""
-      aliases: [public, pub, a]
-      lockable: true
-      locked: false
-
-  custom-channels:
-
-    staff:
-      prefix: '&c[Staff] '
-      read-only: false
-      console: true
-      ignorable: true
-      webhook-url: ''
-      chat-format: '{channel-prefix}{player-rank-color}{player-display-name}: &f{content}'
-      trigger-prefix: '#' # Do not use the same value across channels for trigger prefixes, or you the plugin won't know what channel you want!
-      aliases: [s]
-      lockable: true
-      locked: false
-
+The actual `sync()` function inside NetworkPlayer.
+```java
+public class NetworkPlayer {
+  // ...
+  public void sync() {
+    this.version += 1; // Database rows are versioned so old values will never overwrite new values
+    Request.postRequest(apiEndpoint + "/user/modify", gson.toJson(this)); // Post to the backend API
+  }
+  // ...
+}
 ```
----
-
-#### Shorthand Commands
-- Easy implementation of custom commands using config.yml
-- Simply define trigger commands and run actions
-- Reference the sender player and all their attributes using the {sender} placeholder
-- Nest shorthand commands together to create complex menus with ease
-
-```yml
-# config.yml
-
-shorthand-commands:
-  sc:
-    description: "Enter the staff channel"
-    trigger: sc
-    actions:
-      - channel staff
-
-  permban:
-    description: "Permanently ban a player from the server"
-    trigger: permban {player} {reason}
-    actions:
-      - ban {player} permanent {reason}
-
-  rules:
-    description: "View the server rules"
-    trigger: rules
-    actions:
-      - "show {sender-username} &aHere are the rules for you {sender}:\n&c1. No hacking\n&62. No being frowny\n&e3. Have fun!"
-
-  hi:
-    description: "Say hi!"
-    trigger: hi
-    actions:
-      - show {sender-username} Hello!
-```
-  
----
-
-#### Parties
-- Fully command-based party system (no GUI dependency)
-- Create, invite, join, leave, disband, promote leader, toggle public/private, and warp
-- Automatic cleanup for offline players and expired invites
-- Designed to be simple, fast, predictable, and power-user friendly
-- Configure admin settings by enabling/disabling parties, setting party size limits, or setting expire/autokick times
-  ![Plugin party system](https://i.imgur.com/awZj8Yt.png "Plugin party system")
----
-
-#### Unlimited customization
-- Control every plugin message using messages.yml
-- Support for 1.16+ RGB colors and legacy colors in the same string
-- Natively support placeholders (players, ranks, channels, etc.) in every command message
-- Add hover text and click actions while keeping the text readable.
-```yml
-commands:
-  party:
-    invite-received: |
-      [&f----------------------------------------------------
-      {inviter-rank-prefix}{inviter-rank-color}{inviter-display-name} &r&7has invited you to their party.
-      &e&lClick to accept!
-      &f----------------------------------------------------](HOVER:&eClick to join!)(RUN_COMMAND:/party join {inviter-display-name})
-  # ...
-
-  punishment:
-    ban:
-      mod-message: "&aSuccessfully applied ban to {player}!"
-      player-message: |
-        &cYou have been banned from this server for: {reason}!
-    
-        &r&fID: &7{case-id}
-        &r&fPlayer: {player-rank-color}{player} 
-        &r&fModerator: {mod-rank-color}{mod}
-        &r&fIssued on: &7{date}
-        &r&fEffective Until: &7{effective-until}
-        
-        &4You cannot rejoin until your ban expires in {effective-until-countdown}.
-        &rAppeal at: https://example.com/appeal
-```
-![Plugin party invite message](https://i.imgur.com/lHhs25E.png "Plugin party invite message")
-![Plugin ban message](https://i.imgur.com/IrYNJf8.png "Plugin ban message")
 
 ---
-## Message syntax help
-CXYZ uses a custom message parser that supports both legacy and 1.16+ colors, custom text components, and tons of native placeholders.
-
-### Syntax examples
+## Installation
+1. Download the plugin jar directly from GitHub in the [/target](https://github.com/javaustin/cxyz/tree/main/target) directory.
+2. Place the `cxyz-0.0.jar` in your server's plugins directory, then restart your Minecraft server
+3. The plugin will fail upon your first start, this is ok! Open `config.yml` and type in the backend API information (IP address, identifier, and secret). Ensure this matches the [API information](https://github.com/javaustin/cxyzAPI/blob/main/config.json).
+4. Restart your server again.
+5. If you see green checkmarks `(✅)` in the server console, this means data has been sent to your plugin!
 ---
 
-#### Placeholder example
-Almost all plugin messages support placeholders for messaging, allowing you to fully customize messaging. This message uses the {sender} placeholder to represent the sending player.
-```yml
-example-message: "&aAn example legacy color message that is green. {sender-rank-color}{sender}&a will see their name when it is sent."
-```
-![Plugin example message](https://i.imgur.com/oZX5cwf.png "Plugin example message")
-
----
-#### RGB code example
-The plugin supports RGB colors in the default Bukkit message format. An RGB code is prepended by the code `&x`, and each bit is separated by `&` (e.g., #FF0000 -> &x&F&F&0&0&0&0).
-```yml
-example-message-2: "&x&8&F&F&B&9&6An example message with the custom RGB code: #8FFB96"
-```
-![Plugin example message 2](https://i.imgur.com/lXMDzZj.png "Plugin example message 2")
+## Configuration
+[View config.yml](https://github.com/javaustin/cxyz/blob/main/src/main/resources/config.yml)  
+[View messages.yml](https://github.com/javaustin/cxyz/blob/main/src/main/resources/messages.yml)  
+[View cosmetics.yml](https://github.com/javaustin/cxyz/blob/main/src/main/resources/cosmetics.yml)  
 
 ---
 
-#### Clickable component example
-Brackets followed by parenthesis are assumed to be text component blocks. A text component block follows the format `[text](ACTION:actionText)`.   
-If you wish to use brackets or parenthesis outside of this, you should double them ("[" -> "[[") so the parser ignores them.   
-Valid actions are `RUN_COMMAND`, `SUGGEST_COMMAND`, `COPY_TO_CLIPBOARD`, `OPEN_URL`, `HOVER`.
-```yml
-example-message-3: "[&x&3&E&4&C&F&BAn RGB clickable example message](HOVER:&eClick me)"
-```
-![Plugin example message 3](https://i.imgur.com/lF3HmFF.png "Plugin example message 3")
-
----
-#### Gradient example
-Gradients are supported by the legacy parser by appending each color code before each character. [Here](https://minecraft.menu/minecraft-rgb-generator) is a handy tool to generate gradients easily.
-```yml
-example-message-4: "&x&F&B&C&4&1&Eg&x&F&B&B&E&2&2r&x&F&B&B&9&2&6a&x&F&B&B&3&2&9d&x&F&B&A&D&2&Di&x&F&B&A&7&3&1e&x&F&B&A&2&3&5n&x&F&B&9&C&3&9t&x&F&B&9&6&3&Cs &x&F&B&9&0&4&0a&x&F&B&8&B&4&4r&x&F&B&8&5&4&8e &x&F&B&7&F&4&Cs&x&F&B&7&9&4&Fu&x&F&B&7&4&5&3p&x&F&B&6&E&5&7p&x&F&B&6&8&5&Bo&x&F&B&6&2&5&Er&x&F&B&5&D&6&2t&x&F&B&5&7&6&6e&x&F&B&5&1&6&Ad &x&F&B&4&B&6&Et&x&F&B&4&6&7&1o&x&F&B&4&0&7&5o&x&F&B&3&A&7&9!"
-```
-![Plugin example message 4](https://i.imgur.com/lFeFJqi.png "Plugin example message 4")
-
----
+## Wiki
+_Wiki in progress. Thanks for your patience!_
