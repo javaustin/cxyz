@@ -23,7 +23,7 @@ public class CosmeticEquip implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-
+        // Validate the request, confirm ownership, then create and activate the runtime cosmetic.
         /*
         SYNTAX:
             /cosmetic equip <item>
@@ -91,6 +91,7 @@ public class CosmeticEquip implements CommandExecutor {
 
         np.equipCosmetic(cosmetic);
         ActiveCosmetic ac = new ActiveCosmetic(cosmetic, np);
+        // ActiveCosmetic is the live per-player instance that applies behavior for this equip.
         ac.equip();
         np.sync();
 

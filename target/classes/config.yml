@@ -377,7 +377,7 @@ punishments:
       effective-until: # The time until the punishment is no longer effective.
         warn: 604800 # 1 week (warns are stored but do not affect the player - to control records - modify the expiry value)
         mute: 3600 # 1 hour
-        kick: 0 # Expires immediately (kicks are not persistent by design, any value will be ignored)
+        kick: 0 # Expires immediately (kicks are not persistent by definition, any value here will be ignored)
         ban: -1 # Permanent
 
       expire: # The time until the record of the punishment is cleared.
@@ -397,6 +397,9 @@ punishments:
 social:
   player-default-list-name: "{player-rank-prefix}{player-rank-color}{player-display-name}"
   player-default-display-name: "{player-rank-color}{player-display-name}"
+
+  player-join-message: ""
+  player-leave-message: ""
 
 # ============================================================
 # CUSTOM COMMAND SHORTHANDS

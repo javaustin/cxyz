@@ -125,6 +125,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     public static String playerDefaultListName;
     public static String playerDefaultDisplayName;
+    public static String playerJoinMessage;
+    public static String playerLeaveMessage;
 
     public static Listener listener;
 

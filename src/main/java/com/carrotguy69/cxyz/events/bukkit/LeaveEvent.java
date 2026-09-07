@@ -1,11 +1,13 @@
 package com.carrotguy69.cxyz.events.bukkit;
 
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
 public class LeaveEvent {
 
@@ -18,6 +20,9 @@ public class LeaveEvent {
 
         NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
+        String quitMessage = f(formatPlaceholders(playerLeaveMessage, MapFormatters.playerFormatter(np)));
+
+        e.setQuitMessage(quitMessage);
 
         long currentPlaytime = np.getPlaytime();
         long playtimeSession = TimeUtils.unixTimeNow() - np.getLastJoin();

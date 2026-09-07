@@ -2,6 +2,9 @@ package com.carrotguy69.cxyz.models.db;
 
 import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
+import com.carrotguy69.cxyz.events.custom.LevelUpEvent;
+import com.carrotguy69.cxyz.events.custom.base.Event;
+import com.carrotguy69.cxyz.events.custom.service.EventService;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
@@ -478,7 +481,8 @@ public class NetworkPlayer {
         int newLevel = _LevelExecutor.xpToLevel(amount);
 
         if (newLevel > prevLevel) {
-            // todo: fulfill
+            LevelUpEvent event = new LevelUpEvent(this, prevLevel, newLevel);
+            EventService.dispatch(event);
         }
     }
 
@@ -1010,9 +1014,9 @@ public class NetworkPlayer {
         if (this.getPlayer() == null)
             return;
 
-        if (playerDefaultDisplayName != null)
+        if (playerDefaultDisplayName != null && !playerDefaultDisplayName.isBlank())
             this.getPlayer().setDisplayName(f(formatPlaceholders(CXYZ.playerDefaultDisplayName, MapFormatters.playerFormatter(this))));
-        if (playerDefaultListName != null)
+        if (playerDefaultListName != null && !playerDefaultListName.isBlank())
             this.getPlayer().setPlayerListName(f(formatPlaceholders(CXYZ.playerDefaultListName, MapFormatters.playerFormatter(this))));
     }
 

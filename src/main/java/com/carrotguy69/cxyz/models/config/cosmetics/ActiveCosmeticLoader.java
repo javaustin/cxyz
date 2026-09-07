@@ -32,9 +32,9 @@ import static com.carrotguy69.cxyz.CXYZ.taskIDs;
 
 public class ActiveCosmeticLoader {
 
-    public void load() {
-        // This is a long script for loading and implementing any custom cosmetic items.
-        // Below is a brief example on how to use the Cosmetic class to set equip actions and events to a cosmetic.
+    public static void load() {
+        // This class attaches runtime behavior to cosmetics after they are loaded from config.
+        // Use it to define what happens when a cosmetic is equipped, unequipped, or receives events.
 
         /*
 
@@ -91,6 +91,7 @@ public class ActiveCosmeticLoader {
          */
 
         // ------------------------------------------------------- RAINBOW-ARMOR -------------------------------------------------------
+        // Example of a cosmetic that changes inventory state and runs a repeating task while active.
 
 
         Cosmetic rainbowArmor = Cosmetic.getCosmetic("rainbow-armor");
@@ -224,6 +225,7 @@ public class ActiveCosmeticLoader {
 
 
         // ------------------------------------------------------- GRAPPLE-ROD -------------------------------------------------------
+        // Example of a wearable-style cosmetic that adds an item, then cleans it up on unequip.
 
         Cosmetic grappleRod = Cosmetic.getCosmetic("grapple-rod");
 
@@ -413,4 +415,3 @@ public class ActiveCosmeticLoader {
 
     }
 }
-

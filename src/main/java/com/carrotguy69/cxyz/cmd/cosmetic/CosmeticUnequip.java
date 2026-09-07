@@ -24,7 +24,7 @@ public class CosmeticUnequip implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-
+        // Validate the request, then remove the cosmetic from the player's active loadout.
         /*
         SYNTAX:
             /cosmetic unequip <item>
@@ -87,6 +87,7 @@ public class CosmeticUnequip implements CommandExecutor {
         }
 
         np.unEquipCosmetic(cosmetic);
+        // NetworkPlayer handles the runtime cleanup, including the ActiveCosmetic wrapper.
         np.sync();
 
         // in case there is a chat tag or rank thing

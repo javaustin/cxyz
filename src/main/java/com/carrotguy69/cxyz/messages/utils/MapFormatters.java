@@ -77,7 +77,6 @@ public class MapFormatters {
         }
 
         public String generatePage(int pageNumber) {
-            Logger.log("Generating page " + pageNumber);
             /*
 
             [!] Using 1-based indexing instead of 0-based (page numbers start at 1 instead of 0)
@@ -111,19 +110,19 @@ public class MapFormatters {
                 throw new IllegalStateException("size must be above 0");
             }
 
-            Logger.log("size: " + size);
+//            Logger.log("size: " + size);
 
             int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
-            Logger.log("startIndex (Math.max((pageNumber - 1) * maxEntriesPerPage, 0);): ".replace("pageNumber", "" + pageNumber).replace("maxEntriesPerPage", "" + maxEntriesPerPage) + startIndex);
+//            Logger.log("startIndex (Math.max((pageNumber - 1) * maxEntriesPerPage, 0);): ".replace("pageNumber", "" + pageNumber).replace("maxEntriesPerPage", "" + maxEntriesPerPage) + startIndex);
             int endIndex = Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);
 
-            Logger.log("endIndex Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);: "
-                    .replace("pageNumber", "" + pageNumber)
-                    .replace("maxEntriesPerPage", "" + maxEntriesPerPage)
-                    .replace("size", "" + size)
-                    + startIndex);
+//            Logger.log("endIndex Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);: "
+//                    .replace("pageNumber", "" + pageNumber)
+//                    .replace("maxEntriesPerPage", "" + maxEntriesPerPage)
+//                    .replace("size", "" + size)
+//                    + startIndex);
 
-            Logger.log(String.format("Retuning sublist (startIndex=%d, endIndex=%d+1)", startIndex, endIndex));
+//            Logger.log(String.format("Retuning sublist (startIndex=%d, endIndex=%d+1)", startIndex, endIndex));
 
 
             return String.join(delimiter, entries.subList(startIndex, endIndex + 1));

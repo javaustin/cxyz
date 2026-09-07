@@ -93,6 +93,8 @@ public class Constants {
         ranks = PlayerRank.getRanks();
         playerDefaultListName = yaml.getString("social.player-default-list-name");
         playerDefaultDisplayName = yaml.getString("social.player-default-display-name");
+        playerJoinMessage = yaml.getString("social.player-join-message");
+        playerLeaveMessage = yaml.getString("social.player-leave-message");
 
         StringBuilder rankLog = new StringBuilder("Loaded ranks: ");
 

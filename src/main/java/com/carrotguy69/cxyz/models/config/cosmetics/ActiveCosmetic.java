@@ -15,6 +15,9 @@ import static com.carrotguy69.cxyz.cmd.ChatColor.getColorValue;
 
 public class ActiveCosmetic extends Cosmetic {
 
+    // ActiveCosmetic is the per-player runtime copy of a cosmetic.
+    // It keeps track of the owning player, scheduled tasks, and event listeners while equipped.
+
     public static Map<UUID, List<ActiveCosmetic>> activeCosmeticMap = new HashMap<>();
 
     private final List<BukkitTask> tasks;
@@ -82,7 +85,7 @@ public class ActiveCosmetic extends Cosmetic {
     }
 
     public void equip() {
-
+        // Mark the cosmetic as active, run its equip hook, then apply type-specific behavior.
         activeCosmeticMap.computeIfAbsent(this.player.getUUID(), k -> new ArrayList<>()).add(this);
         originalCosmetic.getEquipAction().accept(this);
 
@@ -126,7 +129,7 @@ public class ActiveCosmetic extends Cosmetic {
     }
 
     public void unEquip() {
-
+        // Reverse the type-specific effect, cancel any tasks, and remove the active instance.
         switch (this.getType()) {
             case CHAT_TAG:
                 this.player.setChatTag("");
@@ -158,6 +161,6 @@ public class ActiveCosmetic extends Cosmetic {
 
 
     public static void loadActiveCosmetics() {
-        new ActiveCosmeticLoader().load();
+        ActiveCosmeticLoader.load();
     }
 }

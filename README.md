@@ -87,7 +87,7 @@ _There are alot..._
 
 Upon startup, the plugin (with the data provided in it's `config.yml`) requests data by sending a POST request (`/cache`) to the backend server. The request body contains the names of the database tables the plugin needs fulfilled.
   
-Given the backend server is online and the request is valid (proper secret and ID), the backend will respond with a 200 OK code and prepare to send the data over. The backend then sends the data in a request to the game server endpoint matching `/{tableName}Shipment` (e.g. `/usersDelivery` for users).
+Given the backend server is online and the request is valid (proper secret and ID), the backend will respond with a 200 OK code and prepare to send the data over. The backend then sends the data in a request to the game server endpoint matching `/{tableName}Shipment` (e.g. `/usersShipment` for users).
 
 Now that the game server (more specifically the plugin) has all the data it requested, it can accept players.
 
@@ -119,6 +119,12 @@ public class NetworkPlayer {
   }
   // ...
 }
+```
+
+The backend will then send a "user delivery" to all servers listed in its config.json.
+```txt
+POST http://myminecraftserver.com/usersDelivery
+(post data): [ {"username" : "cerrot", "coins" : 40} ]
 ```
 
 ---

@@ -16,6 +16,9 @@ import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class Cosmetic {
 
+    // Cosmetic is the config-backed definition of an item the player can buy, equip, or unequip.
+    // It stores the static data from cosmetics.yml plus runtime hooks for equip behavior.
+
     private final String id;
     private String display;
     private final String lore;
@@ -82,14 +85,12 @@ public class Cosmetic {
         return enabled;
     }
 
-    public Cosmetic setEquipAction(Consumer<ActiveCosmetic> ac) {
+    public void setEquipAction(Consumer<ActiveCosmetic> ac) {
         this.equipAction = ac;
-        return this;
     }
 
-    public Cosmetic setUnequipAction(Consumer<ActiveCosmetic> ac) {
+    public void setUnequipAction(Consumer<ActiveCosmetic> ac) {
         this.unequipAction = ac;
-        return this;
     }
 
     public Consumer<ActiveCosmetic> getEquipAction() {
@@ -125,38 +126,41 @@ public class Cosmetic {
     // STATIC FUNCTIONS
 
     public static List<Cosmetic> getCosmetics() {
+        // Load all cosmetic definitions from cosmetics.yml and filter out disabled types.
         ConfigurationSection section = cosmeticsYML.getConfigurationSection("cosmetics");
 
         List<Cosmetic> results = new ArrayList<>();
 
         if (section != null) {
-            for (String id : section.getKeys(false)) { /* Should get all rank names (default, vip, ...)*/ try {
+            for (String id : section.getKeys(false)) {
+                try {
 
-                ConfigurationSection cosmeticData = section.getConfigurationSection(id);
+                    ConfigurationSection cosmeticData = section.getConfigurationSection(id);
 
-                if (cosmeticData != null) {
-                    String display = cosmeticData.getString("display");
-                    String lore = cosmeticData.getString("lore");
-                    CosmeticType type = CosmeticType.valueOf(cosmeticData.getString("type"));
-                    long price = cosmeticData.getLong("price");
-                    long levelRequirement = cosmeticData.getLong("level-requirement");
-                    PlayerRank rankRequirement = PlayerRank.getRankByName(cosmeticData.getString("rank-requirement", "default"));
-                    boolean enabled = cosmeticData.getBoolean("enabled");
+                    if (cosmeticData != null) {
+                        String display = cosmeticData.getString("display");
+                        String lore = cosmeticData.getString("lore");
+                        CosmeticType type = CosmeticType.valueOf(cosmeticData.getString("type"));
+                        long price = cosmeticData.getLong("price");
+                        long levelRequirement = cosmeticData.getLong("level-requirement");
+                        PlayerRank rankRequirement = PlayerRank.getRankByName(cosmeticData.getString("rank-requirement", "default"));
+                        boolean enabled = cosmeticData.getBoolean("enabled");
 
-                    Cosmetic csm = new Cosmetic(id, display, lore, type, price, levelRequirement, rankRequirement, enabled);
+                        Cosmetic csm = new Cosmetic(id, display, lore, type, price, levelRequirement, rankRequirement, enabled);
 
-                    if (!enabledCosmeticTypes.contains(type)) {
-                        continue;
+                        if (!enabledCosmeticTypes.contains(type)) {
+                            continue;
+                        }
+
+                        results.add(csm);
                     }
 
-                    results.add(csm);
-                }
+                    else {
+                        Logger.warning(String.format("Cosmetic %s did not load (configuration section not found).", id));
+                    }
 
-                else {
-                    Logger.warning(String.format("Cosmetic %s did not load (configuration section not found).", id));
                 }
-
-                } catch (Exception ex) {throw new InvalidConfigException("cosmetics.yml", id, ex.getMessage());}
+                catch (Exception ex) {throw new InvalidConfigException("cosmetics.yml", id, ex.getMessage());}
             }
         }
 
@@ -168,6 +172,7 @@ public class Cosmetic {
     }
 
     public static Cosmetic getCosmetic(String id) {
+        // Look up a cosmetic by its config ID from the loaded runtime list.
         for (Cosmetic cosmetic : cosmetics) {
             if (cosmetic.getId().equalsIgnoreCase(id)) {
                 return cosmetic;
@@ -178,7 +183,7 @@ public class Cosmetic {
     }
 
     public static void registerCosmetic(Cosmetic cosmetic) {
-        // Register a cosmetic at runtime
+        // Register a cosmetic at runtime after startup loading.
         cosmetics.add(cosmetic);
     }
 }

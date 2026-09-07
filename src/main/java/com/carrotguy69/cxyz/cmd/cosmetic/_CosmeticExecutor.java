@@ -15,6 +15,7 @@ import static com.carrotguy69.cxyz.utils.ObjectUtils.slice;
 public class _CosmeticExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        // This is the cosmetic command router. It only dispatches to the subcommand handlers.
         /*
         SYNTAX:
             /cosmetic <buy | equip | unequip | list>

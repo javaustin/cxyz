@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.stream.Collectors;
 
+import static com.carrotguy69.cxyz.CXYZ.f;
 import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
 public class JoinEvent {
@@ -34,8 +35,12 @@ public class JoinEvent {
             np.sync();
         }
 
+        String joinMessage = f(formatPlaceholders(CXYZ.playerJoinMessage, MapFormatters.playerFormatter(np)));
+
+        e.setJoinMessage(joinMessage);
+
         // Hide any vanished player from this current player
-        for (NetworkPlayer vanisher : CXYZ.users.values().stream().filter(NetworkPlayer::isVanished).collect(Collectors.toList())) {
+        for (NetworkPlayer vanisher : CXYZ.users.values().stream().filter(NetworkPlayer::isVanished).toList()) {
             if (!np.isVisibleTo(vanisher) && np.getPlayer() != null && vanisher.getPlayer() != null && vanisher.getUUID() != np.getUUID()) {
                 np.getPlayer().hidePlayer(CXYZ.plugin, vanisher.getPlayer());
             }
