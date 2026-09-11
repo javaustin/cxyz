@@ -169,8 +169,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     - user/modify on the backend had another 500 aiosqlite issue (the same one as previous)
 
     [➕] ADD/IMPLEMENT:
-
-
     - CROSS SERVER TESTING!
 
     [🔥] v1.1 UPDATE:
