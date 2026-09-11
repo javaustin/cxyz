@@ -32,6 +32,14 @@ public class ObjectUtils {
         return !List.of("no", "disable", "off", "false", "0").contains(s.toLowerCase());
     }
 
+    public static boolean parseCasualBoolean(String s, boolean def) {
+
+        if (s == null)
+            return def;
+
+        return !List.of("no", "disable", "off", "false", "0").contains(s.toLowerCase());
+    }
+
     public static List<String> getCasualBooleanOptions() {
         return List.of("yes", "no", "enable", "disable", "on", "off", "true", "false", "1", "0");
     }

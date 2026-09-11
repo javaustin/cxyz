@@ -1,5 +1,7 @@
 package com.carrotguy69.cxyz.webhook;
 
+import com.carrotguy69.cxyz.utils.TimeUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -181,6 +183,23 @@ public class DiscordEmbed {
 
     public DiscordEmbed setAuthor(DiscordEmbed.Author author) {
         this.author = author;
+
+        return this;
+    }
+
+    public DiscordEmbed setTimestamp(String timestamp) {
+
+        long unix = 0;
+
+        if (timestamp.equalsIgnoreCase("now")) {
+            unix = TimeUtils.unixTimeNow();
+        }
+
+        else {
+            unix = Long.parseLong(timestamp);
+        }
+
+        this.timestamp = unix;
 
         return this;
     }

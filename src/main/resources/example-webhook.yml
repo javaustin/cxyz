@@ -1,0 +1,39 @@
+a-webhook:
+  webhook-url: "https://discordapp.com/api/webhooks/1547866577859518596/rTlUCshZi6kHEDR1E5_GdVajNXTYPsFszhwicv8ZFySDOAMknDlEvGc6bLRl5EFat-jN"
+
+  content: "Hello World"
+  embeds:
+    - title: "Hi everyone"
+      description: "This is my description"
+      color: 988888
+
+      fields:
+        - name: f
+          value: v1
+          inline: true
+
+        - name: f2
+          value: v2
+          inline: true
+
+        - name: f3
+          value: v3
+          inline: true
+
+      title-url: "https://example.com/title-url"
+      thumbnail-url: "https://example.com/thumbnail-url"
+      image-url: "https://example.com/image-url"
+
+      timestamp: 0 # Accept integer, formal timestamp, or the text "now"
+
+      author:
+        name: "Author"
+        url: "https://example.com/author-url"
+        icon-url: "https://example.com/author-icon-url"
+
+      footer:
+        text: "Footer"
+        icon-url: "https://example.com/footer-icon-url"
+
+  edit-mode: true
+  message-url: "https://discordapp.com/channels/1238973352144666737/1241447347880333342/1547888922665816097"

@@ -1,8 +1,6 @@
 package com.carrotguy69.cxyz.utils;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
@@ -24,6 +22,18 @@ public class TimeUtils {
         return DateTimeFormatter.ISO_INSTANT.format(
                 Instant.ofEpochSecond(unixTimeSeconds)
         );
+    }
+
+    public static long dateStringToUnix(String dateString) {
+        LocalDateTime dateTime =
+                LocalDateTime.parse(
+                        dateString,
+                        java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                );
+
+        return dateTime
+                .toInstant(ZoneOffset.UTC)
+                .getEpochSecond();
     }
 
     public static String dateOf(long timestamp, String timeZone) {
