@@ -19,5 +19,6 @@
         </set>
       </option>
     </inspection_tool>
+    <inspection_tool class="JavaPrintToLogpoint" enabled="false" level="DEBUGGER_SUGGESTION" enabled_by_default="false" />
   </profile>
 </component>

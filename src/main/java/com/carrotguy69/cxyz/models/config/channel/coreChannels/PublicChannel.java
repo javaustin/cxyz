@@ -141,9 +141,10 @@ public class PublicChannel extends CoreChannel {
 
             Logger.debugMessage("Public message webhook content (stripped): " + webhookContent);
 
-            DiscordWebhook webhook = new DiscordWebhook()
-                    .setURL(this.getWebhookURL())
-                    .setContent(ChatColor.stripColor(f(formatPlaceholders(webhookContent, commonMap))));
+            DiscordWebhook webhook = new DiscordWebhook(
+                    this.getWebhookURL(),
+                    ChatColor.stripColor(f(formatPlaceholders(webhookContent, commonMap)))
+            );
             webhook.send();
         }
 

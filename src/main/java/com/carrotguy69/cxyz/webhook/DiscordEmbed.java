@@ -8,15 +8,16 @@ public class DiscordEmbed {
     private String description;
     private int color;
 
-    private Footer footer = null;
-    private List<Field> fields = new ArrayList<>();
+    private List<DiscordEmbed.Field> fields = new ArrayList<>();
+
     private String titleURL = null;
     private String thumbnailURL = null;
     private String imageURL = null;
 
-    private String timestamp;
+    private long timestamp;
 
-    private Author author;
+    private DiscordEmbed.Footer footer = null;
+    private DiscordEmbed.Author author;
 
     public static class Author {
         private final String name;
@@ -84,12 +85,6 @@ public class DiscordEmbed {
         }
     }
 
-    public DiscordEmbed setTitle(String title) {
-        this.title = title;
-
-        return this;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -100,6 +95,12 @@ public class DiscordEmbed {
 
     public int getColor() {
         return color;
+    }
+
+    public DiscordEmbed setTitle(String title) {
+        this.title = title;
+
+        return this;
     }
 
     public DiscordEmbed setDescription(String description) {
@@ -114,19 +115,47 @@ public class DiscordEmbed {
         return this;
     }
 
-    private DiscordEmbed setTimestamp(String timestamp) {
+    public DiscordEmbed.Footer getFooter() {
+        return footer;
+    }
+
+    public List<DiscordEmbed.Field> getFields() {
+        return fields;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public String getTitleURL() {
+        return titleURL;
+    }
+
+    public DiscordEmbed.Author getAuthor() {
+        return author;
+    }
+
+    private DiscordEmbed setTimestamp(long timestamp) {
         this.timestamp = timestamp;
 
         return this;
     }
 
-    public DiscordEmbed setFooter(Footer footer) {
+    public DiscordEmbed setFooter(DiscordEmbed.Footer footer) {
         this.footer = footer;
 
         return this;
     }
 
-    public DiscordEmbed setFields(List<Field> fields) {
+    public DiscordEmbed setFields(List<DiscordEmbed.Field> fields) {
         this.fields = fields;
 
         return this;
@@ -150,7 +179,7 @@ public class DiscordEmbed {
         return this;
     }
 
-    public DiscordEmbed setAuthor(Author author) {
+    public DiscordEmbed setAuthor(DiscordEmbed.Author author) {
         this.author = author;
 
         return this;
@@ -162,33 +191,5 @@ public class DiscordEmbed {
         this.color = color;
 
         return this;
-    }
-
-    public Footer getFooter() {
-        return footer;
-    }
-
-    public List<Field> getFields() {
-        return fields;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public String getThumbnailURL() {
-        return thumbnailURL;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public String getTitleURL() {
-        return titleURL;
-    }
-
-    public Author getAuthor() {
-        return author;
     }
 }

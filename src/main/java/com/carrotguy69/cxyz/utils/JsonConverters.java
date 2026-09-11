@@ -22,10 +22,6 @@ public class JsonConverters {
         return gson.fromJson(input, new TypeToken<Map<String, Object>>() {}.getType());
     }
 
-    public static Map.Entry<String, List<String>> toPartyObject (String input) {
-        return gson.fromJson(input, new TypeToken<Map.Entry<String, List<String>>>() {}.getType());
-    }
-
     public static List<String> toList(String input) {
         return gson.fromJson(input, new TypeToken<ArrayList<String>>() {}.getType());
     }

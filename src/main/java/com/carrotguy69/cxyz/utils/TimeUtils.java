@@ -15,8 +15,15 @@ import java.util.regex.Pattern;
 import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class TimeUtils {
+
     public static long unixTimeNow() {
         return System.currentTimeMillis() / 1000;
+    }
+
+    public static String unixTimeToTimestamp(long unixTimeSeconds) {
+        return DateTimeFormatter.ISO_INSTANT.format(
+                Instant.ofEpochSecond(unixTimeSeconds)
+        );
     }
 
     public static String dateOf(long timestamp, String timeZone) {

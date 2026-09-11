@@ -1,5 +1,7 @@
 package com.carrotguy69.cxyz.webhook;
+
 import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,28 +11,35 @@ import java.util.Map;
 import static com.carrotguy69.cxyz.CXYZ.gson;
 
 public class DiscordWebhook {
-    private String url;
-    private String content;
-    private final List<DiscordEmbed> embeds = new ArrayList<>();
+    private final String url;
+    private final String content;
+    private final List<DiscordEmbed> embeds;
 
-    // Attachments are not supported
+    private final boolean editMode;
+    private final String messageURL;
 
-    public DiscordWebhook setContent(String content) {
+    public DiscordWebhook(String webhookURL, String content, List<DiscordEmbed> embeds, boolean editMode, String editMessageURL) {
+        this.url = webhookURL;
         this.content = content;
-
-        return this;
+        this.embeds = embeds;
+        this.editMode = editMode;
+        this.messageURL = editMessageURL;
     }
 
-    public DiscordWebhook setURL(String url) {
-        this.url = url;
-
-        return this;
+    public DiscordWebhook(String webhookURL, String content, List<DiscordEmbed> embeds) {
+        this.url = webhookURL;
+        this.content = content;
+        this.embeds = embeds;
+        this.editMode = false;
+        this.messageURL = null;
     }
 
-    public DiscordWebhook addEmbed(DiscordEmbed embed) {
-        this.embeds.add(embed);
-
-        return this;
+    public DiscordWebhook(String webhookURL, String content) {
+        this.url = webhookURL;
+        this.content = content;
+        this.embeds = new ArrayList<>();
+        this.editMode = false;
+        this.messageURL = null;
     }
 
     public void send() {
@@ -49,7 +58,7 @@ public class DiscordWebhook {
                 embedEntry.put("url", embed.getTitleURL());
             }
 
-            if (embed.getAuthor() != null || embed.getAuthor().getName() == null) {
+            if (embed.getAuthor() != null && embed.getAuthor().getName() != null) {
                 Map<String, String> authorEntry = new HashMap<>();
                 authorEntry.put("name", embed.getAuthor().getName());
 
@@ -93,16 +102,15 @@ public class DiscordWebhook {
                 embedEntry.put("footer", footerObject);
             }
 
-            if (embed.getTimestamp() != null) {
-                embedEntry.put("timestamp", embed.getTimestamp());
-            }
+            embedEntry.put("timestamp", TimeUtils.unixTimeToTimestamp(embed.getTimestamp()));
+
 
             if (embed.getImageURL() != null) {
-                embedEntry.put("url", embed.getImageURL());
+                embedEntry.put("image", Map.of("url", embed.getImageURL()));
             }
 
             if (embed.getThumbnailURL() != null) {
-                embedEntry.put("url", embed.getThumbnailURL());
+                embedEntry.put("thumbnail", Map.of("url", embed.getThumbnailURL()));
             }
 
             embedMap.add(embedEntry);
@@ -112,7 +120,16 @@ public class DiscordWebhook {
         postMap.put("embeds", embedMap);
         postMap.put("attachments", new ArrayList<>());
 
+        String body = gson.toJson(postMap);
 
-        Request.postRequest(url, gson.toJson(postMap));
+
+        if (!editMode || messageURL == null) {
+            Request.postRequest(url, body);
+            return;
+        }
+
+        String messageID = messageURL.substring(messageURL.lastIndexOf("/") + 1);
+
+        Request.patchRequest(url + "/messages/" + messageID, body);
     }
 }

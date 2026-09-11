@@ -73,14 +73,14 @@ public class Request {
                     .header("X-Timestamp", String.valueOf(timestamp))
                     .timeout(Duration.ofMillis(timeout));
 
-            if (type == RequestType.POST) {
+            if (type == RequestType.POST || type == RequestType.PATCH) {
 
                 Map<String, Object> bodyMap = JsonConverters.toMap(requestBody);
                 String bodyGSON = gson.toJson(bodyMap);
 
                 builder.header("X-Signature", generateSignature((Service) thisServer, timestamp, "POST", URI.create(url).getPath(), bodyGSON));
 
-                builder.POST(HttpRequest.BodyPublishers.ofString(bodyGSON));
+                builder.method(type.name(), HttpRequest.BodyPublishers.ofString(bodyGSON));
             }
             else {
                 builder.header("X-Signature", generateSignature((Service) thisServer, timestamp, "GET", URI.create(url).getPath(), ""));
@@ -126,6 +126,11 @@ public class Request {
 
     public static CompletableFuture<RequestResult> postRequest(String url, String data) {
         Request req = new Request(RequestType.POST, url, data);
+        return req.send();
+    }
+
+    public static CompletableFuture<RequestResult> patchRequest(String url, String data) {
+        Request req = new Request(RequestType.PATCH, url, data);
         return req.send();
     }
 

@@ -256,9 +256,10 @@ public abstract class BaseChannel {
 
         if (this.getWebhookURL() != null && !this.getWebhookURL().isBlank()) {
 
-            DiscordWebhook webhook = new DiscordWebhook()
-                    .setURL(this.getWebhookURL())
-                    .setContent(ChatColor.stripColor(f(formatPlaceholders(stripped, formatMap))));
+            DiscordWebhook webhook = new DiscordWebhook(
+                    this.getWebhookURL(),
+                    ChatColor.stripColor(f(formatPlaceholders(stripped, formatMap)))
+            );
             webhook.send();
         }
     }
