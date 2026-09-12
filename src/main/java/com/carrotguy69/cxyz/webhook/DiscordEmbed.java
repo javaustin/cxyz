@@ -196,7 +196,11 @@ public class DiscordEmbed {
         }
 
         else {
-            unix = Long.parseLong(timestamp);
+            try {
+                unix = Long.parseLong(timestamp);
+            }
+            catch (NumberFormatException ignore) {
+            }
         }
 
         this.timestamp = unix;

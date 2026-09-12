@@ -19,6 +19,7 @@ com\carrotguy69\cxyz\messages\MessageKey.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$FriendRequestShipmentWrapper.class
 com\carrotguy69\cxyz\messages\utils\SimpleTextComponent$Action.class
 com\carrotguy69\cxyz\cmd\friend\FriendAdd.class
+com\carrotguy69\cxyz\webhook\WebhookMessageParser.class
 com\carrotguy69\cxyz\cmd\rank\RankAdd.class
 com\carrotguy69\cxyz\models\config\channel\coreChannels\PartyChannel.class
 com\carrotguy69\cxyz\cmd\Enchant.class
@@ -37,6 +38,7 @@ com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic.class
 com\carrotguy69\cxyz\exceptions\AuthenticationFailException.class
 com\carrotguy69\cxyz\cmd\PowerTool$PowerToolEntry.class
 com\carrotguy69\cxyz\cmd\channel\_ChannelExecutor.class
+com\carrotguy69\cxyz\webhook\DiscordEmbed$Footer.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic$1.class
 com\carrotguy69\cxyz\cmd\data\networkplayer\NetworkPlayerSet.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader.class
@@ -45,6 +47,7 @@ com\carrotguy69\cxyz\other\Tasks$2.class
 com\carrotguy69\cxyz\tabCompleters\Item.class
 com\carrotguy69\cxyz\webhook\DiscordWebhook.class
 com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentHistory.class
+com\carrotguy69\cxyz\webhook\DiscordEmbed$Field.class
 com\carrotguy69\cxyz\cmd\Sudo.class
 com\carrotguy69\cxyz\events\bukkit\JoinEvent.class
 com\carrotguy69\cxyz\cmd\ignore\Unignore.class
@@ -52,6 +55,7 @@ com\carrotguy69\cxyz\cmd\xp\XPSet.class
 com\carrotguy69\cxyz\utils\JsonConverters$3.class
 com\carrotguy69\cxyz\events\bukkit\DropEvent.class
 com\carrotguy69\cxyz\cmd\punishment\Warn.class
+com\carrotguy69\cxyz\webhook\DiscordEmbed$Author.class
 com\carrotguy69\cxyz\http\RequestResult$1.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$FriendRequestDeliveryWrapper.class
 com\carrotguy69\cxyz\cmd\friend\FriendRemove.class
@@ -253,7 +257,6 @@ com\carrotguy69\cxyz\http\ShipmentDelivery$PunishmentDeliveryWrapper.class
 com\carrotguy69\cxyz\messages\utils\MessageGrabber.class
 com\carrotguy69\cxyz\other\Tasks$5.class
 com\carrotguy69\cxyz\cmd\Info.class
-com\carrotguy69\cxyz\utils\JsonConverters$5.class
 com\carrotguy69\cxyz\cmd\party\PartyJoin.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PartyInviteShipmentWrapper.class
 com\carrotguy69\cxyz\other\Tasks.class
