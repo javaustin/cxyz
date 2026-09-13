@@ -11,12 +11,12 @@ import java.util.Map;
 import static com.carrotguy69.cxyz.CXYZ.gson;
 
 public class DiscordWebhook {
-    private final String url;
-    private final String content;
-    private final List<DiscordEmbed> embeds;
+    private String url;
+    private String content;
+    private List<DiscordEmbed> embeds;
 
-    private final boolean editMode;
-    private final String messageURL;
+    private boolean editMode;
+    private String messageURL;
 
     public DiscordWebhook(String webhookURL, String content, List<DiscordEmbed> embeds, boolean editMode, String editMessageURL) {
         this.url = webhookURL;
@@ -131,5 +131,45 @@ public class DiscordWebhook {
         String messageID = messageURL.substring(messageURL.lastIndexOf("/") + 1);
 
         Request.patchRequest(url + "/messages/" + messageID, body);
+    }
+
+    public List<DiscordEmbed> getEmbeds() {
+        return embeds;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getMessageURL() {
+        return messageURL;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
+
+    public void setEmbeds(List<DiscordEmbed> embeds) {
+        this.embeds = embeds;
+    }
+
+    public void setMessageURL(String messageURL) {
+        this.messageURL = messageURL;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

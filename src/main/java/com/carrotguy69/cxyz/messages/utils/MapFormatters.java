@@ -107,7 +107,7 @@ public class MapFormatters {
             int size = entries.size();
 
             if (size == 0) {
-                throw new IllegalStateException("size must be above 0");
+                return "";
             }
 
 //            Logger.log("size: " + size);
@@ -213,6 +213,10 @@ public class MapFormatters {
 
             int size = entries.size();
 
+            if (size == 0) {
+                return "";
+            }
+
             int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
             int endIndex = Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);
 
@@ -228,6 +232,10 @@ public class MapFormatters {
         }
 
         int size = players.size();
+
+        if (size == 0) {
+            return new ListFormatter(new ArrayList<>(), delimiter, new HashMap<>(), maxEntriesPerPage, pageNumber);
+        }
 
         int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
         int endIndex = Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);
@@ -264,6 +272,10 @@ public class MapFormatters {
 
         int size = ranks.size();
 
+        if (size == 0) {
+            return new ListFormatter(new ArrayList<>(), delimiter, new HashMap<>(), maxEntriesPerPage, pageNumber);
+        }
+
         int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
         int endIndex = Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);
 
@@ -299,6 +311,10 @@ public class MapFormatters {
 
         int size = punishments.size();
 
+        if (size == 0) {
+            return new ListFormatter(new ArrayList<>(), delimiter, new HashMap<>(), maxEntriesPerPage, pageNumber);
+        }
+
         int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
         int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);
 
@@ -331,6 +347,10 @@ public class MapFormatters {
         }
 
         int size = channels.size();
+
+        if (size == 0) {
+            return new ListFormatter(new ArrayList<>(), delimiter, new HashMap<>(), maxEntriesPerPage, pageNumber);
+        }
 
         int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
         int endIndex = Math.max(Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1), 0);
@@ -378,6 +398,10 @@ public class MapFormatters {
         }
 
         int size = cosmetics.size();
+
+        if (size == 0) {
+            return new ListFormatter(new ArrayList<>(), delimiter, new HashMap<>(), maxEntriesPerPage, pageNumber);
+        }
 
         int startIndex = Math.max((pageNumber - 1) * maxEntriesPerPage, 0);
         int endIndex = Math.min((pageNumber * maxEntriesPerPage) - 1, size - 1);

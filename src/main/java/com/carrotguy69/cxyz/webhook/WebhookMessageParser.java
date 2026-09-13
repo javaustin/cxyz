@@ -1,6 +1,7 @@
 package com.carrotguy69.cxyz.webhook;
 
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -10,17 +11,21 @@ import java.util.Map;
 
 public class WebhookMessageParser {
 
-    public static DiscordWebhook createWebhook(ConfigurationSection section, String webhookURL, Map<String, Object> placeholderValues) {
+    public static DiscordWebhook createWebhook(ConfigurationSection section, String fallbackWebhookURL, Map<String, Object> placeholderValues) {
         if (section == null) {
             return null;
         }
 
-        if (section.getString("webhook-url") != null) {
-            webhookURL = section.getString("webhook-url");
-        }
+        String webhookURL = section.getString("webhook-url");
 
-        if (webhookURL == null || webhookURL.isBlank())
-            return null;
+        if (webhookURL == null) {
+            if (fallbackWebhookURL == null || fallbackWebhookURL.isBlank()) {
+                return null;
+            }
+
+            else
+                webhookURL = fallbackWebhookURL;
+        }
 
         String editMessageURL = section.getString("message-url");
         boolean editMode = ObjectUtils.parseCasualBoolean(section.getString("edit-mode"), false) && editMessageURL != null;
@@ -33,12 +38,14 @@ public class WebhookMessageParser {
         List<DiscordEmbed> embeds = new ArrayList<>();
 
         for (Map<?, ?> entry : embedMapList) {
+
             String title = entry.get("title") != null ? (String) entry.get("title") : null;
             String desc = entry.get("description") != null ? (String) entry.get("description") : null;
             int color = entry.get("color") != null || !(entry.get("color") instanceof Integer) ? (int) entry.get("color") : 0;
 
-            if (title != null)
-                title = MessageUtils.formatPlaceholders(content, placeholderValues);
+            if (title != null) {
+                title = MessageUtils.formatPlaceholders(title, placeholderValues);
+            }
 
             if (desc != null)
                 desc = MessageUtils.formatPlaceholders(desc, placeholderValues);
@@ -72,7 +79,11 @@ public class WebhookMessageParser {
             String thumbnailURL = entry.get("thumbnail-url") != null ? (String) entry.get("thumbnail-url") : null;
             String imageURL = entry.get("image-url") != null ? (String) entry.get("image-url") : null;
 
-            String timestamp = entry.get("timestamp") != null && entry.get("timestamp") instanceof String ? (String) entry.get("timestamp") : entry.get("timestamp") instanceof Long ? String.valueOf((long) entry.get("timestamp")) : "";
+            String timestamp = entry.get("timestamp") != null && entry.get("timestamp") instanceof String ? (String) entry.get("timestamp") : entry.get("timestamp") instanceof Long ? String.valueOf((long) entry.get("timestamp")) : null;
+
+            if (timestamp == null || timestamp.isBlank()) {
+                timestamp = null;
+            }
 
             String authorName = null;
             String authorURL = null;
