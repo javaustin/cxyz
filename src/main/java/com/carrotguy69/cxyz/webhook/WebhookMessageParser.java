@@ -83,9 +83,6 @@ public class WebhookMessageParser {
 
             String timestamp = timestampObj instanceof String ? (String) timestampObj : (timestampObj instanceof Long ? String.valueOf(timestampObj) : null);
 
-            Logger.log("timestampObj: " + timestampObj);
-            Logger.log("timestamp: " + timestamp);
-
             String authorName = null;
             String authorURL = null;
             String authorIconURL = null;
