@@ -102,8 +102,12 @@ public class DiscordWebhook {
                 embedEntry.put("footer", footerObject);
             }
 
-            embedEntry.put("timestamp", TimeUtils.unixTimeToTimestamp(embed.getTimestamp()));
-
+            if (embed.getTimestamp() == 0) {
+                embedEntry.put("timestamp", TimeUtils.unixTimeToTimestamp(TimeUtils.unixTimeNow()));
+            }
+            else if (embed.getTimestamp() > 0) {
+                embedEntry.put("timestamp", TimeUtils.unixTimeToTimestamp(embed.getTimestamp()));
+            }
 
             if (embed.getImageURL() != null) {
                 embedEntry.put("image", Map.of("url", embed.getImageURL()));

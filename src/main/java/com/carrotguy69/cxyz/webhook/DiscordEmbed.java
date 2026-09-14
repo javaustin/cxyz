@@ -16,7 +16,7 @@ public class DiscordEmbed {
     private String thumbnailURL = null;
     private String imageURL = null;
 
-    private long timestamp;
+    private long timestamp = -1;
 
     private DiscordEmbed.Footer footer = null;
     private DiscordEmbed.Author author;
@@ -145,12 +145,6 @@ public class DiscordEmbed {
         return author;
     }
 
-    private DiscordEmbed setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-
-        return this;
-    }
-
     public DiscordEmbed setFooter(DiscordEmbed.Footer footer) {
         this.footer = footer;
 
@@ -189,21 +183,23 @@ public class DiscordEmbed {
 
     public DiscordEmbed setTimestamp(String timestamp) {
 
-        long unix = 0;
-
-        if (timestamp.equalsIgnoreCase("now")) {
-            unix = TimeUtils.unixTimeNow();
+        if (timestamp == null || timestamp.isBlank()) {
+            this.timestamp = -1; // timestamp < 0: do not show, timestamp == 0: show current time, timestamp > 0: show as normal
+            return this;
         }
 
-        else {
-            try {
-                unix = Long.parseLong(timestamp);
-            }
-            catch (NumberFormatException ignore) {
-            }
-        }
+        try {
+            long unix = Long.parseLong(timestamp);
 
-        this.timestamp = unix;
+            if (unix == -1) {
+                return this;
+            }
+
+            this.timestamp = unix;
+
+        }
+        catch (NumberFormatException ignore) {
+        }
 
         return this;
     }

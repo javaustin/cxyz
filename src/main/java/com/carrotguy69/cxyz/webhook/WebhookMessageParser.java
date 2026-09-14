@@ -79,11 +79,12 @@ public class WebhookMessageParser {
             String thumbnailURL = entry.get("thumbnail-url") != null ? (String) entry.get("thumbnail-url") : null;
             String imageURL = entry.get("image-url") != null ? (String) entry.get("image-url") : null;
 
-            String timestamp = entry.get("timestamp") != null && entry.get("timestamp") instanceof String ? (String) entry.get("timestamp") : entry.get("timestamp") instanceof Long ? String.valueOf((long) entry.get("timestamp")) : null;
+            Object timestampObj = entry.get("timestamp");
 
-            if (timestamp == null || timestamp.isBlank()) {
-                timestamp = null;
-            }
+            String timestamp = timestampObj instanceof String ? (String) timestampObj : (timestampObj instanceof Long ? String.valueOf(timestampObj) : null);
+
+            Logger.log("timestampObj: " + timestampObj);
+            Logger.log("timestamp: " + timestamp);
 
             String authorName = null;
             String authorURL = null;
