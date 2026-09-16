@@ -42,6 +42,7 @@ public class Show implements TabCompleter {
         if (args.length == 1) {
             List<String> results = new ArrayList<>();
             visibleUsernames.add("~");
+            visibleUsernames.add("@console");
 
             for (String username : visibleUsernames) {
                 if (username.toLowerCase().startsWith(args[0].toLowerCase())) {

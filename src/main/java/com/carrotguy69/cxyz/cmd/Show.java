@@ -38,15 +38,15 @@ public class Show implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 0) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player"));
-            return true;
-        }
-
         boolean isActionBar = List.of(args).contains("-actionBar");
 
         if (isActionBar) {
             args = ObjectUtils.removeItem(args, "-actionBar");
+        }
+
+        if (args.length == 0) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player"));
+            return true;
         }
 
         if (args.length == 1) {
@@ -70,7 +70,7 @@ public class Show implements CommandExecutor {
                     return true;
                 }
 
-                MessageUtils.sendActionBar(p, MessageUtils.formatPlaceholders(String.join(" ", args), commonMap));
+                MessageUtils.sendActionBar(p, MessageUtils.formatPlaceholders(content, commonMap));
                 return true;
             }
 
@@ -78,7 +78,7 @@ public class Show implements CommandExecutor {
             return true;
         }
 
-        else if (args[0].equalsIgnoreCase("console")) {
+        else if (args[0].equalsIgnoreCase("@console")) {
             MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), content, Map.of());
             return true;
         }
@@ -90,21 +90,18 @@ public class Show implements CommandExecutor {
             return true;
         }
 
-        if (!np.isOnline() || !np.isVisibleTo(sender)) {
+        if (!np.isOnline() || !np.isVisibleTo(sender) || np.getPlayer() == null) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(np));
             return true;
         }
 
         if (isActionBar) {
-            if (!(sender instanceof Player p)) {
-                return true;
-            }
 
-            MessageUtils.sendActionBar(p, MessageUtils.formatPlaceholders(String.join(" ", args), MapFormatters.playerFormatter(np)));
+            MessageUtils.sendActionBar(np.getPlayer(), MessageUtils.formatPlaceholders(content, MapFormatters.playerFormatter(np)));
             return true;
         }
 
-        MessageUtils.sendParsedMessage(sender, String.join(" ", content), MapFormatters.playerFormatter(np));
+        MessageUtils.sendParsedMessage(np.getPlayer(), content, MapFormatters.playerFormatter(np));
 
         return true;
     }
