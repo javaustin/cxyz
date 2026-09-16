@@ -174,6 +174,8 @@ commands:
         separator: "\n"
         max-entries-per-page: 8
 
+  craft: "&aOpened crafting menu for {player}."
+
   data:
     # formatter: {attribute}, {value}, networkPlayerFormatter
     networkplayer:
@@ -198,6 +200,8 @@ commands:
 
   enchant: "&aAdded {enchant} to {item} for {player-display-name}."
   enchant-clear: "&aReset all enchants for {item} for {player-display-name}."
+
+  enchant-table: "&aOpened enchant table GUI for {player-display-name}."
 
   fullbright:
     toggle-on: "&aFakeFullbright enabled"

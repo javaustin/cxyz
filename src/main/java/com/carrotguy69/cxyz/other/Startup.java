@@ -2,9 +2,11 @@ package com.carrotguy69.cxyz.other;
 
 import com.carrotguy69.cxyz.cmd.Broadcast;
 import com.carrotguy69.cxyz.cmd.ChatColor;
+import com.carrotguy69.cxyz.cmd.Craft;
 import com.carrotguy69.cxyz.cmd.Debug;
 import com.carrotguy69.cxyz.cmd.Dispose;
 import com.carrotguy69.cxyz.cmd.Enchant;
+import com.carrotguy69.cxyz.cmd.EnchantTable;
 import com.carrotguy69.cxyz.cmd.Enderchest;
 import com.carrotguy69.cxyz.cmd.Fly;
 import com.carrotguy69.cxyz.cmd.Fullbright;
@@ -221,8 +223,15 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("dispose")).setExecutor(new Dispose());
             Objects.requireNonNull(plugin.getCommand("dispose")).setTabCompleter(new LocalOnlinePlayer());
 
+            Objects.requireNonNull(plugin.getCommand("craft")).setExecutor(new Craft());
+            Objects.requireNonNull(plugin.getCommand("craft")).setTabCompleter(new LocalOnlinePlayer());
+
             Objects.requireNonNull(plugin.getCommand("enchant")).setExecutor(new Enchant());
             Objects.requireNonNull(plugin.getCommand("enchant")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Enchant());
+
+            Objects.requireNonNull(plugin.getCommand("enchanttable")).setExecutor(new EnchantTable());
+            Objects.requireNonNull(plugin.getCommand("enchanttable")).setTabCompleter(new LocalOnlinePlayer());
+
 
             Objects.requireNonNull(plugin.getCommand("powertool")).setExecutor(new PowerTool());
             Objects.requireNonNull(plugin.getCommand("powertool")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.PowerTool());

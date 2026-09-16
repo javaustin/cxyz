@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz;
 
+import com.carrotguy69.cxyz.events.bukkit.CloseInventoryEvent;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
@@ -30,8 +31,12 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -55,7 +60,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.carrotguy69.cxyz.events.bukkit.ChatEvent.handleChat;
-import static com.carrotguy69.cxyz.events.bukkit.ClickEvent.onClick;
+import static com.carrotguy69.cxyz.events.bukkit.ClickInventoryEvent.onClick;
+import static com.carrotguy69.cxyz.events.bukkit.CloseInventoryEvent.onClose;
+import static com.carrotguy69.cxyz.events.bukkit.DragInventoryEvent.onDrag;
 import static com.carrotguy69.cxyz.events.bukkit.DropEvent.onDrop;
 import static com.carrotguy69.cxyz.events.bukkit.FishEvent.onFish;
 import static com.carrotguy69.cxyz.events.bukkit.InteractEvent.onInteract;
@@ -389,6 +396,16 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     @org.bukkit.event.EventHandler
     public void onProjectileThrow(ProjectileLaunchEvent event) {
         onProjectile(event);
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onInventoryClose(InventoryDragEvent event) {
+        onDrag(event);
+    }
+
+    @EventHandler
+    public void onClose(InventoryCloseEvent event) {
+        CloseInventoryEvent.onClose(event);
     }
 
 }

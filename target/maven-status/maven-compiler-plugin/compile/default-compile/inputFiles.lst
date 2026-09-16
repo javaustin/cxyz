@@ -47,6 +47,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabComple
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Info.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\messages\MessageParser.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\db\FriendRequest.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\Craft.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\level\_LevelExecutor.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\Info.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\coins\CoinsView.java
@@ -66,6 +67,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\Test.
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\cosmetics\CosmeticListener.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\xp\XPAdd.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\ChatChannel.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\events\bukkit\DragInventoryEvent.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\db\Punishment.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\Debug.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\Unmute.java
@@ -104,6 +106,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punis
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Rank.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Blank.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\shorthand\Shorthand.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\EnchantTable.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\message\MessageReply.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\messages\utils\MessageGrabber.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\friend\FriendAdd.java
@@ -139,7 +142,7 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabComple
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\Fly.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\data\networkplayer\NetworkPlayerSetAsync.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\data\_DataExecutor.java
-C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\events\bukkit\ClickEvent.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\events\bukkit\CloseInventoryEvent.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentClear.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\Enderchest.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\events\custom\localHandlers\ChatFallbackHandler.java
@@ -225,5 +228,6 @@ C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\punis
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\models\config\channel\coreChannels\PartyChannel.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\tabCompleters\Party.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\level\LevelAdd.java
+C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\events\bukkit\ClickInventoryEvent.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\SQL.java
 C:\Users\ayoung9\Documents\dev\cxyz\src\main\java\com\carrotguy69\cxyz\cmd\xp\_XPExecutor.java

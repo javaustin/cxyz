@@ -175,6 +175,12 @@ commands:
 #    permission: "cxyz.data"
 #    aliases: [coredata]
 
+  craft:
+    description: Open the crafting table GUI for a player
+    usage: /craft [player]
+    permission: "cxyz.craft"
+    aliases: []
+
   debug:
     description: Enable or disable any plugin debugger
     usage: /debug <debugger>
@@ -198,6 +204,12 @@ commands:
     usage: /enchant <enchantment> [level] [player]
     permission: "cxyz.enchant"
     aliases: []
+
+  enchanttable:
+    description: Open the enchantment GUI
+    usage: /enchanttable [player]
+    permission: "cxyz.enchanttable"
+    aliases: [etable, etb]
 
   fly:
     description: Toggle flight mode for a player
@@ -392,6 +404,13 @@ permissions:
   cxyz.enchant.others:
     default: op
 
+  cxyz.enchanttable:
+    default: op
+  cxyz.enchanttable.others:
+    default: op
+  cxyz.enchanttable.with-lapis:
+    default: op
+
   cxyz.friend:
     default: true
   cxyz.friend.accept:
@@ -535,6 +554,9 @@ permissions:
 
   cxyz.chatcolor:
     default: true
+
+  cxyz.craft:
+    default: op
 
   cxyz.debug:
     default: op

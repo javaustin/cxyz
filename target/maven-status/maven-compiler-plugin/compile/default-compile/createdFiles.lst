@@ -76,6 +76,7 @@ com\carrotguy69\cxyz\models\config\shorthand\ShorthandBukkitCommand.class
 com\carrotguy69\cxyz\cmd\Mend.class
 com\carrotguy69\cxyz\cmd\Enderchest.class
 com\carrotguy69\cxyz\models\config\channel\registry\ChannelFunction.class
+com\carrotguy69\cxyz\cmd\EnchantTable.class
 com\carrotguy69\cxyz\cmd\friend\FriendAccept.class
 com\carrotguy69\cxyz\events\custom\JoinEvent.class
 com\carrotguy69\cxyz\cmd\UUID.class
@@ -144,8 +145,8 @@ com\carrotguy69\cxyz\cmd\rank\RankRemove.class
 com\carrotguy69\cxyz\tabCompleters\Location.class
 com\carrotguy69\cxyz\events\custom\localHandlers\LevelUpHandler.class
 com\carrotguy69\cxyz\exceptions\InvalidConfigException.class
+com\carrotguy69\cxyz\cmd\Craft.class
 com\carrotguy69\cxyz\cmd\Print.class
-com\carrotguy69\cxyz\events\bukkit\ClickEvent.class
 com\carrotguy69\cxyz\cmd\punishment\Unban.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader$2.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer$PartyInvitePrivacy.class
@@ -185,6 +186,7 @@ com\carrotguy69\cxyz\models\config\cosmetics\Cosmetic.class
 com\carrotguy69\cxyz\cmd\party\_PartyExecutor.class
 com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentEdit.class
 com\carrotguy69\cxyz\tabCompleters\Rank.class
+com\carrotguy69\cxyz\events\bukkit\CloseInventoryEvent.class
 com\carrotguy69\cxyz\models\config\cosmetics\Cosmetic$CosmeticType.class
 com\carrotguy69\cxyz\models\config\cosmetics\CosmeticListener.class
 com\carrotguy69\cxyz\models\config\Announcement.class
@@ -242,6 +244,7 @@ com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentInfo.class
 com\carrotguy69\cxyz\http\Listener$2.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer$MessagePrivacy.class
 com\carrotguy69\cxyz\tabCompleters\Show.class
+com\carrotguy69\cxyz\events\bukkit\DragInventoryEvent.class
 com\carrotguy69\cxyz\models\config\channel\channelTypes\BaseChannel.class
 com\carrotguy69\cxyz\cmd\PowerTool.class
 com\carrotguy69\cxyz\utils\CommandRestrictor$CommandRestriction.class
@@ -275,6 +278,7 @@ com\carrotguy69\cxyz\cmd\coins\CoinsAdd.class
 com\carrotguy69\cxyz\cmd\party\PartyPrivate.class
 com\carrotguy69\cxyz\cmd\data\networkplayer\NetworkPlayerSetAsync.class
 com\carrotguy69\cxyz\tabCompleters\Toggle.class
+com\carrotguy69\cxyz\events\bukkit\ClickInventoryEvent.class
 com\carrotguy69\cxyz\cmd\channel\ChannelUnlock.class
 com\carrotguy69\cxyz\cmd\message\MessageSend.class
 com\carrotguy69\cxyz\cmd\party\PartyChat.class

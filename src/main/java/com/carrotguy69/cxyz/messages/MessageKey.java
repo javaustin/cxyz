@@ -126,6 +126,7 @@ public enum MessageKey {
     COSMETIC_UNEQUIP_ERROR_NOT_OWNED("commands.cosmetic.unequip.error.not-owned"),
     COSMETIC_UNEQUIP_SUCCESS("commands.cosmetic.unequip.success"),
 
+    CRAFT("commands.craft"),
 
     DATA_NETWORKPLAYER_GET("commands.data.networkplayer.get"),
     DATA_NETWORKPLAYER_GET_ASYNC("commands.data.networkplayer.get-async"),
@@ -145,6 +146,8 @@ public enum MessageKey {
 
     ENCHANT("commands.enchant"),
     ENCHANT_CLEAR("commands.enchant-clear"),
+
+    ENCHANT_TABLE("commands.enchant-table"),
 
     ITEM("commands.item"),
 

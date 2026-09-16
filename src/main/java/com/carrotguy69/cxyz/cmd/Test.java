@@ -2,11 +2,15 @@ package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
 import java.util.Map;
 
 public class Test implements CommandExecutor {
@@ -24,22 +28,19 @@ public class Test implements CommandExecutor {
             /test ...
             /test whatever
         */
-//
-//        ConfigurationSection section = CXYZ.configYaml.getConfigurationSection("a-webhook");
-//
-//        if (section == null) {
-//            Logger.warning("Section not found!");
-//            return true;
-//        }
-//
-//        DiscordWebhook webhook = WebhookMessageParser.createWebhook(section);
-//
-//        if (webhook == null) {
-//            Logger.warning("Embed failed!");
-//            return true;
-//        }
-//
-//        webhook.send();
+
+        if (!(sender instanceof Player p)) {
+            return true;
+        }
+
+        if (args.length == 0) {
+            args = new String[1];
+            args[0] = "CRAFTING";
+        }
+
+        p.openInventory(Bukkit.createInventory(p, InventoryType.valueOf(args[0].toUpperCase())));
+
+
 
         return true;
     }
