@@ -156,13 +156,36 @@ public class MessageUtils {
 
         return output.toString();
     }
-
+    
 
     public static String formatPlaceholders(String text, Map<String, Object> placeholders) {
         for (Map.Entry<String, Object> entry : placeholders.entrySet()) {
+            String key = entry.getKey();
             String value = entry.getValue() != null ? String.valueOf(entry.getValue()) : "";
 
-            text = text.replace("{" + entry.getKey() + "}", value);
+            Pattern lengthPattern = Pattern.compile(
+                    "\\{" +
+                            Pattern.quote(key) +
+                            "-length(?:-([^}]))?}"
+            );
+
+            Matcher matcher = lengthPattern.matcher(text);
+            StringBuilder result = new StringBuilder();
+
+            while (matcher.find()) {
+                String character = matcher.group(1) != null
+                        ? matcher.group(1)
+                        : "-";
+
+                String repeated = character.repeat(value.length());
+
+                matcher.appendReplacement(result, Matcher.quoteReplacement(repeated));
+            }
+
+            matcher.appendTail(result);
+            text = result.toString();
+
+            text = text.replace("{" + key + "}", value);
         }
 
         return text;
