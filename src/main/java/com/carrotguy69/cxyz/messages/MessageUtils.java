@@ -11,6 +11,9 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import java.util.List;
 import java.util.Map;
 
@@ -156,7 +159,7 @@ public class MessageUtils {
 
         return output.toString();
     }
-    
+
 
     public static String formatPlaceholders(String text, Map<String, Object> placeholders) {
         for (Map.Entry<String, Object> entry : placeholders.entrySet()) {
