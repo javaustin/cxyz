@@ -1,14 +1,14 @@
 package com.carrotguy69.cxyz.cmd.punishment;
 
 import com.carrotguy69.cxyz.cmd.Broadcast;
-import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.models.db.Punishment;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
-import com.carrotguy69.cxyz.messages.utils.MapFormatters;
-import com.carrotguy69.cxyz.other.*;
-import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
+import com.carrotguy69.cxyz.models.db.NetworkPlayer;
+import com.carrotguy69.cxyz.models.db.Punishment;
+import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.command.Command;
@@ -20,7 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.CXYZ.configYaml;
+import static com.carrotguy69.cxyz.CXYZ.punishmentIDMap;
 import static com.carrotguy69.cxyz.utils.TimeUtils.validTimeString;
 
 public class Mute implements CommandExecutor {

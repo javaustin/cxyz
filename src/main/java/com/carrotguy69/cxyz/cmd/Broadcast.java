@@ -42,7 +42,7 @@ public class Broadcast implements CommandExecutor {
 
         if (content.contains(" -r")) {
             raw = true;
-            content = content.replace(" -r", "");
+            content = content.replaceFirst(" -r", "");
 
             content = f(content);
         }

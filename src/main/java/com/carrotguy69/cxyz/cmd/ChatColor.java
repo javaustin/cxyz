@@ -7,6 +7,7 @@ import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,6 +36,8 @@ public class ChatColor implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        args = CommandUtils.handleSilent(args);
+
         /*
         SYNTAX:
             /chatcolor <color>

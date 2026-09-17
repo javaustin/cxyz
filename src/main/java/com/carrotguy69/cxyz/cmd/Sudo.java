@@ -6,6 +6,7 @@ import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class Sudo implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        args = CommandUtils.handleSilent(args);
         if (CommandRestrictor.handleRestricted(command, sender)) {
             return true;
         }

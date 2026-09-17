@@ -8,6 +8,7 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -22,6 +23,7 @@ public class Vanish implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        args = CommandUtils.handleSilent(args);
 
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;

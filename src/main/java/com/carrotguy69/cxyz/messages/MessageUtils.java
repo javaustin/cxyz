@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.carrotguy69.cxyz.CXYZ.f;
+import static com.carrotguy69.cxyz.utils.CommandUtils.isSilent;
 
 public class MessageUtils {
 
@@ -222,21 +223,36 @@ public class MessageUtils {
     }
 
     public static void sendParsedMessage(CommandSender sender, String unparsedContent, Map<String, Object> map) {
+        if (isSilent()) {
+            return;
+        }
         sendParsedMessageMain(sender, unparsedContent, map);
     }
 
     public static void sendParsedMessage(Player p, MessageKey key, Map<String, Object> map) {
+        if (isSilent()) {
+            return;
+        }
         sendParsedMessageMain(p, MessageGrabber.grab(key), map);
     }
 
     public static void sendParsedMessage(Player p, String unparsedContent, Map<String, Object> map) {
+        if (isSilent()) {
+            return;
+        }
         sendParsedMessageMain(p, unparsedContent, map);
     }
 
     public static void sendParsedMessage(CommandSender sender, MessageKey key, Map<String, Object> map) {
+        if (isSilent()) {
+            return;
+        }
         sendParsedMessageMain(sender, MessageGrabber.grab(key), map);
     }
     public static void sendPublicMessage(String content, boolean parsed, Map<String, Object> formatMap) {
+        if (isSilent()) {
+            return;
+        }
         // Similar to Bukkit.broadcastMessage(...), but accounts for those who mute the public channel. (EDIT: removed muted channel check, most of our stuff is important enough i reckon)
         // This should be used for mutable announcements, but not for critical game info.
 

@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.cmd;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class Fullbright implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        args = CommandUtils.handleSilent(args);
 
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;

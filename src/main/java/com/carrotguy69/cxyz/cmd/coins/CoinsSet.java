@@ -5,6 +5,7 @@ import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.utils.CommandUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,6 +19,7 @@ import static com.carrotguy69.cxyz.messages.MessageKey.PLAYER_NOT_FOUND;
 public class CoinsSet implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        args = CommandUtils.handleSilent(args);
 
         /*
         SYNTAX:

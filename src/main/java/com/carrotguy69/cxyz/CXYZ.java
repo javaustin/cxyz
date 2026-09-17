@@ -36,7 +36,6 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -61,7 +60,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.carrotguy69.cxyz.events.bukkit.ChatEvent.handleChat;
 import static com.carrotguy69.cxyz.events.bukkit.ClickInventoryEvent.onClick;
-import static com.carrotguy69.cxyz.events.bukkit.CloseInventoryEvent.onClose;
 import static com.carrotguy69.cxyz.events.bukkit.DragInventoryEvent.onDrag;
 import static com.carrotguy69.cxyz.events.bukkit.DropEvent.onDrop;
 import static com.carrotguy69.cxyz.events.bukkit.FishEvent.onFish;

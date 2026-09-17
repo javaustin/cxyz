@@ -72,6 +72,7 @@ import com.carrotguy69.cxyz.tabCompleters.Party;
 import com.carrotguy69.cxyz.tabCompleters.Privacy;
 import com.carrotguy69.cxyz.tabCompleters.Rank;
 import com.carrotguy69.cxyz.tabCompleters.LocalOnlinePlayerAndToggle;
+import com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter;
 import com.carrotguy69.cxyz.tabCompleters.Toggle;
 import org.bukkit.Bukkit;
 
@@ -108,11 +109,11 @@ public class Startup {
     }
 
     public static void registerCommands() {
-            Objects.requireNonNull(plugin.getCommand("coins")).setExecutor(new _CoinsExecutor());
-            Objects.requireNonNull(plugin.getCommand("coins")).setTabCompleter(new CoinsXPLevel());
+            Objects.requireNonNull(plugin.getCommand("coins")).setExecutor(new SilentCommandExecutor(new _CoinsExecutor()));
+            Objects.requireNonNull(plugin.getCommand("coins")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new CoinsXPLevel()));
 
-            Objects.requireNonNull(plugin.getCommand("rank")).setExecutor(new _RankExecutor());
-            Objects.requireNonNull(plugin.getCommand("rank")).setTabCompleter(new Rank());
+            Objects.requireNonNull(plugin.getCommand("rank")).setExecutor(new SilentCommandExecutor(new _RankExecutor()));
+            Objects.requireNonNull(plugin.getCommand("rank")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new Rank()));
 
             Objects.requireNonNull(plugin.getCommand("broadcast")).setExecutor(new Broadcast());
             Objects.requireNonNull(plugin.getCommand("broadcast")).setTabCompleter(new Blank());
@@ -132,8 +133,8 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("test")).setExecutor(new Test());
             Objects.requireNonNull(plugin.getCommand("test")).setTabCompleter(new Blank());
 
-            Objects.requireNonNull(plugin.getCommand("level")).setExecutor(new _LevelExecutor());
-            Objects.requireNonNull(plugin.getCommand("level")).setTabCompleter(new CoinsXPLevel());
+            Objects.requireNonNull(plugin.getCommand("level")).setExecutor(new SilentCommandExecutor(new _LevelExecutor()));
+            Objects.requireNonNull(plugin.getCommand("level")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new CoinsXPLevel()));
 
             Objects.requireNonNull(plugin.getCommand("parse")).setExecutor(new Parse());
             Objects.requireNonNull(plugin.getCommand("parse")).setTabCompleter(new Blank());
@@ -141,11 +142,11 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("print")).setExecutor(new Print());
             Objects.requireNonNull(plugin.getCommand("print")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Print());
 
-            Objects.requireNonNull(plugin.getCommand("sudo")).setExecutor(new Sudo());
-            Objects.requireNonNull(plugin.getCommand("sudo")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Sudo());
+            Objects.requireNonNull(plugin.getCommand("sudo")).setExecutor(new SilentCommandExecutor(new Sudo()));
+            Objects.requireNonNull(plugin.getCommand("sudo")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Sudo()));
 
-            Objects.requireNonNull(plugin.getCommand("xp")).setExecutor(new _XPExecutor());
-            Objects.requireNonNull(plugin.getCommand("xp")).setTabCompleter(new CoinsXPLevel());
+            Objects.requireNonNull(plugin.getCommand("xp")).setExecutor(new SilentCommandExecutor(new _XPExecutor()));
+            Objects.requireNonNull(plugin.getCommand("xp")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new CoinsXPLevel()));
 
             Objects.requireNonNull(plugin.getCommand("location")).setExecutor(new Location());
             Objects.requireNonNull(plugin.getCommand("location")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Location());
@@ -153,32 +154,32 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("cosmetic")).setExecutor(new _CosmeticExecutor());
             Objects.requireNonNull(plugin.getCommand("cosmetic")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Cosmetic());
 
-            Objects.requireNonNull(plugin.getCommand("channel")).setExecutor(new _ChannelExecutor());
-            Objects.requireNonNull(plugin.getCommand("channel")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatChannel());
+            Objects.requireNonNull(plugin.getCommand("channel")).setExecutor(new SilentCommandExecutor(new _ChannelExecutor()));
+            Objects.requireNonNull(plugin.getCommand("channel")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatChannel()));
 
-            Objects.requireNonNull(plugin.getCommand("chatcolor")).setExecutor(new ChatColor());
-            Objects.requireNonNull(plugin.getCommand("chatcolor")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatColor());
+            Objects.requireNonNull(plugin.getCommand("chatcolor")).setExecutor(new SilentCommandExecutor(new ChatColor()));
+            Objects.requireNonNull(plugin.getCommand("chatcolor")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new com.carrotguy69.cxyz.tabCompleters.ChatColor()));
 
             Objects.requireNonNull(plugin.getCommand("info")).setExecutor(new Info());
             Objects.requireNonNull(plugin.getCommand("info")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Info());
 
-            Objects.requireNonNull(plugin.getCommand("item")).setExecutor(new Item());
-            Objects.requireNonNull(plugin.getCommand("item")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Item());
+            Objects.requireNonNull(plugin.getCommand("item")).setExecutor(new SilentCommandExecutor(new Item()));
+            Objects.requireNonNull(plugin.getCommand("item")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Item()));
 
-            Objects.requireNonNull(plugin.getCommand("invsee")).setExecutor(new InventorySee());
-            Objects.requireNonNull(plugin.getCommand("invsee")).setTabCompleter(new LocalOnlinePlayer());
+            Objects.requireNonNull(plugin.getCommand("invsee")).setExecutor(new SilentCommandExecutor(new InventorySee()));
+            Objects.requireNonNull(plugin.getCommand("invsee")).setTabCompleter(new SilentTabCompleter(new LocalOnlinePlayer()));
 
-            Objects.requireNonNull(plugin.getCommand("heal")).setExecutor(new Heal());
-            Objects.requireNonNull(plugin.getCommand("heal")).setTabCompleter(new LocalOnlineAllPlayer());
+            Objects.requireNonNull(plugin.getCommand("heal")).setExecutor(new SilentCommandExecutor(new Heal()));
+            Objects.requireNonNull(plugin.getCommand("heal")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new LocalOnlineAllPlayer()));
 
             Objects.requireNonNull(plugin.getCommand("enderchest")).setExecutor(new Enderchest());
             Objects.requireNonNull(plugin.getCommand("enderchest")).setTabCompleter(new LocalOnlinePlayer());
 
-            Objects.requireNonNull(plugin.getCommand("fly")).setExecutor(new Fly());
-            Objects.requireNonNull(plugin.getCommand("fly")).setTabCompleter(new LocalOnlinePlayerAndToggle());
+            Objects.requireNonNull(plugin.getCommand("fly")).setExecutor(new SilentCommandExecutor(new Fly()));
+            Objects.requireNonNull(plugin.getCommand("fly")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new LocalOnlinePlayerAndToggle()));
 
-            Objects.requireNonNull(plugin.getCommand("fullbright")).setExecutor(new Fullbright());
-            Objects.requireNonNull(plugin.getCommand("fullbright")).setTabCompleter(new Toggle());
+            Objects.requireNonNull(plugin.getCommand("fullbright")).setExecutor(new SilentCommandExecutor(new Fullbright()));
+            Objects.requireNonNull(plugin.getCommand("fullbright")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new Toggle()));
 
             Objects.requireNonNull(plugin.getCommand("friend")).setExecutor(new _FriendExecutor());
             Objects.requireNonNull(plugin.getCommand("friend")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Friend());
@@ -186,8 +187,8 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("message")).setExecutor(new MessageSend());
             Objects.requireNonNull(plugin.getCommand("message")).setTabCompleter(new OnlinePlayer());
 
-            Objects.requireNonNull(plugin.getCommand("nickname")).setExecutor(new Nickname());
-            Objects.requireNonNull(plugin.getCommand("nickname")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Nickname());
+            Objects.requireNonNull(plugin.getCommand("nickname")).setExecutor(new SilentCommandExecutor(new Nickname()));
+            Objects.requireNonNull(plugin.getCommand("nickname")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Nickname()));
 
             Objects.requireNonNull(plugin.getCommand("party")).setExecutor(new _PartyExecutor());
             Objects.requireNonNull(plugin.getCommand("party")).setTabCompleter(new Party());
@@ -204,37 +205,37 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("unignore")).setExecutor(new Unignore());
             Objects.requireNonNull(plugin.getCommand("unignore")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Unignore());
 
-            Objects.requireNonNull(plugin.getCommand("smite")).setExecutor(new Smite());
-            Objects.requireNonNull(plugin.getCommand("smite")).setTabCompleter(new LocalOnlineAllPlayer());
+            Objects.requireNonNull(plugin.getCommand("smite")).setExecutor(new SilentCommandExecutor(new Smite()));
+            Objects.requireNonNull(plugin.getCommand("smite")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new LocalOnlineAllPlayer()));
 
             Objects.requireNonNull(plugin.getCommand("reply")).setExecutor(new MessageReply());
             Objects.requireNonNull(plugin.getCommand("reply")).setTabCompleter(new Blank()); // blank tab completer, to stop Bukkit from automatically filling arguments
 
-            Objects.requireNonNull(plugin.getCommand("timezone")).setExecutor(new Timezone());
-            Objects.requireNonNull(plugin.getCommand("timezone")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Timezone());
+            Objects.requireNonNull(plugin.getCommand("timezone")).setExecutor(new SilentCommandExecutor(new Timezone()));
+            Objects.requireNonNull(plugin.getCommand("timezone")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Timezone()));
 
             Objects.requireNonNull(plugin.getCommand("uuid")).setExecutor(new UUID());
             Objects.requireNonNull(plugin.getCommand("uuid")).setTabCompleter(new AnyPlayer());
 
 
-            Objects.requireNonNull(plugin.getCommand("mend")).setExecutor(new Mend());
-            Objects.requireNonNull(plugin.getCommand("mend")).setTabCompleter(new LocalOnlinePlayer());
+            Objects.requireNonNull(plugin.getCommand("mend")).setExecutor(new SilentCommandExecutor(new Mend()));
+            Objects.requireNonNull(plugin.getCommand("mend")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new LocalOnlinePlayer()));
 
-            Objects.requireNonNull(plugin.getCommand("dispose")).setExecutor(new Dispose());
-            Objects.requireNonNull(plugin.getCommand("dispose")).setTabCompleter(new LocalOnlinePlayer());
+            Objects.requireNonNull(plugin.getCommand("dispose")).setExecutor(new SilentCommandExecutor(new Dispose()));
+            Objects.requireNonNull(plugin.getCommand("dispose")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new LocalOnlinePlayer()));
 
-            Objects.requireNonNull(plugin.getCommand("craft")).setExecutor(new Craft());
-            Objects.requireNonNull(plugin.getCommand("craft")).setTabCompleter(new LocalOnlinePlayer());
+            Objects.requireNonNull(plugin.getCommand("craft")).setExecutor(new SilentCommandExecutor(new Craft()));
+            Objects.requireNonNull(plugin.getCommand("craft")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new LocalOnlinePlayer()));
 
-            Objects.requireNonNull(plugin.getCommand("enchant")).setExecutor(new Enchant());
-            Objects.requireNonNull(plugin.getCommand("enchant")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Enchant());
+            Objects.requireNonNull(plugin.getCommand("enchant")).setExecutor(new SilentCommandExecutor(new Enchant()));
+            Objects.requireNonNull(plugin.getCommand("enchant")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Enchant()));
 
-            Objects.requireNonNull(plugin.getCommand("enchanttable")).setExecutor(new EnchantTable());
-            Objects.requireNonNull(plugin.getCommand("enchanttable")).setTabCompleter(new LocalOnlinePlayer());
+            Objects.requireNonNull(plugin.getCommand("enchanttable")).setExecutor(new SilentCommandExecutor(new EnchantTable()));
+            Objects.requireNonNull(plugin.getCommand("enchanttable")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new LocalOnlinePlayer()));
 
 
-            Objects.requireNonNull(plugin.getCommand("powertool")).setExecutor(new PowerTool());
-            Objects.requireNonNull(plugin.getCommand("powertool")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.PowerTool());
+            Objects.requireNonNull(plugin.getCommand("powertool")).setExecutor(new SilentCommandExecutor(new PowerTool()));
+            Objects.requireNonNull(plugin.getCommand("powertool")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new com.carrotguy69.cxyz.tabCompleters.PowerTool()));
 
             // MOD //
             Objects.requireNonNull(plugin.getCommand("ban")).setExecutor(new Ban());
@@ -255,14 +256,14 @@ public class Startup {
             Objects.requireNonNull(plugin.getCommand("warn")).setExecutor(new Warn());
             Objects.requireNonNull(plugin.getCommand("warn")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.OnlinePlayer());
 
-            Objects.requireNonNull(plugin.getCommand("punishment")).setExecutor(new _PunishmentExecutor());
-            Objects.requireNonNull(plugin.getCommand("punishment")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Punishment());
+            Objects.requireNonNull(plugin.getCommand("punishment")).setExecutor(new SilentCommandExecutor(new _PunishmentExecutor()));
+            Objects.requireNonNull(plugin.getCommand("punishment")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Punishment()));
 
-            Objects.requireNonNull(plugin.getCommand("vanish")).setExecutor(new Vanish());
-            Objects.requireNonNull(plugin.getCommand("vanish")).setTabCompleter(new LocalOnlinePlayerAndToggle());
+            Objects.requireNonNull(plugin.getCommand("vanish")).setExecutor(new SilentCommandExecutor(new Vanish()));
+            Objects.requireNonNull(plugin.getCommand("vanish")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new LocalOnlinePlayerAndToggle()));
 
-            Objects.requireNonNull(plugin.getCommand("sql")).setExecutor(new SQL());
-            Objects.requireNonNull(plugin.getCommand("sql")).setTabCompleter(new Blank()); // for security purposes we cannot give any tab completions
+            Objects.requireNonNull(plugin.getCommand("sql")).setExecutor(new SilentCommandExecutor(new SQL()));
+            Objects.requireNonNull(plugin.getCommand("sql")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new Blank())); // for security purposes we cannot give any tab completions
 
     }
 

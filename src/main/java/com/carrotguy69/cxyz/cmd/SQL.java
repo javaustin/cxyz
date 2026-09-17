@@ -7,6 +7,7 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.JsonConverters;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -23,6 +24,7 @@ import static com.carrotguy69.cxyz.CXYZ.gson;
 public class SQL implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        args = CommandUtils.handleSilent(args);
 
         String node = "cxyz.sql";
 
@@ -52,7 +54,10 @@ public class SQL implements CommandExecutor {
 
         query = query.replace("-confirm", "").strip();
 
-        MessageUtils.sendParsedMessage(sender, MessageKey.SQL_SENDING, Map.of());
+        boolean silent = CommandUtils.isSilent();
+
+        if (!silent)
+            MessageUtils.sendParsedMessage(sender, MessageKey.SQL_SENDING, Map.of());
 
         CompletableFuture<RequestResult> req = Request.postRequest(apiEndpoint + "/sql", gson.toJson(Map.of("query", query)));
 
@@ -75,16 +80,19 @@ public class SQL implements CommandExecutor {
                 }
 
                 Object errorMessage = error;
-                Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.SQL_ERROR, Map.of("error", errorMessage)));
+                if (!silent)
+                    Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.SQL_ERROR, Map.of("error", errorMessage)));
                 return;
             }
 
             String body = result.responseBody == null ? "" : result.responseBody;
-            Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.SQL_SUCCESS, Map.of("body", body)));
+            if (!silent)
+                Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.SQL_SUCCESS, Map.of("body", body)));
 
         }).exceptionally(ex -> {
             Logger.logStackTrace((Exception) ex);
-            Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.API_ERROR, Map.of()));
+            if (!silent)
+                Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.API_ERROR, Map.of()));
             return null;
         });
 

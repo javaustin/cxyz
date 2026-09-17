@@ -10,6 +10,7 @@ import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -28,6 +29,8 @@ public class NetworkPlayerSetAsync implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        args = CommandUtils.handleSilent(args);
+        boolean silent = CommandUtils.isSilent();
 
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
@@ -80,17 +83,20 @@ public class NetworkPlayerSetAsync implements CommandExecutor {
         NetworkPlayer finalNp = np;
         req.send().thenAccept(res -> {
             if (res.statusCode == 404) { // User not found
-                Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND_UUID, Map.of("uuid", finalNp.getUUID().toString())));
+                if (!silent)
+                    Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND_UUID, Map.of("uuid", finalNp.getUUID().toString())));
                 return;
             }
 
             if (res.statusCode == 400) { // Attribute does not exist or (unlikely) uuid not provided
-                Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_ATTRIBUTE, Map.of("attribute", args[1])));
+                if (!silent)
+                    Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_ATTRIBUTE, Map.of("attribute", fieldName)));
                 return;
             }
 
             if (res.statusCode != 200) { // Represents 500 internal server error
-                Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.API_ERROR, Map.of()));
+                if (!silent)
+                    Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.API_ERROR, Map.of()));
                 return;
             }
 
@@ -102,15 +108,17 @@ public class NetworkPlayerSetAsync implements CommandExecutor {
                     )
             );
 
-            Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(
-                    sender,
-                    MessageGrabber.grab(MessageKey.DATA_NETWORKPLAYER_SET_ASYNC),
-                    commonMap
-            ));
+            if (!silent)
+                Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(
+                        sender,
+                        MessageGrabber.grab(MessageKey.DATA_NETWORKPLAYER_SET_ASYNC),
+                        commonMap
+                ));
 
         }).exceptionally(ex -> {
             Logger.logStackTrace((Exception) ex);
-            Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.API_ERROR, Map.of()));
+            if (!silent)
+                Bukkit.getScheduler().runTask(CXYZ.plugin, () -> MessageUtils.sendParsedMessage(sender, MessageKey.API_ERROR, Map.of()));
             return null;
         });
 
