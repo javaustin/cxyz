@@ -9,12 +9,14 @@ import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.JsonConverters;
+import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -44,15 +46,14 @@ public class SQL implements CommandExecutor {
 
         String query = String.join(" ", args);
 
-        boolean confirmFlag = query.contains("-confirm");
-
+        boolean confirmFlag = List.of(args).contains("-confirm");
 
         if (!confirmFlag) {
             MessageUtils.sendParsedMessage(sender, MessageKey.SQL_CONFIRM_PROMPT, Map.of("query", query));
             return true;
         }
 
-        query = query.replace("-confirm", "").strip();
+        query = String.join(" ", ObjectUtils.removeItem(args, "-confirm"));
 
         boolean silent = CommandUtils.isSilent();
 

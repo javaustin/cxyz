@@ -6,11 +6,13 @@ import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -40,9 +42,10 @@ public class Broadcast implements CommandExecutor {
         String content = String.join(" ", args);
         boolean raw = false;
 
-        if (content.contains(" -r")) {
+        if (List.of(args).contains("-r")) {
             raw = true;
-            content = content.replaceFirst(" -r", "");
+
+            ObjectUtils.removeItem(args, "-r");
 
             content = f(content);
         }

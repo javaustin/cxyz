@@ -139,12 +139,12 @@ public class PowerTool implements CommandExecutor {
 
         PowerToolEntry.Type activationType = PowerToolEntry.Type.ANY_CLICK;
 
-        if (String.join(" ", args).contains("-l")) {
+        if (List.of(args).contains("-l")) {
             args = ObjectUtils.removeItem(args, "-l");
             activationType = PowerToolEntry.Type.LEFT_CLICK;
         }
 
-        else if (String.join(" ", args).contains("-r")) {
+        else if (List.of(args).contains("-r")) {
             args = ObjectUtils.removeItem(args, "-r");
             activationType = PowerToolEntry.Type.RIGHT_CLICK;
         }
