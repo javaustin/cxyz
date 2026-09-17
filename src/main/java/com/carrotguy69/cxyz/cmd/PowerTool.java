@@ -61,14 +61,7 @@ public class PowerTool implements CommandExecutor {
         }
 
         public static void removeAll(UUID playerUUID) {
-            List<PowerToolEntry> toRemove = new ArrayList<>();
-
-
-            for (PowerToolEntry entry : powertools) {
-                if (entry.playerUUID == playerUUID) {
-                    toRemove.add(entry);
-                }
-            }
+            List<PowerToolEntry> toRemove = getPlayerPowerTools(playerUUID);
 
             for (PowerToolEntry entry : toRemove) {
                 powertools.remove(entry);
