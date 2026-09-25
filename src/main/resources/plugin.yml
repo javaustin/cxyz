@@ -1,7 +1,7 @@
 name: cxyz
 version: '0.0'
 main: com.carrotguy69.cxyz.CXYZ
-api-version: '1.21'
+api-version: '26.3'
 
 soft-depend: ["PlaceholderAPI"]
 

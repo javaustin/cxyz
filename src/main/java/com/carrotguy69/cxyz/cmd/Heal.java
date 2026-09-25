@@ -78,7 +78,7 @@ public class Heal implements CommandExecutor {
 
         assert target.getPlayer().isOnline();
 
-        AttributeInstance attr = target.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        AttributeInstance attr = target.getPlayer().getAttribute(Attribute.MAX_HEALTH);
 
         double max = attr != null ? attr.getValue() : 20.0;
 
@@ -98,7 +98,7 @@ public class Heal implements CommandExecutor {
         int amount = 0;
         for (Player p : Bukkit.getOnlinePlayers()) {
             amount++;
-            AttributeInstance attr = p.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+            AttributeInstance attr = p.getAttribute(Attribute.MAX_HEALTH);
 
             double max = attr != null ? attr.getValue() : 20.0;
 
