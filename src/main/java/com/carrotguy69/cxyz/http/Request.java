@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
@@ -71,6 +72,7 @@ public class Request {
                     .header("Content-Type", "application/json")
                     .header("X-Identifier", thisServer.getIdentifier())
                     .header("X-Timestamp", String.valueOf(timestamp))
+                    .header("X-Request-ID", UUID.randomUUID().toString())
                     .timeout(Duration.ofMillis(timeout));
 
             if (type == RequestType.POST || type == RequestType.PATCH) {
@@ -78,7 +80,7 @@ public class Request {
                 Map<String, Object> bodyMap = JsonConverters.toMap(requestBody);
                 String bodyGSON = gson.toJson(bodyMap);
 
-                builder.header("X-Signature", generateSignature((Service) thisServer, timestamp, "POST", URI.create(url).getPath(), bodyGSON));
+                builder.header("X-Signature", generateSignature((Service) thisServer, timestamp, type.name(), URI.create(url).getPath(), bodyGSON));
 
                 builder.method(type.name(), HttpRequest.BodyPublishers.ofString(bodyGSON));
             }
