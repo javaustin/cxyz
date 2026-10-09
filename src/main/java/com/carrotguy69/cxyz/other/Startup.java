@@ -22,7 +22,6 @@ import com.carrotguy69.cxyz.cmd.Ping;
 import com.carrotguy69.cxyz.cmd.Port;
 import com.carrotguy69.cxyz.cmd.PowerTool;
 import com.carrotguy69.cxyz.cmd.Print;
-import com.carrotguy69.cxyz.cmd.SQL;
 import com.carrotguy69.cxyz.cmd.Smite;
 import com.carrotguy69.cxyz.cmd.Sudo;
 import com.carrotguy69.cxyz.cmd.Test;
@@ -261,10 +260,6 @@ public class Startup {
 
             Objects.requireNonNull(plugin.getCommand("vanish")).setExecutor(new SilentCommandExecutor(new Vanish()));
             Objects.requireNonNull(plugin.getCommand("vanish")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new LocalOnlinePlayerAndToggle()));
-
-            Objects.requireNonNull(plugin.getCommand("sql")).setExecutor(new SilentCommandExecutor(new SQL()));
-            Objects.requireNonNull(plugin.getCommand("sql")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new Blank())); // for security purposes we cannot give any tab completions
-
     }
 
     public static void registerEvents() {

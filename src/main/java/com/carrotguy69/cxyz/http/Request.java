@@ -30,12 +30,14 @@ public class Request {
 
     public static HttpClient client = HttpClient.newHttpClient();
     private static final int maxAttempts = 3;
+    private final String requestID;
 
 
     public Request(RequestType type, String url, String requestBody) {
         this.type = type;
         this.url = url;
         this.requestBody = requestBody;
+        this.requestID = UUID.randomUUID().toString();
     }
 
     public CompletableFuture<RequestResult> send() {
@@ -72,7 +74,7 @@ public class Request {
                     .header("Content-Type", "application/json")
                     .header("X-Identifier", thisServer.getIdentifier())
                     .header("X-Timestamp", String.valueOf(timestamp))
-                    .header("X-Request-ID", UUID.randomUUID().toString())
+                    .header("X-Request-ID", requestID)
                     .timeout(Duration.ofMillis(timeout));
 
             if (type == RequestType.POST || type == RequestType.PATCH) {
@@ -104,7 +106,7 @@ public class Request {
 
                     String method = request.method();
 
-                    // hard timeout or network failure
+                    // In case of hard timeout or network failure (no response from API) -> retry the request.
                     if (throwable != null) {
                         Logger.log(throwable.getMessage());
                         Logger.log(String.format("[❌] %s FAILED (%d/%d): %s", method.toUpperCase(), attempt, maxAttempts, url));

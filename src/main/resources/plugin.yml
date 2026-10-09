@@ -294,12 +294,6 @@ commands:
     permission: "cxyz.sudo"
     aliases: []
 
-  sql:
-    description: Execute an SQL query on the backend server
-    usage: /sql <query> [-confirm]
-    permission: "cxyz.sql"
-    aliases: []
-
   test:
     description: Test command
     usage: /test <args*>
@@ -595,10 +589,6 @@ permissions:
 
   cxyz.sudo:
     default: op
-
-  # Warning! This could be a very dangerous permission to grant, even to admins.
-  cxyz.sql:
-    default: false
 
   cxyz.mend:
     default: op
