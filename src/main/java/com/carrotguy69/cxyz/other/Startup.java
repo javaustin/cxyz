@@ -289,8 +289,7 @@ public class Startup {
             }
         }
 
-        Request.postRequest(apiEndpoint + "/cache", gson.toJson(Map.of("tables", gson.toJson(list))));
-
+        Request.postRequest(apiEndpoint + "/cache", gson.toJson(Map.of("tables", list)));
     }
 
     public static void registerPlaceholders() {
