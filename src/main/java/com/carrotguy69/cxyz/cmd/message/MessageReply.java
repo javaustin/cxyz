@@ -35,12 +35,10 @@ public class MessageReply implements CommandExecutor {
             return true;
         }
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player p)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
             return true;
         }
-
-        Player p = (Player) sender;
 
         String content = String.join(" ", args);
 

@@ -5,14 +5,19 @@ import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Map;
 
-import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.CXYZ.configYaml;
+import static com.carrotguy69.cxyz.CXYZ.enabledDebugs;
+import static com.carrotguy69.cxyz.CXYZ.plugin;
 
 public class Logger {
     public enum DefaultChannelType { // default types
@@ -68,11 +73,10 @@ public class Logger {
         }
 
         if (channel == null) { // The config provided a non-existent channel
-            Logger.warning(String.format("Attempted to log %s, but there was no channel defined for it in config.yml (chat.defaults.)! Ignoring...", type.name()));
             return;
         }
 
-        channel.sendChannelMessage(content, map);
+        channel.sendChannelMessage(content, map, false);
     }
 
     public static void punishment(String content, Map<String, Object> map) {

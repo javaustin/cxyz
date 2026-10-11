@@ -92,7 +92,7 @@ public class Warn implements CommandExecutor {
             return;
         }
 
-        if (!player.isOnline() || !player.getPlayer().isOnline()) {
+        if (!player.isOnline() || player.getPlayer() == null) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(player));
             return;
         }
@@ -140,7 +140,7 @@ public class Warn implements CommandExecutor {
         punishment.setID(Punishment.generateID());
 
         punishment.setUUID(player.getUUID().toString());
-        punishment.setUsername(player.getUsername());
+        punishment.setTargetUsername(player.getUsername());
         punishment.setModUUID(modUUID);
         punishment.setModUsername(modUsername);
         punishment.setType(String.valueOf(Punishment.PunishmentType.WARN));
@@ -175,7 +175,7 @@ public class Warn implements CommandExecutor {
         }
 
         if (!silent && !announcement.isEmpty())
-            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_WARN_ANNOUNCEMENT), true, commonMap);
+            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_WARN_ANNOUNCEMENT), commonMap, true);
     }
 
 

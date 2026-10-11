@@ -71,7 +71,7 @@ public class Smite implements CommandExecutor {
     }
 
     private static void smiteOne(CommandSender sender, NetworkPlayer target) {
-        assert target.getPlayer().isOnline();
+        assert target.getPlayer() != null;
 
         target.getPlayer().getWorld().strikeLightning(target.getPlayer().getLocation());
 

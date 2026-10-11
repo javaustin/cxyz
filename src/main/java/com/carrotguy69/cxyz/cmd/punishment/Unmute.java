@@ -112,7 +112,7 @@ public class Unmute implements CommandExecutor {
                 }
 
                 if (!silent && !announcement.isEmpty())
-                    Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_UNMUTE_ANNOUNCEMENT), true, commonMap);
+                    Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_UNMUTE_ANNOUNCEMENT), commonMap, true);
 
                 messageSent = true;
             }

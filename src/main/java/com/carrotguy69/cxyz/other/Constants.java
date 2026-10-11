@@ -2,7 +2,6 @@ package com.carrotguy69.cxyz.other;
 
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
-import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
@@ -22,11 +21,6 @@ import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class Constants {
 
-    public static String getGameServerIP(GameServer gs) {
-        FileConfiguration fc = plugin.getConfig();
-
-        return (String) fc.get("servers." + gs.getIdentifier());
-    }
 
     public static void loadConfigYMLs() {
 
@@ -61,24 +55,20 @@ public class Constants {
 
         configYaml = yaml;
 
+        thisServer = yaml.getString("this-server.identifier");
+        thisPort = yaml.getInt("this-server.port");
+        thisSecret = yaml.getString("this-server.secret");
+
         apiIdentifier = (String) yaml.get("api.identifier");
         apiEndpoint = (String) yaml.get("api.endpoint");
         apiSecret = (String) yaml.get("api.secret");
-        apiTimeoutMillis = yaml.getInt("api.timeout-millis", 5000);
 
-        servers = GameServer.loadServers();
+        requestTimeoutMillis = yaml.getInt("api.timeout-millis", 5000);
 
         for (String s : yaml.getStringList("debugger.enabled-values")) {
             enabledDebugs.add(s.toUpperCase());
         }
 
-        thisServer = GameServer.getServerFromName((String) yaml.get("this-server"));
-
-        if (thisServer == null) {
-            throw new InvalidConfigException("config.yml", "this-server", "Value `this-server` must be listed as a server under `servers`.");
-        }
-
-        thisPort = yaml.getInt("this-port");
         timezone = yaml.getString("timezone");
         partyInvitesExpireAfter = yaml.getInt("parties.invites-expire-after", 60);
         partyMaxSize = Math.max(yaml.getInt("parties.max-players", 9999), 1);

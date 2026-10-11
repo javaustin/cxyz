@@ -3,7 +3,6 @@ package com.carrotguy69.cxyz.models.db;
 import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.cmd.level._LevelExecutor;
 import com.carrotguy69.cxyz.events.custom.LevelUpEvent;
-import com.carrotguy69.cxyz.events.custom.base.Event;
 import com.carrotguy69.cxyz.events.custom.service.EventService;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -15,8 +14,6 @@ import com.carrotguy69.cxyz.models.config.channel.registry.ChannelFunction;
 import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
-import com.carrotguy69.cxyz.models.config.services.GameServer;
-import com.carrotguy69.cxyz.other.Constants;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.carrotguy69.cxyz.utils.TimeUtils;
@@ -115,7 +112,7 @@ public class NetworkPlayer {
         this.username = p.getName();
         this.nickname = "";
         this.ranks = "[\"" + defaultRank.getName() + "\"]";
-        this.server = thisServer.getIdentifier();
+        this.server = thisServer;
         this.online = p.isOnline() ? 1 : 0;
         this.first_join = TimeUtils.unixTimeNow();
         this.last_join = TimeUtils.unixTimeNow();
@@ -209,7 +206,7 @@ public class NetworkPlayer {
                 "uuid=" + getUUID() +
                 ", username='" + getUsername() + '\'' +
                 ", nickname='" + getNickname() + '\'' +
-                ", server=" + getServer().getIdentifier() +
+                ", server=" + getServer() +
                 ", online=" + isOnline() +
                 ", firstJoin=" + getFirstJoin() +
                 ", lastJoin=" + getLastJoin() +
@@ -389,12 +386,12 @@ public class NetworkPlayer {
         ranks = gson.toJson(rankList);
     }
 
-    public GameServer getServer() {
-        return GameServer.getServerFromName(server);
+    public String getServer() {
+        return server;
     }
 
-    public void setServer(GameServer gameServer) {
-        this.server = gameServer.getIdentifier();
+    public void setServer(String serverID) {
+        this.server = serverID;
     }
 
     public boolean isOnline() {
@@ -925,11 +922,7 @@ public class NetworkPlayer {
     }
 
     public boolean sendMessage(String content, Map<String, Object> formatMap) {
-        if (!this.isOnline()) {
-            return false;
-        }
-
-        if (Objects.equals(this.getServer().getIdentifier(), thisServer.getIdentifier())) {
+        if (Objects.equals(this.getServer(), thisServer)) {
             // If the player is on our current server, we can just send them a message through Bukkit
             Player p = Bukkit.getPlayer(UUID.fromString(uuid));
 
@@ -941,48 +934,21 @@ public class NetworkPlayer {
         }
 
         else {
-            // If the player is NOT on our current server, we are going to send a request to the other server they ARE on with a message.
-            Request.postRequest(Constants.getGameServerIP(this.getServer()) + "/sendMessage", gson.toJson(
+            // If the player is NOT on our current server, we are going to send a request to the API. The API then sends requests to game servers
+            Request.postRequest(apiEndpoint + "/send_message", gson.toJson(
                     Map.of(
-                            "recipientUUID", uuid,
                             "content", String.join("\n", content),
-                            "parsed", true,
-                            "formatMap", formatMap
+                            "format_map", formatMap,
+                            "to_players", List.of(this.getUUID().toString())
                     )
             ));
-
-            
         }
 
         return true;
     }
 
-    public void warp(GameServer destination) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format("/send %s %s", this.getUsername(), destination.getIdentifier()));
-    }
-
-    public void kick(String reason) {
-        // [!] There can be no cases where the players server mismatches the database value.
-
-//        if (!this.isOnline()) {
-//            return;
-//        }
-
-        if (Objects.equals(this.getServer().getIdentifier(), CXYZ.thisServer.getIdentifier())) {
-            // If the player is on our current server, we can bypass the just kick them through Bukkit.
-            Player p = Bukkit.getPlayer(UUID.fromString(uuid));
-
-            kickPlayer(p, reason);
-        }
-
-        else {
-            Request.postRequest(Constants.getGameServerIP(this.getServer()) + "/kickPlayer", gson.toJson(
-                    Map.of(
-                            "recipientUUID", this.getUUID().toString(),
-                            "reason", reason
-                    )
-            ));
-        }
+    public void warp(String destination) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format("/send %s %s", this.getUsername(), destination));
     }
 
     public void updateDisplayNames() {
@@ -993,18 +959,6 @@ public class NetworkPlayer {
             this.getPlayer().setDisplayName(f(formatPlaceholders(CXYZ.playerDefaultDisplayName, MapFormatters.playerFormatter(this))));
         if (playerDefaultListName != null && !playerDefaultListName.isBlank())
             this.getPlayer().setPlayerListName(f(formatPlaceholders(CXYZ.playerDefaultListName, MapFormatters.playerFormatter(this))));
-    }
-
-
-    // Static methods
-
-
-    public static void kickPlayer(Player p, String reason) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-
-        p.kickPlayer(f(reason));
     }
 
 

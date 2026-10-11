@@ -26,7 +26,7 @@ public class XPAdd implements CommandExecutor {
             /xp add 50 Steve
         */
 
-        // Surprisingly, this whole thing is a little tricky for a simple command.
+        
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
 
@@ -84,7 +84,7 @@ public class XPAdd implements CommandExecutor {
             }
 
 
-            // Find player (possibly offline - need database)
+
             String possibleUsername = args[1];
 
             NetworkPlayer np = NetworkPlayer.getPlayerByUsername(possibleUsername);

@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.http;
 
-import com.carrotguy69.cxyz.models.config.services.Service;
 import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.TimeUtils;
@@ -63,7 +62,7 @@ public class Request {
 
         attempt++;
 
-        long timeout = apiTimeoutMillis * (long) Math.max(1, attempt); // Increases timeout time for failed attempts
+        long timeout = requestTimeoutMillis * (long) Math.max(1, attempt); // Increases timeout time for failed attempts
 
         HttpRequest request;
         try {
@@ -72,7 +71,7 @@ public class Request {
             HttpRequest.Builder builder = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("Content-Type", "application/json")
-                    .header("X-Identifier", thisServer.getIdentifier())
+                    .header("X-Identifier", thisServer)
                     .header("X-Timestamp", String.valueOf(timestamp))
                     .header("X-Request-ID", requestID)
                     .timeout(Duration.ofMillis(timeout));
@@ -82,12 +81,12 @@ public class Request {
                 Map<String, Object> bodyMap = JsonConverters.toMap(requestBody);
                 String bodyGSON = gson.toJson(bodyMap);
 
-                builder.header("X-Signature", generateSignature((Service) thisServer, timestamp, type.name(), URI.create(url).getPath(), bodyGSON));
+                builder.header("X-Signature", generateSignature(thisServer, thisSecret, timestamp, type.name(), URI.create(url).getPath(), bodyGSON));
 
                 builder.method(type.name(), HttpRequest.BodyPublishers.ofString(bodyGSON));
             }
             else {
-                builder.header("X-Signature", generateSignature((Service) thisServer, timestamp, "GET", URI.create(url).getPath(), ""));
+                builder.header("X-Signature", generateSignature(thisServer, thisSecret, timestamp, "GET", URI.create(url).getPath(), ""));
                 builder.GET();
             }
 
@@ -146,6 +145,8 @@ public class Request {
     public static String generateSignature(String identifier, String secret, long timestamp, String method, String path, String payloadJSON) throws Exception {
         String message = identifier + " | " + timestamp + " | " + method + " | " + path + " | " + payloadJSON;
 
+        Logger.debugRequest(message);
+
         Mac mac = Mac.getInstance("HmacSHA256");
 
         SecretKeySpec key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
@@ -155,10 +156,6 @@ public class Request {
         byte[] raw = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
 
         return Base64.getEncoder().encodeToString(raw);
-    }
-
-    public static String generateSignature(Service service, long timestamp, String method, String path, String payloadJSON) throws Exception {
-        return generateSignature(service.getIdentifier(), service.getSecret(), timestamp, method, path, payloadJSON);
     }
 }
 

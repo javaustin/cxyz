@@ -205,7 +205,10 @@ public class MessageUtils {
 
 
     // This is the method all the others point to. It is suffixed "main" so the other methods don't accidentally call themselves.
-    private static void sendParsedMessageMain(CommandSender sender, String unparsedContent, Map<String, Object> map) {
+    private static void sendParsedMessageMain(CommandSender target, String unparsedContent, Map<String, Object> map) {
+        if (target == null)
+            return;
+
         if (unparsedContent.isEmpty()) {
             return;
         }
@@ -213,20 +216,19 @@ public class MessageUtils {
         try {
             MessageParser parser = new MessageParser(unparsedContent, map);
             List<SimpleTextComponent> components = parser.parse();
-
-            sender.spigot().sendMessage(parser.toTextComponent(components));
+            target.spigot().sendMessage(parser.toTextComponent(components));
         }
         catch (MessageParser.MessageParseException ex) {
             Logger.severe(String.format("Failed to parse text \"%s\" because of error %s.", ex.getOriginalText(), ex));
-            sender.sendMessage(unparsedContent);
+            target.sendMessage(unparsedContent);
         }
     }
 
-    public static void sendParsedMessage(CommandSender sender, String unparsedContent, Map<String, Object> map) {
+    public static void sendParsedMessage(CommandSender target, String unparsedContent, Map<String, Object> map) {
         if (isSilent()) {
             return;
         }
-        sendParsedMessageMain(sender, unparsedContent, map);
+        sendParsedMessageMain(target, unparsedContent, map);
     }
 
     public static void sendParsedMessage(Player p, MessageKey key, Map<String, Object> map) {
@@ -243,37 +245,11 @@ public class MessageUtils {
         sendParsedMessageMain(p, unparsedContent, map);
     }
 
-    public static void sendParsedMessage(CommandSender sender, MessageKey key, Map<String, Object> map) {
+    public static void sendParsedMessage(CommandSender target, MessageKey key, Map<String, Object> map) {
         if (isSilent()) {
             return;
         }
-        sendParsedMessageMain(sender, MessageGrabber.grab(key), map);
-    }
-    public static void sendPublicMessage(String content, boolean parsed, Map<String, Object> formatMap) {
-        if (isSilent()) {
-            return;
-        }
-        // Similar to Bukkit.broadcastMessage(...), but accounts for those who mute the public channel. (EDIT: removed muted channel check, most of our stuff is important enough i reckon)
-        // This should be used for mutable announcements, but not for critical game info.
-
-        for (Player p : Bukkit.getOnlinePlayers()) {
-
-
-            if (!parsed) {
-                p.sendMessage(content);
-            }
-
-            else {
-                MessageUtils.sendParsedMessage(p, content, formatMap);
-            }
-
-        }
-
-        if (!parsed)
-            Bukkit.getConsoleSender().sendMessage(content);
-
-        else
-            MessageUtils.sendParsedMessageMain(Bukkit.getConsoleSender(), content, formatMap);
+        sendParsedMessageMain(target, MessageGrabber.grab(key), map);
     }
 
     public static TextComponent createMessage(String unparsedContent, Map<String, Object> map) {

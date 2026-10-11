@@ -86,8 +86,7 @@ public class Unban implements CommandExecutor {
 
             punishment.setEnforced(false);
 
-            if (sender instanceof Player) {
-                Player editorModPlayer = (Player) sender;
+            if (sender instanceof Player editorModPlayer) {
                 NetworkPlayer editorMod = NetworkPlayer.resolvePlayer(editorModPlayer.getUniqueId());
                 punishment.setEditorMod(editorMod);
             }
@@ -117,7 +116,7 @@ public class Unban implements CommandExecutor {
                 }
 
                 if (!silent && !announcement.isEmpty())
-                    Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_UNBAN_ANNOUNCEMENT), true, commonMap);
+                    Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_UNBAN_ANNOUNCEMENT),  commonMap, true);
 
                 messageSent = true;
             }

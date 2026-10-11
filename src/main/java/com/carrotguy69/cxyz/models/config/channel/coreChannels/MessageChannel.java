@@ -95,7 +95,7 @@ public class MessageChannel extends CoreChannel {
         Message lastMessage = Message.getLastReplyableMessage(np.getUUID());
         // We first will try to get a message that was received by the player. If there are no messages that meet the criteria
 
-        if (lastMessage != null && lastMessage.getTimestamp() > TimeUtils.unixTimeNow() - 300 && !lastMessage.getContent().isBlank()) {
+        if (lastMessage != null && lastMessage.getTimestamp() > TimeUtils.unixTimeNow() - 300) {
             // We are stricter about which messages one can reply to. They must be sent within 5 minutes of the current time, and they must NOT be blank messages (openers).
             MessageReply.replyMessage(p, content);
             return;
@@ -109,7 +109,7 @@ public class MessageChannel extends CoreChannel {
 
         Message lastSent = Message.getLastSentMessage(np.getUUID()); // This is getting the last message the player sent.
 
-        if (lastSent != null && lastSent.getTimestamp() > TimeUtils.unixTimeNow() - 300 && lastSent.getContent().isBlank()) {
+        if (lastSent != null && lastSent.getTimestamp() > TimeUtils.unixTimeNow() - 300) {
             // We are also strict about which messages one can follow up with. The original messages have been sent within 5 minutes of the current time, and they MUST be blank messages (openers).
             // If the player sent a previous opener message to the player, this will follow it up, and send it as a non-reply message (as in the message itself is not a reply, it is in fact reply-able).
             MessageSend.sendMessage(np, lastSent.getRecipient().getDisplayName(), content, false);

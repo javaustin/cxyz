@@ -156,7 +156,7 @@ public class CustomChannel extends BaseChannel {
         }
 
 
-        this.sendChannelMessage(this.getChatFormat(), commonMap);
+        this.sendChannelMessage(this.getChatFormat(), commonMap, true);
     }
 
     @Override

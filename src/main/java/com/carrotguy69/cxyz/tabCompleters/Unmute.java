@@ -63,7 +63,7 @@ public class Unmute implements TabCompleter {
         for (Map.Entry<Long, Punishment> entry : map.entrySet()) {
             Punishment punishment = entry.getValue();
             if (punishment.isEnforced() && Objects.equals(punishment.getType(), Punishment.PunishmentType.MUTE)) {
-                bannedUsernames.add(punishment.getUsername());
+                bannedUsernames.add(punishment.getTargetUsername());
             }
         }
 

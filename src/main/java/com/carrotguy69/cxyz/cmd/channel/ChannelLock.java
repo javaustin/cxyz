@@ -78,7 +78,7 @@ public class ChannelLock implements CommandExecutor {
         commonMap = MapFormatters.channelFormatter(channel); // Because the object was updated, we use a new MapFormatter.
         commonMap.putAll(MapFormatters.senderFormatter(sender));
 
-        channel.sendChannelMessage(MessageGrabber.grab(MessageKey.CHAT_CHANNEL_LOCKED), commonMap);
+        channel.sendChannelMessage(MessageGrabber.grab(MessageKey.CHAT_CHANNEL_LOCKED), commonMap, false);
 
         return true;
     }

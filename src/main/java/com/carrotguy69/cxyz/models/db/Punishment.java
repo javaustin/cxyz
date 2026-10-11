@@ -14,7 +14,11 @@ import java.util.Objects;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-import static com.carrotguy69.cxyz.CXYZ.*;
+import static com.carrotguy69.cxyz.CXYZ.apiEndpoint;
+import static com.carrotguy69.cxyz.CXYZ.gson;
+import static com.carrotguy69.cxyz.CXYZ.punishmentIDMap;
+import static com.carrotguy69.cxyz.CXYZ.punishmentSeq;
+
 
 public class Punishment {
 
@@ -31,6 +35,7 @@ public class Punishment {
     private int enforced;
     private String editorModUUID;
     private String editorModUsername;
+    private int silent;
 
     public enum PunishmentType {
         WARN,
@@ -43,11 +48,11 @@ public class Punishment {
         return id;
     }
 
-    public String getUUID() {
+    public String getTargetUUID() {
         return uuid;
     }
 
-    public String getUsername() {
+    public String getTargetUsername() {
         return username;
     }
 
@@ -80,7 +85,7 @@ public class Punishment {
     }
 
     public boolean isEnforced() {
-        return enforced == 1;
+        return enforced != 0;
     }
 
     public String getEditorModUUID() {
@@ -91,12 +96,16 @@ public class Punishment {
         return editorModUsername;
     }
 
+    public boolean isSilent() {
+        return silent != 0;
+    }
+
     @Override
     public String toString() {
         return "Punishment{" +
                 "id=" + id +
-                ",uuid=" + uuid +
-                ",username=" + username +
+                ",targetUUID=" + uuid +
+                ",targetUsername=" + username +
                 ",modUUID=" + modUUID +
                 ",modUsername=" + modUsername +
                 ",type=" + type +
@@ -115,10 +124,8 @@ public class Punishment {
         if (this == o)
             return true;
 
-        if (!(o instanceof Punishment))
+        if (!(o instanceof Punishment pun))
             return false;
-
-        Punishment pun = (Punishment) o;
 
         return Objects.equals(id, pun.id)
                 && Objects.equals(uuid, pun.uuid)
@@ -143,7 +150,7 @@ public class Punishment {
         this.uuid = uuid;
     }
 
-    public void setUsername(String username) {
+    public void setTargetUsername(String username) {
         this.username = username;
     }
 
@@ -190,6 +197,10 @@ public class Punishment {
 
     public void setEditorModUsername(String username) {
         this.editorModUsername = username;
+    }
+
+    public void setSilent(boolean value) {
+        this.silent = value ? 1 : 0;
     }
 
     public void create() {
@@ -266,7 +277,7 @@ public class Punishment {
         List<Punishment> list = new ArrayList<>();
 
         for (Map.Entry<Long, Punishment> entry : punishmentIDMap.entrySet()) {
-            if (Objects.equals(entry.getValue().getUUID(), np.getUUID().toString())) {
+            if (Objects.equals(entry.getValue().getTargetUUID(), np.getUUID().toString())) {
                 list.add(entry.getValue());
             }
         }

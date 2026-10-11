@@ -138,11 +138,6 @@ public class Print implements CommandExecutor {
                     Logger.info(colorMap.toString());
                     return true;
 
-                case "gameservers":
-                case "servers":
-                    Logger.info(servers.toString());
-                    return true;
-
                 case "gamestats":
                 case "stats":
                     Logger.info(statUUIDMap.toString());

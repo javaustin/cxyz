@@ -93,7 +93,7 @@ public class Tasks {
                     public void run() {
 
                         for (NetworkPlayer np : users.values()) {
-                            if (annc.getServers().contains(np.getServer().getIdentifier().toUpperCase()) && np.isOnline() && !np.isMutingChannel("announcement")) {
+                            if (annc.getServers().contains(np.getServer()) && np.isOnline() && !np.isMutingChannel("announcement")) {
                                 np.sendMessage(annc.getContent(), MapFormatters.playerFormatter(np));
                             }
                         }
@@ -113,7 +113,7 @@ public class Tasks {
                     public void run() {
 
                         for (NetworkPlayer np : users.values()) {
-                            if (annc.getServers().contains(np.getServer().getIdentifier().toUpperCase()) && np.isOnline() && !np.isMutingChannel("announcement")) {
+                            if (annc.getServers().contains(np.getServer()) && np.isOnline() && !np.isMutingChannel("announcement")) {
                                 np.sendMessage(annc.getContent(), MapFormatters.playerFormatter(np));
                             }
                         }
@@ -139,7 +139,7 @@ public class Tasks {
             public void run() {
 
                 for (NetworkPlayer np : users.values()) {
-                    if (np.isOnline() && np.getPlayer() != null && np.getPlayer().isOnline()) {
+                    if (np.isOnline() && np.getPlayer() != null && np.getPlayer() != null) {
                         np.setLastOnline(TimeUtils.unixTimeNow());
                         np.sync();
                     }
@@ -198,5 +198,23 @@ public class Tasks {
         });
     }
 
+    public static void runServerListQuery() {
+        new BukkitRunnable() { public void run() {
+            serverListQuery();
+        }}.runTaskTimer(plugin, 600, 60 * 20L);
+    }
+
+    public static void serverListQuery() {
+        Request.getRequest(apiEndpoint + "/servers").thenAccept(result -> {
+            if (result.statusCode != 200)
+                return;
+
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                servers = (List<String>) JsonConverters.toMap(result.responseBody).get("servers");
+            });
+
+        });
+
+    }
 
 }

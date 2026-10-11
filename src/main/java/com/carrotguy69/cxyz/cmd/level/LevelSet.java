@@ -27,7 +27,7 @@ public class LevelSet implements CommandExecutor {
             /level set 50 Steve
         */
 
-        // Surprisingly, this whole thing is a little tricky for a simple command.
+        
 
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
@@ -86,7 +86,7 @@ public class LevelSet implements CommandExecutor {
             }
 
 
-            // Find player (possibly offline - need database)
+
             String possibleUsername = args[1];
 
 

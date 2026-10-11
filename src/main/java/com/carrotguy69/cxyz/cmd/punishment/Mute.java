@@ -183,7 +183,7 @@ public class Mute implements CommandExecutor {
         punishment.setID(Punishment.generateID());
 
         punishment.setUUID(player.getUUID().toString());
-        punishment.setUsername(player.getUsername());
+        punishment.setTargetUsername(player.getUsername());
         punishment.setModUUID(modUUID);
         punishment.setModUsername(modUsername);
         punishment.setType(String.valueOf(Punishment.PunishmentType.MUTE));
@@ -192,6 +192,7 @@ public class Mute implements CommandExecutor {
         punishment.setIssuedTimestamp(issuedTimestamp);
         punishment.setReason(reason);
         punishment.setEnforced(true);
+        punishment.setSilent(silent);
 
         punishment.create();
 
@@ -223,7 +224,7 @@ public class Mute implements CommandExecutor {
         }
 
         if (!silent && !announcement.isEmpty())
-            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_MUTE_ANNOUNCEMENT), true, commonMap);
+            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_MUTE_ANNOUNCEMENT), commonMap, true);
     }
 
 

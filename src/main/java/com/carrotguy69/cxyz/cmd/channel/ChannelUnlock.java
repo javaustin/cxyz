@@ -73,7 +73,7 @@ public class ChannelUnlock implements CommandExecutor {
         commonMap = MapFormatters.channelFormatter(channel); // Because the object was updated, we use a new MapFormatter.
         commonMap.putAll(MapFormatters.senderFormatter(sender));
 
-        channel.sendChannelMessage(MessageGrabber.grab(MessageKey.CHAT_CHANNEL_UNLOCKED), commonMap);
+        channel.sendChannelMessage(MessageGrabber.grab(MessageKey.CHAT_CHANNEL_UNLOCKED), commonMap, false);
 
         return true;
     }

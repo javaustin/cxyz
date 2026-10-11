@@ -33,9 +33,6 @@ public class Message {
         for (Message msg : messageMap.values()) { // Loops through all messages
 
             if (msg.getRecipientUUID().equals(recipientUUID)) { // Ignores if the message was not received by our given player.
-
-                // If we don't have a good message yet, we will set it to whatever we get here for point of reference.
-                // We will then check if our current message (in the loop), was sent more recently then the last, and use that.
                 if (lastMessage == null || msg.getTimestamp() > lastMessage.getTimestamp() && !msg.getContent().isEmpty()) {
                     lastMessage = msg;
                 }
@@ -52,8 +49,6 @@ public class Message {
         for (Message msg : messageMap.values()) { // Loops through all messages
 
             if (msg.getSenderUUID().equals(senderUUID)) { // Ignores if the message was not sent by our player.
-                // If we don't have a good message yet, we will set it to whatever we get here for point of reference.
-                // We will then check if our current message (in the loop), was sent more recently then the last, and use that.
                 if (lastMessage == null || msg.getTimestamp() > lastMessage.getTimestamp()) {
                     lastMessage = msg;
                 }

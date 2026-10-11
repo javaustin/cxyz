@@ -1,5 +1,6 @@
 package com.carrotguy69.cxyz.cmd.friend;
 
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.FriendRequest;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
@@ -95,7 +96,7 @@ public class FriendAccept implements CommandExecutor {
         }
 
         MessageUtils.sendParsedMessage(p, MessageKey.FRIEND_REQUEST_ACCEPTED, commonMap);
-        MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.FRIEND_REQUEST_ACCEPT_RECEIVED, commonMap);
+        sender.sendMessage(MessageGrabber.grab(MessageKey.FRIEND_REQUEST_ACCEPT_RECEIVED), commonMap);
 
         sender.addFriend(recipient);
         recipient.addFriend(sender);

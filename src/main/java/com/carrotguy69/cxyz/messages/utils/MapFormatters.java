@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.messages.utils;
 
-import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
@@ -462,7 +461,7 @@ public class MapFormatters {
         commonMap.put("player-chat-color", defaultRank.getColor());
         commonMap.put("player-chat-color-name", com.carrotguy69.cxyz.cmd.ChatColor.getColorNameByCode(defaultRank.getColor()));
 
-        commonMap.put("player-server", thisServer.getIdentifier());
+        commonMap.put("player-server", thisServer);
         commonMap.put("player-vanish-status", "&cUnvanished");
         commonMap.put("player-online-status", "&aOnline");
 
@@ -482,7 +481,7 @@ public class MapFormatters {
 
         commonMap.put("player-timezone", timezone);
         commonMap.put("player-playtime", TimeUtils.countdownShort(0));
-        commonMap.put("player-last-ip", thisServer.getIP());
+        commonMap.put("player-last-ip", "0.0.0.0");
 
         commonMap.put("player-coins", 0);
         commonMap.put("player-level", 0);
@@ -620,7 +619,7 @@ public class MapFormatters {
         commonMap.put("player-chat-channel-prefix", player.getChatChannel().getPrefix());
 
 
-        commonMap.put("player-server", player.getServer().getIdentifier());
+        commonMap.put("player-server", player.getServer());
         commonMap.put("player-vanish-status", player.isVanished() ? "&aVanished" : "&cUnvanished");
         commonMap.put("player-online-status", player.isOnline() && !player.isVanished() ? "&aOnline" : "&7Offline");
 
@@ -710,7 +709,7 @@ public class MapFormatters {
     public static Map<String, Object> punishmentFormatter(CommandSender sender, Punishment punishment) {
         // We added sender to allow timezones to be interpreted per user.
 
-        NetworkPlayer punishedPlayer = NetworkPlayer.resolvePlayer(UUID.fromString(punishment.getUUID()));
+        NetworkPlayer punishedPlayer = NetworkPlayer.resolvePlayer(UUID.fromString(punishment.getTargetUUID()));
 
         Map<String, Object> punishedPlayerMap = playerFormatter(punishedPlayer);
 

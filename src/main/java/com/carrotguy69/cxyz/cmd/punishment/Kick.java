@@ -11,6 +11,7 @@ import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import com.carrotguy69.cxyz.utils.TimeUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.configYaml;
 import static com.carrotguy69.cxyz.CXYZ.f;
@@ -88,9 +90,6 @@ public class Kick implements CommandExecutor {
     }
 
     private void kick(CommandSender sender, String targetPlayer, String reason, boolean silent, boolean force) {
-
-
-
         NetworkPlayer player = NetworkPlayer.getPlayerByUsername(targetPlayer);
 
         if (player == null) {
@@ -98,7 +97,7 @@ public class Kick implements CommandExecutor {
             return;
         }
 
-        if (!player.isOnline() || !player.getPlayer().isOnline()) {
+        if (!player.isOnline() || player.getPlayer() == null) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_IS_OFFLINE, MapFormatters.playerFormatter(player));
             return;
         }
@@ -144,7 +143,7 @@ public class Kick implements CommandExecutor {
         punishment.setID(Punishment.generateID());
 
         punishment.setUUID(player.getUUID().toString());
-        punishment.setUsername(player.getUsername());
+        punishment.setTargetUsername(player.getUsername());
         punishment.setModUUID(modUUID);
         punishment.setModUsername(modUsername);
         punishment.setType(String.valueOf(Punishment.PunishmentType.KICK));
@@ -153,10 +152,17 @@ public class Kick implements CommandExecutor {
         punishment.setIssuedTimestamp(issuedTimestamp);
         punishment.setReason(reason);
         punishment.setEnforced(true);
+        punishment.setSilent(silent);
 
         punishment.create();
 
         punishmentIDMap.put(punishment.getID(), punishment);
+
+        enforceKick(sender, punishment, true);
+    }
+
+    public static void enforceKick(CommandSender sender, Punishment punishment, boolean forwardToOtherServers) {
+        Player player = Bukkit.getPlayer(UUID.fromString(punishment.getTargetUUID()));
 
         Map<String, Object> commonMap = MapFormatters.punishmentFormatter(sender, punishment);
 
@@ -170,7 +176,9 @@ public class Kick implements CommandExecutor {
         Logger.debugPunishment(logMessage);
         Logger.debugPunishment(announcement);
 
-        player.kick(f(String.join("\n", unescape(playerMessage))));
+        if (player != null) {
+            player.kickPlayer(f(String.join("\n", unescape(playerMessage))));
+        }
 
         if (!modMessage.isEmpty()) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_KICK_MOD_MESSAGE, commonMap);
@@ -180,8 +188,8 @@ public class Kick implements CommandExecutor {
             Logger.punishment(MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_LOG_MESSAGE), commonMap);
         }
 
-        if (!silent && !announcement.isEmpty())
-            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_ANNOUNCEMENT), true, commonMap);
+        if (!punishment.isSilent() && !announcement.isEmpty())
+            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_KICK_ANNOUNCEMENT), commonMap, forwardToOtherServers);
     }
 
 }

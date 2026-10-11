@@ -1,20 +1,21 @@
 package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.http.Request;
-import com.carrotguy69.cxyz.models.config.services.GameServer;
 
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 
@@ -56,22 +57,23 @@ public class Broadcast implements CommandExecutor {
             return true;
         }
 
-        broadcast(content, !raw, Map.of());
+        broadcast(content, Map.of(), true);
 
         return true;
     }
 
-    public static void broadcast(String content, boolean parsed, Map<String, Object> formatMap) {
-        for (GameServer server : servers) {
+    public static void broadcast(String content, Map<String, Object> formatMap, boolean forwardToOtherServers) {
+        // Sends an announcement to all players of a server. If `forwardToOtherServers` is true, then this function will initiate requests to other servers.
 
-            if (Objects.equals(server.getIdentifier(), thisServer.getIdentifier())) {
-                MessageUtils.sendPublicMessage(content, parsed, Map.of());
-                continue;
-            }
+        if (forwardToOtherServers) {
+            Map<String, Object> map = Map.of("content", content, "format_map", formatMap,"to_players", List.of("*"));
+            Request.postRequest(apiEndpoint + "/send_message", gson.toJson(map));
+        }
 
-            Map<String, Object> map = Map.of("content", content, "parsed", parsed, "formatMap", formatMap);
+        TextComponent component = MessageUtils.createMessage(content, Map.of());
 
-            Request.postRequest(server.getIP() + "/sendPublicMessage", gson.toJson(map));
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.spigot().sendMessage(component);
         }
     }
 }

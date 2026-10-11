@@ -25,7 +25,7 @@ public class XPView implements CommandExecutor {
             /xp
         */
 
-        // Surprisingly, this whole thing is a little tricky for a simple command.
+        
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;
 

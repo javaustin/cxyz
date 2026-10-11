@@ -23,13 +23,14 @@ com\carrotguy69\cxyz\cmd\rank\RankAdd.class
 com\carrotguy69\cxyz\models\config\channel\coreChannels\PartyChannel.class
 com\carrotguy69\cxyz\cmd\Enchant.class
 com\carrotguy69\cxyz\events\bukkit\PreJoinEvent.class
+com\carrotguy69\cxyz\http\ShipmentDelivery$1.class
 com\carrotguy69\cxyz\cmd\Dispose.class
 com\carrotguy69\cxyz\cmd\level\LevelRemove.class
 com\carrotguy69\cxyz\utils\BroadcastUtils.class
 com\carrotguy69\cxyz\cmd\punishment\Ban.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PunishmentShipmentWrapper.class
-com\carrotguy69\cxyz\models\config\services\GameServer.class
 com\carrotguy69\cxyz\models\config\shorthand\utils\ShorthandUtils.class
+com\carrotguy69\cxyz\other\Tasks$8.class
 com\carrotguy69\cxyz\cmd\ChatColor.class
 com\carrotguy69\cxyz\cmd\xp\XPAdd.class
 com\carrotguy69\cxyz\tabCompleters\Party.class
@@ -129,7 +130,6 @@ com\carrotguy69\cxyz\cmd\coins\_CoinsExecutor.class
 com\carrotguy69\cxyz\messages\MessageUtils.class
 com\carrotguy69\cxyz\tabCompleters\LocalOnlineAllPlayer.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$MessageShipmentWrapper.class
-com\carrotguy69\cxyz\models\config\services\Service.class
 com\carrotguy69\cxyz\cmd\data\_DataExecutor.class
 com\carrotguy69\cxyz\cmd\ignore\_IgnoreExecutor.class
 com\carrotguy69\cxyz\models\config\channel\channelTypes\CoreChannel.class

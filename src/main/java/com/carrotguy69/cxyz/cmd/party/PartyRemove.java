@@ -96,7 +96,7 @@ public class PartyRemove implements CommandExecutor {
         commonMap.putAll(MapFormatters.inviterRecipientFormat(sender, target));
 
         party.announce(MessageGrabber.grab(MessageKey.PARTY_REMOVE_ANNOUNCEMENT), commonMap);
-        MessageUtils.sendParsedMessage(target.getPlayer(), MessageKey.PARTY_REMOVE, commonMap);
+        target.sendMessage(MessageGrabber.grab(MessageKey.PARTY_REMOVE), commonMap);
 
         party.sync();
 

@@ -1,5 +1,11 @@
 package com.carrotguy69.cxyz.http;
 
+import com.carrotguy69.cxyz.CXYZ;
+import com.carrotguy69.cxyz.cmd.punishment.Ban;
+import com.carrotguy69.cxyz.cmd.punishment.Kick;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.FriendRequest;
 import com.carrotguy69.cxyz.models.db.GameStat;
 import com.carrotguy69.cxyz.models.db.Message;
@@ -9,9 +15,13 @@ import com.carrotguy69.cxyz.models.db.PartyInvite;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.other.Tasks;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.annotations.SerializedName;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
@@ -26,6 +36,7 @@ import static com.carrotguy69.cxyz.CXYZ.gson;
 import static com.carrotguy69.cxyz.CXYZ.messageMap;
 import static com.carrotguy69.cxyz.CXYZ.parties;
 import static com.carrotguy69.cxyz.CXYZ.partyInvites;
+import static com.carrotguy69.cxyz.CXYZ.plugin;
 import static com.carrotguy69.cxyz.CXYZ.punishmentIDMap;
 import static com.carrotguy69.cxyz.CXYZ.statUUIDMap;
 import static com.carrotguy69.cxyz.CXYZ.usernames;
@@ -247,10 +258,6 @@ public class ShipmentDelivery {
         }
     }
 
-
-
-
-
     static class PartyInviteShipmentWrapper {
         @SerializedName("data")
         private List<PartyInvite> data;
@@ -327,7 +334,6 @@ public class ShipmentDelivery {
 
                 if (exit)
                     continue;
-
             }
 
 
@@ -337,7 +343,6 @@ public class ShipmentDelivery {
         }
 
     }
-
 
     static class PunishmentShipmentWrapper {
         @SerializedName("data")
@@ -413,11 +418,40 @@ public class ShipmentDelivery {
                 punishmentIDMap.put(punishment.getID(), punishment);
             }
 
+            // Async Bukkit operations are not allowed
+            new BukkitRunnable() {public void run() {
+                enforcePunishment(punishment);
+            }}.runTask(plugin);
+
             Tasks.punishmentSeq();
         }
 
     }
 
+    private static void enforcePunishment(Punishment punishment) {
+        // Usually whenever we receive a punishment delivery, we cache the new rows are cached into our memory. This is usually sufficient for mutes, where a players' punishment status is checked upon their chat.
+        // For bans and kicks however, we must actually *do something* when we receive that punishment record, to account for the case in which a player will already be online.
+
+        NetworkPlayer punishedPlayer = users.get(UUID.fromString(punishment.getTargetUUID()));
+
+        if (punishedPlayer == null) {
+            Logger.warning(String.format("Could not find player with uuid=%s while attempting to update punishment id=%d", punishment.getTargetUUID(), punishment.getID()));
+            return;
+        }
+
+        if (punishedPlayer.getPlayer() == null) {
+            // Player is offline; no further logic necessary.
+            return;
+        }
+
+        if (punishment.getType() == Punishment.PunishmentType.BAN && punishment.isEnforced() && punishment.getEffectiveUntilTimestamp() > TimeUtils.unixTimeNow()) {
+            Ban.enforceBan(Bukkit.getConsoleSender(), punishment, false);
+        }
+
+        if (punishment.getType() == Punishment.PunishmentType.KICK) {
+            Kick.enforceKick(Bukkit.getConsoleSender(), punishment, false);
+        }
+    }
 
     static class MessageShipmentWrapper {
 

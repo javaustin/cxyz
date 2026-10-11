@@ -39,7 +39,7 @@ public class Party {
     }
 
     public boolean isPublic() {
-        return public_ == 1;
+        return public_ != 0;
     }
 
     public List<String> getPlayers() {
@@ -147,11 +147,7 @@ public class Party {
         partyInvites.removeAll(UUID.fromString(this.ownerUUID));
 
         Request.postRequest(apiEndpoint + "/party/delete", gson.toJson(Map.of("sender_uuid", this.ownerUUID)));
-
-        
     }
-
-
 
     public void announce(String text, Map<String, Object> formatMap) {
         // This will always use parsed messages, because there is no player input in this function

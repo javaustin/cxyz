@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.PartyInvite;
 import org.bukkit.command.Command;
@@ -150,9 +149,9 @@ public class Party implements TabCompleter {
                         return List.of();
                     }
 
-                    for (GameServer server : servers) {
-                        if (server.getIdentifier().toLowerCase().startsWith(args[1].toLowerCase())) {
-                            results.add(server.getIdentifier());
+                    for (String server : servers) {
+                        if (server.toLowerCase().startsWith(args[1].toLowerCase())) {
+                            results.add(server);
                         }
 
                     }

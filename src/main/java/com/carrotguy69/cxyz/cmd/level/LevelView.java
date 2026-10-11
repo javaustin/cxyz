@@ -25,7 +25,7 @@ public class LevelView implements CommandExecutor {
             /level
         */
 
-        // Surprisingly, this whole thing is a little tricky for a simple command.
+        
 
         if (CommandRestrictor.handleRestricted(command, sender))
             return true;

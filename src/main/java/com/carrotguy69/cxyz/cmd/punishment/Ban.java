@@ -11,6 +11,7 @@ import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import com.carrotguy69.cxyz.utils.TimeUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.configYaml;
 import static com.carrotguy69.cxyz.CXYZ.f;
@@ -183,7 +185,7 @@ public class Ban implements CommandExecutor {
         punishment.setID(Punishment.generateID());
 
         punishment.setUUID(player.getUUID().toString());
-        punishment.setUsername(player.getUsername());
+        punishment.setTargetUsername(player.getUsername());
         punishment.setModUUID(modUUID);
         punishment.setModUsername(modUsername);
         punishment.setType(String.valueOf(Punishment.PunishmentType.BAN));
@@ -192,11 +194,18 @@ public class Ban implements CommandExecutor {
         punishment.setIssuedTimestamp(issuedTimestamp);
         punishment.setReason(reason);
         punishment.setEnforced(true);
+        punishment.setSilent(silent);
 
         punishment.create();
 
 
         punishmentIDMap.put(punishment.getID(), punishment);
+
+        enforceBan(sender, punishment, true);
+    }
+
+    public static void enforceBan(CommandSender sender, Punishment punishment, boolean forwardToOtherServers) {
+        Player player = Bukkit.getPlayer(UUID.fromString(punishment.getTargetUUID()));
 
         Map<String, Object> commonMap = MapFormatters.punishmentFormatter(sender, punishment);
 
@@ -206,10 +215,12 @@ public class Ban implements CommandExecutor {
         String logMessage = MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_LOG_MESSAGE, commonMap);
         String announcement = MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_ANNOUNCEMENT, commonMap);
 
-        if (effectiveUntilTimestamp == -1)
-            player.kick(f(String.join("\n", unescape(playerMessagePerm))));
-        else
-            player.kick(f(String.join("\n", unescape(playerMessage))));
+        if (player != null) {
+            if (punishment.getEffectiveUntilTimestamp() == -1)
+                player.kickPlayer(f(String.join("\n", unescape(playerMessagePerm))));
+            else
+                player.kickPlayer(f(String.join("\n", unescape(playerMessage))));
+        }
 
         if (!modMessage.isEmpty()) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_BAN_MOD_MESSAGE, commonMap);
@@ -219,15 +230,8 @@ public class Ban implements CommandExecutor {
             Logger.punishment(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_LOG_MESSAGE), commonMap);
         }
 
-        if (!silent && !announcement.isEmpty())
-            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_ANNOUNCEMENT), true, commonMap);
+        if (!punishment.isSilent() && !announcement.isEmpty())
+            Broadcast.broadcast(MessageGrabber.grab(MessageKey.PUNISHMENT_BAN_ANNOUNCEMENT), commonMap, forwardToOtherServers);
     }
-
-        // deluxe menus
-
-        // full ban gui:
-        // - player directory (like a creative inventory with a search bar? cycle through players with that string name)
-        // - duration menu - predefined durations (maybe drop and make reasons paired with durations)
-        // - reason menu - predefined reasons
 
 }

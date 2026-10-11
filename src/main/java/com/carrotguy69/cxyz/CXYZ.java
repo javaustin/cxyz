@@ -7,7 +7,6 @@ import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
-import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.config.shorthand.Shorthand;
 import com.carrotguy69.cxyz.models.db.FriendRequest;
 import com.carrotguy69.cxyz.models.db.GameStat;
@@ -78,10 +77,11 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static String apiIdentifier;
     public static String apiEndpoint;
     public static String apiSecret;
-    public static int apiTimeoutMillis;
+    public static int requestTimeoutMillis;
 
+    public static String thisServer;
+    public static String thisSecret;
     public static int thisPort;
-    public static GameServer thisServer;
 
     public static Map<UUID, NetworkPlayer> users = new ConcurrentHashMap<>();
 
@@ -99,7 +99,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static List<Shorthand> shorthandCommands = new ArrayList<>();
     public static List<BaseChannel> channels = new ArrayList<>();
     public static List<Cosmetic> cosmetics = new ArrayList<>();
-    public static List<GameServer> servers = new ArrayList<>();
+    public static List<String> servers = new ArrayList<>();
     public static List<PlayerRank> ranks = new ArrayList<>();
     public static List<ChatFilterRule> chatFilterRules = new ArrayList<>();
 
@@ -169,26 +169,30 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     [❌] ISSUES:
     - the /print command cannot print memory sections, figure a way to debug these
-    - user/modify on the backend had another 500 aiosqlite issue (the same one as previous)
+    - There's a lot of uncertainty around channels with respect to cross server messaging.
+        - How are commands propagating to different servers?
+        - Will messages mistakenly be sent twice or even more times?
+        - Which messages are sent and which are omitted?
+    - Make the silent command flag a column of the punishment table. So the silent status is included in the row, so other servers can respect the value.
 
     [➕] ADD/IMPLEMENT:
     - CROSS SERVER TESTING!
 
     [🔥] v1.1 UPDATE:
     - Table shipments should be split up into pages (the plugin doesn't know how many pages, so it's up to the API to send all the data we need). We shouldn't have to modify any code plugin-side
-    - /ignore is odd lol
-    - Admin tools to fix database (remove deleted ranks)
     - Enable Cosmetics w/ full GUI support
     - Rank up notifications (public or private) (including if a new cosmetic is available).
     - Ping sound to a player when their name is mentioned in the chat
     - On hover: "View Player". On click: open gui. options (player info, add friend, message player, invite to party, warp to server)
-    - /info command to supplement this ^
-    - A database table that simply logs all player actions that involve the API.
     - Figure out how to restrict certain non-command-based features to ranked users (like in MessageSend.sendMessage(), the color is stripped for non default users, add some functionality!)
     - A /color command that changes your name color (like in that one Skeppy video)
-    - More detailed & sensible Logging (goal: for each module, can we understand its life cycle just from reading logs)
+    - More detailed & sensible logging (goal: for each module, can we understand its life cycle just from reading logs)
     - A way to convert RGB colors to legacy colors (for hover, tab text)
     - Quest system with Quest NPC. Awards coins/xp on completion of quests. There should be only a select amount of quests available to a player weekly - and they should be generated uniquely to the player.
+    - GUI for punishments:
+        - player directory (like a creative inventory with a search bar? cycle through players with that string name)
+        - duration menu - predefined durations (maybe drop and make reasons paired with durations)
+        - reason menu - predefined reasons
     - Queued message system
        Add queued_messages column in DB table.
        NP.addQueuedMessage(String)
@@ -197,12 +201,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
        Mass functions to add/remove queued messages.
        Mass remove should remove the message by its content.
        {player} placeholder should be used and formatted at send time
-
-
-    [⚠️] HAVEN'T REPRODUCED
-    - why does "&d[phat]" have a formatter color code character before f() is applied?
-    - player last_join values can be the same as the first_join values
-
    */
 
     public static CommandMap getCommandMap() {
@@ -303,7 +301,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         shutdownFlag = true;
 
         if (thisServer != null) {
-            Request.postRequest(apiEndpoint + "/markOffline", gson.toJson(Map.of("server", thisServer.getIdentifier())));
+            Request.postRequest(apiEndpoint + "/mark_offline", gson.toJson(Map.of("server", thisServer)));
         }
 
         for (Player p : Bukkit.getOnlinePlayers()) {

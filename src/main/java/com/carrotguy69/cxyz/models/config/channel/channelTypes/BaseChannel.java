@@ -3,7 +3,6 @@ package com.carrotguy69.cxyz.models.config.channel.channelTypes;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.messages.MessageParser;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
-import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.other.Logger;
@@ -16,11 +15,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 import static com.carrotguy69.cxyz.CXYZ.gson;
-import static com.carrotguy69.cxyz.CXYZ.thisServer;
 import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
 public abstract class BaseChannel {
@@ -230,29 +227,12 @@ public abstract class BaseChannel {
     }
 
 
-    public void sendChannelMessage(String chatFormat, Map<String, Object> formatMap) {
-        // This function is not to be called by the HTTP listener, because it will send out requests to other servers.
-
-        for (GameServer server : servers) {
-            if (Objects.equals(server.getIdentifier(), thisServer.getIdentifier())) {
-                sendChannelMessage(this, chatFormat, formatMap);
-                continue;
-            }
-
-            Request.postRequest(server.getIP() + "/sendChannelMessage", gson.toJson(
-                    Map.of(
-                            "channel", this.getName(),
-                            "chatFormat", chatFormat,
-                            "formatMap", formatMap
-                    )
-            ));
-
-        }
+    public void sendChannelMessage(String chatFormat, Map<String, Object> formatMap, boolean forwardToOtherServers) {
+        sendChannelMessage(this, chatFormat, formatMap);
 
         String stripped = MessageParser.getStrippedText(new MessageParser(chatFormat, formatMap).parse());
 
         Logger.debugMessage("Channel message content (stripped): " + stripped);
-
 
         if (this.getWebhookURL() != null && !this.getWebhookURL().isBlank()) {
 
@@ -262,6 +242,17 @@ public abstract class BaseChannel {
             );
             webhook.send();
         }
+
+        if (!forwardToOtherServers)
+            return;
+
+        Request.postRequest(apiEndpoint + "/send_message", gson.toJson(
+                Map.of(
+                        "to_channels", List.of(this.getName()),
+                        "content", chatFormat,
+                        "format_map", formatMap
+                )
+        ));
     }
 
 

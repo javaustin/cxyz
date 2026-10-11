@@ -55,10 +55,6 @@
           <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
       </repository>
       <repository>
-          <id>sonatype</id>
-          <url>https://oss.sonatype.org/content/groups/public/</url>
-      </repository>
-      <repository>
           <id>placeholderapi</id>
           <url>https://repo.helpch.at/releases/</url>
       </repository>
@@ -78,9 +74,9 @@
           <scope>compile</scope>
       </dependency>
           <dependency>
-              <groupId>org.nanohttpd</groupId> <!-- <groupId>com.nanohttpd</groupId> for 2.1.0 and earlier -->
-              <artifactId>nanohttpd</artifactId>
-              <version>2.2.0</version>
+              <groupId>io.undertow</groupId>
+              <artifactId>undertow-core</artifactId>
+              <version>2.4.4.Final</version>
           </dependency>
       <dependency>
           <groupId>me.clip</groupId>

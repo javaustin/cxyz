@@ -76,7 +76,7 @@ public class Heal implements CommandExecutor {
     private static void healOne(CommandSender sender, NetworkPlayer target) {
         Map<String, Object> commonMap = MapFormatters.playerFormatter(target);
 
-        assert target.getPlayer().isOnline();
+        assert target.getPlayer() == null;
 
         AttributeInstance attr = target.getPlayer().getAttribute(Attribute.MAX_HEALTH);
 

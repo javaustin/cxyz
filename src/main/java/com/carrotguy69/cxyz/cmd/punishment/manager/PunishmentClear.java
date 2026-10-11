@@ -63,7 +63,7 @@ public class PunishmentClear implements CommandExecutor {
         List<Long> toRemove = new ArrayList<>();
 
         for (Map.Entry<Long, Punishment> entry : punishmentIDMap.entrySet()) {
-            if (Objects.equals(entry.getValue().getUUID(), target.getUUID().toString())) {
+            if (Objects.equals(entry.getValue().getTargetUUID(), target.getUUID().toString())) {
                 toRemove.add(entry.getKey());
             }
         }

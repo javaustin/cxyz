@@ -4,7 +4,6 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
-import com.carrotguy69.cxyz.models.config.services.GameServer;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.utils.CommandRestrictor;
@@ -58,7 +57,7 @@ public class PartyWarp implements CommandExecutor {
         NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         if (args.length > 0) {
-            warp(np, GameServer.getServerFromName(args[0]));
+            warp(np, args[0]);
             return true;
         }
 
@@ -67,7 +66,7 @@ public class PartyWarp implements CommandExecutor {
         return true;
     }
 
-    public void warp(NetworkPlayer owner, GameServer destinationServer) {
+    public void warp(NetworkPlayer owner, String destinationServer) {
         if (destinationServer == null) {
             destinationServer = owner.getServer();
         }
@@ -107,11 +106,11 @@ public class PartyWarp implements CommandExecutor {
         Set<String> unArrived = new HashSet<>(party.getPlayers()); // Sounds like an Asian TikTok influencer
         unArrived.add(owner.getUUID().toString());
 
-        GameServer finalDestinationServer = destinationServer;
+        String finalDestinationServer = destinationServer;
         long timestamp = TimeUtils.unixTimeNow();
 
         Map<String, Object> commonMap = MapFormatters.partyFormatter(party);
-        commonMap.put("server", destinationServer.getIdentifier());
+        commonMap.put("server", destinationServer);
 
         int id = new BukkitRunnable() {
             @Override
@@ -121,7 +120,7 @@ public class PartyWarp implements CommandExecutor {
                     String uuid = iterator.next();
                     NetworkPlayer partyPlayer = NetworkPlayer.resolvePlayer(UUID.fromString(uuid));
 
-                    if (Objects.equals(partyPlayer.getServer().getIdentifier(), finalDestinationServer.getIdentifier())) {
+                    if (Objects.equals(partyPlayer.getServer(), finalDestinationServer)) {
                         partyPlayer.sendMessage(MessageGrabber.grab(MessageKey.PARTY_WARP_ANNOUNCEMENT), commonMap);
                         iterator.remove();
                     }
