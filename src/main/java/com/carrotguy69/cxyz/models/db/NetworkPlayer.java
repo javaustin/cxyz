@@ -173,31 +173,6 @@ public class NetworkPlayer {
         this.setLastIP(p.getAddress() != null ? p.getAddress().getAddress().getHostAddress() : null);
         this.setOnline(true);
 
-
-        // remove party expire if it exists
-//        PartyExpire expire = partyExpires.get(this.getUUID());
-//        if (expire != null) {
-//            expire.delete();
-//            partyExpires.remove(expire.getUUID());
-//
-//            if (this.isInParty() && this.isOnline()) {
-//
-//                Party party = Party.getPlayerParty(this.getUUID());
-//
-//                if (party != null) {
-//
-//                    Map<String, Object> commonMap = MapFormatters.partyFormatter(party);
-//                    commonMap.putAll(MapFormatters.playerFormatter(this));
-//
-//                    party.announce(MessageGrabber.grab(MessageKey.PARTY_PLAYER_RECONNECT), commonMap);
-//                }
-//                else {
-//                    Logger.warning("party should not be null with np.isInParty() check. Ignoring because onJoin is a critical process.");
-//                }
-//
-//            }
-//        }
-
         // Apply equipped cosmetics if the server allows
         for (Cosmetic cosmetic : this.getEquippedCosmetics()) {
             if (!(cosmetic.isEnabled() && enabledCosmeticTypes.contains(cosmetic.getType()))) {

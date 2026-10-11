@@ -1,7 +1,9 @@
 package com.carrotguy69.cxyz.http;
 
 import com.carrotguy69.cxyz.exceptions.AuthenticationFailException;
+import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.services.Service;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
@@ -10,22 +12,36 @@ import com.carrotguy69.cxyz.utils.JsonConverters;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import com.google.gson.reflect.TypeToken;
 import fi.iki.elonen.NanoHTTPD;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import static com.carrotguy69.cxyz.CXYZ.gson;
 import static com.carrotguy69.cxyz.CXYZ.initializedMap;
 import static com.carrotguy69.cxyz.http.Request.generateSignature;
-import static com.carrotguy69.cxyz.http.ShipmentDelivery.*;
-import static com.carrotguy69.cxyz.models.config.channel.channelTypes.CustomChannel.sendChannelMessage;
-import static java.lang.Boolean.parseBoolean;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handleFriendRequestDelivery;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handleFriendRequestShipment;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handleGameStatDelivery;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handleGameStatShipment;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handleMessageDelivery;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handleMessageShipment;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handleNetworkPlayerDelivery;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handleNetworkPlayerShipment;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handlePartyDelivery;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handlePartyInviteDelivery;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handlePartyInviteShipment;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handlePartyShipment;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handlePunishmentDelivery;
+import static com.carrotguy69.cxyz.http.ShipmentDelivery.handlePunishmentShipment;
 
 public class Listener extends NanoHTTPD {
 
@@ -96,6 +112,8 @@ public class Listener extends NanoHTTPD {
             Map<String, String> body = new HashMap<>();
             session.parseBody(body);
 
+            Logger.debugRequest("Received request: " + session + "\n" + body);
+
             authenticateRequest(session, body);
 
             String postData = body.get("postData");
@@ -106,26 +124,9 @@ public class Listener extends NanoHTTPD {
 
                 switch (session.getUri()) {
 
-                    case "/sendMessage":
+                    case "/send_message":
                         handleSendMessage(data);
                         break;
-
-                    case "/sendChannelMessage":
-                        handleSendChannelMessage(data);
-                        break;
-
-                    case "/sendPublicMessage":
-                        handleSendPublicMessage(data);
-                        break;
-
-                    case "/command":
-                        handleCommand(data);
-                        break;
-
-                    case "/kickPlayer":
-                        handleKickPlayer(data);
-                        break;
-
 
                     // Deliveries and Shipments
                     case "/usersShipment":
@@ -147,19 +148,6 @@ public class Listener extends NanoHTTPD {
                     case "/partiesDelivery":
                         handlePartyDelivery(postData);
                         break;
-
-
-
-//                    case "/partyExpiresShipment":
-//                        initializedMap.put("partyExpires", true);
-//                        handlePartyExpireShipment(postData);
-//                        break;
-//
-//                    case "/partyExpiresDelivery":
-//                        handlePartyExpireDelivery(postData);
-//                        break;
-
-
 
                     case "/partyInvitesShipment":
                         initializedMap.put("partyInvites", true);
@@ -220,7 +208,7 @@ public class Listener extends NanoHTTPD {
                                 "{\"status\" : \"not found\"}");
                 }
                 return newFixedLengthResponse(Response.Status.OK, "application/json",
-                        String.format("{\"status\" : \"%s\"}", "received"));
+                        "{\"status\" : \"received\"}");
             }
         }
 
@@ -236,93 +224,71 @@ public class Listener extends NanoHTTPD {
         return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/plain", "Not found");
     }
 
-    public void handleSendMessage(Map<String, String> map) {
-        // We don't check to see if the player is online. We assume the server that sent this request already checked, and is sending the message based off of the fact that that player is online.
+    public void handleSendMessage(Map<?, ?> map) {
 
-        if (!map.containsKey("recipientUUID") || !map.containsKey("content") || !map.containsKey("parsed") || !map.containsKey("formatMap")) {
-            throw new RuntimeException("One or more of the following required keys (recipientUUID, content, parsed, formatMap) is missing: " + map.get("recipientUUID") + ", " + map.get("content") + ", " + map.get("parsed") + ", " + map.get("formatMap"));
+        if (!map.containsKey("message_key")) {
+            throw new RuntimeException("Missing required argument: `message_key`");
         }
 
-        String recipient = map.get("recipientUUID");
-        String content = map.get("content");
-        boolean parsed = parseBoolean(map.get("parsed"));
-        Map<String, Object> formatMap = gson.fromJson(map.get("formatMap"), new TypeToken<Map<String, Object>>() {}.getType());
+        String messageKeyString = null;
 
+        try {
+            messageKeyString = (String) map.get("message_key");
+            MessageKey key = MessageKey.valueOf(messageKeyString.toUpperCase());
 
-        NetworkPlayer recipientNP = NetworkPlayer.resolvePlayer(UUID.fromString(recipient));
+            Map<String, Object> commonMap = new HashMap<>();
+            List<String> toChannels = new ArrayList<>();
+            List<String> toPlayers = new ArrayList<>();
 
-        Player p = recipientNP.getPlayer();
+            if (map.containsKey("format_map")) {
+                commonMap = (Map<String, Object>) map.get("format_map");
+            }
 
-        if (p == null) {
-            Logger.severe("In HttpListener.handleSendMessage(...), Player p was found to be null.");
-            return;
+            if (map.containsKey("to_channels")) {
+                toChannels = (List<String>) map.get("to_channels");
+            }
+
+            if (map.containsKey("to_players")) {
+                toPlayers = (List<String>) map.get("to_players");
+            }
+
+            boolean toAll = toPlayers.size() == 1 && toPlayers.get(0).equalsIgnoreCase("*");
+
+            if (toAll) {
+                TextComponent component = MessageUtils.createMessage(MessageGrabber.grab(key), commonMap);
+
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    p.spigot().sendMessage(component);
+                }
+
+                return;
+            }
+
+            for (String channelName : toChannels) {
+                BaseChannel channel = BaseChannel.getChannel(channelName);
+
+                if (channel == null) {
+                    throw new RuntimeException(String.format("Invalid channel: '%s'", channelName));
+                }
+
+                channel.sendChannelMessage(MessageGrabber.grab(key), commonMap);
+            }
+
+            for (String playerUUID : toPlayers) {
+                if (!NetworkPlayer.exists(UUID.fromString(playerUUID))) {
+                    throw new RuntimeException(String.format("Invalid player UUID: '%s'", playerUUID));
+                }
+
+                Player p = Bukkit.getPlayer(UUID.fromString(playerUUID));
+
+                if (p != null) {
+                    MessageUtils.sendParsedMessage(p, MessageGrabber.grab(key), commonMap);
+                }
+            }
+
         }
-
-        if (parsed)
-            MessageUtils.sendParsedMessage(p, content, formatMap);
-
-        else
-            MessageUtils.sendUnparsedMessage(p, content, formatMap);
-
-    }
-
-    public void handleSendPublicMessage(Map<String, String> map) {
-
-        if (!map.containsKey("content") || !map.containsKey("parsed") || !map.containsKey("formatMap")) {
-            throw new RuntimeException("One or more of the following required keys (content, parsed, formatMap) is missing: " + map.get("content") + ", " + map.get("parsed") + ", " + map.get("formatMap"));
+        catch (IllegalArgumentException e) {
+            throw new RuntimeException(String.format("Invalid message key: '%s'", messageKeyString));
         }
-
-        String content = map.get("content");
-        boolean parsed = Boolean.getBoolean(map.get("parsed"));
-        Map<String, Object> formatMap = gson.fromJson(map.get("formatMap"), new TypeToken<Map<String, Object>>() {}.getType());
-
-        MessageUtils.sendPublicMessage(content, parsed, formatMap);
-    }
-
-    public void handleSendChannelMessage(Map<String, String> map) {
-        if (!map.containsKey("channel") || !map.containsKey("content") || !map.containsKey("parsed") || !map.containsKey("formatMap")) {
-            throw new RuntimeException("One or more of the following required keys (channel, content, parsed, formatMap) is missing: " + map.get("channel") + ", " + map.get("content") + ", " + map.get("parsed") + ", " + map.get("formatMap"));
-        }
-
-        String channelName = map.get("channel"); //
-        String chatFormat = map.get("chatFormat"); // We pre-defined the format already. So this content will not change
-        Map<String, Object> formatMap = gson.fromJson(map.get("formatMap"), new TypeToken<Map<String, Object>>() {}.getType());
-
-        BaseChannel channel = BaseChannel.getChannel(channelName);
-
-        if (channel == null) {
-            Logger.warning(map.toString());
-            throw new NullPointerException("No channel found named " + channelName);
-        }
-
-        sendChannelMessage(channel, chatFormat, formatMap);
-    }
-
-
-    public void handleCommand(Map<String, String> map) {
-
-        if (!map.containsKey("commandLine")) {
-            throw new RuntimeException("One or more of the following required keys (commandLine) is missing: " + map.get("commandLine"));
-        }
-
-        String commandLine = map.get("commandLine");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandLine);
-    }
-
-    public void handleKickPlayer(Map<String, String> map) {
-        String recipient = map.get("recipientUUID");
-        String reason = map.get("reason");
-
-        if (!map.containsKey("recipientUUID") || !map.containsKey("reason")) {
-            throw new RuntimeException("One or more of the following required keys (recipientUUID, reason) is missing: " + map.get("recipientUUID") + ", " + map.get("reason"));
-        }
-
-        Player p = Bukkit.getPlayer(UUID.fromString(recipient));
-
-        if (p == null) {
-            throw new NullPointerException("Player with UUID of " + recipient + " is offline or does not exist.");
-        }
-
-        NetworkPlayer.kickPlayer(p, reason);
     }
 }

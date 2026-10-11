@@ -1,6 +1,5 @@
 com\carrotguy69\cxyz\utils\NumberRange.class
 com\carrotguy69\cxyz\utils\JsonConverters$4.class
-com\carrotguy69\cxyz\http\Listener$1.class
 com\carrotguy69\cxyz\cmd\friend\FriendDeny.class
 com\carrotguy69\cxyz\cmd\Test.class
 com\carrotguy69\cxyz\models\config\shorthand\interfaces\ShorthandExecutor.class
@@ -136,7 +135,6 @@ com\carrotguy69\cxyz\cmd\ignore\_IgnoreExecutor.class
 com\carrotguy69\cxyz\models\config\channel\channelTypes\CoreChannel.class
 com\carrotguy69\cxyz\cmd\Port.class
 com\carrotguy69\cxyz\http\Listener.class
-com\carrotguy69\cxyz\models\db\PartyExpire.class
 com\carrotguy69\cxyz\cmd\Heal.class
 com\carrotguy69\cxyz\events\custom\base\Event.class
 com\carrotguy69\cxyz\models\config\shorthand\interfaces\ShorthandTabCompleter.class
@@ -177,7 +175,6 @@ com\carrotguy69\cxyz\cmd\cosmetic\CosmeticEquip.class
 com\carrotguy69\cxyz\models\db\FriendRequest.class
 com\carrotguy69\cxyz\utils\JsonConverters$2.class
 com\carrotguy69\cxyz\events\custom\LevelUpEvent.class
-com\carrotguy69\cxyz\http\Listener$3.class
 com\carrotguy69\cxyz\utils\ObjectUtils.class
 com\carrotguy69\cxyz\cmd\party\PartyCreate.class
 com\carrotguy69\cxyz\cmd\party\PartyRemove.class
@@ -242,7 +239,6 @@ com\carrotguy69\cxyz\models\config\channel\registry\ChannelRegistry$1.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$GameStatShipmentWrapper.class
 com\carrotguy69\cxyz\events\bukkit\FishEvent.class
 com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentInfo.class
-com\carrotguy69\cxyz\http\Listener$2.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer$MessagePrivacy.class
 com\carrotguy69\cxyz\tabCompleters\Show.class
 com\carrotguy69\cxyz\events\bukkit\DragInventoryEvent.class

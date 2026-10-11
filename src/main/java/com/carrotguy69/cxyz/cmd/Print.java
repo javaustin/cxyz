@@ -26,7 +26,7 @@ public class Print implements CommandExecutor {
 
         /*
         SYNTAX:
-            /print <users | parties | partyinvites | partyexpires | punishments | messages | cosmetics | channels>
+            /print <users | parties | partyinvites | punishments | messages | cosmetics | channels>
             /print users
         */
 
@@ -70,10 +70,6 @@ public class Print implements CommandExecutor {
                 case "partyinvites":
                 case "partyinvite":
                     Logger.info(partyInvites.toString());
-                    return true;
-                case "partyexpires":
-                case "partyexpire":
-                    Logger.info(partyExpires.toString());
                     return true;
                 case "punishment":
                 case "punishments":

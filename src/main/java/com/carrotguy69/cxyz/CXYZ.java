@@ -14,7 +14,6 @@ import com.carrotguy69.cxyz.models.db.GameStat;
 import com.carrotguy69.cxyz.models.db.Message;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
-import com.carrotguy69.cxyz.models.db.PartyExpire;
 import com.carrotguy69.cxyz.models.db.PartyInvite;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Constants;
@@ -91,7 +90,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     public static Map<Long, Punishment> punishmentIDMap = new ConcurrentHashMap<>(); // This is the real unique map that stores all punishments.
     public static Map<UUID, Party> parties = new ConcurrentHashMap<>(); // <Owner, Party>
-    public static Map<UUID, PartyExpire> partyExpires = new HashMap<>(); // <Player(UUID), PartyExpire>
     public static Multimap<UUID, FriendRequest> friendRequests = ArrayListMultimap.create(); // The UUID is the sender (the one who sent the friend request)
     public static Multimap<UUID, PartyInvite> partyInvites = ArrayListMultimap.create(); // The UUID is the sender (the one who sent the invite)
     public static Multimap<UUID, Message> messageMap = ArrayListMultimap.create(); // UUID in the message map represents the recipient UUID (kind of backwards, but allows the recipient to get all their messages quickly).
@@ -269,7 +267,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         initializedMap.put("users", false);
         initializedMap.put("parties", false);
         initializedMap.put("partyInvites", false);
-        initializedMap.put("partyExpires", true); // we are effectively ignoring expires because of how incredibly buggy they are
         initializedMap.put("messages", false);
         initializedMap.put("punishments", false);
         initializedMap.put("friendRequests", false);

@@ -11,21 +11,20 @@ api:
 
 
 # ============================================================
-# SERVER IDENTIFICATION
+# SERVER ID
 # ============================================================
 # Unique name for THIS server in your network.
 # Must match the same name defined under "servers" below.
 # Do NOT use spaces.
 this-server: HUB-1
 
-
 # ============================================================
-# INTERNAL NETWORK PORT
+# NETWORK PORT
 # ============================================================
 # Port used by this plugin to receive HTTP requests from other servers.
 #
 # NOTE:
-# - This is NOT your Minecraft server port (usually 25565)
+# - This is NOT your Minecraft server port (not 25565)
 # - Choose any free port (49152–65535 are usually available)
 # - This port is only used for internal server communication
 this-port: 59152

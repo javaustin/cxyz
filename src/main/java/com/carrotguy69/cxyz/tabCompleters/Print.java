@@ -28,14 +28,14 @@ public class Print implements TabCompleter {
         final List<String> EMPTY = new ArrayList<>();
 
         List<String> results = EMPTY;
-        List<String> options = Arrays.asList("users", "parties", "partyinvites", "partyexpires", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml", "chatfilter", "colors", "servers", "gameservers", "stats", "gamestats");;
+        List<String> options = Arrays.asList("users", "parties", "partyinvites", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml", "chatfilter", "colors", "servers", "gameservers", "stats", "gamestats");;
 
         if (args.length == 0) {
             return options;
         }
 
         if (args.length == 1) {
-            options = Arrays.asList("users", "parties", "partyinvites", "partyexpires", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml", "chatfilter", "colors", "servers", "gameservers", "stats", "gamestats");
+            options = Arrays.asList("users", "parties", "partyinvites", "punishments", "messages", "cosmetics", "channels", "announcements", "config", "msgconfig", "msgyml", "cosmeticyml", "cosmeticsyml", "chatfilter", "colors", "servers", "gameservers", "stats", "gamestats");
         }
 
         if (args.length == 2)

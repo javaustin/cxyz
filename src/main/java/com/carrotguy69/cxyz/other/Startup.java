@@ -90,7 +90,6 @@ import static com.carrotguy69.cxyz.CXYZ.thisPort;
 import static com.carrotguy69.cxyz.other.Tasks.clearPartyInvites;
 import static com.carrotguy69.cxyz.other.Tasks.deleteOfflineParties;
 import static com.carrotguy69.cxyz.other.Tasks.fixOnlinePlayers;
-import static com.carrotguy69.cxyz.other.Tasks.handlePartyExpires;
 import static com.carrotguy69.cxyz.other.Tasks.runPunishmentSeq;
 import static com.carrotguy69.cxyz.other.Tasks.updateLastOnlineValues;
 
@@ -270,7 +269,6 @@ public class Startup {
     }
 
     public static void startTasks() {
-        handlePartyExpires();
         clearPartyInvites();
         fixOnlinePlayers();
         updateLastOnlineValues();

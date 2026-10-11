@@ -14,22 +14,10 @@ import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class PartyInvite {
 
-    // dont set to final because of gson populating (i think)
+    // Don't set to final because of gson populating (i think)
     private String inviter;
     private String recipient;
     private long expireTimestamp;
-
-    /*
-    PartyInvite
-
-    A partyInvite is an inviter, recipient, and expireTimestamp which represents an active invite to a party.
-
-    Our responsibilities are to:
-    - Fetch a party invite from the API and/or static Map given a inviterName.
-    - Enter a party invite into the partyInvites table when /party invite <player> is run.
-    - Delete a party invite after it has been accepted.
-    - Delete a party invite after it expired.
-    */
 
 
     public PartyInvite(String inviter, String recipient, long expireTimestamp) {
@@ -45,10 +33,6 @@ public class PartyInvite {
     public void create() {
         Request.postRequest(apiEndpoint + "/partyInvite/create", gson.toJson(Map.of("inviter", inviter, "recipient", recipient, "expireTimestamp", expireTimestamp)));
     }
-
-//    public void sync() {
-//        Request.postRequest(api_endpoint + "/partyInvite/sync", gson.toJson(Map.of("inviter", inviter, "recipient", recipient, "expireTimestamp", expireTimestamp)));
-//    }
 
     public NetworkPlayer getInviter() {
         return NetworkPlayer.resolvePlayer(UUID.fromString(inviter));
