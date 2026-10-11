@@ -47,12 +47,12 @@ public final class Listener {
 
     public Listener(int port) {
         this.server = Undertow.builder()
-                .addHttpListener(port, "127.0.0.1")
+                .addHttpListener(port, "0.0.0.0")
                 .setHandler(this::handleRequest)
                 .build();
 
         server.start();
-        Logger.info("HTTP listener started on: http://localhost:" + port);
+        Logger.info("HTTP listener started on: http://0.0.0.0:" + port);
     }
 
     public void stop() {
