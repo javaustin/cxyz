@@ -626,14 +626,14 @@ public class MapFormatters {
         commonMap.put("player-first-join-date", TimeUtils.dateOf(player.getFirstJoin(), player.getTimezone()));
         commonMap.put("player-first-join-short-date", TimeUtils.dateOfShort(player.getFirstJoin(), player.getTimezone()));
         commonMap.put("player-last-join-date", TimeUtils.dateOf(player.getLastJoin(), player.getTimezone()));
-        commonMap.put("player-last-join-short-date", TimeUtils.dateOfShort(player.getLastOnline(), player.getTimezone()));
+        commonMap.put("player-last-join-short-date", TimeUtils.dateOfShort(player.getLastJoin(), player.getTimezone()));
         commonMap.put("player-last-online-date", TimeUtils.dateOf(player.getLastOnline(), player.getTimezone()));
         commonMap.put("player-last-online-short-date", TimeUtils.dateOfShort(player.getLastOnline(), player.getTimezone()));
 
         commonMap.put("player-first-join-time", TimeUtils.timeOf(player.getFirstJoin(), player.getTimezone()));
         commonMap.put("player-first-join-short-time", TimeUtils.timeOfShort(player.getFirstJoin(), player.getTimezone()));
         commonMap.put("player-last-join-time", TimeUtils.timeOf(player.getLastJoin(), player.getTimezone()));
-        commonMap.put("player-last-join-short-time", TimeUtils.timeOfShort(player.getLastOnline(), player.getTimezone()));
+        commonMap.put("player-last-join-short-time", TimeUtils.timeOfShort(player.getLastJoin(), player.getTimezone()));
         commonMap.put("player-last-online-time", TimeUtils.timeOf(player.getLastOnline(), player.getTimezone()));
         commonMap.put("player-last-online-short-time", TimeUtils.timeOfShort(player.getLastOnline(), player.getTimezone()));
 

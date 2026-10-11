@@ -14,10 +14,6 @@ public class LeaveEvent {
     public static void onLeave(PlayerQuitEvent e) {
         Player p = e.getPlayer();
 
-        if (users.isEmpty()) {
-            return;
-        }
-
         NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
         String quitMessage = f(formatPlaceholders(playerLeaveMessage, MapFormatters.playerFormatter(np)));
@@ -26,7 +22,6 @@ public class LeaveEvent {
 
         long currentPlaytime = np.getPlaytime();
         long playtimeSession = TimeUtils.unixTimeNow() - np.getLastJoin();
-
 
         np.setPlaytime(currentPlaytime + playtimeSession);
         np.setOnline(false);

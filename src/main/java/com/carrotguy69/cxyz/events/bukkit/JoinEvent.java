@@ -11,8 +11,6 @@ import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.util.stream.Collectors;
-
 import static com.carrotguy69.cxyz.CXYZ.f;
 import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
@@ -34,6 +32,10 @@ public class JoinEvent {
         else {
             np.sync();
         }
+
+        // Keep the joined player in the local cache so heartbeat and quit handling
+        // continue updating the same NetworkPlayer instance.
+        CXYZ.users.put(np.getUUID(), np);
 
         String joinMessage = f(formatPlaceholders(CXYZ.playerJoinMessage, MapFormatters.playerFormatter(np)));
 

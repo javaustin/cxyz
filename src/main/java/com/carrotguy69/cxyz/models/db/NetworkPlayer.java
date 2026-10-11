@@ -411,11 +411,14 @@ public class NetworkPlayer {
     }
 
     public long getLastJoin() {
-        return last_join;
+        return this.last_join;
     }
 
     public void setLastJoin(long timestamp) {
         this.last_join = timestamp;
+        if (this.getPlayer() == null) {
+            throw new RuntimeException("caught ya!");
+        }
     }
 
     public long getLastOnline() {
