@@ -27,7 +27,7 @@ public class Friend implements TabCompleter {
 
         NetworkPlayer np = NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId());
 
-        List<String> visibleUsernames = AnyPlayer.getAllUsernames();
+        List<String> visibleUsernames = OnlinePlayer.getVisibleUsernames(sender, np);
 
         List<String> subcommands = List.of("add", "accept", "deny", "list", "remove");
 
