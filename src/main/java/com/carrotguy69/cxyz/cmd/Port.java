@@ -34,7 +34,7 @@ public class Port implements CommandExecutor {
 
 
         if (args.length == 0) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.PORT_VIEW, Map.of("port", String.valueOf(thisPort)));
+            MessageUtils.sendParsedMessage(sender, MessageKey.PORT_VIEW, Map.of("port", String.valueOf(httpPort)));
             return true;
         }
 
@@ -45,7 +45,7 @@ public class Port implements CommandExecutor {
             plugin.saveConfig();
             plugin.reloadConfig();
 
-            thisPort = newValue;
+            httpPort = newValue;
 
             MessageUtils.sendParsedMessage(sender, MessageKey.PORT_SET, Map.of("port", String.valueOf(newValue)));
         }

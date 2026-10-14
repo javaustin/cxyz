@@ -86,7 +86,7 @@ import static com.carrotguy69.cxyz.CXYZ.gson;
 import static com.carrotguy69.cxyz.CXYZ.initializedMap;
 import static com.carrotguy69.cxyz.CXYZ.listener;
 import static com.carrotguy69.cxyz.CXYZ.plugin;
-import static com.carrotguy69.cxyz.CXYZ.thisPort;
+import static com.carrotguy69.cxyz.CXYZ.httpPort;
 import static com.carrotguy69.cxyz.other.Tasks.clearPartyInvites;
 import static com.carrotguy69.cxyz.other.Tasks.deleteOfflineParties;
 import static com.carrotguy69.cxyz.other.Tasks.fixOnlinePlayers;
@@ -103,7 +103,7 @@ public class Startup {
     }
 
     public static void startEndpoints() throws IOException {
-        listener = new Listener(thisPort);
+        listener = new Listener(httpPort);
     }
 
     public static void registerCommands() {

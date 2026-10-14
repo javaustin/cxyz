@@ -1,17 +1,46 @@
+# ============================================================
+# ENVIRONMENT VARIABLES
+# ============================================================
+# You can use environment variables to provide configuration values at runtime,
+# which is useful when deploying multiple servers without editing this file.
+#
+# To use an environment variable, set a supported value to "ENV:{VARIABLE_NAME}".
+# Replace {VARIABLE_NAME} with the name of the environment variable. For example:
+#   identifier: "ENV:IDENTIFIER"
+#
+# [!] Environment-variable references are supported only in the server definitions, and http settings (the first two sections).
+#     No other config values support this feature
+
+# ============================================================
+# SERVER AND API DEFINITIONS
+# ============================================================
+# For communicating securely with the backend API server, we must send requests with an identity and a signature.
+# These can also be defined by environment variables if present.
+#
+# Required fields:
+#   identifier          - An identifiable name for this server (e.g. "HUB-1"). Spaces not recommended.
+#   secret              - A secret key used to authenticate HTTP requests server to server.
+#   endpoint [api only] - The publicly reachable URL of your backend API server (e.g. https://api.cerrot.xyz)
 this-server:
-  identifier: "HUB-1"
-  port: 59152
-  secret: "super-secret-key-2"
+  identifier: "ENV:IDENTIFIER"
+  secret: "ENV:SECRET"
 
 api:
-  identifier: "API" # Identifier used when this server authenticates with the API (case-sensitive)
-  endpoint: http://localhost:5000 # Base URL of your backend API (e.g., http://api.myserver.com).
-  secret: "super-secret-key-1" # Your own secret key used to authenticate requests server to server. This value MUST match the key configured in the API.
-
-request-timeout-millis: 5000 # Maximum time (in milliseconds) to wait for an API response before cancelling the request.
+  identifier: "ENV:API_IDENTIFIER" # Identifier used when this server authenticates with the API (case-sensitive)
+  endpoint: "ENV:API_ENDPOINT" # Base URL of your backend API (e.g., http://api.myserver.com).
+  secret: "ENV:API_SECRET"
 
 
-# NOTE: This plugin cannot alone send players to another server, you must have a proxy like BungeeCord, Velocity, set up.
+# ============================================================
+# HTTP SETTINGS
+# ============================================================
+# Defines behavior for this plugin's HTTP client and outbound requests.
+# These can also be defined by environment variables if present.
+#
+#   Request timeout - Maximum time (in milliseconds) to wait for a response before cancelling the HTTP(s) request.
+#   HTTP Port       - Any open HTTP port for the API to send data to. (If using a Minecraft server host, you may need to use a 'Create Allocation' feature.)
+request-timeout-millis: 5000
+http-port: 59152
 
 
 # ============================================================

@@ -55,15 +55,30 @@ public class Constants {
 
         configYaml = yaml;
 
+
+        // These support ENV
         thisServer = yaml.getString("this-server.identifier");
-        thisPort = yaml.getInt("this-server.port");
         thisSecret = yaml.getString("this-server.secret");
 
         apiIdentifier = (String) yaml.get("api.identifier");
         apiEndpoint = (String) yaml.get("api.endpoint");
         apiSecret = (String) yaml.get("api.secret");
 
-        requestTimeoutMillis = yaml.getInt("api.timeout-millis", 5000);
+        // Will update to the environment variable value if present
+        processIfENV(thisSecret);
+        processIfENV(thisSecret);
+        processIfENV(apiIdentifier);
+        processIfENV(apiEndpoint);
+        processIfENV(apiSecret);
+
+        String httpPortString = yaml.getString("http-port", "59152");
+        String requestTimeoutMillisString = yaml.getString("api.timeout-millis", "5000");
+
+        processIfENV(httpPortString);
+        processIfENV(requestTimeoutMillisString);
+
+        httpPort = Integer.parseInt(httpPortString);
+        requestTimeoutMillis = Integer.parseInt(requestTimeoutMillisString);
 
         for (String s : yaml.getStringList("debugger.enabled-values")) {
             enabledDebugs.add(s.toUpperCase());
@@ -151,5 +166,20 @@ public class Constants {
 
         shorthandCommands = Shorthand.getShorthandCommands();
         Logger.log("Loaded shorthand commands: " + shorthandCommands.stream().map(Shorthand::getCommandName).collect(Collectors.joining(", ")));
+    }
+
+    private static void processIfENV(String s) {
+        if (!s.toLowerCase().startsWith("env:")) {
+            return;
+        }
+
+        String variableName = s.substring(4);
+
+        try {
+            s = System.getenv(variableName);
+        }
+        catch (NullPointerException e) {
+            throw new RuntimeException(String.format("Could not access environment variable '%s'", variableName));
+        }
     }
 }

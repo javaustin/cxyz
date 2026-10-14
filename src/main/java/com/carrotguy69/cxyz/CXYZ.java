@@ -81,7 +81,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     public static String thisServer;
     public static String thisSecret;
-    public static int thisPort;
+    public static int httpPort;
 
     public static Map<UUID, NetworkPlayer> users = new ConcurrentHashMap<>();
 
