@@ -8,6 +8,8 @@
 # Replace {VARIABLE_NAME} with the name of the environment variable. For example:
 #   identifier: "ENV:IDENTIFIER"
 #
+# [!] The plugin will crash if an environment variable does not exist, or it cannot access the variable,
+#
 # [!] Environment-variable references are supported only in the server definitions, and http settings (the first two sections).
 #     No other config values support this feature
 
@@ -80,6 +82,7 @@ time-short-format: h:mm a
 #  USER
 #
 # Leave empty [] to disable debugging.
+# These debuggers can always be enabled or disabled using the /debug command.
 debugger:
   enabled-values: []
 
@@ -380,7 +383,8 @@ punishments:
         kick: 0 # Record expires immediately
         ban: -1 # Record never expires
 
-  # Commands that are restricted from a player on a mute
+  # Commands that a player is restricted from executing when they are muted.
+  # This list requires an exact match, so be sure to include command aliases if you wish to restrict those.
   mute-restrictions:
   - msg
   - message

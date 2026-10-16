@@ -86,6 +86,7 @@ com\carrotguy69\cxyz\cmd\rank\RankList.class
 com\carrotguy69\cxyz\messages\utils\MapFormatters$NumberedListFormatter.class
 com\carrotguy69\cxyz\cmd\punishment\Unmute.class
 com\carrotguy69\cxyz\cmd\channel\ChannelLock.class
+com\carrotguy69\cxyz\events\bukkit\CommandPreprocessEvent.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$MessageDeliveryWrapper.class
 com\carrotguy69\cxyz\events\bukkit\InteractEvent.class
 com\carrotguy69\cxyz\tabCompleters\Nickname.class

@@ -118,14 +118,6 @@ public class MessageSend implements CommandExecutor {
         }
 
 
-        if (sender.isMuted()) {
-            Punishment mute = Punishment.getActivePunishment(sender, Punishment.PunishmentType.MUTE);
-
-            MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.PUNISHMENT_MUTE_PLAYER_MESSAGE, MapFormatters.punishmentFormatter(sender.getPlayer(), mute));
-            return;
-        }
-
-
         if (Objects.equals(sender.getTopRank().getName(), defaultRank.getName())) { // update when more robust perks/permissions happen
             String stripped = ChatColor.stripColor(content);
             commonMap.put("content", stripped);

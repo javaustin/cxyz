@@ -91,7 +91,6 @@ public class MessageChannel extends CoreChannel {
             }
         }
 
-
         Message lastMessage = Message.getLastReplyableMessage(np.getUUID());
         // We first will try to get a message that was received by the player. If there are no messages that meet the criteria
 

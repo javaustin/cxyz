@@ -65,17 +65,17 @@ public class Constants {
         apiSecret = (String) yaml.get("api.secret");
 
         // Will update to the environment variable value if present
-        processIfENV(thisSecret);
-        processIfENV(thisSecret);
-        processIfENV(apiIdentifier);
-        processIfENV(apiEndpoint);
-        processIfENV(apiSecret);
+        thisServer = processIfENV(thisServer);
+        thisSecret = processIfENV(thisSecret);
+        apiIdentifier = processIfENV(apiIdentifier);
+        apiEndpoint = processIfENV(apiEndpoint);
+        apiSecret = processIfENV(apiSecret);
 
         String httpPortString = yaml.getString("http-port", "59152");
         String requestTimeoutMillisString = yaml.getString("api.timeout-millis", "5000");
 
-        processIfENV(httpPortString);
-        processIfENV(requestTimeoutMillisString);
+        httpPortString = processIfENV(httpPortString);
+        requestTimeoutMillisString = processIfENV(requestTimeoutMillisString);
 
         httpPort = Integer.parseInt(httpPortString);
         requestTimeoutMillis = Integer.parseInt(requestTimeoutMillisString);
@@ -168,18 +168,19 @@ public class Constants {
         Logger.log("Loaded shorthand commands: " + shorthandCommands.stream().map(Shorthand::getCommandName).collect(Collectors.joining(", ")));
     }
 
-    private static void processIfENV(String s) {
+    private static String processIfENV(String s) {
         if (!s.toLowerCase().startsWith("env:")) {
-            return;
+            return s;
         }
 
         String variableName = s.substring(4);
 
-        try {
-            s = System.getenv(variableName);
-        }
-        catch (NullPointerException e) {
+        String value = System.getenv(variableName);
+
+        if (value == null) {
             throw new RuntimeException(String.format("Could not access environment variable '%s'", variableName));
         }
+
+        return value;
     }
 }

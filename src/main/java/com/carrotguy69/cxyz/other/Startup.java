@@ -104,6 +104,7 @@ public class Startup {
 
     public static void startEndpoints() throws IOException {
         listener = new Listener(httpPort);
+        Logger.log("Started HTTP listener on port %d".formatted(httpPort));
     }
 
     public static void registerCommands() {

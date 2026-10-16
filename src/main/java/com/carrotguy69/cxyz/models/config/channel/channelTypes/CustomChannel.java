@@ -146,16 +146,6 @@ public class CustomChannel extends BaseChannel {
             return;
         }
 
-        if (np.isMuted()) {
-            Punishment punishment = Punishment.getActivePunishment(np, Punishment.PunishmentType.MUTE);
-
-            if (punishment != null) {
-                MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.PUNISHMENT_MUTE_PLAYER_MESSAGE, MapFormatters.punishmentFormatter(np.getPlayer(), punishment));
-                return;
-            }
-        }
-
-
         this.sendChannelMessage(this.getChatFormat(), commonMap, true);
     }
 

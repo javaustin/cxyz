@@ -1,6 +1,7 @@
 package com.carrotguy69.cxyz;
 
 import com.carrotguy69.cxyz.events.bukkit.CloseInventoryEvent;
+import com.carrotguy69.cxyz.events.bukkit.CommandPreprocessEvent;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
@@ -36,6 +37,8 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -401,4 +404,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         CloseInventoryEvent.onClose(event);
     }
 
+    @EventHandler
+    public void onCommand(PlayerCommandPreprocessEvent event) {
+        CommandPreprocessEvent.onCommand(event);
+    }
 }
