@@ -126,6 +126,15 @@ public class MessageSend implements CommandExecutor {
             commonMap.put("content", content);
         }
 
+        if (sender.isMuted()) {
+            Punishment punishment = Punishment.getActivePunishment(sender, Punishment.PunishmentType.MUTE);
+
+            if (punishment != null) {
+                MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.PUNISHMENT_MUTE_PLAYER_MESSAGE, MapFormatters.punishmentFormatter(sender.getPlayer(), punishment));
+                return;
+            }
+        }
+
         // Deny message if the recipients privacy settings prohibit it or the recipient is ignoring the channel or player.
         if (!isMessagable(sender, recipient) && !reply) {
             MessageUtils.sendParsedMessage(sender.getPlayer(), MessageKey.MESSAGE_FAIL, commonMap);

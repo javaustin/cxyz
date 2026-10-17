@@ -1,6 +1,7 @@
 package com.carrotguy69.cxyz.other;
 
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
+import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
@@ -166,6 +167,9 @@ public class Constants {
 
         shorthandCommands = Shorthand.getShorthandCommands();
         Logger.log("Loaded shorthand commands: " + shorthandCommands.stream().map(Shorthand::getCommandName).collect(Collectors.joining(", ")));
+
+        announcements = Announcement.getAnnouncements();
+        Logger.log("Loaded announcements: " + announcements.stream().map(Announcement::getName).collect(Collectors.joining(", ")));
     }
 
     private static String processIfENV(String s) {

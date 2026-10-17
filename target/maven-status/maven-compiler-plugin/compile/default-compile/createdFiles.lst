@@ -42,6 +42,7 @@ com\carrotguy69\cxyz\webhook\DiscordEmbed$Footer.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmetic$1.class
 com\carrotguy69\cxyz\cmd\data\networkplayer\NetworkPlayerSet.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader.class
+com\carrotguy69\cxyz\models\config\Announcement$1.class
 com\carrotguy69\cxyz\models\config\channel\channelTypes\CustomChannel.class
 com\carrotguy69\cxyz\other\Tasks$2.class
 com\carrotguy69\cxyz\tabCompleters\Item.class

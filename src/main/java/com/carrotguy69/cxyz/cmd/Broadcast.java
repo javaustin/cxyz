@@ -66,8 +66,10 @@ public class Broadcast implements CommandExecutor {
         // Sends an announcement to all players of a server. If `forwardToOtherServers` is true, then this function will initiate requests to other servers.
 
         if (forwardToOtherServers) {
+            // I am aware this solution increases latency, but it is better than reworking the backend
             Map<String, Object> map = Map.of("content", content, "format_map", formatMap,"to_players", List.of("*"));
             Request.postRequest(apiEndpoint + "/send_message", gson.toJson(map));
+            return;
         }
 
         TextComponent component = MessageUtils.createMessage(content, Map.of());
@@ -75,5 +77,6 @@ public class Broadcast implements CommandExecutor {
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.spigot().sendMessage(component);
         }
+
     }
 }

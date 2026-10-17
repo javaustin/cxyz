@@ -93,7 +93,7 @@ public class Print implements CommandExecutor {
 
                 case "announcements":
                 case "announcement":
-                    Logger.info(Announcement.getAnnouncements().toString());
+                    Logger.info(announcements.toString());
                     return true;
 
                 case "friendrequest":

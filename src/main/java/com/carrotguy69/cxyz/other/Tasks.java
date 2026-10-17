@@ -83,27 +83,21 @@ public class Tasks {
     }
 
     public static void createAnnouncementTasks() {
-        for (Announcement annc : Announcement.getAnnouncements()) {
+        for (Announcement announcement : announcements) {
+
+            if (!announcement.isEnabled()) {
+                continue;
+            }
 
             int id;
-            if (annc.getInterval() == 0 || annc.getInterval() == -1) {
+            if (announcement.getInterval() == 0 || announcement.getInterval() == -1) {
                 // Announcement does not repeat, use a runTaskLater function.
 
                 id = new BukkitRunnable() {
                     public void run() {
-
-                        for (NetworkPlayer np : users.values()) {
-                            if (annc.getServers().contains(np.getServer()) && np.isOnline() && !np.isMutingChannel("announcement")) {
-                                np.sendMessage(annc.getContent(), MapFormatters.playerFormatter(np));
-                            }
-                        }
-
-                        if (annc.sendsToConsole())
-                            MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), annc.getContent(), Map.of());
-
-
+                        announcement.send();
                     }
-                }.runTaskLater(plugin, annc.getDelay()).getTaskId();
+                }.runTaskLater(plugin, announcement.getDelay() * 20).getTaskId();
 
             }
 
@@ -111,24 +105,12 @@ public class Tasks {
 
                 id = new BukkitRunnable() {
                     public void run() {
-
-                        for (NetworkPlayer np : users.values()) {
-                            if (annc.getServers().contains(np.getServer()) && np.isOnline() && !np.isMutingChannel("announcement")) {
-                                np.sendMessage(annc.getContent(), MapFormatters.playerFormatter(np));
-                            }
-                        }
-
-                        if (annc.sendsToConsole())
-                            MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), annc.getContent(), Map.of());
-
-
+                        announcement.send();
                     }
-                }.runTaskTimer(plugin, annc.getDelay(), annc.getInterval()).getTaskId();
+                }.runTaskTimer(plugin, announcement.getDelay() * 20, announcement.getInterval() * 20).getTaskId();
 
             }
             taskIDs.add(id);
-
-
         }
     }
 

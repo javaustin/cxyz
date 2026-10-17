@@ -4,6 +4,7 @@ import com.carrotguy69.cxyz.events.bukkit.CloseInventoryEvent;
 import com.carrotguy69.cxyz.events.bukkit.CommandPreprocessEvent;
 import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
+import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
@@ -105,6 +106,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static List<String> servers = new ArrayList<>();
     public static List<PlayerRank> ranks = new ArrayList<>();
     public static List<ChatFilterRule> chatFilterRules = new ArrayList<>();
+    public static List<Announcement> announcements = new ArrayList<>();
 
     public static List<String> enabledDebugs = new ArrayList<>();
     public static List<String> muteRestrictions = new ArrayList<>();

@@ -28,8 +28,8 @@ this-server:
   secret: "ENV:SECRET"
 
 api:
-  identifier: "ENV:API_IDENTIFIER" # Identifier used when this server authenticates with the API (case-sensitive)
-  endpoint: "ENV:API_ENDPOINT" # Base URL of your backend API (e.g., http://api.myserver.com).
+  identifier: "ENV:API_IDENTIFIER"
+  endpoint: "ENV:API_ENDPOINT"
   secret: "ENV:API_SECRET"
 
 
@@ -326,16 +326,24 @@ colors:
 # ANNOUNCEMENTS
 # ============================================================
 # Broadcast messages that appear across servers.
+#
+# enabled    - If set to false, the announcement will never send
+# content    - The parsable content of the announcement
+# channel    - The chat channel the announcement will be sent in
+# delay      - The delay (in seconds) the plugin should wait until sending the announcement (from plugin startup)
+# interval   - The delay (in seconds) the plugin should wait to repeat the announcement (set to 0 to never repeat)
+# scope      - (GLOBAL, LOCAL). If GLOBAL, the announcement will be sent to all game servers. If not, the announcement will only be sent on this server.
+# to-console - If true, the announcement will be sent in the console
 
 announcements:
 
-  my-example-announcement:
-    enabled: false
-    content: '&3An example announcement'
-    delay: 1800
-    interval: 3600
-    servers:
-      - HUB-1
+  new-example-announcement:
+    enabled: true
+    content: '&4Another example announcement'
+    channel: public
+    delay: 30
+    interval: 60
+    scope: GLOBAL
     to-console: true
 
 
@@ -384,12 +392,13 @@ punishments:
         ban: -1 # Record never expires
 
   # Commands that a player is restricted from executing when they are muted.
-  # This list requires an exact match, so be sure to include command aliases if you wish to restrict those.
+  # This list requires an exact "starts with" string match, so be sure to include command aliases if you wish to restrict those.
   mute-restrictions:
   - msg
   - message
   - r
   - party chat
+  - broadcast
 
 # When a player joins the server, you can configure their Minecraft display names and tab list name
 social:
