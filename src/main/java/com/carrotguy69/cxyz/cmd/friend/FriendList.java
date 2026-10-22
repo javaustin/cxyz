@@ -26,7 +26,7 @@ public class FriendList implements CommandExecutor {
             /friend list [page] [player]
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("friend.list", sender))
             return true;
 
         String node = "cxyz.friend.list";

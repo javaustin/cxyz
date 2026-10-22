@@ -27,7 +27,7 @@ public class LevelAdd implements CommandExecutor {
 
         
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("level.add", sender))
             return true;
 
         String node = "cxyz.level.add";

@@ -29,7 +29,7 @@ public class Show implements CommandExecutor {
 
 
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("show", sender))
             return true;
 
         String node = "cxyz.show";

@@ -31,7 +31,7 @@ public class FriendAdd implements CommandExecutor {
         */
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
+        if (CommandRestrictor.handleRestricted("friend.add", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
 
         String node = "cxyz.friend.add";
@@ -45,11 +45,6 @@ public class FriendAdd implements CommandExecutor {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
             return true;
         }
-
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
-
 
         if (args.length == 0) {
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player"));

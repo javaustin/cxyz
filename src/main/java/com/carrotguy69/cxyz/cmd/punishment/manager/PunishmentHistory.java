@@ -32,7 +32,7 @@ public class PunishmentHistory implements CommandExecutor {
             /punishment history *
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("punishment.history", sender))
             return true;
 
         String node = "cxyz.punishment.history";

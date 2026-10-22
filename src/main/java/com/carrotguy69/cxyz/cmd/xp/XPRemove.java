@@ -27,7 +27,7 @@ public class XPRemove implements CommandExecutor {
         */
 
         
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("xp.remove", sender))
             return true;
 
         String node = "cxyz.xp.remove";

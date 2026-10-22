@@ -28,7 +28,7 @@ public class CoinsRemove implements CommandExecutor {
 
         
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("coins.remove", sender))
             return true;
 
         String node = "cxyz.coins.remove";

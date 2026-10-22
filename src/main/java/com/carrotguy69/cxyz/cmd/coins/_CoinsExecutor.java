@@ -22,7 +22,7 @@ public class _CoinsExecutor implements CommandExecutor {
             /coins add 50 Steve
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("coins", sender))
             return true;
 
 //        String node = "cxyz.coins";

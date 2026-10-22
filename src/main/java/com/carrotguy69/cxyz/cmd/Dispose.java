@@ -21,7 +21,7 @@ public class Dispose implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         args = CommandUtils.handleSilent(args);
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("dispose", sender))
             return true;
 
         String node = "cxyz.dispose";

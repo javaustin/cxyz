@@ -27,7 +27,7 @@ public class Parse implements CommandExecutor {
             /parse [&eHello World](HOVER:&aClick me!)(RUN_COMMAND:/parse Thanks {player}!)
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("parse", sender))
             return true;
 
         String node = "cxyz.parse";

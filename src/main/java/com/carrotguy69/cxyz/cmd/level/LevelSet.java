@@ -29,7 +29,7 @@ public class LevelSet implements CommandExecutor {
 
         
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("level.set", sender))
             return true;
 
         String node = "cxyz.level.set";

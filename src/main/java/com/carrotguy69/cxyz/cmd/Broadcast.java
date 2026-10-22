@@ -31,7 +31,7 @@ public class Broadcast implements CommandExecutor {
         */
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
+        if (CommandRestrictor.handleRestricted("broadcast", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
 
         String node = "cxyz.broadcast";
@@ -41,18 +41,14 @@ public class Broadcast implements CommandExecutor {
         }
 
         String content = String.join(" ", args);
-        boolean raw = false;
 
         if (List.of(args).contains("-r")) {
-            raw = true;
-
             ObjectUtils.removeItem(args, "-r");
 
             content = f(content);
         }
 
         if (content.isBlank()) {
-            // our first trial of the error message
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_CONTENT, Map.of());
             return true;
         }
@@ -66,6 +62,7 @@ public class Broadcast implements CommandExecutor {
         // Sends an announcement to all players of a server. If `forwardToOtherServers` is true, then this function will initiate requests to other servers.
 
         if (forwardToOtherServers) {
+            // The announcement is sent to the API first, and then the API sends it back to us as a recipient server.
             // I am aware this solution increases latency, but it is better than reworking the backend
             Map<String, Object> map = Map.of("content", content, "format_map", formatMap,"to_players", List.of("*"));
             Request.postRequest(apiEndpoint + "/send_message", gson.toJson(map));

@@ -23,7 +23,7 @@ public class _RankExecutor implements CommandExecutor {
             /rank view [player]
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("rank", sender))
             return true;
 
 //        String node = "cxyz.rank";

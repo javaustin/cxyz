@@ -3,61 +3,28 @@ package com.carrotguy69.cxyz.utils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
-import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Locale;
 
 import static com.carrotguy69.cxyz.CXYZ.configYaml;
 
-public class CommandRestrictor implements CommandExecutor {
+public class CommandRestrictor {
     public static class CommandRestriction {
-        private final Command command;
         private final PlayerRank minRank;
         private final long minLevel;
         private final String message;
 
-        // make getters and loader/constructor
-
-        public CommandRestriction(Command command, String minRankName, long minLevel, String message) {
-            this.command = command;
+        public CommandRestriction(String minRankName, long minLevel, String message) {
             this.minRank = PlayerRank.getRankByName(minRankName);
             this.minLevel = minLevel;
-            this.message = message != null ? message : MessageGrabber.grab(MessageKey.COMMAND_RESTRICTED);
-        }
-
-        public static CommandRestriction getRestriction(String commandName) {
-
-            if (configYaml.getString("command-restrictions." + commandName) == null) {
-                return null;
-            }
-
-            Command cmd = Bukkit.getPluginCommand(commandName);
-
-            if (cmd == null) {
-                Logger.warning("In CommandRestriction.getRestriction(String commandName). Bukkit.getPluginCommand(commandName) returned null where commandName = '" + commandName + "'");
-                return null;
-            }
-
-            return new CommandRestriction(
-                    Bukkit.getPluginCommand(commandName),
-                    configYaml.getString("command-restrictions." + commandName + ".minimum-rank", "default"),
-                    configYaml.getLong("command-restrictions." + commandName + ".minimum-level", 0L),
-                    configYaml.getString("command-restrictions." + commandName + ".message", MessageGrabber.grab("errors.command.restricted")
-                    )
-            );
-        }
-
-        public Command getCommand() {
-            return command;
+            this.message = message != null ? message : MessageGrabber.grab(MessageKey.COMMAND_NO_ACCESS);
         }
 
         public long getMinLevel() {
@@ -73,15 +40,27 @@ public class CommandRestrictor implements CommandExecutor {
         }
     }
 
-    public static boolean handleRestricted(Command command, CommandSender sender) {
+    public static CommandRestriction getRestriction(String commandPath) {
 
-        if (!(sender instanceof Player)) {
-            return false; // Not restricted
+        if (configYaml.getString("command-restrictions." + commandPath) == null) {
+            return null;
         }
 
-        Player p = (Player) sender;
+        return new CommandRestriction(
+                configYaml.getString("command-restrictions." + commandPath + ".minimum-rank", "default"),
+                configYaml.getLong("command-restrictions." + commandPath + ".minimum-level", 0L),
+                configYaml.getString("command-restrictions." + commandPath + ".message")
+        );
+    }
 
-        CommandRestriction restriction = CommandRestriction.getRestriction(command.getName().toLowerCase());
+    public static boolean handleRestricted(String commandPath, CommandSender sender) {
+
+        if (!(sender instanceof Player p)) {
+            return false;
+        }
+
+        commandPath = commandPath.toLowerCase(Locale.ROOT);
+        CommandRestriction restriction = getRestriction(commandPath);
 
         if (restriction == null) {
             return false;
@@ -90,23 +69,23 @@ public class CommandRestrictor implements CommandExecutor {
         // A restriction exists. Let's see if the player can access it.
         NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
 
-        boolean restricted = restriction.getMinLevel() > np.getLevel()
+        boolean isRestricted = restriction.getMinLevel() > np.getLevel()
                 || restriction.getMinRank().getHierarchy() > np.getTopRank().getHierarchy();
 
 
         Map<String, Object> map = new java.util.HashMap<>(Map.of(
-                "command", command.getName().toLowerCase(),
+                "command-path", commandPath,
                 "level", restriction.getMinLevel()
         ));
 
         map.putAll(MapFormatters.playerFormatter(np));
         map.putAll(MapFormatters.rankFormatter(restriction.getMinRank()));
 
-        if (restricted) {
+        if (isRestricted) {
             MessageUtils.sendParsedMessage(p, restriction.getMessage(), map);
         }
 
-        return restricted;
+        return isRestricted;
     }
 
     public static boolean handleRestrictedTabCompleter(Command command, CommandSender sender) {
@@ -117,7 +96,7 @@ public class CommandRestrictor implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        CommandRestriction restriction = CommandRestriction.getRestriction(command.getName().toLowerCase());
+        CommandRestriction restriction = getRestriction(command.getName().toLowerCase());
 
         if (restriction == null) {
             return false;
@@ -129,14 +108,5 @@ public class CommandRestrictor implements CommandExecutor {
 
         return restriction.getMinLevel() > np.getLevel()
                 || restriction.getMinRank().getHierarchy() > np.getTopRank().getHierarchy();
-    }
-
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-
-        if (CommandRestrictor.handleRestricted(command, sender))
-            return true;
-
-        return false;
     }
 }

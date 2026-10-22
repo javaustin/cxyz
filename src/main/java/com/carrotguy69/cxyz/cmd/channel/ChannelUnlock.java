@@ -30,7 +30,7 @@ public class ChannelUnlock implements CommandExecutor {
             /channel unlock public
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("channel.unlock", sender))
             return true;
 
         String node = "cxyz.channel.unlock";

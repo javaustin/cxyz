@@ -27,7 +27,7 @@ public class CoinsAdd implements CommandExecutor {
 
         
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("coins.add", sender))
             return true;
 
         String node = "cxyz.coins.add";

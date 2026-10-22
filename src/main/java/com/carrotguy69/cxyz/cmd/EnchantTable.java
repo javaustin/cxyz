@@ -40,7 +40,7 @@ public class EnchantTable implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         args = CommandUtils.handleSilent(args);
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("enchanttable", sender))
             return true;
 
         String node = "cxyz.enchanttable";

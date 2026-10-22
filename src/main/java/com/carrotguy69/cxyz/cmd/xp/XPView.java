@@ -26,7 +26,7 @@ public class XPView implements CommandExecutor {
         */
 
         
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("xp.view", sender))
             return true;
 
         String node = "cxyz.xp.view";

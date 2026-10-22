@@ -32,7 +32,7 @@ public class ChannelSet implements CommandExecutor {
         String node = "cxyz.channel.set";
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
+        if (CommandRestrictor.handleRestricted("channel.set", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
 
         if (!sender.hasPermission(node)) {

@@ -84,21 +84,21 @@ public class Announcement {
     }
 
     public void send() {
-        new BukkitRunnable() {
-            public void run () {
+        new BukkitRunnable() {public void run () {
             BaseChannel baseChannel = BaseChannel.getChannel(channel);
-                if (baseChannel == null) {
-                    Broadcast.broadcast(content, Map.of(), isGlobal);
-                    return;
-                }
-                else
-                    baseChannel.sendChannelMessage(content, Map.of(), isGlobal);
 
-                if (toConsole) {
-                    MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), content, Map.of());
-                }
+            if (baseChannel == null) {
+                Broadcast.broadcast(content, Map.of(), isGlobal);
+                return;
             }
-        }.runTask(CXYZ.plugin);
+            else
+                baseChannel.sendChannelMessage(content, Map.of(), isGlobal);
+
+            if (toConsole) {
+                MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), content, Map.of());
+            }
+
+        }}.runTask(CXYZ.plugin);
     }
 
     public static Announcement getByName(String name) {

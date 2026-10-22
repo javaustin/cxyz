@@ -34,7 +34,7 @@ public class ChannelIgnore implements CommandExecutor {
             return true;
         }
 
-        if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
+        if (CommandRestrictor.handleRestricted("channel.ignore", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
 
         if (!(sender instanceof Player)) {

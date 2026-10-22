@@ -5,7 +5,6 @@
 # General (non-command specific) errors
 errors:
   command:
-    restricted: "[&cYou do not have access to this command!](HOVER:Command: {command}\nRequired rank: {rank}\nRequired level: {level})" # Format: requiredLevel, requiredRank, minLevel, minRank, player map formatter.
     no-access: "[&cYou do not have access to this command!](HOVER:&cYou do not have the required permission: {permission})" # Format: permission
     wrong-server: "&cYou cannot use this command on this server!" # no format
     player-only: "&cThis command must be used by a player!" # no format

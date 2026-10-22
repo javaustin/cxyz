@@ -28,7 +28,7 @@ public class LevelRemove implements CommandExecutor {
 
         
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("level.remove", sender))
             return true;
 
         String node = "cxyz.level.remove";

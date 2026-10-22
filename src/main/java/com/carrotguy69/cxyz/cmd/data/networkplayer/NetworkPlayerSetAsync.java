@@ -32,7 +32,7 @@ public class NetworkPlayerSetAsync implements CommandExecutor {
         args = CommandUtils.handleSilent(args);
         boolean silent = CommandUtils.isSilent();
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("data.networkplayer.set-async", sender))
             return true;
 
         String node = "cxyz.data.networkplayer.get-async";

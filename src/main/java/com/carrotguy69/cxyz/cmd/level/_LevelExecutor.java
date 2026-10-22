@@ -18,7 +18,7 @@ public class _LevelExecutor implements CommandExecutor {
             /level add 50 Steve
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("level", sender))
             return true;
 
 //        String node = "cxyz.level";

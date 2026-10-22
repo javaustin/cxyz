@@ -25,7 +25,7 @@ public class PunishmentInfo implements CommandExecutor {
         */
 
         // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted(command, sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
+        if (CommandRestrictor.handleRestricted("punishment.info", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
             return true;
 
         String node = "cxyz.punishment.info";

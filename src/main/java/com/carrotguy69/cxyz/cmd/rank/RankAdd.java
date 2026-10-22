@@ -36,7 +36,7 @@ public class RankAdd implements CommandExecutor {
             return true;
         }
 
-        if (CommandRestrictor.handleRestricted(command, sender)) {
+        if (CommandRestrictor.handleRestricted("rank.add", sender)) {
             return true;
         }
 

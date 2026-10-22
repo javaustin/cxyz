@@ -377,12 +377,12 @@ punishments:
       ban: Hacking
 
     durations: # Enter times in SECONDS
-      permanent: "permanent" # If the duration is permanent, this text will show instead of the supplied durations.
+      permanent: "permanent" # If the duration is permanent, this text will show instead of a non-useful number like 0 or -1.
 
       effective-until: # The time until the punishment is no longer effective.
         warn: 604800 # 1 week (warns are stored but do not affect the player - to control records - modify the expiry value)
         mute: 3600 # 1 hour
-        kick: 0 # Expires immediately (kicks are not persistent by definition, any value here will be ignored)
+        kick: 0 # (Kicks are not persistent by definition, any value here will be ignored)
         ban: -1 # Permanent
 
       expire: # The time until the record of the punishment is cleared.

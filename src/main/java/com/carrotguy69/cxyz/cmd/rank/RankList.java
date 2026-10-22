@@ -42,7 +42,7 @@ public class RankList implements CommandExecutor {
             return true;
         }
 
-        if (CommandRestrictor.handleRestricted(command, sender)) {
+        if (CommandRestrictor.handleRestricted("rank.list", sender)) {
             return true;
         }
 

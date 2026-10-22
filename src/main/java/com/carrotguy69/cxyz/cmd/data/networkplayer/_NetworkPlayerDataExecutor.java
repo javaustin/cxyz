@@ -31,7 +31,7 @@ public class _NetworkPlayerDataExecutor implements CommandExecutor {
             /networkplayer   set-async   <uuid / username>   <attribute>   <value>
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("data.networkplayer", sender))
             return true;
 
         String node = "cxyz.data.networkplayer";

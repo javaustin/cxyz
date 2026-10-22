@@ -24,7 +24,7 @@ public class _DataExecutor implements CommandExecutor {
             /data <type> <get | set | get-async | set-async> <entry-id> [key] [value]
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("data", sender))
             return true;
 
         String node = "cxyz.data";

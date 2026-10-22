@@ -28,7 +28,7 @@ public class XPSet implements CommandExecutor {
         */
 
         
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("xp.set", sender))
             return true;
 
         String node = "cxyz.xp.set";

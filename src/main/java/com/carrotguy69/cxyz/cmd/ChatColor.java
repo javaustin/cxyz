@@ -44,7 +44,7 @@ public class ChatColor implements CommandExecutor {
             /chatcolor GREEN
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender)) {
+        if (CommandRestrictor.handleRestricted("chatcolor", sender)) {
             return true;
         }
 

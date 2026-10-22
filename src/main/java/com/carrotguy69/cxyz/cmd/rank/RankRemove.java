@@ -38,7 +38,7 @@ public class RankRemove implements CommandExecutor {
             return true;
         }
 
-        if (CommandRestrictor.handleRestricted(command, sender)) {
+        if (CommandRestrictor.handleRestricted("rank.remove", sender)) {
             return true;
         }
 

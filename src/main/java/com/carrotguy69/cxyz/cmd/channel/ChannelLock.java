@@ -31,7 +31,7 @@ public class ChannelLock implements CommandExecutor {
             /channel lock public
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("channel.lock", sender))
             return true;
 
         String node = "cxyz.channel.lock";

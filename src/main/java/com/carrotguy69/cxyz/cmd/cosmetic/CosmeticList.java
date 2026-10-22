@@ -45,7 +45,7 @@ public class CosmeticList implements CommandExecutor {
             return true;
         }
 
-        if (CommandRestrictor.handleRestricted(command, sender)) {
+        if (CommandRestrictor.handleRestricted("cosmetic.list", sender)) {
             return true;
         }
 

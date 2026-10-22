@@ -27,7 +27,7 @@ public class CoinsView implements CommandExecutor {
 
         
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("coins.view", sender))
             return true;
 
         String node = "cxyz.coins.view";

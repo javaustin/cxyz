@@ -27,7 +27,7 @@ public class LevelView implements CommandExecutor {
 
         
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("level.view", sender))
             return true;
 
         String node = "cxyz.level.view";

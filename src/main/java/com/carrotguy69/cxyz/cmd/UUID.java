@@ -21,7 +21,7 @@ public class UUID implements CommandExecutor {
         String node = "cxyz.uuid";
         String node2 = "cxyz.uuid.others";
 
-        if (CommandRestrictor.handleRestricted(command, sender)) {
+        if (CommandRestrictor.handleRestricted("uuid", sender)) {
             return true;
         }
 

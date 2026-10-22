@@ -27,7 +27,7 @@ public class _MessageDataExecutor implements CommandExecutor {
             /message   get-async  <from_sender / from_recipient>     <uuid / username>
         */
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("data.message", sender))
             return true;
 
         String node = "cxyz.data.message";

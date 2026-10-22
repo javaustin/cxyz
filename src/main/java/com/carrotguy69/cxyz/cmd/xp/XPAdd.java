@@ -27,7 +27,7 @@ public class XPAdd implements CommandExecutor {
         */
 
         
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("xp.add", sender))
             return true;
 
         String node = "cxyz.xp.add";

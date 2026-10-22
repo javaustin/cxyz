@@ -24,7 +24,7 @@ public class Ping implements CommandExecutor {
         */
 
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("ping", sender))
             return true;
 
         String node = "cxyz.ping";

@@ -27,7 +27,7 @@ public class Item implements CommandExecutor {
 
         String node = "cxyz.item";
 
-        if (CommandRestrictor.handleRestricted(command, sender))
+        if (CommandRestrictor.handleRestricted("item", sender))
             return true;
 
         if (!(sender.hasPermission(node))) {

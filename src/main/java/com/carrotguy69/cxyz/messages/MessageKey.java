@@ -3,7 +3,6 @@ package com.carrotguy69.cxyz.messages;
 public enum MessageKey {
 
 
-    COMMAND_RESTRICTED("errors.command.restricted"),
     COMMAND_NO_ACCESS("errors.command.no-access"),
     COMMAND_WRONG_SERVER("errors.command.wrong-server"),
     COMMAND_PLAYER_ONLY("errors.command.player-only"),
