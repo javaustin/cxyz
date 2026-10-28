@@ -45,6 +45,7 @@ com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader.class
 com\carrotguy69\cxyz\models\config\Announcement$1.class
 com\carrotguy69\cxyz\models\config\channel\channelTypes\CustomChannel.class
 com\carrotguy69\cxyz\other\Tasks$2.class
+com\carrotguy69\cxyz\cmd\cosmetic\CosmeticEnable.class
 com\carrotguy69\cxyz\tabCompleters\Item.class
 com\carrotguy69\cxyz\webhook\DiscordWebhook.class
 com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentHistory.class
@@ -146,6 +147,7 @@ com\carrotguy69\cxyz\cmd\rank\RankRemove.class
 com\carrotguy69\cxyz\tabCompleters\Location.class
 com\carrotguy69\cxyz\events\custom\localHandlers\LevelUpHandler.class
 com\carrotguy69\cxyz\exceptions\InvalidConfigException.class
+com\carrotguy69\cxyz\cmd\cosmetic\CosmeticDisable.class
 com\carrotguy69\cxyz\cmd\Craft.class
 com\carrotguy69\cxyz\cmd\Print.class
 com\carrotguy69\cxyz\cmd\punishment\Unban.class

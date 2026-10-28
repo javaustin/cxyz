@@ -38,6 +38,10 @@ public class _CosmeticExecutor implements CommandExecutor {
 
             case "buy":
                 return new CosmeticBuy().onCommand(sender, command, s, slice(args, 1));
+            case "disable":
+                return new CosmeticDisable().onCommand(sender, command, s, slice(args, 1));
+            case "enable":
+                return new CosmeticEnable().onCommand(sender, command, s, slice(args, 1));
             case "equip":
                 return new CosmeticEquip().onCommand(sender, command, s, slice(args, 1));
             case "unequip":

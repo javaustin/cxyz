@@ -27,6 +27,7 @@ errors:
       channel: "&cPlease provide a valid channel!"
       color: "&cPlease provide a valid color!"
       cosmetic: "&cPlease provide a valid cosmetic!"
+      cosmetic-type: "&cPlease provide a valid cosmetic type!"
       debug: "&cPlease provide a valid debugger!"
       duration: "&cPlease provide a valid duration!"
       entry: "[&cEntry not found!](HOVER:&7Could not find an entry with the key {key}!)"
@@ -172,6 +173,9 @@ commands:
         entry-format: "[{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})"
         separator: "\n"
         max-entries-per-page: 8
+
+    enable: "&aEnabled the following cosmetic types: {enabled-types}"
+    disable: "&aDisabled the following cosmetic types: {disabled-types}"
 
   craft: "&aOpened crafting menu for {player}."
 

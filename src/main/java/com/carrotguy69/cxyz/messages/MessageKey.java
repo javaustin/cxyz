@@ -23,6 +23,7 @@ public enum MessageKey {
     INVALID_CHANNEL("errors.args.invalid.channel"),
     INVALID_COLOR("errors.args.invalid.color"),
     INVALID_COSMETIC("errors.args.invalid.cosmetic"),
+    INVALID_COSMETIC_TYPE("errors.args.invalid.cosmetic-type"),
     INVALID_DEBUG("errors.args.invalid.debug"),
     INVALID_DURATION("errors.args.invalid.duration"),
     INVALID_ENCHANT("errors.args.invalid.enchant"),
@@ -124,6 +125,9 @@ public enum MessageKey {
     COSMETIC_UNEQUIP_ERROR_NOT_EQUIPPED("commands.cosmetic.unequip.error.not-equipped"),
     COSMETIC_UNEQUIP_ERROR_NOT_OWNED("commands.cosmetic.unequip.error.not-owned"),
     COSMETIC_UNEQUIP_SUCCESS("commands.cosmetic.unequip.success"),
+
+    COSMETIC_ENABLE("commands.cosmetic.enable"),
+    COSMETIC_DISABLE("commands.cosmetic.disable"),
 
     CRAFT("commands.craft"),
 

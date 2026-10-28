@@ -9,6 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.carrotguy69.cxyz.CXYZ.channels;
 import static com.carrotguy69.cxyz.CXYZ.configYaml;
@@ -21,12 +22,17 @@ public class ChannelRegistry {
     public static void loadAssociations() {
         ConfigurationSection section = configYaml.getConfigurationSection("chat.defaults");
 
-        assert section != null;
+        if (section == null) {
+            throw new RuntimeException("No default channel mappings provided. Cannot continue!");
+        }
 
         for (String key : section.getKeys(false)) {
             String value = section.getString(key);
 
-            FunctionalChannel fc = new FunctionalChannel(BaseChannel.getChannel(value), ChannelFunction.valueOf(key.toUpperCase()));
+            BaseChannel channel = BaseChannel.getChannel(value);
+            ChannelFunction function = ChannelFunction.valueOf(key.toUpperCase());
+
+            FunctionalChannel fc = new FunctionalChannel(channel, function);
 
             functionalChannels.add(fc);
         }

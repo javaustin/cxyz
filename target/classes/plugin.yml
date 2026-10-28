@@ -21,7 +21,7 @@ commands:
 
   cosmetic:
     description: Buy, equip, unequip, or list your cosmetics
-    usage: /cosmetic <buy | equip | unequip | list> [...]
+    usage: /cosmetic <buy | equip | unequip | list | enable | disable> [...]
     permission: "cxyz.cosmetic"
     aliases: [csm]
 
@@ -359,6 +359,10 @@ permissions:
     default: true
   cxyz.cosmetic.unequip:
     default: true
+  cxyz.cosmetic.enable:
+    default: op
+  cxyz.cosmetic.disable:
+    default: op
 
 #  cxyz.data:
 #    default: op

@@ -145,8 +145,6 @@ public class Request {
     public static String generateSignature(String identifier, String secret, long timestamp, String method, String path, String payloadJSON) throws Exception {
         String message = identifier + " | " + timestamp + " | " + method + " | " + path + " | " + payloadJSON;
 
-        Logger.debugRequest(message);
-
         Mac mac = Mac.getInstance("HmacSHA256");
 
         SecretKeySpec key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
