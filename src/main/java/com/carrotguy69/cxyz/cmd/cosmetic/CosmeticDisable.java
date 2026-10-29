@@ -99,7 +99,7 @@ public class CosmeticDisable implements CommandExecutor {
 
         for (NetworkPlayer np : online) {
             for (Cosmetic.CosmeticType type : matchingTypes) {
-                np.unEquipCosmeticOfType(type);
+                np.unEquipCosmeticOfType(type, false);
             }
             np.sync();
         }

@@ -816,8 +816,6 @@ public class NetworkPlayer {
     }
 
     public void equipCosmetic(Cosmetic cosmetic) {
-        // Updates player data, creates an ActiveCosmetic, runs the equipActions with respect to the current NetworkPlayer.
-
         List<String> list = JsonConverters.toList(this.equipped_cosmetics);
 
         Logger.debugCosmetic(String.format("size of equipped_cosmetics for %s: %d", this.getDisplayName(), list.size()));
@@ -825,24 +823,37 @@ public class NetworkPlayer {
         list.add(cosmetic.getId());
 
         this.equipped_cosmetics = gson.toJson(list);
+
+        if (List.of(Cosmetic.CosmeticType.CHAT_COLOR, Cosmetic.CosmeticType.CHAT_TAG, Cosmetic.CosmeticType.RANK_PLATE).contains(cosmetic.getType())) {
+            // ActiveCosmetic setup is not necessary for trivial cosmetic types.
+            return;
+        }
+
+        ActiveCosmetic ac = new ActiveCosmetic(cosmetic, this);
+        // ActiveCosmetic is the live per-player instance that applies behavior for this equip.
+        ac.equip();
     }
 
-    public void unEquipCosmeticOfType(Cosmetic.CosmeticType type) {
+    public void unEquipCosmeticOfType(Cosmetic.CosmeticType type, boolean updateState) {
         for (Cosmetic cosmetic : getEquippedCosmetics()) {
             if (cosmetic.getType().equals(type)) {
-                unEquipCosmetic(cosmetic);
+                unEquipCosmetic(cosmetic, updateState);
             }
         }
     }
 
-    public void unEquipCosmetic(Cosmetic cosmetic) {
+    public void unEquipCosmetic(Cosmetic cosmetic, boolean updateState) {
+        // updateState: updates the NetworkPlayer field `equipped_cosmetics` if true. Use false if you only want to temporarily unequip a cosmetic (unequip, re-equip loops.)
+
         // For database consistency
         List<String> list = JsonConverters.toList(this.equipped_cosmetics);
 
-        while (list.contains(cosmetic.getId()))
-            list.remove(cosmetic.getId());
+        if (updateState) {
+            while (list.contains(cosmetic.getId()))
+                list.remove(cosmetic.getId());
 
-        this.equipped_cosmetics = gson.toJson(list);
+            this.equipped_cosmetics = gson.toJson(list);
+        }
 
         List<ActiveCosmetic> activeCosmetics = ActiveCosmetic.activeCosmeticMap.get(this.getUUID());
 
@@ -850,7 +861,7 @@ public class NetworkPlayer {
 
         if (activeCosmetics != null) {
             for (ActiveCosmetic ac : activeCosmetics) {
-                if (cosmetic.getId().equalsIgnoreCase(ac.getId())){
+                if (cosmetic.getId().equalsIgnoreCase(ac.getId())) {
                     toRemove.add(ac);
                 }
             }
@@ -862,20 +873,10 @@ public class NetworkPlayer {
 
     }
 
-    public void unEquipActiveCosmetics() {
-        List<ActiveCosmetic> activeCosmetics = ActiveCosmetic.activeCosmeticMap.get(this.getUUID());
-
-        List<ActiveCosmetic> toRemove = new ArrayList<>();
-
-        if (activeCosmetics != null) {
-            toRemove.addAll(activeCosmetics);
+    public void unEquipAllCosmetics(boolean updateState) {
+        for (Cosmetic cosmetic : this.getEquippedCosmetics()) {
+            this.unEquipCosmetic(cosmetic, updateState);
         }
-
-        for (ActiveCosmetic ac : toRemove) {
-            ac.unEquip();
-        }
-
-        this.getEquippedCosmetics().clear();
     }
 
 

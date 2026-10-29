@@ -27,9 +27,9 @@ public class LeaveEvent {
         np.setOnline(false);
         np.setLastOnline(TimeUtils.unixTimeNow());
 
-        np.sync();
+        np.unEquipAllCosmetics(false);
 
-        np.unEquipActiveCosmetics();
+        np.sync();
 
         if (np.isVanished()) {
             e.setQuitMessage("");

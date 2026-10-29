@@ -106,7 +106,7 @@ public class RankRemove implements CommandExecutor {
 
             for (Cosmetic cosmetic : np.getEquippedCosmetics()) {
                 if (cosmetic.getType() == Cosmetic.CosmeticType.RANK_PLATE && cosmetic.getRequiredRank().getHierarchy() > np.getTopRank().getHierarchy()) {
-                    np.unEquipCosmetic(cosmetic);
+                    np.unEquipCosmetic(cosmetic, true);
                 }
             }
 

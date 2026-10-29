@@ -79,7 +79,7 @@ public class CosmeticEquip implements CommandExecutor {
         }
 
         if (np.hasEquippedCosmeticOfType(cosmetic.getType()) && !List.of(Cosmetic.CosmeticType.GADGET, Cosmetic.CosmeticType.WEARABLE).contains(cosmetic.getType())) {
-            np.unEquipCosmeticOfType(cosmetic.getType());
+            np.unEquipCosmeticOfType(cosmetic.getType(), true);
         }
 
 
@@ -90,9 +90,6 @@ public class CosmeticEquip implements CommandExecutor {
         }
 
         np.equipCosmetic(cosmetic);
-        ActiveCosmetic ac = new ActiveCosmetic(cosmetic, np);
-        // ActiveCosmetic is the live per-player instance that applies behavior for this equip.
-        ac.equip();
         np.sync();
 
         // in case there is a chat tag or rank thing

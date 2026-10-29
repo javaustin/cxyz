@@ -86,7 +86,7 @@ public class CosmeticUnequip implements CommandExecutor {
             return true;
         }
 
-        np.unEquipCosmetic(cosmetic);
+        np.unEquipCosmetic(cosmetic, true);
         // NetworkPlayer handles the runtime cleanup, including the ActiveCosmetic wrapper.
         np.sync();
 

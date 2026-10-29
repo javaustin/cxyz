@@ -93,7 +93,7 @@ public class ChatColor implements CommandExecutor {
             return true;
         }
 
-        np.unEquipCosmeticOfType(Cosmetic.CosmeticType.CHAT_COLOR);
+        np.unEquipCosmeticOfType(Cosmetic.CosmeticType.CHAT_COLOR, true);
         np.setChatColor(color.code);
 
         np.sync();
