@@ -228,13 +228,23 @@ public abstract class BaseChannel {
 
 
     public void sendChannelMessage(String chatFormat, Map<String, Object> formatMap, boolean forwardToOtherServers) {
-        sendChannelMessage(this, chatFormat, formatMap);
+        BaseChannel.sendChannelMessage(this, chatFormat, formatMap);
 
         String stripped = MessageParser.getStrippedText(new MessageParser(chatFormat, formatMap).parse());
 
         Logger.debugMessage("Channel message content (stripped): " + stripped);
 
-        if (this.getWebhookURL() != null && !this.getWebhookURL().isBlank()) {
+        if (forwardToOtherServers) {
+            Request.postRequest(apiEndpoint + "/send_message", gson.toJson(
+                    Map.of(
+                            "to_channels", List.of(this.getName()),
+                            "content", chatFormat,
+                            "format_map", formatMap
+                    )
+            ));
+        }
+
+        else if (this.getWebhookURL() != null && !this.getWebhookURL().isBlank()) {
 
             DiscordWebhook webhook = new DiscordWebhook(
                     this.getWebhookURL(),
@@ -242,24 +252,12 @@ public abstract class BaseChannel {
             );
             webhook.send();
         }
-
-        if (!forwardToOtherServers)
-            return;
-
-        Request.postRequest(apiEndpoint + "/send_message", gson.toJson(
-                Map.of(
-                        "to_channels", List.of(this.getName()),
-                        "content", chatFormat,
-                        "format_map", formatMap
-                )
-        ));
     }
 
 
     // Static functions
 
     public static void sendChannelMessage(BaseChannel channel, String chatFormat, Map<String, Object> formatMap) {
-        // This is the function that can be called by the HTTP listener, because it won't make any other requests.
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());

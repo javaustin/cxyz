@@ -2,10 +2,8 @@ package com.carrotguy69.cxyz.models.config;
 
 import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.cmd.Broadcast;
-import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.other.Logger;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -22,7 +20,6 @@ public class Announcement {
     private final String channel;
     private final long delay;
     private final long interval;
-    private final boolean toConsole;
     private final boolean isGlobal;
     private final boolean isEnabled;
 
@@ -42,17 +39,12 @@ public class Announcement {
         return interval;
     }
 
-    public boolean sendsToConsole() {
-        return toConsole;
-    }
-
-    public Announcement (String name, String content, String channel, long delaySeconds, long intervalSeconds, boolean toConsole, boolean isGlobal, boolean isEnabled) {
+    public Announcement (String name, String content, String channel, long delaySeconds, long intervalSeconds, boolean isGlobal, boolean isEnabled) {
         this.name = name;
         this.content = content;
         this.channel = channel;
         this.delay = delaySeconds;
         this.interval = intervalSeconds;
-        this.toConsole = toConsole;
         this.isGlobal = isGlobal;
         this.isEnabled = isEnabled;
     }
@@ -73,11 +65,10 @@ public class Announcement {
             String channel = configYaml.getString("announcements." + name + ".channel");
             long delay = configYaml.getLong("announcements." + name + ".delay");
             long interval = configYaml.getLong("announcements." + name + ".interval");
-            boolean toConsole = configYaml.getBoolean("announcements." + name + ".to-console");
             boolean isGlobal = configYaml.getString("announcements." + name + ".scope", "local").equalsIgnoreCase("GLOBAL");
             boolean isEnabled = configYaml.getBoolean("announcements." + name + ".enabled");
 
-            results.add(new Announcement(name, content, channel, delay, interval, toConsole, isGlobal, isEnabled));
+            results.add(new Announcement(name, content, channel, delay, interval, isGlobal, isEnabled));
         }
 
         return results;
@@ -88,14 +79,12 @@ public class Announcement {
             BaseChannel baseChannel = BaseChannel.getChannel(channel);
 
             if (baseChannel == null) {
+                Logger.debug("base channel is null, sending broadcast with isGlobal=%b".formatted(isGlobal));
                 Broadcast.broadcast(content, Map.of(), isGlobal);
-                return;
             }
-            else
+            else {
+                Logger.debug("base channel is " + baseChannel.getName());
                 baseChannel.sendChannelMessage(content, Map.of(), isGlobal);
-
-            if (toConsole) {
-                MessageUtils.sendParsedMessage(Bukkit.getConsoleSender(), content, Map.of());
             }
 
         }}.runTask(CXYZ.plugin);
@@ -120,7 +109,6 @@ public class Announcement {
                 ", interval=" + interval +
                 ", isGlobal=" + isGlobal +
                 ", isEnabled=" + isEnabled +
-                ", toConsole=" + toConsole +
                 '}';
 
     }

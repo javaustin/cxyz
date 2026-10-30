@@ -333,7 +333,6 @@ colors:
 # delay      - The delay (in seconds) the plugin should wait until sending the announcement (from plugin startup)
 # interval   - The delay (in seconds) the plugin should wait to repeat the announcement (set to 0 to never repeat)
 # scope      - (GLOBAL, LOCAL). If GLOBAL, the announcement will be sent to all game servers. If not, the announcement will only be sent on this server.
-# to-console - If true, the announcement will be sent in the console
 
 announcements:
 
@@ -344,7 +343,6 @@ announcements:
     delay: 30
     interval: 60
     scope: GLOBAL
-    to-console: true
 
 
 # ============================================================
