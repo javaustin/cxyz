@@ -12,6 +12,7 @@ import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import static com.carrotguy69.cxyz.CXYZ.enabledCosmeticTypes;
 import static com.carrotguy69.cxyz.CXYZ.f;
 import static com.carrotguy69.cxyz.messages.MessageUtils.formatPlaceholders;
 
@@ -54,7 +55,9 @@ public class JoinEvent {
 
         // Since we did not update the state of `equipped_cosmetics` (by the false flag in the above line), the getEquippedCosmetics method still has the players' equipped cosmetic preferences
         for (Cosmetic cosmetic : np.getEquippedCosmetics()) {
-            np.equipCosmetic(cosmetic);
+            if (enabledCosmeticTypes.contains(cosmetic.getType())) {
+                np.equipCosmetic(cosmetic);
+            }
         }
 
         // If the current player is listed as vanished, vanish them!

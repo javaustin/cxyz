@@ -45,7 +45,8 @@ public class CosmeticDisable implements CommandExecutor {
         }
 
         if (args.length == 0 || args[0].equals("*")) {
-            disableCosmetics(List.of());
+            // Disabled all cosmetic types
+            disableCosmetics(enabledCosmeticTypes);
             return true;
         }
 
@@ -101,7 +102,6 @@ public class CosmeticDisable implements CommandExecutor {
             for (Cosmetic.CosmeticType type : matchingTypes) {
                 np.unEquipCosmeticOfType(type, false);
             }
-            np.sync();
         }
     }
 }

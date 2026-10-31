@@ -489,3 +489,30 @@ command-restrictions:
     minimum-rank: vip
     minimum-level: 0
     message: "&eYou may not use this unless you are a &f[[&aVIP&f]]&e!"
+
+# ============================================================
+# COMMAND COOLDOWNS
+# ============================================================
+# Adds a "cooldown" period where a player cannot execute commands.
+
+
+cooldowns:
+# Required fields:
+#   name               - The registered name of the command. [For per-command-rules only!]
+#   cooldown           - The amount of SECONDS a player is allowed to consecutively execute the same command.
+#   affected-ranks     - The affected ranks by the cooldown rule. If a players' rank is included in this list, they will be subject to the cooldown unless they also have an exempted rank.
+#   exempt-ranks       - The ranks' not subject to the cooldown under any circumstances.
+#   scope [cmd, all]   - The scope of the cooldown rule.
+#                         - cmd: The cooldown rule only affects the execution of the same command.
+#                         - all: The cooldown rule affects all commands.
+
+  global-rules:
+    - cooldown: 2
+      affected-ranks: [default]
+      exempt-ranks: []
+
+  per-command-rules:
+    - name: message
+      cooldown: 3
+      affected-ranks: [default]
+      exempt-ranks: []

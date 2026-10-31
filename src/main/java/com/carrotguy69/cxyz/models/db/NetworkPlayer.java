@@ -32,6 +32,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.carrotguy69.cxyz.CXYZ.apiEndpoint;
+import static com.carrotguy69.cxyz.CXYZ.cosmetics;
 import static com.carrotguy69.cxyz.CXYZ.defaultRank;
 import static com.carrotguy69.cxyz.CXYZ.enabledCosmeticTypes;
 import static com.carrotguy69.cxyz.CXYZ.f;
@@ -818,8 +819,6 @@ public class NetworkPlayer {
     public void equipCosmetic(Cosmetic cosmetic) {
         List<String> list = JsonConverters.toList(this.equipped_cosmetics);
 
-        Logger.debugCosmetic(String.format("size of equipped_cosmetics for %s: %d", this.getDisplayName(), list.size()));
-
         list.add(cosmetic.getId());
 
         this.equipped_cosmetics = gson.toJson(list);
@@ -874,7 +873,7 @@ public class NetworkPlayer {
     }
 
     public void unEquipAllCosmetics(boolean updateState) {
-        for (Cosmetic cosmetic : this.getEquippedCosmetics()) {
+        for (Cosmetic cosmetic : cosmetics) {
             this.unEquipCosmetic(cosmetic, updateState);
         }
     }
