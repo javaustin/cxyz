@@ -5,7 +5,7 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -22,16 +22,24 @@ import java.util.Map;
 public class Enchant implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        /*
+        SYNTAX:
+            /enchant <enchant> [level] [player]
+            /enchant SHARPNESS 5 cerrot
+            /enchant FIRE_ASPECT 2
+            /enchant MENDING
+        */
+
         args = CommandUtils.handleSilent(args);
 
-        if (CommandRestrictor.handleRestricted("enchant", sender))
-            return true;
-
-        String node = "cxyz.enchant";
-        if (!sender.hasPermission(node)) {
+        String node = "enchant";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         NetworkPlayer target = null;
 
@@ -61,7 +69,7 @@ public class Enchant implements CommandExecutor {
             return true;
         }
 
-        if (args.length == (3 - (clear ? 1 : 0)) && sender.hasPermission(node + ".others")) {
+        if (args.length == (3 - (clear ? 1 : 0)) && sender.hasPermission("cxyz." + node + ".others")) {
             String username = args[2 - (clear ? 1 : 0)];
 
             target = NetworkPlayer.getPlayerByUsername(username);
@@ -99,8 +107,8 @@ public class Enchant implements CommandExecutor {
         }
 
         commonMap.put("level", level);
-        commonMap.put("enchant", enchant.getKey().getKey());
-        commonMap.put("enchantment", enchant.getKey().getKey());
+        commonMap.put("enchant", enchant.getKeyOrThrow().getKey());
+        commonMap.put("enchantment", enchant.getKeyOrThrow().getKey());
 
         try {
             is.addUnsafeEnchantment(enchant, level);

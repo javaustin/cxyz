@@ -3,6 +3,7 @@ package com.carrotguy69.cxyz.other;
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
+import com.carrotguy69.cxyz.models.config.CommandCooldownRule;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
@@ -170,6 +171,10 @@ public class Constants {
 
         announcements = Announcement.getAnnouncements();
         Logger.log("Loaded announcements: " + announcements.stream().map(Announcement::getName).collect(Collectors.joining(", ")));
+
+        globalCooldownRules = CommandCooldownRule.getGlobalRules();
+        perCommandCooldownRules = CommandCooldownRule.getPerCommandRules();
+        Logger.log("Loaded %d cooldown rules.".formatted(globalCooldownRules.size() + perCommandCooldownRules.size()));
     }
 
     private static String processIfENV(String s) {

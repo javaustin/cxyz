@@ -7,7 +7,7 @@ import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,19 +38,16 @@ public class CosmeticList implements CommandExecutor {
             /cosmetic list
         */
 
-        String node = "cxyz.cosmetic.list";
+        String node = "cosmetic.list";
 
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        if (CommandRestrictor.handleRestricted("cosmetic.list", sender)) {
+        if (CommandRestriction.handleRestricted(node, sender)) {
             return true;
         }
-
-        //            [-1]   [0]    [1]    [2]
-        // "/cosmetic list [type] [page] [player] "
 
         boolean isConsole = (!(sender instanceof Player));
 
@@ -69,13 +66,11 @@ public class CosmeticList implements CommandExecutor {
         NetworkPlayer np = null;
         int page = 1;
 
-        if (args.length >= 1) {
-            if (!List.of("all", "equipped", "owned").contains(args[0].toLowerCase())) {
-                type = "all";
-            }
-            else {
-                type = args[0];
-            }
+        if (!List.of("all", "equipped", "owned").contains(args[0].toLowerCase())) {
+            type = "all";
+        }
+        else {
+            type = args[0];
         }
 
         if (args.length >= 2) {

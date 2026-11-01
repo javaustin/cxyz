@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -16,12 +16,12 @@ public class Print implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if (CommandRestrictor.handleRestrictedTabCompleter(command, sender)) //
+        if (CommandRestriction.handleRestrictedTabCompleter(command, sender)) //
             return List.of();
 
-        String node = "cxyz.print";
+        String node = "print";
 
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             return List.of();
         }
 

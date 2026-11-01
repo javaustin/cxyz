@@ -3,7 +3,7 @@ package com.carrotguy69.cxyz.cmd.punishment;
 import com.carrotguy69.cxyz.cmd.Broadcast;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
@@ -28,19 +28,19 @@ public class Unmute implements CommandExecutor {
 
         /*
         SYNTAX:
-            /unmute <player> [-f | -s]
+            /unmute <player> [-s]
             /unmute GoodSteve
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("unmute", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
 
-        String node = "cxyz.unmute";
-        if (!sender.hasPermission(node)) {
+        String node = "unmute";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         boolean silent = false;
 
@@ -82,8 +82,7 @@ public class Unmute implements CommandExecutor {
 
             punishment.setEnforced(false);
 
-            if (sender instanceof Player) {
-                Player editorModPlayer = (Player) sender;
+            if (sender instanceof Player editorModPlayer) {
                 NetworkPlayer editorMod = NetworkPlayer.resolvePlayer(editorModPlayer.getUniqueId());
                 punishment.setEditorMod(editorMod);
             }

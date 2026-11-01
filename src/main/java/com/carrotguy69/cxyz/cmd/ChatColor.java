@@ -6,7 +6,7 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.command.Command;
@@ -44,14 +44,14 @@ public class ChatColor implements CommandExecutor {
             /chatcolor GREEN
         */
 
-        if (CommandRestrictor.handleRestricted("chatcolor", sender)) {
+        String node = "chatcolor";
+
+        if (!sender.hasPermission("cxyz." + node)) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        String node = "cxyz.chatcolor";
-
-        if (!sender.hasPermission(node)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
+        if (CommandRestriction.handleRestricted(node, sender)) {
             return true;
         }
 

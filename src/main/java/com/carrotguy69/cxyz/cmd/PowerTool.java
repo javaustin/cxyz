@@ -4,7 +4,7 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
@@ -27,6 +27,71 @@ import java.util.UUID;
 public class PowerTool implements CommandExecutor {
 
     public static Set<PowerToolEntry> powertools = new HashSet<>();
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        /*
+        SYNTAX:
+            /powertool <command-line> [-l|-r]
+            /powertool heal -r
+            /powertool parse &aHi! -l
+        */
+        args = CommandUtils.handleSilent(args);
+        String node = "powertool";
+        if (!sender.hasPermission("cxyz." + node)) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
+            return true;
+        }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
+
+        if (!(sender instanceof Player p)) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
+            return true;
+        }
+
+        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
+
+        ItemStack is = p.getInventory().getItemInMainHand();
+
+        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
+        commonMap.put("item", is.getType().name());
+
+        if (is.getType() == Material.AIR) {
+            MessageUtils.sendParsedMessage(p, MessageKey.INVALID_POWERTOOL_ITEM, commonMap);
+            return true;
+        }
+
+        PowerToolEntry.Type activationType = PowerToolEntry.Type.ANY_CLICK;
+
+        if (List.of(args).contains("-l")) {
+            args = ObjectUtils.removeItem(args, "-l");
+            activationType = PowerToolEntry.Type.LEFT_CLICK;
+        }
+
+        else if (List.of(args).contains("-r")) {
+            args = ObjectUtils.removeItem(args, "-r");
+            activationType = PowerToolEntry.Type.RIGHT_CLICK;
+        }
+
+        if (args.length == 0) {
+            PowerToolEntry.removeOne(p.getUniqueId(), is);
+
+            MessageUtils.sendParsedMessage(p, MessageKey.POWERTOOL_CLEAR, commonMap);
+            return true;
+        }
+
+        String commandLine = String.join(" ", args);
+        commonMap.put("command", commandLine);
+
+        PowerToolEntry entry = new PowerToolEntry(p.getUniqueId(), is, commandLine, activationType);
+
+        powertools.add(entry);
+
+        MessageUtils.sendParsedMessage(p, MessageKey.POWERTOOL, commonMap);
+        return true;
+    }
 
     public static class PowerToolEntry {
         public enum Type {
@@ -97,66 +162,5 @@ public class PowerTool implements CommandExecutor {
             }
         }
 
-    }
-
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        args = CommandUtils.handleSilent(args);
-        if (CommandRestrictor.handleRestricted("powertool", sender))
-            return true;
-
-        String node = "cxyz.powertool";
-        if (!sender.hasPermission(node)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
-            return true;
-        }
-
-        if (!(sender instanceof Player)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
-            return true;
-        }
-
-        Player p = (Player) sender;
-
-        NetworkPlayer np = NetworkPlayer.resolvePlayer(p.getUniqueId());
-
-        ItemStack is = p.getInventory().getItemInMainHand();
-
-        Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
-        commonMap.put("item", is.getType().name());
-
-        if (is.getType() == Material.AIR) {
-            MessageUtils.sendParsedMessage(p, MessageKey.INVALID_POWERTOOL_ITEM, commonMap);
-            return true;
-        }
-
-        PowerToolEntry.Type activationType = PowerToolEntry.Type.ANY_CLICK;
-
-        if (List.of(args).contains("-l")) {
-            args = ObjectUtils.removeItem(args, "-l");
-            activationType = PowerToolEntry.Type.LEFT_CLICK;
-        }
-
-        else if (List.of(args).contains("-r")) {
-            args = ObjectUtils.removeItem(args, "-r");
-            activationType = PowerToolEntry.Type.RIGHT_CLICK;
-        }
-
-        if (args.length == 0) {
-            PowerToolEntry.removeOne(p.getUniqueId(), is);
-
-            MessageUtils.sendParsedMessage(p, MessageKey.POWERTOOL_CLEAR, commonMap);
-            return true;
-        }
-
-        String commandLine = String.join(" ", args);
-        commonMap.put("command", commandLine);
-
-        PowerToolEntry entry = new PowerToolEntry(p.getUniqueId(), is, commandLine, activationType);
-
-        powertools.add(entry);
-
-        MessageUtils.sendParsedMessage(p, MessageKey.POWERTOOL, commonMap);
-        return true;
     }
 }

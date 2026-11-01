@@ -3,7 +3,7 @@ package com.carrotguy69.cxyz.cmd;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
@@ -25,18 +25,18 @@ public class Show implements CommandExecutor {
         SYNTAX:
             /show <player> <text> [-actionBar]
             /show Steve Hello World!
+            /show ~ Goodbye World!
+            /show Alex -actionBar &dThis parsed text result is displayed on your action bar!
         */
 
-
-
-        if (CommandRestrictor.handleRestricted("show", sender))
-            return true;
-
-        String node = "cxyz.show";
-        if (!sender.hasPermission(node)) {
+        String node = "show";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         boolean isActionBar = List.of(args).contains("-actionBar");
 

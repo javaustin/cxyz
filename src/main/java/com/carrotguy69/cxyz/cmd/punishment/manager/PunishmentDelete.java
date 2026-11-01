@@ -3,7 +3,7 @@ package com.carrotguy69.cxyz.cmd.punishment.manager;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import org.bukkit.command.Command;
@@ -26,15 +26,16 @@ public class PunishmentDelete implements CommandExecutor {
             /punishment delete 67
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("punishment.delete", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
-
-        String node = "cxyz.punishment.delete";
-        if (!sender.hasPermission(node)) {
+        String node = "punishment.delete";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
+
+
 
         if (args.length == 0) {
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "punishment"));

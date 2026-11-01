@@ -5,7 +5,7 @@ import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,16 +28,15 @@ public class FriendDeny implements CommandExecutor {
             /friend deny LoserSteve
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("friend.deny", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
+        String node = "friend.deny";
 
-        String node = "cxyz.friend.deny";
-
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         if (!(sender instanceof Player)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());

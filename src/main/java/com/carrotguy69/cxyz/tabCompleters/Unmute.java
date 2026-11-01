@@ -1,7 +1,7 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
 import com.carrotguy69.cxyz.models.db.Punishment;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -20,12 +20,12 @@ public class Unmute implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
-        if (CommandRestrictor.handleRestrictedTabCompleter(command, sender))
+        if (CommandRestriction.handleRestrictedTabCompleter(command, sender))
             return List.of();
 
-        String node = "cxyz.ban";
+        String node = "ban";
 
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             return List.of();
         }
 

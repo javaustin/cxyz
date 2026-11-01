@@ -5,7 +5,7 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -19,17 +19,23 @@ import java.util.Map;
 public class Smite implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        /*
+        SYNTAX:
+            /smite [player]
+            /smite Steve
+            /smite *
+            /smite
+        */
         args = CommandUtils.handleSilent(args);
 
-        if (CommandRestrictor.handleRestricted("smite", sender))
-            return true;
-
-        String node = "cxyz.smite";
-        if (!sender.hasPermission(node)) {
+        String node = "smite";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         Player p = null;
 
@@ -38,7 +44,7 @@ public class Smite implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 0 || !sender.hasPermission(node + ".others")) {
+        if (args.length == 0 || !sender.hasPermission("cxyz." + node + ".others")) {
             p = (Player) sender;
         }
 

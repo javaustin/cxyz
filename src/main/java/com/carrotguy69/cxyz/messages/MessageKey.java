@@ -53,6 +53,7 @@ public enum MessageKey {
 
 
     CHAT_COOLDOWN("chat.cooldown-message"),
+    COMMAND_COOLDOWN("errors.command.cooldown-message"),
 
     CHAT_CHANNEL_AVAILABLE_SUBCOMMANDS("commands.chat-channel.available-subcommands"),
     CHAT_CHANNEL_SET("commands.chat-channel.set"),

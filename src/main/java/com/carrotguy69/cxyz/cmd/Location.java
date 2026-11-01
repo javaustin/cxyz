@@ -4,6 +4,7 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.command.Command;
@@ -18,13 +19,23 @@ public class Location implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        String node = "cxyz.location";
-        String node2 = "cxyz.location.others";
+        /*
+        SYNTAX:
+            /location [player]
+            /location Steve
+            /location
+        */
 
-        if (!sender.hasPermission(node)) {
+        String node = "location";
+        String node2 = "location.others";
+
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.COMMAND_NO_ACCESS), Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         Player p = null;
         boolean longFlag = false;
@@ -44,7 +55,7 @@ public class Location implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 0 || !sender.hasPermission(node2)) {
+        if (args.length == 0 || !sender.hasPermission("cxyz." + node2)) {
             p = (Player) sender;
         }
 

@@ -5,7 +5,7 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,17 +24,19 @@ public class FriendList implements CommandExecutor {
         /*
         SYNTAX:
             /friend list [page] [player]
+            /friend list 2 cerrot
+            /friend list
         */
 
-        if (CommandRestrictor.handleRestricted("friend.list", sender))
-            return true;
+        String node = "friend.list";
 
-        String node = "cxyz.friend.list";
-
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         NetworkPlayer np = null;
         int page = 1;
@@ -50,7 +52,7 @@ public class FriendList implements CommandExecutor {
             }
         }
 
-        if (args.length == 2 && sender.hasPermission(node + ".others")) {
+        if (args.length == 2 && sender.hasPermission("cxyz." + node + ".others")) {
             np = NetworkPlayer.getPlayerByUsername(args[1]);
             if (np == null) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.PLAYER_NOT_FOUND, Map.of("username", args[1]));

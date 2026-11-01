@@ -8,7 +8,7 @@ import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.Bukkit;
@@ -40,15 +40,15 @@ public class Ban implements CommandExecutor {
             /ban HackerSteve 24h hacking
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("ban", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
 
-        String node = "cxyz.ban";
-        if (!sender.hasPermission(node)) {
+        String node = "ban";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         boolean silent = false;
         boolean force = false; // In the future we will use this to skip a GUI menu

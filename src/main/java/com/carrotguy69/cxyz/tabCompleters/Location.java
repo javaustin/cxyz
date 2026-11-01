@@ -19,10 +19,10 @@ public class Location implements TabCompleter {
         Player p;
         NetworkPlayer np = null;
 
-        String node = "cxyz.location";
-        String node2 = "cxyz.location.others";
+        String node = "location";
+        String node2 = "location.others";
 
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             return List.of();
         }
 
@@ -38,15 +38,15 @@ public class Location implements TabCompleter {
         List<String> options = new ArrayList<>();
 
 
-        if (args.length == 0 && sender.hasPermission(node2)) {
+        if (args.length == 0 && sender.hasPermission("cxyz." + node2)) {
             return options;
         }
 
-        if (args.length == 1 && sender.hasPermission(node2)) {
+        if (args.length == 1 && sender.hasPermission("cxyz." + node2)) {
             options = OnlinePlayer.getVisibleUsernames(sender, np);
         }
 
-        if (args.length == 2 && args[0].contains("-l") && sender.hasPermission(node2)) {
+        if (args.length == 2 && args[0].contains("-l") && sender.hasPermission("cxyz." + node2)) {
             options = OnlinePlayer.getVisibleUsernames(sender, np);
         }
 

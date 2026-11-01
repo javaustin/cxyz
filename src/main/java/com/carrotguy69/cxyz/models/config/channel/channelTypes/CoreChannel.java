@@ -1,6 +1,5 @@
 package com.carrotguy69.cxyz.models.config.channel.channelTypes;
 
-import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.other.Logger;

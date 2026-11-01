@@ -1,9 +1,8 @@
 package com.carrotguy69.cxyz.cmd.rank;
 
-import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -29,17 +28,16 @@ public class RankAdd implements CommandExecutor {
             /rank add admin Notch
         */
 
-        String node = "cxyz.rank.add";
+        String node = "rank.add";
 
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        if (CommandRestrictor.handleRestricted("rank.add", sender)) {
+        if (CommandRestriction.handleRestricted(node, sender)) {
             return true;
         }
-
 
         if (args.length == 0) {
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "rank, player"));
@@ -112,7 +110,6 @@ public class RankAdd implements CommandExecutor {
         }
         catch (IllegalArgumentException ex) {
             MessageUtils.sendParsedMessage(sender, MessageKey.INVALID_RANK, Map.of("input", rankName));
-            return;
         }
     }
 }

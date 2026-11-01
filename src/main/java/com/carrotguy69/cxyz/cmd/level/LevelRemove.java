@@ -3,7 +3,7 @@ package com.carrotguy69.cxyz.cmd.level;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import org.bukkit.command.Command;
@@ -26,19 +26,14 @@ public class LevelRemove implements CommandExecutor {
             /level remove 50 Steve
         */
 
-        
-
-        if (CommandRestrictor.handleRestricted("level.remove", sender))
-            return true;
-
-        String node = "cxyz.level.remove";
-        if (!sender.hasPermission(node)) {
+        String node = "level.remove";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        //                (-1)    0       1
-        // Syntax: /level remove {amount} {player}
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         if (args.length == 0) {
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "amount, player"));

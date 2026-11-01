@@ -2,7 +2,7 @@ package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.http.Request;
 
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
@@ -30,15 +30,15 @@ public class Broadcast implements CommandExecutor {
             /broadcast &eHello world!
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("broadcast", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
 
-        String node = "cxyz.broadcast";
-        if (!sender.hasPermission(node)) {
+        String node = "broadcast";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         String content = String.join(" ", args);
 

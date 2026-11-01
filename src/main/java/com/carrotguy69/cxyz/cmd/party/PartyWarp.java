@@ -6,7 +6,7 @@ import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,16 +35,16 @@ public class PartyWarp implements CommandExecutor {
             /party warp HUB_1
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("party.warp", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
 
-        String node = "cxyz.party.warp";
+        String node = "party.warp";
 
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
 
         if (!(sender instanceof Player)) {

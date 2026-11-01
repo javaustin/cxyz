@@ -4,7 +4,7 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,23 +17,28 @@ public class UUID implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        /*
+        SYNTAX:
+            /uuid [player]
+            /uuid Steve
+        */
 
-        String node = "cxyz.uuid";
-        String node2 = "cxyz.uuid.others";
+        String node = "uuid";
+        String node2 = "uuid.others";
 
-        if (CommandRestrictor.handleRestricted("uuid", sender)) {
+        if (!sender.hasPermission("cxyz." + node)) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        if (!sender.hasPermission(node)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
+        if (CommandRestriction.handleRestricted(node, sender)) {
             return true;
         }
 
         NetworkPlayer target;
         Map<String, Object> commonMap = new java.util.HashMap<>();
 
-        if (args.length == 0 || !sender.hasPermission(node2)) {
+        if (args.length == 0 || !sender.hasPermission("cxyz." + node2)) {
             if (!(sender instanceof Player)) {
                 // This would be a weird edge case, as it would require that a non-player (that also doesn't have permissions) sent this command with no args
                 MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node2));

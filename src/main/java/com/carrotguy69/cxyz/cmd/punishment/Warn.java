@@ -8,7 +8,7 @@ import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import com.carrotguy69.cxyz.utils.TimeUtils;
 import org.bukkit.command.Command;
@@ -34,15 +34,15 @@ public class Warn implements CommandExecutor {
             /warn StinkySteve stop being so smelly!
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("warn", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
 
-        String node = "cxyz.warn";
-        if (!sender.hasPermission(node)) {
+        String node = "warn";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         boolean silent = false;
         boolean force = false; // In the future we will use this to skip a GUI menu
@@ -71,14 +71,12 @@ public class Warn implements CommandExecutor {
             return true;
         }
 
-        if (args.length >= 2) {
-            // All necessary args are provided
+        // All necessary args are provided
 
-            String targetPlayer = args[0];
-            String reason = ObjectUtils.sliceToString(args, 1);
+        String targetPlayer = args[0];
+        String reason = ObjectUtils.sliceToString(args, 1);
 
-            warn(sender, targetPlayer, reason, silent, force);
-        }
+        warn(sender, targetPlayer, reason, silent, force);
 
         return true;
     }
@@ -100,12 +98,11 @@ public class Warn implements CommandExecutor {
         String modUUID;
         String modUsername;
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player modPlayer)) {
             modUUID = "console";
             modUsername = "console";
         }
         else {
-            Player modPlayer = (Player) sender;
 
             NetworkPlayer moderator = NetworkPlayer.resolvePlayer(modPlayer.getUniqueId());
 
@@ -165,7 +162,7 @@ public class Warn implements CommandExecutor {
         if (!playerMessage.isEmpty()) {
             MessageUtils.sendParsedMessage(player.getPlayer(), MessageKey.PUNISHMENT_WARN_PLAYER_MESSAGE, commonMap);
         }
-        
+
         if (!modMessage.isEmpty()) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PUNISHMENT_WARN_MOD_MESSAGE, commonMap);
         }

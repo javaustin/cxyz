@@ -2,7 +2,7 @@ package com.carrotguy69.cxyz.cmd.xp;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,14 +23,14 @@ public class _XPExecutor implements CommandExecutor {
             /xp add 50 Steve
         */
 
-        if (CommandRestrictor.handleRestricted("xp", sender))
-            return true;
+        String node = "xp";
+       if (!sender.hasPermission("cxyz." + node)) {
+           MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
+           return true;
+       }
 
-//        String node = "cxyz.xp";
-//        if (!sender.hasPermission(node)) {
-//            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
-//            return true;
-//        }
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         String value = "default";
         if (args.length > 0) {

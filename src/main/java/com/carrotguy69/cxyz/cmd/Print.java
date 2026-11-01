@@ -1,11 +1,10 @@
 package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
-import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.models.db.GameStat;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -26,20 +25,20 @@ public class Print implements CommandExecutor {
 
         /*
         SYNTAX:
-            /print <users | parties | partyinvites | punishments | messages | cosmetics | channels>
+            /print <users | parties | partyinvites | punishments | messages | cosmetics | channels | announcements | friendrequests | config | msgyml | cosmeticsyml | chatfilter | colors | gamestats>
             /print users
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("print", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
 
-        String node = "cxyz.print";
+        String node = "print";
 
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         if (args.length > 0) {
             switch (args[0].toLowerCase()) {
@@ -123,6 +122,7 @@ public class Print implements CommandExecutor {
 
                 case "cosmeticsyml":
                 case "cosmeticyml":
+                case "cosmeticconfig":
                     if (args.length == 1)
                         Logger.info(cosmeticsYML.getKeys(true).toString());
                     else

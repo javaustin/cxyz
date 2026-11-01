@@ -1,7 +1,7 @@
 package com.carrotguy69.cxyz.cmd.coins;
 
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -25,19 +25,14 @@ public class CoinsView implements CommandExecutor {
             /coins
         */
 
-        
-
-        if (CommandRestrictor.handleRestricted("coins.view", sender))
-            return true;
-
-        String node = "cxyz.coins.view";
-        if (!sender.hasPermission(node)) {
+        String node = "coins.view";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        //                 0      1
-        // Syntax: /coins view {player}
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         else if (args.length == 0 && !(sender instanceof Player)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player"));
@@ -54,8 +49,8 @@ public class CoinsView implements CommandExecutor {
 
         else if (args.length == 1) {
 
-            String nodeOthers = "cxyz.coins.view.others";
-            if (!sender.hasPermission(nodeOthers)) {
+            String nodeOthers = "coins.view.others";
+            if (!sender.hasPermission("cxyz." + nodeOthers)) {
                 view(sender, NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId()));
                 return true;
             }

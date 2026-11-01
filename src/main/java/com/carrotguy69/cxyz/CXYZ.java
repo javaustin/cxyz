@@ -6,6 +6,7 @@ import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
+import com.carrotguy69.cxyz.models.config.CommandCooldownRule;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
@@ -106,6 +107,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static List<PlayerRank> ranks = new ArrayList<>();
     public static List<ChatFilterRule> chatFilterRules = new ArrayList<>();
     public static List<Announcement> announcements = new ArrayList<>();
+    public static List<CommandCooldownRule> globalCooldownRules = new ArrayList<>();
+    public static List<CommandCooldownRule> perCommandCooldownRules = new ArrayList<>();
 
     public static List<String> enabledDebugs = new ArrayList<>();
     public static List<String> muteRestrictions = new ArrayList<>();
@@ -113,6 +116,8 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     public static Map<String, String> colorMap = new HashMap<>();
     public static Map<UUID, Long> lastMessage = new HashMap<>();
+    public static Map<UUID, Long> lastCommand = new ConcurrentHashMap<>();
+    public static Map<UUID, Map<String, Long>> lastCommandByNode = new ConcurrentHashMap<>();
 
     public static int punishmentSeq = 0;
     public static int partyInvitesExpireAfter;

@@ -7,7 +7,7 @@ import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.models.config.channel.registry.ChannelFunction;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -31,23 +31,20 @@ public class PartyChat implements CommandExecutor {
             /party chat hello
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("party.chat", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
+        String node = "party.chat";
 
-        String node = "cxyz.party.chat";
-
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        if (!(sender instanceof Player)) {
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
+
+        if (!(sender instanceof Player player)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
             return true;
         }
-
-        Player player = ((Player) sender);
 
         if (args.length == 0) {
             new ChannelSet().onCommand(sender, command, s, String.format("%s", Objects.requireNonNull(ChannelRegistry.getChannelByFunction(ChannelFunction.PARTY)).getName()).split(" "));

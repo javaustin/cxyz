@@ -1,55 +1,63 @@
-package com.carrotguy69.cxyz.utils;
+package com.carrotguy69.cxyz.models.config;
 
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import com.carrotguy69.cxyz.utils.CommandNode;
 
 import java.util.Map;
-import java.util.Locale;
 
 import static com.carrotguy69.cxyz.CXYZ.configYaml;
 
-public class CommandRestrictor {
-    public static class CommandRestriction {
-        private final PlayerRank minRank;
-        private final long minLevel;
-        private final String message;
+public class CommandRestriction {
+    private final PlayerRank minRank;
+    private final long minLevel;
+    private final String message;
 
-        public CommandRestriction(String minRankName, long minLevel, String message) {
-            this.minRank = PlayerRank.getRankByName(minRankName);
-            this.minLevel = minLevel;
-            this.message = message != null ? message : MessageGrabber.grab(MessageKey.COMMAND_NO_ACCESS);
-        }
-
-        public long getMinLevel() {
-            return minLevel;
-        }
-
-        public PlayerRank getMinRank() {
-            return minRank;
-        }
-
-        public String getMessage() {
-            return message;
-        }
+    public CommandRestriction(String minRankName, long minLevel, String message) {
+        this.minRank = PlayerRank.getRankByName(minRankName);
+        this.minLevel = minLevel;
+        this.message = message != null ? message : MessageGrabber.grab(MessageKey.COMMAND_NO_ACCESS);
     }
 
-    public static CommandRestriction getRestriction(String commandPath) {
+    public long getMinLevel() {
+        return minLevel;
+    }
 
-        if (configYaml.getString("command-restrictions." + commandPath) == null) {
+    public PlayerRank getMinRank() {
+        return minRank;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+
+    public static CommandRestriction getRestriction(String commandPath) {
+        String node = CommandNode.path(commandPath);
+        if (configYaml.getConfigurationSection("command-restrictions") == null) {
             return null;
         }
 
+        // Bukkit's YAML configuration treats dots as path separators, so
+        // command paths are represented as nested YAML sections.
+        ConfigurationSection values = configYaml.getConfigurationSection("command-restrictions." + node);
+        if (values == null) {
+            // Keep accepting the old command-path layout during upgrades.
+            values = configYaml.getConfigurationSection("command-restrictions." + CommandNode.path(node));
+            if (values == null) return null;
+        }
+
         return new CommandRestriction(
-                configYaml.getString("command-restrictions." + commandPath + ".minimum-rank", "default"),
-                configYaml.getLong("command-restrictions." + commandPath + ".minimum-level", 0L),
-                configYaml.getString("command-restrictions." + commandPath + ".message")
+                values.getString("minimum-rank", "default"),
+                values.getLong("minimum-level", 0L),
+                values.getString("message")
         );
     }
 
@@ -59,7 +67,7 @@ public class CommandRestrictor {
             return false;
         }
 
-        commandPath = commandPath.toLowerCase(Locale.ROOT);
+        commandPath = CommandNode.path(commandPath);
         CommandRestriction restriction = getRestriction(commandPath);
 
         if (restriction == null) {

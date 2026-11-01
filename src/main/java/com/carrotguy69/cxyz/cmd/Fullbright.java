@@ -2,7 +2,7 @@ package com.carrotguy69.cxyz.cmd;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.command.Command;
@@ -18,26 +18,28 @@ import java.util.Map;
 public class Fullbright implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        /*
+        SYNTAX:
+            /fullbright [on | off | enable | disable | ...]
+        */
+
         args = CommandUtils.handleSilent(args);
 
-        if (CommandRestrictor.handleRestricted("fullbright", sender))
-            return true;
-
-        String node = "cxyz.fullbright";
-        if (!sender.hasPermission(node)) {
+        String node = "fullbright";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        if (!(sender instanceof Player)) {
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
+
+        if (!(sender instanceof Player p)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());
             return true;
         }
 
-        Player p = (Player) sender;
-
         if (args.length >= 1) {
-
             boolean value = ObjectUtils.parseCasualBoolean(args[0]);
 
             if (value) {

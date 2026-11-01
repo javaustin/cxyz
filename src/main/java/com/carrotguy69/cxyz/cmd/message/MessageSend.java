@@ -10,7 +10,7 @@ import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.models.db.Message;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -36,21 +36,18 @@ public class MessageSend implements CommandExecutor {
             /msg Steve
         */
 
-        String node = "cxyz.message.send";
+        String node = "message.send";
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("message", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
-
-
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
+
         String targetName;
         String content;
-
 
         if (!(sender instanceof Player)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_PLAYER_ONLY, Map.of());

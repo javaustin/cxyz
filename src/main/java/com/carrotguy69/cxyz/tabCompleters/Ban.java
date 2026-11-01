@@ -1,7 +1,7 @@
 package com.carrotguy69.cxyz.tabCompleters;
 
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -30,12 +30,12 @@ public class Ban implements TabCompleter {
         -s: silent, do not announce to chat
         */
 
-        if (CommandRestrictor.handleRestrictedTabCompleter(command, sender))
+        if (CommandRestriction.handleRestrictedTabCompleter(command, sender))
             return List.of();
 
-        String node = "cxyz.ban";
+        String node = "ban";
 
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             return List.of();
         }
 

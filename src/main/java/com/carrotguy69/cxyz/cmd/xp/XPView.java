@@ -1,7 +1,7 @@
 package com.carrotguy69.cxyz.cmd.xp;
 
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -25,18 +25,15 @@ public class XPView implements CommandExecutor {
             /xp
         */
 
-        
-        if (CommandRestrictor.handleRestricted("xp.view", sender))
-            return true;
 
-        String node = "cxyz.xp.view";
-        if (!sender.hasPermission(node)) {
+        String node = "xp.view";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        //                 0      1
-        // Syntax: /xp view {player}
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         else if (args.length == 0 && !(sender instanceof Player)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player"));
@@ -53,8 +50,8 @@ public class XPView implements CommandExecutor {
 
         else if (args.length == 1) {
 
-            String nodeOthers = "cxyz.xp.view.others";
-            if (!sender.hasPermission(nodeOthers)) {
+            String nodeOthers = "xp.view.others";
+            if (!sender.hasPermission("cxyz." + nodeOthers)) {
                 view(sender, NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId()));
                 return true;
             }

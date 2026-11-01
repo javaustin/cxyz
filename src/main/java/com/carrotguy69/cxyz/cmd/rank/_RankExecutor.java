@@ -2,7 +2,7 @@ package com.carrotguy69.cxyz.cmd.rank;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,14 +23,14 @@ public class _RankExecutor implements CommandExecutor {
             /rank view [player]
         */
 
-        if (CommandRestrictor.handleRestricted("rank", sender))
+        String node = "rank";
+        if (!sender.hasPermission("cxyz." + node)) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
+        }
 
-//        String node = "cxyz.rank";
-//        if (!sender.hasPermission(node)) {
-//            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
-//            return true;
-//        }
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         if (args.length == 0) {
             MessageUtils.sendParsedMessage(sender, MessageKey.RANK_AVAILABLE_SUBCOMMANDS, Map.of());

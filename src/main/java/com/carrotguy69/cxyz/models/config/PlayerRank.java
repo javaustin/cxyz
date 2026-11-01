@@ -77,7 +77,6 @@ public class PlayerRank {
             return false;
         }
 
-
         return Objects.equals(this.getName(), rank.getName());
     }
 

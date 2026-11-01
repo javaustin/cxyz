@@ -6,7 +6,7 @@ import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import org.bukkit.command.Command;
@@ -31,14 +31,16 @@ public class ChannelLock implements CommandExecutor {
             /channel lock public
         */
 
-        if (CommandRestrictor.handleRestricted("channel.lock", sender))
-            return true;
-
-        String node = "cxyz.channel.lock";
-        if (!sender.hasPermission(node)) {
+        String node = "channel.lock";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
+
+
 
         // The default channel admins will want to lock most often is the public channel.
         BaseChannel channel = ChannelRegistry.getChannelByFunction(ChannelFunction.PUBLIC);

@@ -2,7 +2,7 @@ package com.carrotguy69.cxyz.cmd.ignore;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,16 +21,15 @@ public class _IgnoreExecutor implements CommandExecutor {
             /ignore <page>
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("ignore", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
+        String node = "channel";
 
-        String node = "cxyz.channel";
-
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         if (args.length == 0) {
             new IgnoreList().onCommand(sender, command, s, args);

@@ -339,7 +339,7 @@ announcements:
   new-example-announcement:
     enabled: true
     content: '&4Another example announcement'
-    channel: public
+    channel: announcement
     delay: 30
     interval: 60
     scope: GLOBAL
@@ -398,7 +398,11 @@ punishments:
   - party chat
   - broadcast
 
-# When a player joins the server, you can configure their Minecraft display names and tab list name
+
+# ============================================================
+# SOCIAL DISPLAY SETTINGS
+# ============================================================
+# When a player joins the server, you can configure their Minecraft display names and tab list name, in addition to their join and leave messages.
 social:
   player-default-list-name: "{player-rank-prefix}{player-rank-color}{player-display-name}"
   player-default-display-name: "{player-rank-color}{player-display-name}"
@@ -481,6 +485,7 @@ shorthand-commands:
 # ============================================================
 
 # Adds rank/level restrictions to commands.
+# Command paths omit the cxyz access prefix, for example chatcolor or cosmetic.buy.
 # Players must still have the normal command permission.
 
 command-restrictions:
@@ -503,17 +508,24 @@ cooldowns:
 #   affected-ranks     - The affected ranks by the cooldown rule. If a players' rank is included in this list, they will be subject to the cooldown unless they also have an exempted rank.
 #   exempt-ranks       - The ranks' not subject to the cooldown under any circumstances.
 #   scope [cmd, all]   - The scope of the cooldown rule.
-#                         - cmd: The cooldown rule only affects the execution of the same command.
-#                         - all: The cooldown rule affects all commands.
+#                         cmd: The cooldown rule only affects the execution of the same command.
+#                         all: The cooldown rule affects all commands.
 
   global-rules:
     - cooldown: 2
       affected-ranks: [default]
-      exempt-ranks: []
+      exempt-ranks: [vip]
+      scope: all
 
   per-command-rules:
-
-    - name: message
+    - name: "message"
       cooldown: 3
       affected-ranks: [default]
-      exempt-ranks: []
+      exempt-ranks: [mvp]
+      scope: all
+
+    - name: "cosmetic.buy"
+      cooldown: 3
+      affected-ranks: [ default ]
+      exempt-ranks: [ mvp ]
+      scope: all

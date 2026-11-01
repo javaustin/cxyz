@@ -1,30 +1,17 @@
 package com.carrotguy69.cxyz.cmd;
 
-import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.other.Logger;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.CommandUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
-import org.bukkit.block.EnchantingTable;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.EnchantingInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -38,16 +25,21 @@ public class EnchantTable implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        /*
+        SYNTAX:
+            /enchanttable [player]
+            /enchanttable Steve
+        */
         args = CommandUtils.handleSilent(args);
 
-        if (CommandRestrictor.handleRestricted("enchanttable", sender))
-            return true;
-
-        String node = "cxyz.enchanttable";
-        if (!sender.hasPermission(node)) {
+        String node = "enchanttable";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         Player p;
 
@@ -56,7 +48,7 @@ public class EnchantTable implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 0 || !sender.hasPermission(node + ".others")) {
+        if (args.length == 0 || !sender.hasPermission("cxyz." + node + ".others")) {
             p = (Player) sender;
         }
 

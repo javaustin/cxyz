@@ -5,7 +5,7 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
@@ -22,15 +22,21 @@ import java.util.Map;
 public class Sudo implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        /*
+        SYNTAX:
+            /sudo <player> <command-line>
+            /sudo Steve say hello
+        */
+
         args = CommandUtils.handleSilent(args);
-        if (CommandRestrictor.handleRestricted("sudo", sender)) {
+        String node = "sudo";
+
+        if (!sender.hasPermission("cxyz." + node)) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", "node"));
             return true;
         }
 
-        String node = "cxyz.sudo";
-
-        if (!sender.hasPermission(node)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", "node"));
+        if (CommandRestriction.handleRestricted(node, sender)) {
             return true;
         }
 
@@ -68,7 +74,7 @@ public class Sudo implements CommandExecutor {
         MessageUtils.sendParsedMessage(sender, MessageGrabber.grab(MessageKey.valueOf("SUDO" + (chat ? "_MESSAGE" : ""))), commonMap);
 
         if (chat) {
-            // can i simulate a chat event just by creating one? do i have to register it or something?
+            // Create a "fake" chat event (which is actually real)
             Event e = new AsyncPlayerChatEvent(false, np.getPlayer(), line.substring(2), new HashSet<>(Bukkit.getOnlinePlayers()));
             Bukkit.getPluginManager().callEvent(e);
         }

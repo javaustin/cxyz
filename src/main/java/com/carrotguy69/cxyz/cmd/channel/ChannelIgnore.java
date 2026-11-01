@@ -2,7 +2,7 @@ package com.carrotguy69.cxyz.cmd.channel;
 
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -28,13 +28,13 @@ public class ChannelIgnore implements CommandExecutor {
             /channel ignore public
         */
 
-        String node = "cxyz.channel.ignore";
-        if (!sender.hasPermission(node)) {
+        String node = "channel.ignore";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        if (CommandRestrictor.handleRestricted("channel.ignore", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
+        if (CommandRestriction.handleRestricted(node, sender))
             return true;
 
         if (!(sender instanceof Player)) {

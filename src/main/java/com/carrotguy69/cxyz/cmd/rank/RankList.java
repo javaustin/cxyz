@@ -3,7 +3,7 @@ package com.carrotguy69.cxyz.cmd.rank;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
@@ -35,21 +35,16 @@ public class RankList implements CommandExecutor {
             /rank
         */
 
-        String node = "cxyz.rank.list";
+        String node = "rank.list";
 
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
-        if (CommandRestrictor.handleRestricted("rank.list", sender)) {
+        if (CommandRestriction.handleRestricted(node, sender)) {
             return true;
         }
-
-        //        [-1]   [0]     [1]
-        // "/rank list <player> [page]"
-
-
 
         boolean console = !(sender instanceof Player);
 

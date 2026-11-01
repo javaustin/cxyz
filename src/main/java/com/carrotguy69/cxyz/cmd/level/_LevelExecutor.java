@@ -1,10 +1,14 @@
 package com.carrotguy69.cxyz.cmd.level;
 
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.messages.MessageKey;
+import com.carrotguy69.cxyz.messages.MessageUtils;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 import static com.carrotguy69.cxyz.utils.ObjectUtils.slice;
 
@@ -18,14 +22,15 @@ public class _LevelExecutor implements CommandExecutor {
             /level add 50 Steve
         */
 
-        if (CommandRestrictor.handleRestricted("level", sender))
+        String node = "level";
+       if (!sender.hasPermission("cxyz." + node)) {
+           MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
+           return true;
+       }
+
+        if (CommandRestriction.handleRestricted(node, sender))
             return true;
 
-//        String node = "cxyz.level";
-//        if (!sender.hasPermission(node)) {
-//            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
-//            return true;
-//        }
 
         String value = "default";
         if (args.length > 0) {

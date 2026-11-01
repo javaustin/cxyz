@@ -7,7 +7,7 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ObjectUtils;
 import org.bukkit.Bukkit;
@@ -23,16 +23,23 @@ public class Vanish implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        /*
+        SYNTAX:
+            /vanish [enable | disable] [player]
+            /vanish enable Steve
+            /vanish disable
+            /vanish
+        */
         args = CommandUtils.handleSilent(args);
 
-        if (CommandRestrictor.handleRestricted("vanish", sender))
-            return true;
-
-        String node = "cxyz.vanish";
-        if (!sender.hasPermission(node)) {
+        String node = "vanish";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         NetworkPlayer target;
         boolean value;
@@ -66,7 +73,7 @@ public class Vanish implements CommandExecutor {
             }
 
             boolean isOtherTarget = !(sender instanceof Player) || !target.getUUID().equals(((Player) sender).getUniqueId());
-            if (isOtherTarget && !sender.hasPermission(node + ".others")) {
+            if (isOtherTarget && !sender.hasPermission("cxyz." + node + ".others")) {
                 MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node + ".others"));
                 return true;
             }

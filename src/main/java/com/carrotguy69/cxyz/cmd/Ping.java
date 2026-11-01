@@ -3,7 +3,7 @@ package com.carrotguy69.cxyz.cmd;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,20 +19,19 @@ public class Ping implements CommandExecutor {
 
         /*
         SYNTAX:
-            /ping <player>
+            /ping [player]
             /ping Steve
+            /ping
         */
 
-
-        if (CommandRestrictor.handleRestricted("ping", sender))
-            return true;
-
-        String node = "cxyz.ping";
-        if (!sender.hasPermission(node)) {
+        String node = "ping";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         else if (args.length == 0 && !(sender instanceof Player)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player"));
@@ -49,8 +48,8 @@ public class Ping implements CommandExecutor {
 
         else if (args.length == 1) {
 
-            String nodeOthers = "cxyz.ping.others";
-            if (!sender.hasPermission(nodeOthers)) {
+            String nodeOthers = "ping.others";
+            if (!sender.hasPermission("cxyz." + nodeOthers)) {
                 viewPing(sender, NetworkPlayer.resolvePlayer(((Player) sender).getUniqueId()));
                 return true;
             }
@@ -79,8 +78,6 @@ public class Ping implements CommandExecutor {
 
 
     public static void viewPing(CommandSender sender, NetworkPlayer np) {
-        // No need to await a request anymore!
-
         Map<String, Object> commonMap = MapFormatters.playerFormatter(np);
         commonMap.put("ping", np.getPlayer().getPing());
 

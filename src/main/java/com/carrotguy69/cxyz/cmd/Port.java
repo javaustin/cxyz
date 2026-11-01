@@ -1,6 +1,6 @@
 package com.carrotguy69.cxyz.cmd;
 
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import org.bukkit.command.Command;
@@ -22,16 +22,14 @@ public class Port implements CommandExecutor {
             /port 25565
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("port", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
-            return true;
-
-        String node = "cxyz.port";
-        if (!sender.hasPermission(node)) {
+        String node = "port";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
 
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         if (args.length == 0) {
             MessageUtils.sendParsedMessage(sender, MessageKey.PORT_VIEW, Map.of("port", String.valueOf(httpPort)));

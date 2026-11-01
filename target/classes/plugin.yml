@@ -305,7 +305,7 @@ commands:
     description: Set a timezone preference
     usage: /timezone [timezone]
     permission: "cxyz.timezone"
-    aliases: []
+    aliases: [tz]
 
   uuid:
     description: View a player's unique ID

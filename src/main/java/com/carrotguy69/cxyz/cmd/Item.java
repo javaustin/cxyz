@@ -4,7 +4,7 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import com.carrotguy69.cxyz.utils.CommandUtils;
 import com.carrotguy69.cxyz.utils.ItemUtils;
 import org.bukkit.Material;
@@ -21,19 +21,26 @@ import java.util.Map;
 public class Item implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
+        /*
+        SYNTAX:
+            /item <item> [amount] [player]
+            /item DIAMOND_SWORD 1 cerrot
+            /item EMERALD 16
+            /item SLIME
+        */
+
         args = CommandUtils.handleSilent(args);
 
-        // Syntax: /item <item> [amount] [player] [slot]
+        String node = "item";
 
-        String node = "cxyz.item";
-
-        if (CommandRestrictor.handleRestricted("item", sender))
-            return true;
-
-        if (!(sender.hasPermission(node))) {
+        if (!(sender.hasPermission("cxyz." + node))) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         if (args.length == 0) {
             boolean isPlayer = sender instanceof Player;

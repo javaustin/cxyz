@@ -6,6 +6,7 @@
 errors:
   command:
     no-access: "[&cYou do not have access to this command!](HOVER:&cYou do not have the required permission: {permission})" # Format: permission
+    cooldown-message: "&cPlease wait {remaining-seconds} seconds before using this command again."
     wrong-server: "&cYou cannot use this command on this server!" # no format
     player-only: "&cThis command must be used by a player!" # no format
 

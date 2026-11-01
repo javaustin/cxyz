@@ -5,7 +5,7 @@ import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,15 +34,15 @@ public class CosmeticDisable implements CommandExecutor {
             /cosmetic disable [*type]
         */
 
-        if (CommandRestrictor.handleRestricted("cosmetic.disable", sender))
-            return true;
+        String node = "cosmetic.disable";
 
-        String node = "cxyz.cosmetic.disable";
-
-        if (!sender.hasPermission(node)) {
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         if (args.length == 0 || args[0].equals("*")) {
             // Disabled all cosmetic types

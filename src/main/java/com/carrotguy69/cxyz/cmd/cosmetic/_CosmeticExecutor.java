@@ -2,7 +2,7 @@ package com.carrotguy69.cxyz.cmd.cosmetic;
 
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +15,6 @@ import static com.carrotguy69.cxyz.utils.ObjectUtils.slice;
 public class _CosmeticExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        // This is the cosmetic command router. It only dispatches to the subcommand handlers.
         /*
         SYNTAX:
             /cosmetic <buy | equip | unequip | list>
@@ -23,8 +22,13 @@ public class _CosmeticExecutor implements CommandExecutor {
             /cosmetic list
         */
 
-        // If the player does not have an adequate rank or level, isRestricted will auto-deny them. No further logic needed.
-        if (CommandRestrictor.handleRestricted("cosmetic", sender)) // This also handles Player and CommandSender, if it is a non player, the command is not restricted.
+        String node = "cosmetic";
+        if (!sender.hasPermission("cxyz." + node)) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
+            return true;
+        }
+
+        if (CommandRestriction.handleRestricted(node, sender))
             return true;
 
 

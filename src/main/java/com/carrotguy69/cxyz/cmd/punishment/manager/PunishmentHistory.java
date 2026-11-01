@@ -6,7 +6,7 @@ import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.messages.utils.MessageGrabber;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
-import com.carrotguy69.cxyz.utils.CommandRestrictor;
+import com.carrotguy69.cxyz.models.config.CommandRestriction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,14 +32,14 @@ public class PunishmentHistory implements CommandExecutor {
             /punishment history *
         */
 
-        if (CommandRestrictor.handleRestricted("punishment.history", sender))
-            return true;
-
-        String node = "cxyz.punishment.history";
-        if (!sender.hasPermission(node)) {
+        String node = "punishment.history";
+        if (!sender.hasPermission("cxyz." + node)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
             return true;
         }
+
+        if (CommandRestriction.handleRestricted(node, sender))
+            return true;
 
         if (args.length == 0 && !(sender instanceof Player)) {
             MessageUtils.sendParsedMessage(sender, MessageKey.MISSING_GENERAL, Map.of("missing-args", "player"));
@@ -63,11 +63,11 @@ public class PunishmentHistory implements CommandExecutor {
             }
         }
 
-        if (username.equalsIgnoreCase("*") && sender.hasPermission(node + ".others"))
+        if (username.equalsIgnoreCase("*") && sender.hasPermission("cxyz." + node + ".others"))
             viewHistoryAll(sender, page);
 
 
-        else if (sender.hasPermission(node + ".others"))
+        else if (sender.hasPermission("cxyz." + node + ".others"))
             viewHistory(sender, username, page);
 
         else

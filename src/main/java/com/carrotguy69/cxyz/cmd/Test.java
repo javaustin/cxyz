@@ -10,24 +10,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Locale;
 import java.util.Map;
 
 public class Test implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        String node = "cxyz.test";
-
-        if (!sender.hasPermission(node)) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
-            return true;
-        }
-
         /*
         SYNTAX:
             /test ...
             /test whatever
         */
+
+        String node = "test";
+
+        if (!sender.hasPermission("cxyz." + node)) {
+            MessageUtils.sendParsedMessage(sender, MessageKey.COMMAND_NO_ACCESS, Map.of("permission", node));
+            return true;
+        }
+
+
 
         if (!(sender instanceof Player p)) {
             return true;
@@ -39,8 +40,6 @@ public class Test implements CommandExecutor {
         }
 
         p.openInventory(Bukkit.createInventory(p, InventoryType.valueOf(args[0].toUpperCase())));
-
-
 
         return true;
     }

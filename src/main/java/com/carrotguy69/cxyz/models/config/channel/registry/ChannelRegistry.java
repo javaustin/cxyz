@@ -9,7 +9,6 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static com.carrotguy69.cxyz.CXYZ.channels;
 import static com.carrotguy69.cxyz.CXYZ.configYaml;
