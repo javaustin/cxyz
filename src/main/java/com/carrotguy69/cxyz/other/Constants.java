@@ -74,7 +74,7 @@ public class Constants {
         apiSecret = processIfENV(apiSecret);
 
         String httpPortString = yaml.getString("http-port", "59152");
-        String requestTimeoutMillisString = yaml.getString("api.timeout-millis", "5000");
+        String requestTimeoutMillisString = yaml.getString("request-timeout-millis", "5000");
 
         httpPortString = processIfENV(httpPortString);
         requestTimeoutMillisString = processIfENV(requestTimeoutMillisString);

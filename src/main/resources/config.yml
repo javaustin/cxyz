@@ -10,8 +10,7 @@
 #
 # [!] The plugin will crash if an environment variable does not exist, or it cannot access the variable,
 #
-# [!] Environment-variable references are supported only in the server definitions, and http settings (the first two sections).
-#     No other config values support this feature
+# [!] Environment-variable references are supported only for the server definitions and HTTP settings. No other sections support this setting!
 
 # ============================================================
 # SERVER AND API DEFINITIONS
@@ -20,9 +19,14 @@
 # These can also be defined by environment variables if present.
 #
 # Required fields:
-#   identifier          - An identifiable name for this server (e.g. "HUB-1"). Spaces not recommended.
-#   secret              - A secret key used to authenticate HTTP requests server to server.
-#   endpoint [api only] - The publicly reachable URL of your backend API server (e.g. https://api.cerrot.xyz)
+#   this-server.identifier - An identifiable name for this server (e.g. "HUB-1"). Avoid spaces.
+#   this-server.secret     - A secret key used to authenticate server-to-server HTTP requests.
+#   api.identifier         - The identifier of the backend API server.
+#   api.endpoint           - The publicly reachable URL of the backend API server
+#                            (e.g. https://api.cerrot.xyz).
+#   api.secret             - A secret key used to authenticate requests to the backend API.
+#
+# The identifier and secret values must match the corresponding server/API credentials.
 this-server:
   identifier: "ENV:IDENTIFIER"
   secret: "ENV:SECRET"
@@ -39,8 +43,10 @@ api:
 # Defines behavior for this plugin's HTTP client and outbound requests.
 # These can also be defined by environment variables if present.
 #
-#   Request timeout - Maximum time (in milliseconds) to wait for a response before cancelling the HTTP(s) request.
-#   HTTP Port       - Any open HTTP port for the API to send data to. (If using a Minecraft server host, you may need to use a 'Create Allocation' feature.)
+# Required fields:
+#   request-timeout-millis - Maximum time, in milliseconds, to wait for an HTTP response.
+#   http-port              - Local TCP port used by the plugin's HTTP listener. The port must be available and reachable by the backend API.
+#                            On managed hosts, you may need to create a port allocation.
 request-timeout-millis: 5000
 http-port: 59152
 
@@ -49,13 +55,13 @@ http-port: 59152
 # SERVER TIME SETTINGS
 # ============================================================
 # Default timezone used by the plugin. Players can set individual timezones that override this.
-# Format must follow IANA timezone naming:
-# Example: America/Los_Angeles
+# Must use an IANA timezone ID, such as America/Los_Angeles or UTC.
 timezone: America/Los_Angeles
 
-# Format used when displaying dates and times.
+# Date/time formats used when displaying dates and times. Values use Java DateTimeFormatter syntax.
+# The short variants are used where a more compact display is appropriate.
 # Formatting reference:
-# https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+#    https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
 
 date-format: MMMM d, yyyy
 date-short-format: M/d/yyyy
@@ -66,7 +72,7 @@ time-short-format: h:mm a
 # ============================================================
 # DEBUGGING
 # ============================================================
-# Enables additional logging for troubleshooting.
+# Enables additional logging for troubleshooting. Values are case-insensitive.
 #
 # Available options:
 #  COSMETIC,
@@ -81,8 +87,8 @@ time-short-format: h:mm a
 #  SHORTHAND_COMMANDS,
 #  USER
 #
-# Leave empty [] to disable debugging.
-# These debuggers can always be enabled or disabled using the /debug command.
+# Leave empty [] to disable debugging at startup.
+# Debuggers can also be enabled or disabled at runtime with /debug.
 debugger:
   enabled-values: []
 
@@ -98,40 +104,46 @@ debugger:
 # Example:
 #   cxyz.rank.vip
 #
-# NOTE:
-# - A default rank is required and denoted by "default". If one is not provided in config this plugin will make one for you.
-# - Hierarchy is required and must be unique to the rank. Higher hierarchy values override lower ones.
-# - Ranks are individual and do not stack.
+# Required fields:
+#    prefix              - Text displayed before a player's name when the rank is shown.
+#    color               - Color used for the rank and rank-colored player display text.
+#    default-chat-color  - Fallback color used for the player's chat messages.
+#    chat-cooldown       - Minimum number of seconds between messages sent by players with this rank.
+#    hierarchy           - Unique integer used to compare rank power; higher values are more powerful.
+#
+# [!] A default rank is required and denoted by "default". If one is not provided in config this plugin will make one for you.
+#
+# [!] Ranks are individual and do not stack.
 ranks:
 
   default:
     prefix: '&7'
     color: '&7'
-    defaultChatColor: '&f'
+    default-chat-color: '&f'
     chat-cooldown: 3
     hierarchy: 0
-  
+
   vip:
     prefix: '&f[&aVIP&f] '
     color: '&a'
     default-chat-color: '&f'
     chat-cooldown: 1
     hierarchy: 1
-  
+
   mvp:
     prefix: '&f[&bMVP&f] '
     color: '&b'
     default-chat-color: '&f'
     chat-cooldown: 0
     hierarchy: 2
-  
+
   mod:
     prefix: '&f[&eMod&f] '
     color: '&e'
     default-chat-color: '&f'
     chat-cooldown: 0
     hierarchy: 3
-  
+
   admin:
     prefix: '&f[&cAdmin&f] '
     color: '&c'
@@ -145,22 +157,41 @@ ranks:
 # ============================================================
 # Channels allow communication across all servers.
 #
-# Permissions required to use a channel:
-#   cxyz.channel.{channel}
+# Permissions:
+#   Custom channels require cxyz.channel.{channel} to use them.
+#   Core channels are available by default; denying cxyz.channel.{channel} restricts access.
 #
-# NOTE:
-# - Channel names must be unique
-# - Channel names are NOT case-sensitive
-# - Do NOT reuse trigger-prefix values
+# Required fields:
+#    prefix           - The formal prefix of the channel. This can be used in GUI's or channel command messages, but it is not automatically added as a chat prefix.
+#    read-only        - A boolean value for the read-only status of a channel. Put `true` if a channel should be read-only,
+#                       meaning it cannot be typed in. System messages may still be sent regardless of this value.
+#    console          - A boolean value for the console-sendable status of a channel. Put `true` if all content sent in the channel should be forwarded to the console.
+#    ignorable        - A boolean value for the ignorable status of a channel. Put `true` if players should have the ability to ignore this channel using `/channel ignore`.
+#    webhook-url      - An optional URL for forwarding messages from this channel to discord via a webhook. Leave blank to disable.
+#    chat-format      - The chat message format that will be used to format and send messages in the channel.
+#    trigger-prefix   - A leading multi-character string that allows players to select this channel just by typing the trigger prefix.
+#                         Example: If the trigger prefix is '#', and the channel is named `staff`. A player can type "#Hello Staff",
+#                                  and the resulting message will be "Hello Staff", sent in the `staff` channel.
+#    aliases          - A string list of aliases (alternative names) for channels.
+#                         Example: The public channel can have the aliases: [all, a, pub]
+#    lockable         - A boolean value for the lock-able status of a channel. Put `true` if the channel has the ability to be locked when an admin runs `/channel lock`
+#    locked           - A boolean value for the current lock status of a channel. A lock can be bypassed by a player with the permission `cxyz.channel.{channel-name}.lock-bypass`
+#
+# [!] Channel names must be unique
+#
+# [!] Channel names are NOT case-sensitive
+#
+# [!] Do NOT reuse trigger-prefix values
+#
+# [!] Core channels are built into the plugin; add user-defined channels under custom-channels
 chat:
-
   # ----------------------------------------------------------
   # CORE CHANNELS
   # ----------------------------------------------------------
   # These are built-in system channels.
   # Do NOT add new ones here.
 
-  # These channels are accessible by default. You can restrict players from using these channels by denying the permission "cxyz.channel.{name}".
+  # These channels are accessible by default. You can restrict players from using these channels by explicitly denying the permission "cxyz.channel.{name}".
 
   core-channels:
 
@@ -260,16 +291,14 @@ chat:
   # ----------------------------------------------------------
   # DEFAULT CHANNEL MAPPINGS
   # ----------------------------------------------------------
-  # Format: function -> channel
+  # Maps each system-message type to the defined channel as the default.
   #
-  # Available functions:
-  #
-  # PUBLIC,
-  # PARTY,
-  # MESSAGE,
-  # ANNOUNCEMENT,
-  # PUNISHMENT
-  #
+  # Available system-message types:
+  #    announcement - The system-message type used for announcements
+  #    punishment   - The system-message type used for punishment notifications
+  #    message      - The system-message type used for private messages
+  #    party        - The system-message type used for party messages
+  #    public       - The system-message type used for public chat
   defaults:
     announcement: announcement
     punishment: staff
@@ -280,8 +309,9 @@ chat:
   # ----------------------------------------------------------
   # CHAT FILTER
   # ----------------------------------------------------------
-  # Players with permission cxyz.chat-filter-bypass.{rule} will bypass the filter rule.
-
+  # Prevent unwanted messages from being sent in the chat, and optionally punish players using commands.
+  #
+  # [!] Players with the `cxyz.chat-filter-bypass.{rule-name}` permission are not subject to the rule.
   chat-filter:
     enabled: true
 
@@ -297,6 +327,8 @@ chat:
 # COLOR DEFINITIONS
 # ============================================================
 # Defines color names usable in plugin commands and configs.
+# Values may use Minecraft legacy color codes (for example `&a`) or hex color sequences in the form `&x&R&R&G&G&B&B`.
+# The key is the name used by commands or other configuration values.
 
 colors:
 
@@ -327,12 +359,15 @@ colors:
 # ============================================================
 # Broadcast messages that appear across servers.
 #
-# enabled    - If set to false, the announcement will never send
-# content    - The parsable content of the announcement
-# channel    - The chat channel the announcement will be sent in
-# delay      - The delay (in seconds) the plugin should wait until sending the announcement (from plugin startup)
-# interval   - The delay (in seconds) the plugin should wait to repeat the announcement (set to 0 to never repeat)
-# scope      - (GLOBAL, LOCAL). If GLOBAL, the announcement will be sent to all game servers. If not, the announcement will only be sent on this server.
+# Required Fields:
+#   enabled  - Whether the announcement is scheduled to send. If `false`, the announcement will not send.
+#   content    - The parsable content of the announcement
+#   channel    - The chat channel the announcement will be sent in
+#   delay      - The delay (in seconds) the plugin should wait until sending the announcement (from plugin startup)
+#   interval   - The delay (in seconds) the plugin should wait to repeat the announcement (set to 0 to never repeat)
+#   scope      - (GLOBAL, LOCAL). If GLOBAL, the announcement will be sent to all game servers. If not, the announcement will only be sent on this server.
+#
+# Announcement names must be unique. The configured channel must be a core or custom channel.
 
 announcements:
 
@@ -348,6 +383,11 @@ announcements:
 # ============================================================
 # PARTY SYSTEM
 # ============================================================
+# Controls party functionality and party lifecycle timeouts.
+#   enabled              - Whether party commands and party behavior are enabled.
+#   autokick-after       - Seconds after which an empty party is automatically disbanded.
+#   invites-expire-after - Seconds before a party invitation expires.
+#   max-players          - Maximum number of players allowed in one party.
 parties:
   enabled: true
   autokick-after: 300
@@ -358,8 +398,9 @@ parties:
 # ============================================================
 # FRIEND SYSTEM
 # ============================================================
+#   requests-expire-after - Number of seconds before an unanswered friend request expires.
 friends:
-  requests-expire-after: 300 # The amount of seconds to wait before a friend request to another player expires.
+  requests-expire-after: 300
 
 
 # ============================================================
@@ -374,29 +415,28 @@ punishments:
       kick: Unspecified
       ban: Hacking
 
-    durations: # Enter times in SECONDS
-      permanent: "permanent" # If the duration is permanent, this text will show instead of a non-useful number like 0 or -1.
+    durations: # Enter times in SECONDS.
+      permanent: "permanent" # Text shown for a permanent duration instead of a number such as -1.
 
       effective-until: # The time until the punishment is no longer effective.
-        warn: 604800 # 1 week (warns are stored but do not affect the player - to control records - modify the expiry value)
+        warn: 604800 # 1 week. A warning is stored but does not actively affect the player.
         mute: 3600 # 1 hour
         kick: 0 # (Kicks are not persistent by definition, any value here will be ignored)
         ban: -1 # Permanent
 
       expire: # The time until the record of the punishment is cleared.
         warn: -1 # Record never expires
-        mute: 2622600 # Record expires after a month of the issuing
+        mute: 2622600 # Record retention period in seconds.
         kick: 0 # Record expires immediately
         ban: -1 # Record never expires
 
-  # Commands that a player is restricted from executing when they are muted.
-  # This list requires an exact "starts with" string match, so be sure to include command aliases if you wish to restrict those.
+  # Commands that a muted player is restricted from executing.
   mute-restrictions:
-  - msg
-  - message
-  - r
-  - party chat
-  - broadcast
+    - msg
+    - message
+    - r
+    - party chat
+    - broadcast
 
 
 # ============================================================
@@ -413,6 +453,12 @@ social:
 # ============================================================
 # CUSTOM COMMAND SHORTHANDS
 # ============================================================
+# Defines commands that execute one or more configured actions.
+#   description - Help text shown for the shorthand command.
+#   trigger     - Command syntax. It must begin with the shorthand name; arguments use the form {argument}.
+#   actions     - Commands executed in order. Do not include a leading slash "/"
+#
+# The default permission is cxyz.shorthand.{name}.
 shorthand-commands:
   sc:
     description: Enter the staff channel
@@ -486,6 +532,13 @@ shorthand-commands:
 
 # Adds rank/level restrictions to commands.
 # Players must still have the normal command permission.
+#
+# Each entry is keyed by the command path. Dotted commands may be represented as nested YAML sections by Bukkit.
+#   minimum-rank  - Lowest rank hierarchy allowed to use the command.
+#   minimum-level - Lowest player level allowed to use the command.
+#   message       - Message shown when either requirement is not met.
+#
+# Both minimum-rank and minimum-level requirements must be satisfied.
 
 command-restrictions:
 
@@ -498,22 +551,22 @@ command-restrictions:
 # COMMAND COOLDOWNS
 # ============================================================
 # Adds a "cooldown" period where a player cannot execute commands.
-
+# All durations are in seconds.
 
 cooldowns:
-# Required fields:
-#   name               - The registered name of the command. [For per-command-rules only!]
-#   cooldown           - The amount of SECONDS a player is allowed to consecutively execute the same command.
-#   affected-ranks     - The affected ranks by the cooldown rule. If a players' rank is included in this list, they will be subject to the cooldown unless they also have an exempted rank.
-#   exempt-ranks       - The ranks' not subject to the cooldown under any circumstances.
-#   scope [cmd, all]   - The scope of the cooldown rule.
-#                         cmd: The cooldown rule only affects the execution of the same command.
-#                         all: The cooldown rule affects all commands.
+  # Required fields:
+  #   name               - The registered name of the command. [For per-command-rules only!]
+  #   cooldown           - The amount of SECONDS a player is allowed to consecutively execute the same command.
+  #   affected-ranks     - The affected ranks by the cooldown rule. If a players' rank is included in this list, they will be subject to the cooldown unless they also have an exempted rank.
+  #   exempt-ranks       - The ranks' not subject to the cooldown under any circumstances.
+  #   scope [cmd, all]   - The scope of the cooldown rule.
+  #                         cmd: The cooldown rule only affects the execution of the same command.
+  #                         all: The cooldown rule affects all commands.
 
   global-rules:
     - cooldown: 2
       affected-ranks: [default]
-      exempt-ranks: [vip]
+      exempt-ranks: [admin]
       scope: all
 
   per-command-rules:
