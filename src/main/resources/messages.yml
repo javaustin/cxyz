@@ -1,26 +1,21 @@
-# Notes:
-# We must standardize which commands have what formatters, and keep it consistent
-# We must standardize naming conventions for errors, they should all have the "error." prefix
-
-# General (non-command specific) errors
 errors:
   command:
-    no-access: "[&cYou do not have access to this command!](HOVER:&cYou do not have the required permission: {permission})" # Format: permission
+    no-access: "[&cYou do not have access to this command!](HOVER:&cYou do not have the required permission: {permission})"
     cooldown-message: "&cPlease wait {remaining-seconds} seconds before using this command again."
-    wrong-server: "&cYou cannot use this command on this server!" # no format
-    player-only: "&cThis command must be used by a player!" # no format
+    wrong-server: "&cYou cannot use this command on this server!"
+    player-only: "&cThis command must be used by a player!"
 
   player:
-    is-self: "&cYou cannot use this command on yourself!" # no format
-    not-found-username: "[&cPlayer not found!](HOVER:&7Could not find player with the username of &f{username}&7!)" # Format: username
-    not-found-uuid: "[&cPlayer not found!](HOVER:&7Could not find player with the uuid of &f{uuid}&7!)" # Format: username
-    outranks-sender: "&cYou cannot use this command on a player which outranks you!" # Format: MessageFormatters.playerSenderFormatter(...);
-    is-offline: "&cThis player is offline!" # Format MF.playerFormatter(target);
+    is-self: "&cYou cannot use this command on yourself!"
+    not-found-username: "[&cPlayer not found!](HOVER:&7Could not find player with the username of &f{username}&7!)"
+    not-found-uuid: "[&cPlayer not found!](HOVER:&7Could not find player with the uuid of &f{uuid}&7!)"
+    outranks-sender: "&cYou cannot use this command on a player which outranks you!"
+    is-offline: "&cThis player is offline!"
 
   args:
     missing:
-      general: "&cThis command is missing the required argument((s)): &f{missing-args}" # format w/ {missing-args}, {syntax}
-      content: "&cYou cannot send a blank message!" # no format
+      general: "&cThis command is missing the required argument((s)): &f{missing-args}"
+      content: "&cYou cannot send a blank message!"
 
     invalid:
       attribute: "[&cAttribute not found!](HOVER:&7Could not find an attribute named {attribute} in the entry!)"
@@ -46,13 +41,13 @@ errors:
       message-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"
       party-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"
       powertool-item: "&cItem {item} cannot be bound to."
-      nickname-length: "&cNickname must be between 3 and 16 characters." # format {input}
-      nickname-characters: "&cA nickname must be made up of letters, numbers, and underscores only." # format {input}
-      nickname-taken: "&cThis nickname is taken!" # format {input}
+      nickname-length: "&cNickname must be between 3 and 16 characters."
+      nickname-characters: "&cA nickname must be made up of letters, numbers, and underscores only."
+      nickname-taken: "&cThis nickname is taken!"
       query: "[&cEntry not found!](HOVER:&7Could not find an entry with the query {query}!)"
 
   other:
-    api-error: "&cThis command failed unexpectedly. Please try again later." # Format: {commandLine}
+    api-error: "&cThis command failed unexpectedly. Please try again later."
 
 chat:
   cooldown-message: "&cPlease wait {remaining-seconds} seconds before sending another message."
@@ -60,33 +55,27 @@ chat:
 commands:
 
   chat-channel:
-
     available-subcommands: |
       &aChannel subcommands:
       &e/channel <channel>
       &e/channel ignore <channel>
       &e/channel unignore <channel>
-
-    # Everything supports channel formatter ({channel-attribute}) as well as PlayerFormatter. For (un)ignoring channels we support {ignored-channels} and {unignored-channels}
     set: "&aYou have moved to the {channel-name} channel."
     view: "&aYou are currently in the {channel-name} channel."
     read-only: "&cThis channel is read only!"
     is-locked: "&cThis channel is locked!"
     no-access: "&cYou cannot access this channel!"
-
     muted: "&aYou will no longer receive {channel-name} notifications."
     unmuted: "&aYou will now receive {channel-name} notifications."
     not-muted: "&eThis channel is not muted!"
     already-muted: "&eThis channel is already muted!"
     error.not-mutable: "&cThis channel cannot be ignored!"
     channel-muted: "&eYou tried sending a message in the {channel-name} chat, but you have this channel muted! Use &f/channel unignore {channel-name} &eand then try again!"
-
     already-locked: "&eThe {channel-name} channel is already locked!"
     already-unlocked: "&eThe {channel-name} channel is not locked!"
     lock-forbidden: "&cThis channel cannot be locked!"
     locked: "&4[[!]]&r {player-rank-prefix}{player-rank-color}{player-display-name} &7locked the {channel-name} channel."
     unlocked: "&4[[!]]&r {player-rank-prefix}{player-rank-color}{player-display-name} &7unlocked the {channel-name} channel."
-
 
     ignore-list:
       message: "&aYou are ignoring the following channels: &7{ignored-channels}"
@@ -95,16 +84,14 @@ commands:
       separator: ", "
       max-entries-per-page: -1
 
-
-  chat-color: # Supports color, code, extends playerformatter
-    # No available subcommands. Only /chatcolor <color>
+  chat-color:
     set: "&aChat color set to {code}{color}!"
     reset: "&aChat color reset!"
     view: "&aYour chat color is set to {code}{color}!"
     invalid-color: "[&cPlease provide a valid color!](HOVER:\n&0Black&r, &1Dark Blue&r, &2Dark Green&r, &3Dark Aqua&r, &4Dark Red&r, \n&5Dark Purple&r, &6Gold&r, &7Gray&r, &8Dark Gray&r, &9Blue&r,\n &aGreen&r, &bAqua&r, &cRed&r, &dLight Purple&r, &eYellow&r, &fWhite&r)"
     duplicate-state: "&eYour chat color is already set to this!"
 
-  coins: # Format: playerFormatter, amount
+  coins:
     available-subcommands: |
       &aCoins subcommands:
       &e/coins add <amount> [[player]]
@@ -124,7 +111,7 @@ commands:
       &e/cosmetic list <owned | equipped | all> [[player]] [[page]]
       &e/cosmetic unequip <item>
 
-    buy: # All use cosmeticFormatter and playerFormatter
+    buy:
       error.insufficient-rank: "&cThis item requires {cosmetic-required-rank-prefix-display} &crank or above!"
       error.insufficient-coins: "&cYou cannot afford this item!"
       error.insufficient-level: "&cThis item requires level {cosmetic-required-level} &c or above!"
@@ -132,14 +119,13 @@ commands:
       error.disabled-item: "&cYou already own this item!"
       success: "&aYou purchased [{cosmetic-display}]({HOVER:cosmetic-lore})&afor {cosmetic-price} coins!"
 
-
-    equip: # Accepts cosmeticFormatter
+    equip:
       error.already-equipped: "&cThis cosmetic is already equipped!"
       error.not-owned: "&cYou do not own this cosmetic!"
       error.insufficient-rank: "&cYou cannot apply this cosmetic as you do not have the required {cosmetic-required-rank-prefix-display} &crank."
       success: "&aYou have equipped [{cosmetic-display-stripped}](HOVER:{cosmetic-lore})"
 
-    unequip: # Accepts cosmeticFormatter
+    unequip:
       error.not-equipped: "&cThis cosmetic is not equipped!"
       error.not-owned: "&cYou do not own this cosmetic!"
       success: "&aYou have unequipped [{cosmetic-display}](HOVER:{cosmetic-lore})"
@@ -174,23 +160,10 @@ commands:
         entry-format: "[{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})"
         separator: "\n"
         max-entries-per-page: 8
-
     enable: "&aEnabled the following cosmetic types: {enabled-types}"
     disable: "&aDisabled the following cosmetic types: {disabled-types}"
 
   craft: "&aOpened crafting menu for {player}."
-
-  data:
-    # formatter: {attribute}, {value}, networkPlayerFormatter
-    networkplayer:
-      get: "Attribute {attribute} for {player-username} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
-      get-async: "Attribute ((async)) {attribute} for {player-username} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
-      set: "Set [{attribute}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{attribute}) to [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})for network player {player-username}."
-      set-async: "Set ((async)) [{attribute}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{attribute}) to [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value}) for network player {player-username}."
-
-    message:
-      get: "The messages for {player-username} {attribute} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
-      get-async: "The messages ((async)) for {player-username} {attribute}  is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
 
   debug:
     set: "&a{value} debugger has been enabled!"
@@ -198,7 +171,6 @@ commands:
     view: "&aEnabled debuggers: &f{debuggers}"
 
   dispose: "&aDisposed item."
-
 
   echest-view: "&aYou are viewing {player-display-name}'s ender chest."
 
@@ -215,7 +187,7 @@ commands:
   fly-disable: "&aFlight disabled for {player-display-name}."
 
   friend:
-    error.already-friends: "&eYou are already friends with this player." # Accepts playerSender
+    error.already-friends: "&eYou are already friends with this player."
     error.duplicate-request: "&eYou already sent a request to this player."
     error.fail: "&cThis player does not accept incoming friend requests."
     error.no-request: "&eYou haven't received a request from this player."
@@ -228,13 +200,11 @@ commands:
       entry-format: "[{player-rank-color}{player-display-name}](HOVER:{player-online-status}!)"
       separator: "&r, "
       max-entries-per-page: -1
-
     available-subcommands: |
-      &bFriend subcommands:
+      &aFriend subcommands:
       &e/friend add <player>
       &e/friend accept <player>
       &e/friend list <page>
-    
     request-sent: "&eYou sent a friend request to {player-rank-color}{player-display-name}. &eThey have 5 minutes to accept."
     request-received:  |
       [&f----------------------------------------------------
@@ -244,7 +214,6 @@ commands:
     request-accepted: "&eYou are now friends with {player-rank-color}{player-display-name}"
     request-accept-received: "&eYou are now friends with {sender-rank-color}{sender-display-name}"
     request-denied: "&eYou have denied {sender-rank-color}{sender-display-name}'s &efriend request."
-
     removed: "&eYou are no longer friends with {player-rank-color}{player-display-name}"
     removed-received: "&eYou are no longer friends with {sender-rank-color}{sender-display-name}"
 
@@ -263,7 +232,6 @@ commands:
     &fTotal playtime:&7 {player-playtime}
     &f----------------------------------------------- 
 
-
   inventory-view: "&aYou are viewing {player-display-name}'s inventory."
 
   item: "&aAdded {amount} {item}((s)) to {player}'s inventory."
@@ -272,7 +240,7 @@ commands:
     short: "&fYour location: &7{block-x}, {block-y}, {block-z}"
     long: "&fYour location: &7[{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}})"
 
-  message: # All except channel-changed and reply-fail should user MF.playerSender. + add content
+  message:
     fail: "&cYou cannot message this player!"
     opened: "&dYou opened a message with {player}!"
     received: "&d> from {sender-rank-color}{sender}: &r{sender-chat-color}{content}"
@@ -281,15 +249,15 @@ commands:
     channel-changed: "&eYou have no messages to reply to, so you have been moved to the public chat!"
 
   motd:
-    set: "&aMOTD successfully set to:&7 {motd}" # Format {motd}
-    view: "&aThe current MOTD is:&7 {motd}" # Format {motd}
+    set: "&aMOTD successfully set to:&7 {motd}"
+    view: "&aThe current MOTD is:&7 {motd}"
 
-  nickname: # player formatter
+  nickname:
     set: "&aYour nickname is now {player-rank-color}{player-display-name}"
     reset: "&aCleared nickname!"
     view: "&7Your current display name is {player-display-name}."
 
-  level: # Format: playerFormatter, amount
+  level:
     available-subcommands: |
       &aLevel subcommands:
       &e/level add <amount> [[player]]
@@ -309,10 +277,8 @@ commands:
     error: "&cFailed to parse text: {error}"
 
   party:
-    # Almost every key should support MF.partyFormatter(party) by default. Some support playerSender too.
-
-    available-subcommands: | # Does not support formatting
-      &9Party subcommands:
+    available-subcommands: |
+      &aParty subcommands:
       &e/party chat <message>
       &e/party create
       &e/party disband
@@ -325,7 +291,6 @@ commands:
       &e/party kick <player>
       &e/party setleader <player>
       &e/party warp <server>
-      
     disabled: "&cParties are not enabled on this server."
     created: "&eYou have created a party!"
     disband: "&eThe party has been disbanded."
@@ -340,7 +305,6 @@ commands:
       {inviter-rank-prefix}{inviter-rank-color}{inviter-display-name} &r&7has invited you to their party.
       &e&lClick to accept!
       &f----------------------------------------------------](HOVER:&7Click to join {inviter-rank-color}{inviter-display-name}'s &r&7party!)(RUN_COMMAND:/party join {inviter-display-name})
-    
 
     party-list:
       message: |
@@ -352,13 +316,10 @@ commands:
       entry-format: "[{player-rank-color}{player-display-name}](HOVER:This is {player-display-name}!)"
       separator: ", "
       max-entries-per-page: -1
-
     party-full: "&cThis party is full! ((&c{size}/{max-size}))"
     party-full-announcement: "&c{player} attempted to join but the party is full ((&c{size}/{max-size}))"
-
     player-reconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7reconnected."
     player-disconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7disconnected."
-
     join: "&eYou have joined the party!"
     join-announcement: "&9Party> {player-rank-prefix}{player-rank-color}{player} &r&7has joined the party."
     left: "&eYou have left the party!"
@@ -369,21 +330,22 @@ commands:
     remove-announcement: "&9Party> {player-rank-color}{player} &r&7has been removed from the party."
     remove-inactive-announcement: "&9Party> {player-rank-color}{player} &r&7has been auto-kicked from the party due to inactivity."
     transfer: "&9Party> &7The party has been transferred to {player-rank-color}{player}."
-    warp-announcement: "&9Party> &7The party has been warped to &e{server}." # server: the destination server of the warp
-    chat-message: "&9Party> {player-rank-color}{player-display-name}: {player-chat-color}{content}" # content: the content of a party chat message
-    error.channel-changed: "&eYou are no longer in a party, you have been moved to the public chat!" # Supports player
-    error.in-party-join: "&cYou must leave your current party in order to join another one." # Supports party, otherPartyOwner
-    error.in-party-create: "&cYou must leave your current party in order to create another one." # Supports party, otherPartyOwner
-    error.duplicate-invite: "&cYou already sent an invite to this player!" # Supports formatting: party, {player}
-    error.not-in-party: "&cYou are not in a party!" # NO FORMATTING
-    error.in-party: "&cYou are already in a party!" # Supports partyFormatter
-    error.player-in-party: "&cThis player is already in the party!" # Supports inviterRecipient
-    error.player-not-in-party: "&cThis player is not in the party!"  # Supports partyFormatter, {player}
-    error.party-not-exist: "&cThis party no longer exists!" # NO FORMATTING
-    error.invite-not-found: "&cYou have not received a party invite from this player!" # Supports playerSender where sender is the user and player is the inviter
-    error.leader-only: "&cYou must be the party leader to do this!" # Supports partyFormatter
-    error.must-disband: "&cYou cannot leave this party since you are the party owner. Use &f/p disband&c instead!" # Supports party
-    error.warp-failed: "&cThe party could not be warped because one or more players are offline!" # Supports party, (add online and offline players to partyFormatter)
+    warp-announcement: "&9Party> &7The party has been warped to &e{server}."
+    chat-message: "&9Party> {player-rank-color}{player-display-name}: {player-chat-color}{content}"
+
+    error.channel-changed: "&eYou are no longer in a party, you have been moved to the public chat!"
+    error.in-party-join: "&cYou must leave your current party in order to join another one."
+    error.in-party-create: "&cYou must leave your current party in order to create another one."
+    error.duplicate-invite: "&cYou already sent an invite to this player!"
+    error.not-in-party: "&cYou are not in a party!"
+    error.in-party: "&cYou are already in a party!"
+    error.player-in-party: "&cThis player is already in the party!"
+    error.player-not-in-party: "&cThis player is not in the party!"
+    error.party-not-exist: "&cThis party no longer exists!"
+    error.invite-not-found: "&cYou have not received a party invite from this player!"
+    error.leader-only: "&cYou must be the party leader to do this!"
+    error.must-disband: "&cYou cannot leave this party since you are the party owner. Use &f/p disband&c instead!"
+    error.warp-failed: "&cThe party could not be warped because one or more players are offline!"
     error.already-private: "&eThis party is already private."
     error.already-public: "&eThis party is already public."
 
@@ -393,19 +355,15 @@ commands:
   powertool-clear: "&aCleared all powertool commands from {item}."
 
   privacy:
-    # Accepts playerFormatter, and {value}
     friend-privacy-set: "&aYour friend privacy setting has been updated!"
     friend-privacy-view: "&aYour friend request setting is set to {value}."
     friend-privacy-already-set: "&eYour friend request setting is already set to this value!"
-
     message-privacy-set: "&aYour message privacy setting has been updated!"
     message-privacy-view: "&aYour message privacy setting is set to {value}."
     message-privacy-already-set: "&eYour message privacy setting is already set to this value!"
-
     party-privacy-set: "&aYour party privacy setting has been updated!"
     party-privacy-view: "&aYour party privacy setting is set to {value}."
     party-privacy-already-set: "&eYour party privacy setting is already set to this value!"
-
     ignore-player: "&a{player} has been added to your ignore list."
     unignore-player: "&a{player} has been removed from your ignore list."
     already-ignored-player: "&e{player} is already on your ignore list!"
@@ -419,8 +377,6 @@ commands:
       max-entries-per-page: -1
 
   punishment:
-    # Everything is formatted with punishmentMap. Includes player, mod, type, date, case id, timestamp, and other things.
-
     available-subcommands: |
       &aPunishment subcommands
       &e/punishment clear <player>
@@ -429,32 +385,28 @@ commands:
       &e/punishment history <player>
       &e/punishment info <id>
 
-    error.not-banned: "&cThis target is not banned." # Accepts playerFormatter
-    error.not-muted: "&cThis target is not muted." # Accepts playerFormatter
-    error.already-banned: "&cThis target is already banned." # Accepts playerFormatter
-    error.already-muted: "&cThis target is already muted." # Accepts playerFormatter
+    error.not-banned: "&cThis target is not banned."
+    error.not-muted: "&cThis target is not muted."
+    error.already-banned: "&cThis target is already banned."
+    error.already-muted: "&cThis target is already muted."
 
     ban:
       mod-message: "&aSuccessfully applied ban to {player}!"
       player-message: |
         &cYou have been banned from this server for: &7{reason}!
-    
         &r&fID: &7#{case-id}
         &r&fPlayer: {player-rank-color}{player} 
         &r&fModerator: {mod-rank-color}{mod}
         &r&fIssued on: &7{date} {time}
         &r&fEffective Until: &7{effective-until}
-        
         &cYou cannot rejoin until your ban expires in {effective-until-countdown}.
         &rAppeal at: https://example.com/appeal
       player-message-permanent: |
         &cYou have been permanently banned from this server for: &7{reason}!
-        
         &r&fID: &7#{case-id}
         &r&fPlayer: {player-rank-color}{player} 
         &r&fModerator: {mod-rank-color}{mod}
         &r&fIssued on: &7{date} {time}
-        
         &4This ban will not expire.
         &rAppeal at: https://example.com/appeal
       log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} ((&fduration: {duration-short})) &fto {player-rank-color}{player} &ffor reason: &f{reason}"
@@ -492,10 +444,8 @@ commands:
     clear: "&aCleared all punishments from player {player}."
     delete: "&aDeleted {type} #{case-id} from player {player}."
     edit: "[&aSuccessfully updated punishment {attribute}!](HOVER:New value: {value})"
-
-
     info: |
-      &cPunishment #{case-id}
+      &cPunishment
       &fOffender: [{player-rank-color}{player-username}](HOVER:&7Click to copy UUID)(COPY_TO_CLIPBOARD:{player-uuid})
       &fModerator: [{mod-rank-color}{mod-username}](HOVER:&7Click to copy UUID)(COPY_TO_CLIPBOARD:{mod-uuid})
       &fType: &7{type}
@@ -527,30 +477,28 @@ commands:
       max-entries-per-page: 10
 
   port:
-    set: "&aPort value successfully updated! Restart this server to apply changes." # Format {port}
-    view: "&aThe current server port is set to {port}." # Format {port}
+    set: "&aPort value successfully updated! Restart this server to apply changes."
+    view: "&aThe current server port is set to {port}."
 
   rank:
     available-subcommands: |
-      &9Rank subcommands:
-      &6/rank add <rank> [[player]]
-      &6/rank remove <rank> [[player]]
-      &6/rank list [[player]]
+      &aRank subcommands:
+      &e/rank add <rank> [[player]]
+      &e/rank remove <rank> [[player]]
+      &e/rank list [[player]]
 
     error:
       has-rank: "&eThis player already has that rank!"
       missing-rank: "&eThis player does not have this rank!"
 
-    add: "&aAdded {rank-prefix-display} &ato {player-rank-color}{player}!" # rankFormatter, playerFormatter
-    remove: "&aRemoved {rank-prefix-display} &afrom {player-rank-color}{player}!" # rankFormatter, playerFormatter
-
-    rank-list:
+    add: "&aAdded {rank-prefix-display} &ato {player-rank-color}{player}!"
+    remove: "&aRemoved {rank-prefix-display} &afrom {player-rank-color}{player}!"
+    list:
       message: "{player}'s ranks: {ranks}"
       blank: "&eNo ranks found for this player!"
       entry-format: "{rank-prefix-display}"
       separator: "&f, "
       max-entries-per-page: -1
-
 
   reload:
     success: "&aSuccessfully reloaded plugin in &7{time}ms&a!"
@@ -558,12 +506,6 @@ commands:
 
   smite: "&aSmiting {player-display-name}."
   smite-all: "&aSmiting {amount} targets."
-
-  sql:
-    confirm-prompt: "&cConfirm executing the query &f{query}&c on the backend database? This could be a dangerous action!\n[&a[[✅ Yes]]](RUN_COMMAND:/sql {query} -confirm)   [&c[[❌ No]]](RUN_COMMAND:/show ~ &cAction cancelled)"
-    sending: "&aSending request..."
-    error: "&cAn error occurred on the backend server: &f{error}"
-    success: "&aOperation successful! Body: &f{body}"
 
   sudo: "&aForcing {player} to run command: &e{command}"
   sudo-message: "&aForcing {player} to send message: &e{message}"
@@ -580,7 +522,7 @@ commands:
   vanish-disable: "&aUnvanished {player}."
   vanish-join-action-bar: "&aYou joined in vanish mode."
 
-  xp: # Format: playerFormatter, amount
+  xp:
     available-subcommands: |
       &aXP subcommands:
       &e/xp add <amount> [[player]]

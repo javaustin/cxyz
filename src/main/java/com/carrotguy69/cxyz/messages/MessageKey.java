@@ -357,11 +357,11 @@ public enum MessageKey {
     RANK_ADD("commands.rank.add"),
     RANK_REMOVE("commands.rank.remove"),
 
-    RANK_LIST_PLAYER("commands.rank.rank-list.message"),
-    RANK_LIST_PLAYER_NONE("commands.rank.rank-list.blank"),
-    RANK_LIST_PLAYER_FORMAT("commands.rank.rank-list.entry-format"),
-    RANK_LIST_PLAYER_SEPARATOR("commands.rank.rank-list.separator"),
-    RANK_LIST_PLAYER_MAX_ENTRIES("commands.rank.rank-list.max-entries-per-page"),
+    RANK_LIST_PLAYER("commands.rank.list.message"),
+    RANK_LIST_PLAYER_NONE("commands.rank.list.blank"),
+    RANK_LIST_PLAYER_FORMAT("commands.rank.list.entry-format"),
+    RANK_LIST_PLAYER_SEPARATOR("commands.rank.list.separator"),
+    RANK_LIST_PLAYER_MAX_ENTRIES("commands.rank.list.max-entries-per-page"),
 
     RANK_ERROR_HAS_RANK("commands.rank.error.has-rank"),
     RANK_ERROR_MISSING_RANK("commands.rank.error.missing-rank"),
@@ -374,11 +374,6 @@ public enum MessageKey {
 
     SUDO("commands.sudo"),
     SUDO_MESSAGE("commands.sudo-message"),
-
-    SQL_CONFIRM_PROMPT("commands.sql.confirm-prompt"),
-    SQL_SENDING("commands.sql.sending"),
-    SQL_ERROR("commands.sql.error"),
-    SQL_SUCCESS("commands.sql.success"),
 
     TIMEZONE_SET("commands.timezone.set"),
     TIMEZONE_ERROR_DUPLICATE_STATE("commands.timezone.error.duplicate-state"),
