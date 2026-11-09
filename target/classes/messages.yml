@@ -1,131 +1,230 @@
-# Notes:
-# We must standardize which commands have what formatters, and keep it consistent
-# We must standardize naming conventions for errors, they should all have the "error." prefix
+# ============================================================
+# OVERVIEW
+# ============================================================
+#
+# This file includes every single message sent in this plugin. You can modify any message sent
+# by simply changing the text, saving the file, and reloading the plugin.
 
-# General (non-command specific) errors
+
+  # ----------------------------------------------------------
+  # COLOR
+  # ----------------------------------------------------------
+  # The messages in this file support legacy color codes (such as '&a', '&b', '&4'),
+  # and modern RGB codes in the form of Minecraft RGB syntax (like the color red as '&x&f&f&0&0&0&0').
+  #
+  #
+  # ----------------------------------------------------------
+  # PLACEHOLDERS
+  # ----------------------------------------------------------
+  #
+  # Almost every single message in this file supports placeholder indicators. These placeholders are resolved at runtime,
+  # converting the text from some the arbitrary placeholder text (such as {player}), to its' actual value (such as 'Steve').
+  #
+  # For example:
+  #   The message: "{player} has joined the party!"
+  #      resolves into -> "Steve has joined the party!"
+  #                            ^ if the placeholder player is Steve
+  #
+  # * A detailed glossary of commonly-used placeholders is displayed at line `69` of this file.
+  #
+  #
+  # ----------------------------------------------------------
+  # CLICKABLE MESSAGES
+  # ----------------------------------------------------------
+  #
+  # This plugin supports message actions by using the format:
+  #    [TEXT](ACTION_TYPE:ACTION_TEXT)
+  #    ^ The clickable text is enclosed by [brackets],
+  #       and the action is enclosed by (parentheses).
+  #
+  # [!] The plugin will throw an error if a clickable text block is not immediately followed by an action block.
+  #
+  # [!] To use brackets or parentheses in a message without creating a clickable
+  #     component, double the characters: "(" -> "((", "[" -> "[[", ")" -> "))", "]" -> "]]"
+  #
+  #     For example:
+  #                      Message                                           Output
+  #            "[An incorrect example message]"   ->  Error (An action block must follow a clickable text block)
+  #            "[[A correct example message!]]"   ->  [A correct example message!]
+  #
+  # Any amount of actions can be added to a clickable message
+  #    [TEXT](ACTION_TYPE:ACTION_TEXT)[MORE_TEXT](ACTION_2_TYPE:ACTION_2_TEXT)[...](...)
+  #
+  # Supported action types:
+  #   HOVER
+  #   OPEN_URL
+  #   RUN_COMMAND
+  #   SUGGEST_COMMAND
+  #   COPY_TO_CLIPBOARD
+  #
+  # As an example, you can create a message that will give you a diamond if you click on "Click me".
+  #    "[Click me](RUN_COMMAND:/give @s diamond) for diamonds!"
+  #     ^           ^           ^                ^
+  #     Clickable   Action      Action           Non-Clickable
+  #     Text        Specifier   Text             Text
+  #
+  # Placeholders and colors are supported too:
+  #    "[&c{player} just joined! If you click this message, their UUID will be copied to your clipboard!](COPY_TO_CLIPBOARD:{player-uuid})(RUN_COMMAND:/show ~ &x&f&3&a&2&9&0Copied!)"
+  #
+  #
+  # ----------------------------------------------------------
+  # PLACEHOLDER GLOSSARY
+  # ----------------------------------------------------------
+  #
+  # '*' represents related placeholders provided by another group. For example; {mod*} in the punishment group represents all player-based
+  # placeholders prefixed by {mod}. So this would generate: {mod}, {mod-uuid}, {mod-username}, {mod-nickname}, ...
+  #
+  #
+  # PLAYER:
+  #   If the prefix is {player}:
+  #     {player}, {player-uuid}, {player-username}, {player-nickname}, {player-nickname-display}, {player-display-name}, {player-rank}, {player-rank-prefix},
+  #     {player-rank-prefix-display}, {player-rank-color}, {player-custom-rankplate}, {player-custom-rankplate-display}, {player-custom-rankplate-lore}, {player-tag},
+  #     {player-tag-display}, {player-tag-lore}, {player-chat-color}, {player-chat-color-name}, {player-chat-channel}, {player-chat-channel-prefix}, {player-server},
+  #     {player-vanish-status}, {player-online-status}, {player-first-join-date}, {player-first-join-short-date}, {player-last-join-date}, {player-last-join-short-date},
+  #     {player-last-online-date}, {player-last-online-short-date}, {player-first-join-time}, {player-first-join-short-time}, {player-last-join-time},
+  #     {player-last-join-short-time}, {player-last-online-time}, {player-last-online-short-time}, {player-date}, {player-date-short}, {player-time}, {player-time-short},
+  #     {player-timezone}, {player-playtime}, {player-last-ip}, {player-coins}, {player-level}, {player-xp}, {player-message-privacy}, {player-friend-privacy},
+  #     {player-party-privacy}, {player-ignore-list-size}, {player-friend-list-size}, {player-owned-cosmetics-list-size}, {player-equipped-cosmetics-list-size},
+  #     {player-muted-channels-list-size}, {player-ignored-channels-list-size}, {player-world}, {player-x}, {player-y}, {player-z}, {player-yaw}, {player-pitch},
+  #     {player-rounded-yaw}, {player-rounded-pitch}, {player-block-x}, {player-block-y}, {player-block-z}
+  #
+  # RANK:
+  #   If the prefix is {rank}:
+  #     {rank}, {rank-name}, {rank-color}, {rank-prefix}, {rank-prefix-display}, {rank-position}, {rank-hierarchy}, {rank-chat-color}, {rank-chat-cooldown}
+  #
+  # CHANNEL:
+  #   If the prefix is {channel}:
+  #     {channel}, {channel-name}, {channel-prefix}, {channel-chat-format}, {channel-webhook-url}, {channel-trigger-prefix}, {channel-is-console-enabled},
+  #     {channel-is-ignorable}, {channel-is-lockable}, {channel-is-locked}, {channel-is-read-only}
+  #
+  # COSMETIC:
+  #   If the prefix is {cosmetic}:
+  #   {cosmetic}, {cosmetic-id}, {cosmetic-lore}, {cosmetic-display}, {cosmetic-display-stripped}, {cosmetic-required-level}, {cosmetic-required-rank*},
+  #   {cosmetic-price}, {cosmetic-type}
+  #
+  # PUNISHMENT:
+  #   (No prefix):
+  #       {mod*}, {editor-mod*}, {case-id}, {type}, {type-lowercase}, {duration}, {duration-short}, {expire-duration}, {expire-duration-short}, {enforced}, {reason}
+
+
+# ============================================================
+# MESSAGES
+# ============================================================
+#
+# Available placeholders for each message are listed on the right margin of the file.
+
 errors:
   command:
-    no-access: "[&cYou do not have access to this command!](HOVER:&cYou do not have the required permission: {permission})" # Format: permission
-    cooldown-message: "&cPlease wait {remaining-seconds} seconds before using this command again."
-    wrong-server: "&cYou cannot use this command on this server!" # no format
-    player-only: "&cThis command must be used by a player!" # no format
+    no-access: "[&cYou do not have access to this command!](HOVER:&cYou do not have the required permission: {permission})"    # Available placeholders: {permission}
+    cooldown-message: "&cPlease wait {remaining-seconds} seconds before using this command again."                             # Available placeholders: {remaining-seconds}
+    wrong-server: "&cYou cannot use this command on this server!"                                                              # Available placeholders: none
+    player-only: "&cThis command must be used by a player!"                                                                    # Available placeholders: none
 
   player:
-    is-self: "&cYou cannot use this command on yourself!" # no format
-    not-found-username: "[&cPlayer not found!](HOVER:&7Could not find player with the username of &f{username}&7!)" # Format: username
-    not-found-uuid: "[&cPlayer not found!](HOVER:&7Could not find player with the uuid of &f{uuid}&7!)" # Format: username
-    outranks-sender: "&cYou cannot use this command on a player which outranks you!" # Format: MessageFormatters.playerSenderFormatter(...);
-    is-offline: "&cThis player is offline!" # Format MF.playerFormatter(target);
+    is-self: "&cYou cannot use this command on yourself!"                                                                      # Available placeholders: none
+    not-found-username: "[&cPlayer not found!](HOVER:&7Could not find player with the username of &f{username}&7!)"            # Available placeholders: {username}
+    not-found-uuid: "[&cPlayer not found!](HOVER:&7Could not find player with the uuid of &f{uuid}&7!)"                        # Available placeholders: {username}
+    outranks-sender: "&cYou cannot use this command on a player which outranks you!"                                           # Available placeholders: {player}, {sender}, {player-display-name}, ...
+    is-offline: "&cThis player is offline!"                                                                                    # Available placeholders: {player}, {player-display-name}, {player-online-status}, ...
 
   args:
     missing:
-      general: "&cThis command is missing the required argument((s)): &f{missing-args}" # format w/ {missing-args}, {syntax}
-      content: "&cYou cannot send a blank message!" # no format
+      general: "&cThis command is missing the required argument((s)): &f{missing-args}"                                        # Available placeholders: {missing-args}
+      content: "&cYou cannot send a blank message!"                                                                            # Available placeholders: none
 
     invalid:
-      attribute: "[&cAttribute not found!](HOVER:&7Could not find an attribute named {attribute} in the entry!)"
-      boolean: "[&cPlease provide a valid boolean!](HOVER:((Ex: true/false)))"
-      channel: "&cPlease provide a valid channel!"
-      color: "&cPlease provide a valid color!"
-      cosmetic: "&cPlease provide a valid cosmetic!"
-      cosmetic-type: "&cPlease provide a valid cosmetic type!"
-      debug: "&cPlease provide a valid debugger!"
-      duration: "&cPlease provide a valid duration!"
-      entry: "[&cEntry not found!](HOVER:&7Could not find an entry with the key {key}!)"
-      enchant: "&cPlease provide a valid enchant!"
-      enchantable-item: "&cItem {item} cannot be enchanted."
-      item: "&cPlease provide a valid item!"
-      number: "&cPlease provide a valid number!"
-      page: "[&cPlease provide a valid page between {min}-{max}!](HOVER:Your input: {page})"
-      player: "&cPlease provide a valid player!"
-      punishment: "&cNo punishment found with this case ID!"
-      rank: "&cPlease provide a valid rank name!"
-      repairable-item: "&cItem does not have a durability attribute."
-      timezone: "&cPlease provide a valid timezone!"
-      friend-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/DISALLOWED)))"
-      message-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"
-      party-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"
-      powertool-item: "&cItem {item} cannot be bound to."
-      nickname-length: "&cNickname must be between 3 and 16 characters." # format {input}
-      nickname-characters: "&cA nickname must be made up of letters, numbers, and underscores only." # format {input}
-      nickname-taken: "&cThis nickname is taken!" # format {input}
-      query: "[&cEntry not found!](HOVER:&7Could not find an entry with the query {query}!)"
-
-  other:
-    api-error: "&cThis command failed unexpectedly. Please try again later." # Format: {commandLine}
+      attribute: "[&cAttribute not found!](HOVER:&7Could not find an attribute named {attribute} in the entry!)"               # Available placeholders: {attribute}
+      boolean: "[&cPlease provide a valid boolean!](HOVER:((Ex: true/false)))"                                                 # Available placeholders: {input}
+      channel: "&cPlease provide a valid channel!"                                                                             # Available placeholders: {input}
+      color: "&cPlease provide a valid color!"                                                                                 # Available placeholders: {input}
+      cosmetic: "&cPlease provide a valid cosmetic!"                                                                           # Available placeholders: {input}
+      cosmetic-type: "&cPlease provide a valid cosmetic type!"                                                                 # Available placeholders: {input}
+      debug: "&cPlease provide a valid debugger!"                                                                              # Available placeholders: {input}
+      duration: "&cPlease provide a valid duration!"                                                                           # Available placeholders: {input}
+      enchant: "&cPlease provide a valid enchant!"                                                                             # Available placeholders: {input}
+      enchantable-item: "&cItem {item} cannot be enchanted."                                                                   # Available placeholders: {item}, {level}, {enchant"
+      item: "&cPlease provide a valid item!"                                                                                   # Available placeholders: {input}
+      number: "&cPlease provide a valid number!"                                                                               # Available placeholders: {input}
+      page: "[&cPlease provide a valid page between {min}-{max}!](HOVER:Your input: {page})"                                   # Available placeholders: {min}, {max}, {page}
+      punishment: "&cNo punishment found with this case ID!"                                                                   # Available placeholders: {min}, {max}, {page}
+      rank: "&cPlease provide a valid rank name!"                                                                              # Available placeholders: {input}
+      repairable-item: "&cItem does not have a durability attribute."                                                          # Available placeholders: {item}
+      timezone: "&cPlease provide a valid timezone!"                                                                           # Available placeholders: {input}
+      friend-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/DISALLOWED)))"                              # Available placeholders: {input}
+      message-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"                # Available placeholders: {input}
+      party-privacy-value: "[&cPlease provide a valid value!](HOVER:((Ex: ALLOWED/FRIENDS_ONLY/DISALLOWED)))"                  # Available placeholders: {input}
+      powertool-item: "&cItem {item} cannot be bound to."                                                                      # Available placeholders: {item}
+      nickname-length: "&cNickname must be between 3 and 16 characters."                                                       # Available placeholders: {input}
+      nickname-characters: "&cA nickname must be made up of letters, numbers, and underscores only."                           # Available placeholders: {input}
+      nickname-taken: "&cThis nickname is taken!"                                                                              # Available placeholders: {input}
 
 chat:
-  cooldown-message: "&cPlease wait {remaining-seconds} seconds before sending another message."
+  cooldown-message: "&cPlease wait {remaining-seconds} seconds before sending another message."                                # Available placeholders: {remaining-seconds}
 
 commands:
 
   chat-channel:
-
-    available-subcommands: |
+    available-subcommands: |                                                                                                   # Available placeholders: none
       &aChannel subcommands:
       &e/channel <channel>
       &e/channel ignore <channel>
       &e/channel unignore <channel>
 
-    # Everything supports channel formatter ({channel-attribute}) as well as PlayerFormatter. For (un)ignoring channels we support {ignored-channels} and {unignored-channels}
-    set: "&aYou have moved to the {channel-name} channel."
-    view: "&aYou are currently in the {channel-name} channel."
-    read-only: "&cThis channel is read only!"
-    is-locked: "&cThis channel is locked!"
-    no-access: "&cYou cannot access this channel!"
+    set: "&aYou have moved to the {channel-name} channel."                                                                     # Available placeholders: {channel-name}, {channel-prefix}, ...
+    view: "&aYou are currently in the {channel-name} channel."                                                                 # Available placeholders: {channel-name}, {channel-prefix}, ...
+    read-only: "&cThis channel is read only!"                                                                                  # Available placeholders: {channel-name}, {channel-prefix}, ...
+    is-locked: "&cThis channel is locked!"                                                                                     # Available placeholders: {channel-name}, {channel-prefix}, ...
+    no-access: "&cYou cannot access this channel!"                                                                             # Available placeholders: {channel-name}, {channel-prefix}, ...
 
-    muted: "&aYou will no longer receive {channel-name} notifications."
-    unmuted: "&aYou will now receive {channel-name} notifications."
-    not-muted: "&eThis channel is not muted!"
-    already-muted: "&eThis channel is already muted!"
-    error.not-mutable: "&cThis channel cannot be ignored!"
-    channel-muted: "&eYou tried sending a message in the {channel-name} chat, but you have this channel muted! Use &f/channel unignore {channel-name} &eand then try again!"
+    muted: "&aYou will no longer receive {channel-name} notifications."                                                        # Available placeholders: {channel-name}, {channel-prefix}, ...
+    unmuted: "&aYou will now receive {channel-name} notifications."                                                            # Available placeholders: {channel-name}, {channel-prefix}, ...
+    not-muted: "&eThis channel is not muted!"                                                                                  # Available placeholders: {channel-name}, {channel-prefix}, ...
+    already-muted: "&eThis channel is already muted!"                                                                          # Available placeholders: {channel-name}, {channel-prefix}, ...
+    error.not-mutable: "&cThis channel cannot be ignored!"                                                                     # Available placeholders: {channel-name}, {channel-prefix}, ...
+    channel-muted: "&eYou tried sending a message in the {channel-name} chat, but you have this channel muted!"                # Available placeholders: {channel-name}, {channel-prefix}, ...
 
-    already-locked: "&eThe {channel-name} channel is already locked!"
-    already-unlocked: "&eThe {channel-name} channel is not locked!"
-    lock-forbidden: "&cThis channel cannot be locked!"
-    locked: "&4[[!]]&r {player-rank-prefix}{player-rank-color}{player-display-name} &7locked the {channel-name} channel."
-    unlocked: "&4[[!]]&r {player-rank-prefix}{player-rank-color}{player-display-name} &7unlocked the {channel-name} channel."
-
+    already-locked: "&eThe {channel-name} channel is already locked!"                                                          # Available placeholders: {channel-name}, {channel-prefix}, ...
+    already-unlocked: "&eThe {channel-name} channel is not locked!"                                                            # Available placeholders: {channel-name}, {channel-prefix}, ...
+    lock-forbidden: "&cThis channel cannot be locked!"                                                                         # Available placeholders: {channel-name}, {channel-prefix}, ...
+    locked: "&4[[!]]&r {player-rank-prefix}{player-rank-color}{player-display-name} &7locked the {channel-name} channel."      # Available placeholders: {channel-name}, {channel-prefix}, {player}, {player-display-name}, ...
+    unlocked: "&4[[!]]&r {player-rank-prefix}{player-rank-color}{player-display-name} &7unlocked the {channel-name} channel."  # Available placeholders: {channel-name}, {channel-prefix}, {player}, {player-display-name}, ...
 
     ignore-list:
-      message: "&aYou are ignoring the following channels: &7{ignored-channels}"
-      blank: "&eNo ignored channels found for this player!"
-      entry-format: "{channel-prefix}"
-      separator: ", "
-      max-entries-per-page: -1
+      message: "&aYou are ignoring the following channels: &7{ignored-channels}"                                               # Available placeholders: {ignored-channels}, {player}, ...
+      blank: "&eNo ignored channels found for this player!"                                                                    # Available placeholders: {player}, ...
+      entry-format: "{channel-prefix}"                                                                                         # Available placeholders: {channel-name}, {channel-prefix}, ...
+      separator: ", "                                                                                                          # Available placeholders: none
+      max-entries-per-page: -1                                                                                                 # Available placeholders: none
 
 
-  chat-color: # Supports color, code, extends playerformatter
-    # No available subcommands. Only /chatcolor <color>
-    set: "&aChat color set to {code}{color}!"
-    reset: "&aChat color reset!"
-    view: "&aYour chat color is set to {code}{color}!"
-    invalid-color: "[&cPlease provide a valid color!](HOVER:\n&0Black&r, &1Dark Blue&r, &2Dark Green&r, &3Dark Aqua&r, &4Dark Red&r, \n&5Dark Purple&r, &6Gold&r, &7Gray&r, &8Dark Gray&r, &9Blue&r,\n &aGreen&r, &bAqua&r, &cRed&r, &dLight Purple&r, &eYellow&r, &fWhite&r)"
-    duplicate-state: "&eYour chat color is already set to this!"
+  chat-color:
+    set: "&aChat color set to {code}{color}!"                                                                                  # Available placeholders: {code}, {color}, {player}, ...
+    reset: "&aChat color reset!"                                                                                               # Available placeholders: {player}, {player-display-name}, ...
+    view: "&aYour chat color is set to {code}{color}!"                                                                         # Available placeholders: {code}, {color}, {player}, ...
+    duplicate-state: "&eYour chat color is already set to this!"                                                               # Available placeholders: {code}, {color}, {player}, ...
 
-  coins: # Format: playerFormatter, amount
-    available-subcommands: |
+  coins:
+    available-subcommands: |                                                                                                   # Available placeholders: none
       &aCoins subcommands:
       &e/coins add <amount> [[player]]
       &e/coins remove <amount> [[player]]
       &e/coins set <amount> [[player]]
       &e/coins view [[player]]
-    added: "&aSuccessfully added {amount} coins to {player}!"
-    removed: "&aSuccessfully removed {amount} coins from {player}!"
-    set: "&aSuccessfully set {amount} coins to {player}!"
-    view: "&a{player} has {amount} coins!"
+    added: "&aSuccessfully added {amount} coins to {player}!"                                                                  # Available placeholders: {amount}, {player}, {player-display-name}, ...
+    removed: "&aSuccessfully removed {amount} coins from {player}!"                                                            # Available placeholders: {amount}, {player}, {player-display-name}, ...
+    set: "&aSuccessfully set {amount} coins to {player}!"                                                                      # Available placeholders: {amount}, {player}, {player-display-name}, ...
+    view: "&a{player} has {amount} coins!"                                                                                     # Available placeholders: {amount}, {player}, {player-display-name}, ...
 
   cosmetic:
-    available-subcommands: |
+    available-subcommands: |                                                                                                   # Available placeholders: none
       &aCosmetic subcommands:
       &e/cosmetic buy <item>
       &e/cosmetic equip <item>
       &e/cosmetic list <owned | equipped | all> [[player]] [[page]]
       &e/cosmetic unequip <item>
 
-    buy: # All use cosmeticFormatter and playerFormatter
-      error.insufficient-rank: "&cThis item requires {cosmetic-required-rank-prefix-display} &crank or above!"
+    buy:
+      error.insufficient-rank: "&cThis item requires {cosmetic-required-rank-prefix-display} &crank or above!"          # Available placeholders: {cosmetic}, {cosmetic-display}, {cosmetic-display-stripped}, {cosmetic-lore}, {cosmetic-required-level}, {cosmetic-price}, {cosmetic-required-rank}, ..., {player}, {player-display-name}, ...
       error.insufficient-coins: "&cYou cannot afford this item!"
       error.insufficient-level: "&cThis item requires level {cosmetic-required-level} &c or above!"
       error.duplicate-item: "&cYou already own this item!"
@@ -133,125 +232,126 @@ commands:
       success: "&aYou purchased [{cosmetic-display}]({HOVER:cosmetic-lore})&afor {cosmetic-price} coins!"
 
 
-    equip: # Accepts cosmeticFormatter
-      error.already-equipped: "&cThis cosmetic is already equipped!"
-      error.not-owned: "&cYou do not own this cosmetic!"
-      error.insufficient-rank: "&cYou cannot apply this cosmetic as you do not have the required {cosmetic-required-rank-prefix-display} &crank."
-      success: "&aYou have equipped [{cosmetic-display-stripped}](HOVER:{cosmetic-lore})"
+    equip:
+      error.already-equipped: "&cThis cosmetic is already equipped!"                                                           # Available placeholders: {cosmetic}, {cosmetic-display}, {cosmetic-required-level}, {cosmetic-price}, {cosmetic-required-rank}, ...,  {player}, {player-display-name}, ...
+      error.not-owned: "&cYou do not own this cosmetic!"                                                                       # Available placeholders: {cosmetic}, {cosmetic-display}, {cosmetic-required-level}, {cosmetic-price}, {cosmetic-required-rank}, ...,  {player}, {player-display-name}, ...
+      error.insufficient-rank: |                                                                                               # Available placeholders: {cosmetic}, {cosmetic-display}, {cosmetic-required-level}, {cosmetic-price}, {cosmetic-required-rank}, ...,  {player}, {player-display-name}, ...
+        &cYou cannot apply this cosmetic as you do not have the required {cosmetic-required-rank-prefix-display} &crank.
+      success: "&aYou have equipped [{cosmetic-display-stripped}](HOVER:{cosmetic-lore})"                                      # Available placeholders: {cosmetic}, {cosmetic-display}, {cosmetic-lore}, {cosmetic-required-level}, {cosmetic-price}, ...
 
-    unequip: # Accepts cosmeticFormatter
-      error.not-equipped: "&cThis cosmetic is not equipped!"
-      error.not-owned: "&cYou do not own this cosmetic!"
-      success: "&aYou have unequipped [{cosmetic-display}](HOVER:{cosmetic-lore})"
+    unequip:
+      error.not-equipped: "&cThis cosmetic is not equipped!"                                                                   # Available placeholders: {cosmetic}, {cosmetic-display}, {player}, ...
+      error.not-owned: "&cYou do not own this cosmetic!"                                                                       # Available placeholders: {cosmetic-id}, {cosmetic-display}, {player}, ...
+      success: "&aYou have unequipped [{cosmetic-display}](HOVER:{cosmetic-lore})"                                             # Available placeholders: {cosmetic-display}, {cosmetic-lore}, {player}, ...
 
     list:
       all:
-        message: |
+        message: |                                                                                                             # Available placeholders: {cosmetics}, {page}, {max-pages}, {previous-page}, {next-page}, ...
           &bAll server cosmetics
           {cosmetics}
           [&f< Previous](RUN_COMMAND:/cosmetic list all {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/cosmetic list all {previous-page})
-        blank: "&eNo cosmetics found!"
-        entry-format: "[{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})"
-        separator: "\n"
-        max-entries-per-page: 8
+        blank: "&eNo cosmetics found!"                                                                                         # Available placeholders: {player}, ...
+        entry-format: |                                                                                                        # Available placeholders: {cosmetic-id}, {cosmetic-display-stripped}, {cosmetic-lore}, {cosmetic-type}, ...
+          [{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})
+        separator: "\n"                                                                                                        # Available placeholders: none
+        max-entries-per-page: 8                                                                                                # Available placeholders: none
 
       equipped:
-        message: |
+        message: |                                                                                                      # Available placeholders: {player}, {cosmetics}, {page}, {max-pages}, {previous-page}, {next-page}, ...
           {player-rank-color}{player-display-name}'s equipped cosmetics
           {cosmetics}
           [&f< Previous](RUN_COMMAND:/cosmetic list equipped {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/cosmetic list equipped {previous-page})
-        blank: "&eNo cosmetics are equipped!"
-        entry-format: "[{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})"
-        separator: "\n"
-        max-entries-per-page: 8
+        blank: "&eNo cosmetics are equipped!"                                                                           # Available placeholders: {player}, ...
+        entry-format: "[{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})" # Available placeholders: {cosmetic-id}, {cosmetic-display-stripped}, {cosmetic-lore}, {cosmetic-type}, ...
+        separator: "\n"                                                                                                 # Available placeholders: none
+        max-entries-per-page: 8                                                                                         # Available placeholders: none
 
       owned:
-        message: |
+        message: |                                                                                                      # Available placeholders: {player}, {cosmetics}, {page}, {max-pages}, {previous-page}, {next-page}, ...
           {player-rank-color}{player-display-name}'s owned cosmetics
           {cosmetics}
           [&f< Previous](RUN_COMMAND:/cosmetic list owned {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/cosmetic list owned {previous-page})
-        blank: "&eNo cosmetics are owned!"
-        entry-format: "[{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})"
-        separator: "\n"
-        max-entries-per-page: 8
+        blank: "&eNo cosmetics are owned!"                                                                              # Available placeholders: {player}, ...
+        entry-format: "[{cosmetic-display-stripped}](HOVER:{cosmetic-lore}) [(({cosmetic-id}))](HOVER:Type: &e{cosmetic-type})  &f&f&f  [&e[[Buy]]](RUN_COMMAND:/cosmetic buy {cosmetic-id}) [&e[[Equip]]](RUN_COMMAND:/cosmetic equip {cosmetic-id}) [&e[[Unequip]]](RUN_COMMAND:/cosmetic unequip {cosmetic-id})" # Available placeholders: {cosmetic-id}, {cosmetic-display-stripped}, {cosmetic-lore}, {cosmetic-type}, ...
+        separator: "\n"                                                                                                 # Available placeholders: none
+        max-entries-per-page: 8                                                                                         # Available placeholders: none
 
-    enable: "&aEnabled the following cosmetic types: {enabled-types}"
-    disable: "&aDisabled the following cosmetic types: {disabled-types}"
+    enable: "&aEnabled the following cosmetic types: {enabled-types}"                                                   # Available placeholders: {enabled-types}, {player}, ...
+    disable: "&aDisabled the following cosmetic types: {disabled-types}"                                                # Available placeholders: {disabled-types}, {player}, ...
 
-  craft: "&aOpened crafting menu for {player}."
+  craft: "&aOpened crafting menu for {player}."                                                                         # Available placeholders: {player}, {player-display-name}, ...
 
   data:
-    # formatter: {attribute}, {value}, networkPlayerFormatter
     networkplayer:
-      get: "Attribute {attribute} for {player-username} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
-      get-async: "Attribute ((async)) {attribute} for {player-username} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
-      set: "Set [{attribute}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{attribute}) to [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})for network player {player-username}."
-      set-async: "Set ((async)) [{attribute}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{attribute}) to [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value}) for network player {player-username}."
+      get: "Attribute {attribute} for {player-username} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})" # Available placeholders: {attribute}, {value}, {player-username}, ...
+      get-async: "Attribute ((async)) {attribute} for {player-username} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})" # Available placeholders: {attribute}, {value}, {player-username}, ...
+      set: "Set [{attribute}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{attribute}) to [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})for network player {player-username}." # Available placeholders: {attribute}, {value}, {player-username}, ...
+      set-async: "Set ((async)) [{attribute}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{attribute}) to [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value}) for network player {player-username}." # Available placeholders: {attribute}, {value}, {player-username}, ...
 
     message:
-      get: "The messages for {player-username} {attribute} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
-      get-async: "The messages ((async)) for {player-username} {attribute}  is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})"
+      get: "The messages for {player-username} {attribute} is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})" # Available placeholders: {attribute}, {value}, {player-username}, ...
+      get-async: "The messages ((async)) for {player-username} {attribute}  is: [{value}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{value})" # Available placeholders: {attribute}, {value}, {player-username}, ...
 
   debug:
-    set: "&a{value} debugger has been enabled!"
-    unset: "&a{value} debugger has been disabled!"
-    view: "&aEnabled debuggers: &f{debuggers}"
+    set: "&a{value} debugger has been enabled!"                                                                         # Available placeholders: {value}
+    unset: "&a{value} debugger has been disabled!"                                                                      # Available placeholders: {value}
+    view: "&aEnabled debuggers: &f{debuggers}"                                                                          # Available placeholders: {debuggers}
 
-  dispose: "&aDisposed item."
+  dispose: "&aDisposed item."                                                                                           # Available placeholders: {player}, {player-display-name}, ...
 
 
-  echest-view: "&aYou are viewing {player-display-name}'s ender chest."
+  echest-view: "&aYou are viewing {player-display-name}'s ender chest."                                                 # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
 
-  enchant: "&aAdded {enchant} to {item} for {player-display-name}."
-  enchant-clear: "&aReset all enchants for {item} for {player-display-name}."
+  enchant: "&aAdded {enchant} to {item} for {player-display-name}."                                                     # Available placeholders: {enchant}, {item}, {player}, {player-display-name}, ...
+  enchant-clear: "&aReset all enchants for {item} for {player-display-name}."                                           # Available placeholders: {item}, {player}, {player-display-name}, ...
 
-  enchant-table: "&aOpened enchant table GUI for {player-display-name}."
+  enchant-table: "&aOpened enchant table GUI for {player-display-name}."                                                # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
 
   fullbright:
-    toggle-on: "&aFakeFullbright enabled"
-    toggle-off: "&aFakeFullbright disabled"
+    toggle-on: "&aFakeFullbright enabled"                                                                               # Available placeholders: none
+    toggle-off: "&aFakeFullbright disabled"                                                                             # Available placeholders: none
 
-  fly-enable: "&aFlight enabled for {player-display-name}."
-  fly-disable: "&aFlight disabled for {player-display-name}."
+  fly-enable: "&aFlight enabled for {player-display-name}."                                                             # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+  fly-disable: "&aFlight disabled for {player-display-name}."                                                           # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
 
   friend:
-    error.already-friends: "&eYou are already friends with this player." # Accepts playerSender
-    error.duplicate-request: "&eYou already sent a request to this player."
-    error.fail: "&cThis player does not accept incoming friend requests."
-    error.no-request: "&eYou haven't received a request from this player."
-    error.request-expired: "&eThis friend request has expired."
-    error.not-friends: "&cYou are not friends with this player."
+    error.already-friends: "&eYou are already friends with this player."                                                # Available placeholders: {player}, {sender}, {player-display-name}, ...
+    error.duplicate-request: "&eYou already sent a request to this player."                                             # Available placeholders: {player}, {sender}, {player-display-name}, ...
+    error.fail: "&cThis player does not accept incoming friend requests."                                               # Available placeholders: {player}, {player-display-name}, ...
+    error.no-request: "&eYou haven't received a request from this player."                                              # Available placeholders: {player}, {sender}, {player-display-name}, ...
+    error.request-expired: "&eThis friend request has expired."                                                         # Available placeholders: {player}, {sender}, {player-display-name}, ...
+    error.not-friends: "&cYou are not friends with this player."                                                        # Available placeholders: {player}, {player-display-name}, ...
 
     friend-list:
-      message: "{player-rank-color}{player-display-name}'s friends [[{size}]]: {friends}"
-      blank: "&eNo friends found for this player :(("
-      entry-format: "[{player-rank-color}{player-display-name}](HOVER:{player-online-status}!)"
-      separator: "&r, "
-      max-entries-per-page: -1
+      message: "{player-rank-color}{player-display-name}'s friends [[{size}]]: {friends}"                               # Available placeholders: {size}, {friends}, {player}, {player-display-name}, ...
+      blank: "&eNo friends found for this player :(("                                                                   # Available placeholders: {player}, {player-display-name}, ...
+      entry-format: "[{player-rank-color}{player-display-name}](HOVER:{player-online-status}!)"                         # Available placeholders: {player}, {player-display-name}, {player-online-status}, ...
+      separator: "&r, "                                                                                                 # Available placeholders: none
+      max-entries-per-page: -1                                                                                          # Available placeholders: none
 
-    available-subcommands: |
+    available-subcommands: |                                                                                            # Available placeholders: none
       &bFriend subcommands:
       &e/friend add <player>
       &e/friend accept <player>
       &e/friend list <page>
     
-    request-sent: "&eYou sent a friend request to {player-rank-color}{player-display-name}. &eThey have 5 minutes to accept."
-    request-received:  |
+    request-sent: "&eYou sent a friend request to {player-rank-color}{player-display-name}. &eThey have 5 minutes to accept." # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+    request-received:  |                                                                                                # Available placeholders: {sender}, {sender-display-name}, {sender-rank-color}, ...
       [&f----------------------------------------------------
       {sender-rank-color}{sender-display-name} &r&7has requested to be your friend.
       &e&lClick to accept!
       &f----------------------------------------------------](HOVER:&7Click to add {sender-rank-color}{sender-display-name} &r&7as a friend!)(RUN_COMMAND:/friend accept {sender-display-name})
-    request-accepted: "&eYou are now friends with {player-rank-color}{player-display-name}"
-    request-accept-received: "&eYou are now friends with {sender-rank-color}{sender-display-name}"
-    request-denied: "&eYou have denied {sender-rank-color}{sender-display-name}'s &efriend request."
+    request-accepted: "&eYou are now friends with {player-rank-color}{player-display-name}"                             # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+    request-accept-received: "&eYou are now friends with {sender-rank-color}{sender-display-name}"                      # Available placeholders: {sender}, {sender-display-name}, {sender-rank-color}, ...
+    request-denied: "&eYou have denied {sender-rank-color}{sender-display-name}'s &efriend request."                    # Available placeholders: {sender}, {sender-display-name}, {sender-rank-color}, ...
 
-    removed: "&eYou are no longer friends with {player-rank-color}{player-display-name}"
-    removed-received: "&eYou are no longer friends with {sender-rank-color}{sender-display-name}"
+    removed: "&eYou are no longer friends with {player-rank-color}{player-display-name}"                                # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+    removed-received: "&eYou are no longer friends with {sender-rank-color}{sender-display-name}"                       # Available placeholders: {sender}, {sender-display-name}, {sender-rank-color}, ...
 
-  heal: "&aHealed {player-rank-color}{player-display-name}."
-  heal-all: "&aHealed {amount} targets."
+  heal: "&aHealed {player-rank-color}{player-display-name}."                                                            # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+  heal-all: "&aHealed {amount} targets."                                                                                # Available placeholders: {amount}
 
-  info: |
+  info: |                                                                                                               # Available placeholders: {player}, {player-uuid}, {player-username}, {player-display-name}, {player-rank-prefix-display}, {player-server}, {player-online-status}, {player-timezone}, {player-playtime}, ...
     &f----------- [{player-rank-color}Player info for {player}](HOVER:&7Copy UUID!)(COPY_TO_CLIPBOARD:{player-uuid})(RUN_COMMAND:/parse &aCopied!) &f-----------
     &fUsername:&7 {player-rank-color}{player-username} ((Display name: {player-display-name}))
     &fRank:&7 {player-rank-prefix-display}
@@ -264,54 +364,52 @@ commands:
     &f----------------------------------------------- 
 
 
-  inventory-view: "&aYou are viewing {player-display-name}'s inventory."
+  inventory-view: "&aYou are viewing {player-display-name}'s inventory."                                                # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
 
-  item: "&aAdded {amount} {item}((s)) to {player}'s inventory."
+  item: "&aAdded {amount} {item}((s)) to {player}'s inventory."                                                         # Available placeholders: {amount}, {item}, {player}, {player-display-name}, ...
 
   location:
-    short: "&fYour location: &7{block-x}, {block-y}, {block-z}"
-    long: "&fYour location: &7[{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}})"
+    short: "&fYour location: &7{block-x}, {block-y}, {block-z}"                                                         # Available placeholders: {world}, {block-x}, {block-y}, {block-z}, {rounded-yaw}, {rounded-pitch}, ...
+    long: "&fYour location: &7[{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{world: \"{world}\", x: {block-x}, y: {block-y}, z: {block-z}, yaw: {rounded-yaw}, pitch: {rounded-pitch}})" # Available placeholders: {world}, {block-x}, {block-y}, {block-z}, {rounded-yaw}, {rounded-pitch}, ...
 
-  message: # All except channel-changed and reply-fail should user MF.playerSender. + add content
-    fail: "&cYou cannot message this player!"
-    opened: "&dYou opened a message with {player}!"
-    received: "&d> from {sender-rank-color}{sender}: &r{sender-chat-color}{content}"
-    reply-fail: "&cYou have no messages to reply to!"
-    sent: "&d> to {player-rank-color}{player}: &r{sender-chat-color}{content}"
-    channel-changed: "&eYou have no messages to reply to, so you have been moved to the public chat!"
+  message:
+    fail: "&cYou cannot message this player!"                                                                           # Available placeholders: {player}, {player-display-name}, ...
+    opened: "&dYou opened a message with {player}!"                                                                     # Available placeholders: {player}, {player-display-name}, ...
+    received: "&d> from {sender-rank-color}{sender}: &r{sender-chat-color}{content}"                                    # Available placeholders: {sender}, {sender-display-name}, {sender-rank-color}, {sender-chat-color}, {content}, ...
+    reply-fail: "&cYou have no messages to reply to!"                                                                   # Available placeholders: none
+    sent: "&d> to {player-rank-color}{player}: &r{sender-chat-color}{content}"                                          # Available placeholders: {player}, {player-display-name}, {player-rank-color}, {sender-chat-color}, {content}, ...
+    channel-changed: "&eYou have no messages to reply to, so you have been moved to the public chat!"                   # Available placeholders: none
 
   motd:
-    set: "&aMOTD successfully set to:&7 {motd}" # Format {motd}
-    view: "&aThe current MOTD is:&7 {motd}" # Format {motd}
+    set: "&aMOTD successfully set to:&7 {motd}"                                                                         # Available placeholders: {motd}
+    view: "&aThe current MOTD is:&7 {motd}"                                                                             # Available placeholders: {motd}
 
-  nickname: # player formatter
-    set: "&aYour nickname is now {player-rank-color}{player-display-name}"
-    reset: "&aCleared nickname!"
-    view: "&7Your current display name is {player-display-name}."
+  nickname:
+    set: "&aYour nickname is now {player-rank-color}{player-display-name}"                                              # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+    reset: "&aCleared nickname!"                                                                                        # Available placeholders: {player}, {player-display-name}, ...
+    view: "&7Your current display name is {player-display-name}."                                                       # Available placeholders: {player}, {player-display-name}, ...
 
-  level: # Format: playerFormatter, amount
-    available-subcommands: |
+  level:
+    available-subcommands: |                                                                                            # Available placeholders: none
       &aLevel subcommands:
       &e/level add <amount> [[player]]
       &e/level remove <amount> [[player]]
       &e/level set <amount> [[player]]
       &e/level view [[player]]
-    added: "&aSuccessfully added {amount} levels to {player}!"
-    removed: "&aSuccessfully removed {amount} levels from {player}!"
-    set: "&aSuccessfully set {amount} levels to {player}!"
-    view: "&a{player} has {amount} levels!"
+    added: "&aSuccessfully added {amount} levels to {player}!"                                                          # Available placeholders: {amount}, {player}, {player-display-name}, ...
+    removed: "&aSuccessfully removed {amount} levels from {player}!"                                                    # Available placeholders: {amount}, {player}, {player-display-name}, ...
+    set: "&aSuccessfully set {amount} levels to {player}!"                                                              # Available placeholders: {amount}, {player}, {player-display-name}, ...
+    view: "&a{player} has {amount} levels!"                                                                             # Available placeholders: {amount}, {player}, {player-display-name}, ...
 
-  level-up: "&bCongratulations! You have leveled up to &l&fLevel {player-level}&r&b!"
+  level-up: "&bCongratulations! You have leveled up to &l&fLevel {player-level}&r&b!"                                   # Available placeholders: {player-level}, {player}, ...
 
-  mend: "&aRepaired item!"
+  mend: "&aRepaired item!"                                                                                              # Available placeholders: none
 
   parse:
-    error: "&cFailed to parse text: {error}"
+    error: "&cFailed to parse text: {error}"                                                                            # Available placeholders: {error}
 
   party:
-    # Almost every key should support MF.partyFormatter(party) by default. Some support playerSender too.
-
-    available-subcommands: | # Does not support formatting
+    available-subcommands: |                                                                                            # Available placeholders: none
       &9Party subcommands:
       &e/party chat <message>
       &e/party create
@@ -326,16 +424,16 @@ commands:
       &e/party setleader <player>
       &e/party warp <server>
       
-    disabled: "&cParties are not enabled on this server."
-    created: "&eYou have created a party!"
-    disband: "&eThe party has been disbanded."
-    disband-inactive: "&eThe party has been disbanded since the owner has been offline too long!"
-    disband-solo: "&eSince you were the only player in the party, your party has disbanded."
-    invite-expired: "&9Party>&e The invite to {inviter-rank-color}{inviter-display-name}'s &eparty has expired."
-    invite-expired-announcement: "&9Party>&e The invite to {recipient-rank-color}{recipient-display-name}&e has expired."
-    invite-fail: "&cYou cannot invite this player!"
-    invite-sent: "&9Party> {player-rank-prefix}{player-rank-color}{player-display-name} &r&7has been invited to the party. They have 60 seconds to accept."
-    invite-received: |
+    disabled: "&cParties are not enabled on this server."                                                               # Available placeholders: none
+    created: "&eYou have created a party!"                                                                              # Available placeholders: none
+    disband: "&eThe party has been disbanded."                                                                          # Available placeholders: none
+    disband-inactive: "&eThe party has been disbanded since the owner has been offline too long!"                       # Available placeholders: {owner}, {owner-display-name}, ...
+    disband-solo: "&eSince you were the only player in the party, your party has disbanded."                            # Available placeholders: {owner}, {owner-display-name}, ...
+    invite-expired: "&9Party>&e The invite to {inviter-rank-color}{inviter-display-name}'s &eparty has expired."        # Available placeholders: {inviter}, {inviter-display-name}, {inviter-rank-color}, ...
+    invite-expired-announcement: "&9Party>&e The invite to {recipient-rank-color}{recipient-display-name}&e has expired." # Available placeholders: {recipient}, {recipient-display-name}, {recipient-rank-color}, ...
+    invite-fail: "&cYou cannot invite this player!"                                                                     # Available placeholders: {player}, {player-display-name}, ...
+    invite-sent: "&9Party> {player-rank-prefix}{player-rank-color}{player-display-name} &r&7has been invited to the party. They have 60 seconds to accept." # Available placeholders: {player}, {player-display-name}, {player-rank-prefix}, ...
+    invite-received: |                                                                                                  # Available placeholders: {inviter}, {inviter-display-name}, {inviter-rank-color}, ...
       [&f----------------------------------------------------
       {inviter-rank-prefix}{inviter-rank-color}{inviter-display-name} &r&7has invited you to their party.
       &e&lClick to accept!
@@ -343,85 +441,82 @@ commands:
     
 
     party-list:
-      message: |
+      message: |                                                                                                        # Available placeholders: {owner}, {owner-display-name}, {size}, {max-size}, {players}, {type}, ...
         &f--------------- {owner-rank-color}{owner-display-name}'s party &r&f---------------
         &6Owner: {owner-rank-color}{owner-display-name}
         &6Players [[{size}/{max-size}]]: {players}
         &6Type: {type}
         &f---------------------------------------------
-      entry-format: "[{player-rank-color}{player-display-name}](HOVER:This is {player-display-name}!)"
-      separator: ", "
-      max-entries-per-page: -1
+      entry-format: "[{player-rank-color}{player-display-name}](HOVER:This is {player-display-name}!)"                  # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+      separator: ", "                                                                                                   # Available placeholders: none
+      max-entries-per-page: -1                                                                                          # Available placeholders: none
 
-    party-full: "&cThis party is full! ((&c{size}/{max-size}))"
-    party-full-announcement: "&c{player} attempted to join but the party is full ((&c{size}/{max-size}))"
+    party-full: "&cThis party is full! ((&c{size}/{max-size}))"                                                         # Available placeholders: {size}, {max-size}, {owner}, ...
+    party-full-announcement: "&c{player} attempted to join but the party is full ((&c{size}/{max-size}))"               # Available placeholders: {player}, {size}, {max-size}, ...
 
-    player-reconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7reconnected."
-    player-disconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7disconnected."
+    player-reconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7reconnected."                         # Available placeholders: {player}, {player-display-name}, {player-rank-prefix}, ...
+    player-disconnect: "&9Party> {player-rank-prefix}{player-rank-color}{player} &7disconnected."                       # Available placeholders: {player}, {player-display-name}, {player-rank-prefix}, ...
 
-    join: "&eYou have joined the party!"
-    join-announcement: "&9Party> {player-rank-prefix}{player-rank-color}{player} &r&7has joined the party."
-    left: "&eYou have left the party!"
-    left-announcement: "&9Party> {player-rank-prefix}{player-rank-color}{player} &r&7has left the party."
-    set-public-true: "&9Party> &eThe party has been set to public."
-    set-public-false: "&9Party> &eThe party has been set to private."
-    remove: "&eYou have been removed from the party!"
-    remove-announcement: "&9Party> {player-rank-color}{player} &r&7has been removed from the party."
-    remove-inactive-announcement: "&9Party> {player-rank-color}{player} &r&7has been auto-kicked from the party due to inactivity."
-    transfer: "&9Party> &7The party has been transferred to {player-rank-color}{player}."
-    warp-announcement: "&9Party> &7The party has been warped to &e{server}." # server: the destination server of the warp
-    chat-message: "&9Party> {player-rank-color}{player-display-name}: {player-chat-color}{content}" # content: the content of a party chat message
-    error.channel-changed: "&eYou are no longer in a party, you have been moved to the public chat!" # Supports player
-    error.in-party-join: "&cYou must leave your current party in order to join another one." # Supports party, otherPartyOwner
-    error.in-party-create: "&cYou must leave your current party in order to create another one." # Supports party, otherPartyOwner
-    error.duplicate-invite: "&cYou already sent an invite to this player!" # Supports formatting: party, {player}
-    error.not-in-party: "&cYou are not in a party!" # NO FORMATTING
-    error.in-party: "&cYou are already in a party!" # Supports partyFormatter
-    error.player-in-party: "&cThis player is already in the party!" # Supports inviterRecipient
-    error.player-not-in-party: "&cThis player is not in the party!"  # Supports partyFormatter, {player}
-    error.party-not-exist: "&cThis party no longer exists!" # NO FORMATTING
-    error.invite-not-found: "&cYou have not received a party invite from this player!" # Supports playerSender where sender is the user and player is the inviter
-    error.leader-only: "&cYou must be the party leader to do this!" # Supports partyFormatter
-    error.must-disband: "&cYou cannot leave this party since you are the party owner. Use &f/p disband&c instead!" # Supports party
-    error.warp-failed: "&cThe party could not be warped because one or more players are offline!" # Supports party, (add online and offline players to partyFormatter)
-    error.already-private: "&eThis party is already private."
-    error.already-public: "&eThis party is already public."
+    join: "&eYou have joined the party!"                                                                                # Available placeholders: {player}, ...
+    join-announcement: "&9Party> {player-rank-prefix}{player-rank-color}{player} &r&7has joined the party."             # Available placeholders: {player}, {player-display-name}, {player-rank-prefix}, ...
+    left: "&eYou have left the party!"                                                                                  # Available placeholders: {player}, ...
+    left-announcement: "&9Party> {player-rank-prefix}{player-rank-color}{player} &r&7has left the party."               # Available placeholders: {player}, {player-display-name}, {player-rank-prefix}, ...
+    set-public-true: "&9Party> &eThe party has been set to public."                                                     # Available placeholders: none
+    set-public-false: "&9Party> &eThe party has been set to private."                                                   # Available placeholders: none
+    remove: "&eYou have been removed from the party!"                                                                   # Available placeholders: {player}, ...
+    remove-announcement: "&9Party> {player-rank-color}{player} &r&7has been removed from the party."                    # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+    remove-inactive-announcement: "&9Party> {player-rank-color}{player} &r&7has been auto-kicked from the party due to inactivity." # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+    transfer: "&9Party> &7The party has been transferred to {player-rank-color}{player}."                               # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+    warp-announcement: "&9Party> &7The party has been warped to &e{server}."                                            # Available placeholders: {server}, {player}, ...
+    chat-message: "&9Party> {player-rank-color}{player-display-name}: {player-chat-color}{content}"                     # Available placeholders: {player}, {player-display-name}, {player-chat-color}, {content}, ...
+    error.channel-changed: "&eYou are no longer in a party, you have been moved to the public chat!"                    # Available placeholders: {player}, ...
+    error.in-party-join: "&cYou must leave your current party in order to join another one."                            # Available placeholders: {owner}, {owner-display-name}, {player}, ...
+    error.in-party-create: "&cYou must leave your current party in order to create another one."                        # Available placeholders: {owner}, {owner-display-name}, {player}, ...
+    error.duplicate-invite: "&cYou already sent an invite to this player!"                                              # Available placeholders: {player}, {inviter}, {inviter-display-name}, ...
+    error.not-in-party: "&cYou are not in a party!"                                                                     # Available placeholders: {player}, ...
+    error.in-party: "&cYou are already in a party!"                                                                     # Available placeholders: {owner}, {owner-display-name}, {size}, {max-size}, {type}, ...
+    error.player-in-party: "&cThis player is already in the party!"                                                     # Available placeholders: {player}, {inviter}, {recipient}, ...
+    error.player-not-in-party: "&cThis player is not in the party!"                                                     # Available placeholders: {player}, {owner}, {owner-display-name}, ...
+    error.party-not-exist: "&cThis party no longer exists!"                                                             # Available placeholders: {player}, ...
+    error.invite-not-found: "&cYou have not received a party invite from this player!"                                  # Available placeholders: {player}, {sender}, {inviter}, ...
+    error.leader-only: "&cYou must be the party leader to do this!"                                                     # Available placeholders: {owner}, {owner-display-name}, {size}, {max-size}, {type}, ...
+    error.must-disband: "&cYou cannot leave this party since you are the party owner. Use &f/p disband&c instead!"      # Available placeholders: {owner}, {owner-display-name}, {size}, {max-size}, {type}, ...
+    error.warp-failed: "&cThe party could not be warped because one or more players are offline!"                       # Available placeholders: {owner}, {owner-display-name}, {size}, {max-size}, {type}, ...
+    error.already-private: "&eThis party is already private."                                                           # Available placeholders: {owner}, {owner-display-name}, {type}, ...
+    error.already-public: "&eThis party is already public."                                                             # Available placeholders: {owner}, {owner-display-name}, {type}, ...
 
-  ping: "&a{player-display-name}'s ping: &f{ping}ms"
+  ping: "&a{player-display-name}'s ping: &f{ping}ms"                                                                    # Available placeholders: {ping}, {player}, {player-display-name}, {player-rank-color}, ...
 
-  powertool: "&aBound command &e{command} &ato {item}"
-  powertool-clear: "&aCleared all powertool commands from {item}."
+  powertool: "&aBound command &e{command} &ato {item}"                                                                  # Available placeholders: {command}, {item}, {player}, {player-display-name}, ...
+  powertool-clear: "&aCleared all powertool commands from {item}."                                                      # Available placeholders: {item}, {player}, {player-display-name}, ...
 
   privacy:
-    # Accepts playerFormatter, and {value}
-    friend-privacy-set: "&aYour friend privacy setting has been updated!"
-    friend-privacy-view: "&aYour friend request setting is set to {value}."
-    friend-privacy-already-set: "&eYour friend request setting is already set to this value!"
+    friend-privacy-set: "&aYour friend privacy setting has been updated!"                                               # Available placeholders: {value}, {player}, {player-display-name}, ...
+    friend-privacy-view: "&aYour friend request setting is set to {value}."                                             # Available placeholders: {value}, {player}, ...
+    friend-privacy-already-set: "&eYour friend request setting is already set to this value!"                           # Available placeholders: {value}, {player}, ...
 
-    message-privacy-set: "&aYour message privacy setting has been updated!"
-    message-privacy-view: "&aYour message privacy setting is set to {value}."
-    message-privacy-already-set: "&eYour message privacy setting is already set to this value!"
+    message-privacy-set: "&aYour message privacy setting has been updated!"                                             # Available placeholders: {value}, {player}, ...
+    message-privacy-view: "&aYour message privacy setting is set to {value}."                                           # Available placeholders: {value}, {player}, ...
+    message-privacy-already-set: "&eYour message privacy setting is already set to this value!"                         # Available placeholders: {value}, {player}, ...
 
-    party-privacy-set: "&aYour party privacy setting has been updated!"
-    party-privacy-view: "&aYour party privacy setting is set to {value}."
-    party-privacy-already-set: "&eYour party privacy setting is already set to this value!"
+    party-privacy-set: "&aYour party privacy setting has been updated!"                                                 # Available placeholders: {value}, {player}, ...
+    party-privacy-view: "&aYour party privacy setting is set to {value}."                                               # Available placeholders: {value}, {player}, ...
+    party-privacy-already-set: "&eYour party privacy setting is already set to this value!"                             # Available placeholders: {value}, {player}, ...
 
-    ignore-player: "&a{player} has been added to your ignore list."
-    unignore-player: "&a{player} has been removed from your ignore list."
-    already-ignored-player: "&e{player} is already on your ignore list!"
-    not-ignored-player: "&e{player} is not on your ignore list!"
+    ignore-player: "&a{player} has been added to your ignore list."                                                     # Available placeholders: {player}, {player-display-name}, ...
+    unignore-player: "&a{player} has been removed from your ignore list."                                               # Available placeholders: {player}, {player-display-name}, ...
+    already-ignored-player: "&e{player} is already on your ignore list!"                                                # Available placeholders: {player}, {player-display-name}, ...
+    not-ignored-player: "&e{player} is not on your ignore list!"                                                        # Available placeholders: {player}, {player-display-name}, ...
 
     ignore-list:
-      message: "{player-rank-color}{player}'s ignored players: {ignored-players}"
-      blank: "&eNo ignored players found for this player."
-      entry-format: "{player-rank-color}{player-display-name}"
-      separator: "&r, "
-      max-entries-per-page: -1
+      message: "{player-rank-color}{player}'s ignored players: {ignored-players}"                                       # Available placeholders: {ignored-players}, {player}, {player-display-name}, ...
+      blank: "&eNo ignored players found for this player."                                                              # Available placeholders: {player}, {player-display-name}, ...
+      entry-format: "{player-rank-color}{player-display-name}"                                                          # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+      separator: "&r, "                                                                                                 # Available placeholders: none
+      max-entries-per-page: -1                                                                                          # Available placeholders: none
 
   punishment:
-    # Everything is formatted with punishmentMap. Includes player, mod, type, date, case id, timestamp, and other things.
-
-    available-subcommands: |
+    available-subcommands: |                                                                                            # Available placeholders: none
       &aPunishment subcommands
       &e/punishment clear <player>
       &e/punishment delete <id>
@@ -429,14 +524,14 @@ commands:
       &e/punishment history <player>
       &e/punishment info <id>
 
-    error.not-banned: "&cThis target is not banned." # Accepts playerFormatter
-    error.not-muted: "&cThis target is not muted." # Accepts playerFormatter
-    error.already-banned: "&cThis target is already banned." # Accepts playerFormatter
-    error.already-muted: "&cThis target is already muted." # Accepts playerFormatter
+    error.not-banned: "&cThis target is not banned."                                                                    # Available placeholders: {player}, {player-display-name}, ...
+    error.not-muted: "&cThis target is not muted."                                                                      # Available placeholders: {player}, {player-display-name}, ...
+    error.already-banned: "&cThis target is already banned."                                                            # Available placeholders: {player}, {player-display-name}, ...
+    error.already-muted: "&cThis target is already muted."                                                              # Available placeholders: {player}, {player-display-name}, ...
 
     ban:
-      mod-message: "&aSuccessfully applied ban to {player}!"
-      player-message: |
+      mod-message: "&aSuccessfully applied ban to {player}!"                                                            # Available placeholders: {player}, {mod}, {reason}, {case-id}, ...
+      player-message: |                                                                                                 # Available placeholders: {reason}, {case-id}, {player}, {mod}, {date}, {time}, {effective-until}, {effective-until-countdown}, ...
         &cYou have been banned from this server for: &7{reason}!
     
         &r&fID: &7#{case-id}
@@ -447,7 +542,7 @@ commands:
         
         &cYou cannot rejoin until your ban expires in {effective-until-countdown}.
         &rAppeal at: https://example.com/appeal
-      player-message-permanent: |
+      player-message-permanent: |                                                                                       # Available placeholders: {reason}, {case-id}, {player}, {mod}, {date}, {time}, ...
         &cYou have been permanently banned from this server for: &7{reason}!
         
         &r&fID: &7#{case-id}
@@ -457,44 +552,44 @@ commands:
         
         &4This ban will not expire.
         &rAppeal at: https://example.com/appeal
-      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} ((&fduration: {duration-short})) &fto {player-rank-color}{player} &ffor reason: &f{reason}"
-      announcement: ""
+      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} ((&fduration: {duration-short})) &fto {player-rank-color}{player} &ffor reason: &f{reason}" # Available placeholders: {case-id}, {mod}, {player}, {type}, {duration-short}, {reason}, ...
+      announcement: ""                                                                                                  # Available placeholders: none
 
     unban:
-      mod-message: "&aSuccessfully removed ban from {player}!"
-      log-message: "&4[[Punishment]] &a{player} has been unbanned by {editor-mod-rank-color}{editor-mod}!"
-      announcement: ""
+      mod-message: "&aSuccessfully removed ban from {player}!"                                                          # Available placeholders: {player}, {mod}, {case-id}, {type}, ...
+      log-message: "&4[[Punishment]] &a{player} has been unbanned by {editor-mod-rank-color}{editor-mod}!"              # Available placeholders: {player}, {editor-mod}, {editor-mod-display-name}, {case-id}, {type}, ...
+      announcement: ""                                                                                                  # Available placeholders: none
 
     kick:
-      mod-message: "&aSuccessfully applied kick to {player}!"
-      player-message: "&cYou have been kicked from this server for the reason: &f{reason}"
-      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} &fto {player-rank-color}{player} &ffor reason: &f{reason}"
-      announcement: ""
+      mod-message: "&aSuccessfully applied kick to {player}!"                                                           # Available placeholders: {player}, {mod}, {reason}, {case-id}, {type}, ...
+      player-message: "&cYou have been kicked from this server for the reason: &f{reason}"                              # Available placeholders: {reason}, {player}, {case-id}, ...
+      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} &fto {player-rank-color}{player} &ffor reason: &f{reason}" # Available placeholders: {case-id}, {mod}, {player}, {type}, {reason}, ...
+      announcement: ""                                                                                                  # Available placeholders: none
 
     mute:
-      mod-message: "&aSuccessfully applied mute to {player}!"
-      initial-player-message: "&cYou have been muted for the reason: &f{reason}. &cYou cannot use chat until your mute expires in &f{effective-until-countdown}."
-      player-message: "&cYou are muted!"
-      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} ((&fduration: {duration-short})) &fto {player-rank-color}{player} &ffor reason: &f{reason}"
-      announcement: ""
+      mod-message: "&aSuccessfully applied mute to {player}!"                                                           # Available placeholders: {player}, {mod}, {reason}, {case-id}, {type}, ...
+      initial-player-message: "&cYou have been muted for the reason: &f{reason}. &cYou cannot use chat until your mute expires in &f{effective-until-countdown}." # Available placeholders: {reason}, {effective-until-countdown}, {player}, ...
+      player-message: "&cYou are muted!"                                                                                # Available placeholders: {player}, {reason}, {effective-until-countdown}, ...
+      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} ((&fduration: {duration-short})) &fto {player-rank-color}{player} &ffor reason: &f{reason}" # Available placeholders: {case-id}, {mod}, {player}, {type}, {duration-short}, {reason}, ...
+      announcement: ""                                                                                                  # Available placeholders: none
 
     unmute:
-      mod-message: "&aSuccessfully removed mute from {player}!"
-      log-message: "&4[[Punishment]] &a{player} has been unmuted by {editor-mod-rank-color}{editor-mod}!"
-      announcement: ""
+      mod-message: "&aSuccessfully removed mute from {player}!"                                                         # Available placeholders: {player}, {mod}, {case-id}, {type}, ...
+      log-message: "&4[[Punishment]] &a{player} has been unmuted by {editor-mod-rank-color}{editor-mod}!"               # Available placeholders: {player}, {editor-mod}, {case-id}, {type}, ...
+      announcement: ""                                                                                                  # Available placeholders: none
 
     warn:
-      mod-message: "&aSuccessfully applied warning to {player}!"
-      player-message: "&cYou have been warned for the reason: &f{reason}."
-      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} &fto {player-rank-color}{player} &ffor reason: &f{reason}"
-      announcement: ""
+      mod-message: "&aSuccessfully applied warning to {player}!"                                                        # Available placeholders: {player}, {mod}, {reason}, {case-id}, {type}, ...
+      player-message: "&cYou have been warned for the reason: &f{reason}."                                              # Available placeholders: {reason}, {player}, {case-id}, ...
+      log-message: "&4[[Punishment]] &f#{case-id} &f{mod-rank-prefix}{mod-rank-color}{mod} &fissued punishment &f{type} &fto {player-rank-color}{player} &ffor reason: &f{reason}" # Available placeholders: {case-id}, {mod}, {player}, {type}, {reason}, ...
+      announcement: ""                                                                                                  # Available placeholders: none
 
-    clear: "&aCleared all punishments from player {player}."
-    delete: "&aDeleted {type} #{case-id} from player {player}."
-    edit: "[&aSuccessfully updated punishment {attribute}!](HOVER:New value: {value})"
+    clear: "&aCleared all punishments from player {player}."                                                            # Available placeholders: {player}, {player-display-name}, {case-id}, {type}, ...
+    delete: "&aDeleted {type} #{case-id} from player {player}."                                                         # Available placeholders: {type}, {case-id}, {player}, {reason}, ...
+    edit: "[&aSuccessfully updated punishment {attribute}!](HOVER:New value: {value})"                                  # Available placeholders: {attribute}, {value}, {case-id}, ...
 
 
-    info: |
+    info: |                                                                                                             # Available placeholders: {case-id}, {player}, {mod}, {editor-mod}, {type}, {date}, {time}, {duration-short}, {reason}, ...
       &cPunishment #{case-id}
       &fOffender: [{player-rank-color}{player-username}](HOVER:&7Click to copy UUID)(COPY_TO_CLIPBOARD:{player-uuid})
       &fModerator: [{mod-rank-color}{mod-username}](HOVER:&7Click to copy UUID)(COPY_TO_CLIPBOARD:{mod-uuid})
@@ -507,87 +602,81 @@ commands:
       &fEdited by &7{editor-mod-rank-color}{editor-mod-username}
 
     history-list:
-      message: |
+      message: |                                                                                                        # Available placeholders: {player}, {punishments}, {page}, {max-pages}, {previous-page}, {next-page}, ...
         &f---------- {player-rank-color}{player}'s punishment history &r&f----------
         {punishments}
         [&f< Previous](RUN_COMMAND:/punishment history {player} {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/punishment history {player} {next-page})
-      blank: "&eNo punishments found for this player!"
-      entry-format: "&e#[[{case-id}]] &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} &ffor &e{reason} &fon &f{date-short} {time-short}"
-      separator: "\n"
-      max-entries-per-page: 5
+      blank: "&eNo punishments found for this player!"                                                                  # Available placeholders: {player}, {punishments}, ...
+      entry-format: "&e#[[{case-id}]] &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} &ffor &e{reason} &fon &f{date-short} {time-short}" # Available placeholders: {case-id}, {type}, {duration-short}, {mod-username}, {reason}, {date-short}, {time-short}, ...
+      separator: "\n"                                                                                                   # Available placeholders: none
+      max-entries-per-page: 5                                                                                           # Available placeholders: none
 
     history-list-all:
-      message: |
+      message: |                                                                                                        # Available placeholders: {punishments}, {page}, {max-pages}, {previous-page}, {next-page}, ...
         &f---------- server punishment history &r&f----------
         {punishments}
         [&f< Previous](RUN_COMMAND:/punishment history * {previous-page})   &7Page {page}/{max-pages}   [&fNext >](RUN_COMMAND:/punishment history * {next-page})
-      blank: "&eNo punishments found for this player!"
-      entry-format: "&e#[[{case-id}]] {player-rank-color}{player} &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short} {time-short}"
-      separator: "\n"
-      max-entries-per-page: 10
+      blank: "&eNo punishments found for this player!"                                                                  # Available placeholders: {player}, {punishments}, ...
+      entry-format: "&e#[[{case-id}]] {player-rank-color}{player} &f{type} (({duration-short})) by &f{mod-rank-prefix}{mod-rank-color}{mod-username} for &f{reason} on &f{date-short} {time-short}" # Available placeholders: {case-id}, {player}, {type}, {duration-short}, {mod-username}, {reason}, {date-short}, {time-short}, ...
+      separator: "\n"                                                                                                   # Available placeholders: none
+      max-entries-per-page: 10                                                                                          # Available placeholders: none
 
   port:
-    set: "&aPort value successfully updated! Restart this server to apply changes." # Format {port}
-    view: "&aThe current server port is set to {port}." # Format {port}
+    set: "&aPort value successfully updated! Restart this server to apply changes."                                     # Available placeholders: {port}
+    view: "&aThe current server port is set to {port}."                                                                 # Available placeholders: {port}
 
   rank:
-    available-subcommands: |
+    available-subcommands: |                                                                                            # Available placeholders: none
       &9Rank subcommands:
       &6/rank add <rank> [[player]]
       &6/rank remove <rank> [[player]]
       &6/rank list [[player]]
 
     error:
-      has-rank: "&eThis player already has that rank!"
-      missing-rank: "&eThis player does not have this rank!"
+      has-rank: "&eThis player already has that rank!"                                                                  # Available placeholders: {player}, {player-display-name}, ...
+      missing-rank: "&eThis player does not have this rank!"                                                            # Available placeholders: {player}, {player-display-name}, ...
 
-    add: "&aAdded {rank-prefix-display} &ato {player-rank-color}{player}!" # rankFormatter, playerFormatter
-    remove: "&aRemoved {rank-prefix-display} &afrom {player-rank-color}{player}!" # rankFormatter, playerFormatter
+    add: "&aAdded {rank-prefix-display} &ato {player-rank-color}{player}!"                                              # Available placeholders: {rank-prefix-display}, {player}, {player-display-name}, {player-rank-color}, ...
+    remove: "&aRemoved {rank-prefix-display} &afrom {player-rank-color}{player}!"                                       # Available placeholders: {rank-prefix-display}, {player}, {player-display-name}, {player-rank-color}, ...
 
     rank-list:
-      message: "{player}'s ranks: {ranks}"
-      blank: "&eNo ranks found for this player!"
-      entry-format: "{rank-prefix-display}"
-      separator: "&f, "
-      max-entries-per-page: -1
+      message: "{player}'s ranks: {ranks}"                                                                              # Available placeholders: {player}, {ranks}, {size}, ...
+      blank: "&eNo ranks found for this player!"                                                                        # Available placeholders: {player}, {player-display-name}, ...
+      entry-format: "{rank-prefix-display}"                                                                             # Available placeholders: {rank-prefix-display}, {rank-name}, {rank-color}, ...
+      separator: "&f, "                                                                                                 # Available placeholders: none
+      max-entries-per-page: -1                                                                                          # Available placeholders: none
 
 
   reload:
-    success: "&aSuccessfully reloaded plugin in &7{time}ms&a!"
-    fail: "&cFailed to reload plugin! {error}"
+    success: "&aSuccessfully reloaded plugin in &7{time}ms&a!"                                                          # Available placeholders: {time}
+    fail: "&cFailed to reload plugin! {error}"                                                                          # Available placeholders: {error}
 
-  smite: "&aSmiting {player-display-name}."
-  smite-all: "&aSmiting {amount} targets."
+  smite: "&aSmiting {player-display-name}."                                                                             # Available placeholders: {player}, {player-display-name}, {player-rank-color}, ...
+  smite-all: "&aSmiting {amount} targets."                                                                              # Available placeholders: {amount}
 
-  sql:
-    confirm-prompt: "&cConfirm executing the query &f{query}&c on the backend database? This could be a dangerous action!\n[&a[[✅ Yes]]](RUN_COMMAND:/sql {query} -confirm)   [&c[[❌ No]]](RUN_COMMAND:/show ~ &cAction cancelled)"
-    sending: "&aSending request..."
-    error: "&cAn error occurred on the backend server: &f{error}"
-    success: "&aOperation successful! Body: &f{body}"
-
-  sudo: "&aForcing {player} to run command: &e{command}"
-  sudo-message: "&aForcing {player} to send message: &e{message}"
+  sudo: "&aForcing {player} to run command: &e{command}"                                                                # Available placeholders: {player}, {command}, {player-display-name}, ...
+  sudo-message: "&aForcing {player} to send message: &e{message}"                                                       # Available placeholders: {player}, {message}, {player-display-name}, ...
 
   timezone:
-    set: "&aTime zone set to {timezone-id-short} (({timezone-id}))."
-    view: "&aYour timezone is currently set to {timezone-id-short} (({timezone-id}))."
+    set: "&aTime zone set to {timezone-id-short} (({timezone-id}))."                                                    # Available placeholders: {timezone-id-short}, {timezone-id}
+    view: "&aYour timezone is currently set to {timezone-id-short} (({timezone-id}))."                                  # Available placeholders: {timezone-id-short}, {timezone-id}
     error:
-      duplicate-state: "&eYour timezone is already set to this value!"
+      duplicate-state: "&eYour timezone is already set to this value!"                                                  # Available placeholders: none
 
-  uuid: "&aThe uuid of {player-rank-color}{player} &ais: &f[{uuid}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{uuid})."
+  uuid: "&aThe uuid of {player-rank-color}{player} &ais: &f[{uuid}](HOVER:&eClick to copy)(COPY_TO_CLIPBOARD:{uuid})."  # Available placeholders: {uuid}, {player}, {player-display-name}, {player-rank-color}, ...
 
-  vanish-enable: "&aVanished {player}."
-  vanish-disable: "&aUnvanished {player}."
-  vanish-join-action-bar: "&aYou joined in vanish mode."
+  vanish-enable: "&aVanished {player}."                                                                                 # Available placeholders: {player}, {player-display-name}, ...
+  vanish-disable: "&aUnvanished {player}."                                                                              # Available placeholders: {player}, {player-display-name}, ...
+  vanish-join-action-bar: "&aYou joined in vanish mode."                                                                # Available placeholders: none
 
-  xp: # Format: playerFormatter, amount
-    available-subcommands: |
+  xp:
+    available-subcommands: |                                                                                            # Available placeholders: none
       &aXP subcommands:
       &e/xp add <amount> [[player]]
       &e/xp remove <amount> [[player]]
       &e/xp set <amount> [[player]]
       &e/xp view [[player]]
-    added: "&aSuccessfully added {amount} xp to {player}!"
-    removed: "&aSuccessfully removed {amount} xp from {player}!"
-    set: "&aSuccessfully set {amount} xp to {player}!"
-    view: "&a{player} has {amount} xp!"
+    added: "&aSuccessfully added {amount} xp to {player}!"                                                              # Available placeholders: {amount}, {player}, {player-display-name}, ...
+    removed: "&aSuccessfully removed {amount} xp from {player}!"                                                        # Available placeholders: {amount}, {player}, {player-display-name}, ...
+    set: "&aSuccessfully set {amount} xp to {player}!"                                                                  # Available placeholders: {amount}, {player}, {player-display-name}, ...
+    view: "&a{player} has {amount} xp!"                                                                                 # Available placeholders: {amount}, {player}, {player-display-name}, ...

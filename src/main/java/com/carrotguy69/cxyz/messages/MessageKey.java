@@ -28,11 +28,9 @@ public enum MessageKey {
     INVALID_DURATION("errors.args.invalid.duration"),
     INVALID_ENCHANT("errors.args.invalid.enchant"),
     INVALID_ENCHANTABLE_ITEM("errors.args.invalid.enchantable-item"),
-    INVALID_ENTRY("errors.args.invalid.entry"),
     INVALID_ITEM("errors.args.invalid.item"),
     INVALID_NUMBER("errors.args.invalid.number"),
     INVALID_PAGE("errors.args.invalid.page"),
-    INVALID_PLAYER("errors.args.invalid.player"),
     INVALID_PUNISHMENT("errors.args.invalid.punishment"),
     INVALID_RANK("errors.args.invalid.rank"),
     INVALID_REPAIRABLE_ITEM("errors.args.invalid.repairable-item"),
@@ -44,12 +42,6 @@ public enum MessageKey {
     INVALID_NICKNAME_LENGTH("errors.args.invalid.nickname-length"),
     INVALID_NICKNAME_CHARACTERS("errors.args.invalid.nickname-characters"),
     INVALID_NICKNAME_TAKEN("errors.args.invalid.nickname-taken"),
-    INVALID_QUERY("errors.args.invalid.query"),
-
-
-
-
-    API_ERROR("errors.other.api-error"),
 
 
     CHAT_COOLDOWN("chat.cooldown-message"),
@@ -374,11 +366,6 @@ public enum MessageKey {
 
     SUDO("commands.sudo"),
     SUDO_MESSAGE("commands.sudo-message"),
-
-    SQL_CONFIRM_PROMPT("commands.sql.confirm-prompt"),
-    SQL_SENDING("commands.sql.sending"),
-    SQL_ERROR("commands.sql.error"),
-    SQL_SUCCESS("commands.sql.success"),
 
     TIMEZONE_SET("commands.timezone.set"),
     TIMEZONE_ERROR_DUPLICATE_STATE("commands.timezone.error.duplicate-state"),

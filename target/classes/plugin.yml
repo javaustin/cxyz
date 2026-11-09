@@ -67,6 +67,12 @@ commands:
     permission: "cxyz.message.reply"
     aliases: [r]
 
+  reload:
+    description: Reload the plugin config
+    usage: /reload
+    permission: "cxyz.message.reload"
+    aliases: [rl]
+
   message:
     description: Send a message to a player on the network
     usage: /message <player> [content]
@@ -505,6 +511,9 @@ permissions:
     default: op
 
   cxyz.powertool:
+    default: op
+
+  cxyz.reload:
     default: op
 
   cxyz.ban:

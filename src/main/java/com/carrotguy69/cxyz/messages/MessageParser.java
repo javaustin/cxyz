@@ -78,16 +78,6 @@ public class MessageParser {
         this.formatMap = formatMap;
     }
 
-    public boolean isInteractive() {
-        for (SimpleTextComponent textComponent : parse()) {
-            if (!textComponent.getActions().isEmpty()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public static String unescape(String s) {
         // Converts escaped characters (like doubled brackets) into literal strings.
         // E.g. "Hello ((these)) are escaped characters" -> "Hello (these) are escaped characters"

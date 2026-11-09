@@ -238,6 +238,7 @@ com\carrotguy69\cxyz\models\config\channel\registry\ChannelRegistry$1.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$GameStatShipmentWrapper.class
 com\carrotguy69\cxyz\events\bukkit\FishEvent.class
 com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentInfo.class
+com\carrotguy69\cxyz\cmd\Reload.class
 com\carrotguy69\cxyz\models\db\NetworkPlayer$MessagePrivacy.class
 com\carrotguy69\cxyz\tabCompleters\Show.class
 com\carrotguy69\cxyz\events\bukkit\DragInventoryEvent.class

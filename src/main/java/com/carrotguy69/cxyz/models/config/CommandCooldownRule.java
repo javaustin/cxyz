@@ -75,10 +75,10 @@ public class CommandCooldownRule {
     public static List<CommandCooldownRule> getGlobalRules() {
         List<CommandCooldownRule> results = new ArrayList<>();
 
-        ConfigurationSection section = CXYZ.configYaml.getConfigurationSection("cooldowns");
+        ConfigurationSection section = CXYZ.configYaml.getConfigurationSection("command-cooldowns");
 
         if (section == null) {
-            throw new InvalidConfigException("config.yml", "cooldowns", "Could not load command cooldowns: Path not found!");
+            throw new InvalidConfigException("config.yml", "command-cooldowns", "Could not load command cooldowns: Path not found!");
         }
 
         for (Map<?, ?> map : section.getMapList("global-rules")) {
@@ -114,10 +114,10 @@ public class CommandCooldownRule {
     public static List<CommandCooldownRule> getPerCommandRules() {
         List<CommandCooldownRule> results = new ArrayList<>();
 
-        ConfigurationSection section = CXYZ.configYaml.getConfigurationSection("cooldowns");
+        ConfigurationSection section = CXYZ.configYaml.getConfigurationSection("command-cooldowns");
 
         if (section == null) {
-            throw new InvalidConfigException("config.yml", "cooldowns", "Could not load command cooldowns: Path not found!");
+            throw new InvalidConfigException("config.yml", "command-cooldowns", "Could not load command cooldowns: Path not found!");
         }
 
         for (Map<?, ?> map : section.getMapList("per-command-rules")) {

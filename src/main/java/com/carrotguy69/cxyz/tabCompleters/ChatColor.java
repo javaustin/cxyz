@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatColor implements TabCompleter {
+
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String name, @NotNull String[] args) {
@@ -38,6 +39,10 @@ public class ChatColor implements TabCompleter {
                     results.add(s.toLowerCase());
                 }
             }
+        }
+
+        if (args.length > 1) {
+            return List.of();
         }
 
         return results;

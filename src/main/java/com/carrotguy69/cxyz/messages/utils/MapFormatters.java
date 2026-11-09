@@ -614,10 +614,8 @@ public class MapFormatters {
             cloneFormaterToNewKey(locationFormatter(player.getPlayer().getLocation()), "", "player-");
         }
 
-
         commonMap.put("player-chat-channel", player.getChatChannel().getName());
         commonMap.put("player-chat-channel-prefix", player.getChatChannel().getPrefix());
-
 
         commonMap.put("player-server", player.getServer());
         commonMap.put("player-vanish-status", player.isVanished() ? "&aVanished" : "&cUnvanished");

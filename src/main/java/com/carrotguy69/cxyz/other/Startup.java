@@ -22,6 +22,7 @@ import com.carrotguy69.cxyz.cmd.Ping;
 import com.carrotguy69.cxyz.cmd.Port;
 import com.carrotguy69.cxyz.cmd.PowerTool;
 import com.carrotguy69.cxyz.cmd.Print;
+import com.carrotguy69.cxyz.cmd.Reload;
 import com.carrotguy69.cxyz.cmd.Smite;
 import com.carrotguy69.cxyz.cmd.Sudo;
 import com.carrotguy69.cxyz.cmd.Test;
@@ -209,6 +210,10 @@ public class Startup {
 
             Objects.requireNonNull(plugin.getCommand("reply")).setExecutor(new MessageReply());
             Objects.requireNonNull(plugin.getCommand("reply")).setTabCompleter(new Blank()); // blank tab completer, to stop Bukkit from automatically filling arguments
+
+            Objects.requireNonNull(plugin.getCommand("reload")).setExecutor(new Reload());
+            Objects.requireNonNull(plugin.getCommand("reload")).setTabCompleter(new Blank());
+
 
             Objects.requireNonNull(plugin.getCommand("timezone")).setExecutor(new SilentCommandExecutor(new Timezone()));
             Objects.requireNonNull(plugin.getCommand("timezone")).setTabCompleter(new com.carrotguy69.cxyz.tabCompleters.SilentTabCompleter(new com.carrotguy69.cxyz.tabCompleters.Timezone()));

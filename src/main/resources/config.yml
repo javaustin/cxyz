@@ -372,7 +372,7 @@ colors:
 announcements:
 
   new-example-announcement:
-    enabled: true
+    enabled: false
     content: '&4Another example announcement'
     channel: announcement
     delay: 30
@@ -548,15 +548,14 @@ command-restrictions:
     message: "&eYou may not use this unless you are a &f[[&aVIP&f]]&e!"
 
 # ============================================================
-# COMMAND COOLDOWNS
+# COOLDOWNS
 # ============================================================
-# Adds a "cooldown" period where a player cannot execute commands.
+# Adds a "cooldown" period where a player cannot execute commands and/nor use the chat.
 # All durations are in seconds.
-
-cooldowns:
+command-cooldowns:
   # Required fields:
   #   name               - The registered name of the command. [For per-command-rules only!]
-  #   cooldown           - The amount of SECONDS a player is allowed to consecutively execute the same command.
+  #   cooldown           - The amount of SECONDS a player must wait before executing a matching command consecutively.
   #   affected-ranks     - The affected ranks by the cooldown rule. If a players' rank is included in this list, they will be subject to the cooldown unless they also have an exempted rank.
   #   exempt-ranks       - The ranks' not subject to the cooldown under any circumstances.
   #   scope [cmd, all]   - The scope of the cooldown rule.
@@ -581,3 +580,13 @@ cooldowns:
       affected-ranks: [ default ]
       exempt-ranks: [ mvp ]
       scope: all
+
+chat-cooldowns:
+  # Required fields:
+  #   cooldown           - The amount of SECONDS a player must wait before chatting again.
+  #   affected-ranks     - The affected ranks by the cooldown rule. If a players' rank is included in this list, they will be subject to the cooldown unless they also have an exempted rank.
+  #   exempt-ranks       - The ranks' not subject to the cooldown under any circumstances.
+
+  - cooldown: 2
+    affected-ranks: [default]
+    exempt-ranks: [vip]

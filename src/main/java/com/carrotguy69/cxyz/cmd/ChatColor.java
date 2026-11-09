@@ -20,8 +20,13 @@ import java.util.Map;
 
 public class ChatColor implements CommandExecutor {
 
-    public static final Map<String, String> map = new HashMap<>(CXYZ.colorMap);
-    public static final Map<String, String> reverseMap = ObjectUtils.invertMap(map);
+    public static Map<String, String> getReverseMap() {
+        return ObjectUtils.invertMap(getMapCopy());
+    }
+
+    public static Map<String, String> getMapCopy() {
+        return new HashMap<>(CXYZ.colorMap);
+    }
 
     public static class Color {
         public String name;
@@ -104,6 +109,9 @@ public class ChatColor implements CommandExecutor {
     }
 
     public static Color getColorValue(String input) {
+        Map<String, String> map = getMapCopy();
+        Map<String, String> reverseMap = getReverseMap();
+
         if (input.equalsIgnoreCase("reset") || input.equalsIgnoreCase("none")) {
             return null;
         }
@@ -130,7 +138,7 @@ public class ChatColor implements CommandExecutor {
     }
 
     public static String getColorNameByCode(String colorCode) {
-        String possibleValue = reverseMap.get(colorCode);
+        String possibleValue = getReverseMap().get(colorCode);
 
         if (possibleValue == null) {
             return colorCode;

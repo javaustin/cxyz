@@ -176,17 +176,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
 
     /*
 
-    [❌] ISSUES:
-    - the /print command cannot print memory sections, figure a way to debug these
-    - There's a lot of uncertainty around channels with respect to cross server messaging.
-        - How are commands propagating to different servers?
-        - Will messages mistakenly be sent twice or even more times?
-        - Which messages are sent and which are omitted?
-    - Make the silent command flag a column of the punishment table. So the silent status is included in the row, so other servers can respect the value.
-
-    [➕] ADD/IMPLEMENT:
-    - CROSS SERVER TESTING!
-
     [🔥] v1.1 UPDATE:
     - Table shipments should be split up into pages (the plugin doesn't know how many pages, so it's up to the API to send all the data we need). We shouldn't have to modify any code plugin-side
     - Enable Cosmetics w/ full GUI support
@@ -243,7 +232,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         return (Map<String, Command>) f.get(commandMap);
     }
 
-
     @Override
     public void onEnable() {
         plugin = JavaPlugin.getPlugin(CXYZ.class);
@@ -253,7 +241,6 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         reloadConfig();
 
         getConfig().options().copyDefaults(true); // Copies default values (values that are not set by user.) Keep this as it will be useful for version changes.
-
 
         saveConfig();
 

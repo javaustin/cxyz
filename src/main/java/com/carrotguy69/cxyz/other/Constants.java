@@ -24,7 +24,7 @@ import static com.carrotguy69.cxyz.CXYZ.*;
 public class Constants {
 
 
-    public static void loadConfigYMLs() {
+    private static void loadConfigYMLs() {
 
         // messages.yml
         File dataFolder = plugin.getDataFolder();
