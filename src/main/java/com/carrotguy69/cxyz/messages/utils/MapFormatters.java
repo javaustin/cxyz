@@ -884,7 +884,6 @@ public class MapFormatters {
         commonMap.put("rank-position", rank.getHierarchy());
         commonMap.put("rank-hierarchy", rank.getHierarchy());
         commonMap.put("rank-chat-color", rank.getDefaultChatColor());
-        commonMap.put("rank-chat-cooldown", rank.getChatCooldown());
 
         return commonMap;
     }

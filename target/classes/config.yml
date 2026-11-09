@@ -175,7 +175,10 @@ ranks:
 #    aliases          - A string list of aliases (alternative names) for channels.
 #                         Example: The public channel can have the aliases: [all, a, pub]
 #    lockable         - A boolean value for the lock-able status of a channel. Put `true` if the channel has the ability to be locked when an admin runs `/channel lock`
-#    locked           - A boolean value for the current lock status of a channel. A lock can be bypassed by a player with the permission `cxyz.channel.{channel-name}.lock-bypass`
+#    locked           - A boolean value for the current lock status of a channel. A lock can be bypassed with `cxyz.channel.{channel-name}.lock-bypass`.
+#                      Chat cooldowns can be bypassed with `cxyz.channel.{channel-name}.cooldown-bypass`.
+#
+# Message colors are stripped for players without `cxyz.message.color-bypass`.
 #
 # [!] Channel names must be unique
 #
@@ -548,45 +551,65 @@ command-restrictions:
     message: "&eYou may not use this unless you are a &f[[&aVIP&f]]&e!"
 
 # ============================================================
-# COOLDOWNS
+# COMMAND COOLDOWNS
 # ============================================================
-# Adds a "cooldown" period where a player cannot execute commands and/nor use the chat.
+# Adds a "cooldown" period where a player cannot execute commands.
 # All durations are in seconds.
 command-cooldowns:
   # Required fields:
-  #   name               - The registered name of the command. [For per-command-rules only!]
+  #   affected-commands  - A list of case-insensitive prefixes of the complete command line, without the leading slash (e.g. ["party create ", "cosmetic buy "]).
+  #                       Each prefix is matched with startsWith, so use a trailing space when a word boundary is required. [For per-command-rules only!]
   #   cooldown           - The amount of SECONDS a player must wait before executing a matching command consecutively.
   #   affected-ranks     - The affected ranks by the cooldown rule. If a players' rank is included in this list, they will be subject to the cooldown unless they also have an exempted rank.
-  #   exempt-ranks       - The ranks' not subject to the cooldown under any circumstances.
+  #   exempt-ranks       - The ranks not subject to the cooldown under any circumstances.
+  #   exempt-commands    - A list of command-line prefixes that will never be subject to the cooldown. This is particularly useful for command based GUI's. [For global-rules only!]
   #   scope [cmd, all]   - The scope of the cooldown rule.
   #                         cmd: The cooldown rule only affects the execution of the same command.
   #                         all: The cooldown rule affects all commands.
 
+  # Tip: To disable a cooldown rule globally, add the `default` rank to the exempt-ranks list for the rule.
+  #
+  # Tip: If `affected-ranks` is left an empty list, it is assumed all ranks are affected by this rule (excluding the exempt ranks).
+
   global-rules:
-    - cooldown: 2
-      affected-ranks: [default]
-      exempt-ranks: [admin]
-      scope: all
+    cooldown: 1
+    affected-ranks: [default]
+    exempt-ranks: [admin]
+    exempt-commands:
+      - "pa open "
+    scope: all
 
   per-command-rules:
-    - name: "message"
-      cooldown: 3
+    - affected-commands:
+        - ping
+      cooldown: 5
       affected-ranks: [default]
-      exempt-ranks: [mvp]
+      exempt-ranks: [admin, mod]
       scope: all
+      
+    - affected-commands:
+        - heal
+      cooldown: 10
+      affected-ranks: []
+      exempt-ranks: []
+      scope: cmd
 
-    - name: "cosmetic.buy"
-      cooldown: 3
-      affected-ranks: [ default ]
-      exempt-ranks: [ mvp ]
-      scope: all
 
+
+# ============================================================
+# CHAT COOLDOWNS
+# ============================================================
+# Similar to command cooldowns, a chat cooldown rule adds a "cooldown" period where a player cannot chat.
+# All durations are in seconds.
+#
 chat-cooldowns:
   # Required fields:
   #   cooldown           - The amount of SECONDS a player must wait before chatting again.
-  #   affected-ranks     - The affected ranks by the cooldown rule. If a players' rank is included in this list, they will be subject to the cooldown unless they also have an exempted rank.
-  #   exempt-ranks       - The ranks' not subject to the cooldown under any circumstances.
+  #   affected-ranks     - The affected ranks by the cooldown rule. If a players rank is included in this list, they will be subject to the cooldown unless they also have an exempted rank.
+  #   exempt-ranks       - The ranks not subject to the cooldown under any circumstances.
+  #   affected-channels  - The affected channels by the cooldown rule. Players will only be subject to the rule if they also have an affected rank.
+  #   exempt-channels    - The channels not subject to the cooldown under any circumstances.
 
-  - cooldown: 2
+  - cooldown: 3
     affected-ranks: [default]
-    exempt-ranks: [vip]
+    exempt-ranks: [vip, mvp, admin]

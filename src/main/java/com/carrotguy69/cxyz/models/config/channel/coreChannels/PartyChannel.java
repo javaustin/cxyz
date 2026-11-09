@@ -2,6 +2,7 @@ package com.carrotguy69.cxyz.models.config.channel.coreChannels;
 
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
+import com.carrotguy69.cxyz.models.config.cooldowns.ChatCooldownRule;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Party;
 import com.carrotguy69.cxyz.models.db.Punishment;
@@ -10,6 +11,7 @@ import com.carrotguy69.cxyz.other.Logger;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,7 +19,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Map;
 
+import static com.carrotguy69.cxyz.CXYZ.chatCooldownRules;
 import static com.carrotguy69.cxyz.CXYZ.f;
+import static com.carrotguy69.cxyz.CXYZ.lastMessage;
 
 public class PartyChannel extends CoreChannel {
 
@@ -61,7 +65,7 @@ public class PartyChannel extends CoreChannel {
             return;
         }
 
-        if (this.isLockable() && this.isLocked() && !p.hasPermission(String.format("cxyz.channel.%s.lock-bypass", this.getName().toLowerCase())) && !p.isOp()) {
+        if (this.isLockable() && this.isLocked() && !p.hasPermission(this.getPermissionNode("lock-bypass"))) {
             MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_IS_LOCKED, commonMap);
             return;
         }
@@ -89,6 +93,28 @@ public class PartyChannel extends CoreChannel {
                 return;
             }
         }
+
+        if (lastMessage.containsKey(np.getUUID())) { // Cooldown checker
+
+            long cooldown = 0;
+            // Find the chat cooldown rule with the highest duration.
+            for (ChatCooldownRule rule : chatCooldownRules) {
+                if (rule.appliesTo(np, this)) {
+                    cooldown = Math.max(cooldown, rule.getCooldown());
+                }
+            }
+
+            long remainingSeconds = lastMessage.get(np.getUUID()) - TimeUtils.unixTimeNow() + cooldown;
+
+            if (!p.hasPermission(this.getPermissionNode("cooldown-bypass")) && remainingSeconds > 0) {
+                MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.CHAT_COOLDOWN, Map.of("remaining-seconds", remainingSeconds));
+                return;
+            }
+        }
+
+        lastMessage.put(np.getUUID(), TimeUtils.unixTimeNow());
+
+        // [End of cooldown check]
 
         PartyChat.chat(e.getPlayer(), content);
 

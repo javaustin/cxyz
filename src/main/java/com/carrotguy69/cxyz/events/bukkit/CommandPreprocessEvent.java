@@ -6,17 +6,16 @@ import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
-import com.carrotguy69.cxyz.models.config.CommandCooldownRule;
-import com.carrotguy69.cxyz.utils.CommandNode;
+import com.carrotguy69.cxyz.models.config.cooldowns.CommandCooldownRule;
 import com.carrotguy69.cxyz.utils.TimeUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import static com.carrotguy69.cxyz.CXYZ.globalCooldownRules;
 import static com.carrotguy69.cxyz.CXYZ.lastCommand;
-import static com.carrotguy69.cxyz.CXYZ.lastCommandByNode;
+import static com.carrotguy69.cxyz.CXYZ.lastCommandByLine;
 
 public class CommandPreprocessEvent {
     public static void onCommand(PlayerCommandPreprocessEvent e) {
@@ -27,46 +26,53 @@ public class CommandPreprocessEvent {
 
         commandString = commandString.substring(1).trim(); // Remove leading "/"
         String[] commandParts = commandString.split("\\s+");
-        String label = commandParts[0].toLowerCase();
-        PluginCommand registered = Bukkit.getPluginCommand(label);
-        String rootPath = CommandNode.path(registered == null ? label : registered.getName());
-        String commandNode = resolveCooldownNode(rootPath, commandParts);
+        String commandNode = commandParts[0].toLowerCase();
 
         long now = TimeUtils.unixTimeNow();
         long allCommandCooldown = 0;
-        long commandCooldown = 0;
-        for (CommandCooldownRule rule : CXYZ.globalCooldownRules) {
-            if (rule.getScope() == CommandCooldownRule.Scope.ALL && rule.appliesTo(np, commandNode)) {
-                allCommandCooldown = Math.max(allCommandCooldown, rule.getCooldown());
-            }
+        Map<String, Integer> commandCooldowns = new HashMap<>();
+
+        if (globalCooldownRules.getScope() == CommandCooldownRule.Scope.ALL && globalCooldownRules.appliesTo(np, commandString)) {
+            allCommandCooldown = Math.max(allCommandCooldown, globalCooldownRules.getCooldown());
         }
+
         for (CommandCooldownRule rule : CXYZ.perCommandCooldownRules) {
-            if (rule.appliesTo(np, commandNode)) {
+            if (rule.appliesTo(np, commandString)) {
                 if (rule.getScope() == CommandCooldownRule.Scope.ALL) {
                     allCommandCooldown = Math.max(allCommandCooldown, rule.getCooldown());
-                } else {
-                    commandCooldown = Math.max(commandCooldown, rule.getCooldown());
+                }
+                else {
+                    for (String affectedCommand : rule.getMatchingCommands(commandString)) {
+                        commandCooldowns.merge(affectedCommand, rule.getCooldown(), Math::max);
+                    }
                 }
             }
         }
 
-        if (allCommandCooldown > 0 || commandCooldown > 0) {
-            long lastCommandAt = lastCommandByNode.computeIfAbsent(np.getUUID(), ignored -> new java.util.concurrent.ConcurrentHashMap<>())
-                    .getOrDefault(commandNode, 0L);
+        boolean hasCommandCooldown = !commandCooldowns.isEmpty();
+
+        if (allCommandCooldown > 0 || hasCommandCooldown) {
+
+            Map<String, Long> commandHistory = lastCommandByLine.computeIfAbsent(np.getUUID(), ignored -> new java.util.concurrent.ConcurrentHashMap<>());
             long lastAnyCommand = CXYZ.lastCommand.getOrDefault(np.getUUID(), 0L);
+
             long remainingAll = allCommandCooldown == 0 ? 0 : lastAnyCommand + allCommandCooldown - now;
-            long remainingCommand = commandCooldown == 0 ? 0 : lastCommandAt + commandCooldown - now;
-            if (Math.max(remainingAll, remainingCommand) > 0) {
-                MessageUtils.sendParsedMessage(e.getPlayer(), MessageKey.COMMAND_COOLDOWN,
-                        Map.of("remaining-seconds", Math.max(remainingAll, remainingCommand), "permission", commandNode));
+            long remainingCommand = 0;
+            for (Map.Entry<String, Integer> entry : commandCooldowns.entrySet()) {
+                long lastCommandAt = commandHistory.getOrDefault(entry.getKey(), 0L);
+                remainingCommand = Math.max(remainingCommand, lastCommandAt + entry.getValue() - now);
+            }
+
+            if (Math.max(remainingAll, remainingCommand) > 0 && !CommandCooldownRule.isGlobalExemptCommand(commandString)) {
+                MessageUtils.sendParsedMessage(e.getPlayer(), MessageKey.COMMAND_COOLDOWN, Map.of("remaining-seconds", Math.max(remainingAll, remainingCommand), "permission", commandNode));
                 e.setCancelled(true);
                 return;
             }
             if (allCommandCooldown > 0) {
                 lastCommand.put(np.getUUID(), now);
             }
-            if (commandCooldown > 0) {
-                lastCommandByNode.get(np.getUUID()).put(commandNode, now);
+            for (String affectedCommand : commandCooldowns.keySet()) {
+                commandHistory.put(affectedCommand, now);
             }
         }
 
@@ -81,44 +87,4 @@ public class CommandPreprocessEvent {
         }
     }
 
-    /**
-     * Resolves the most specific configured cooldown node for a command.
-     * For example, /cosmetic buy resolves to cosmetic.buy when that path is
-     * configured, while /cosmetic equip can still resolve to cosmetic.
-     */
-    private static String resolveCooldownNode(String rootPath, String[] commandParts) {
-        String resolved = rootPath;
-
-        for (CommandCooldownRule rule : CXYZ.perCommandCooldownRules) {
-            String configuredNode = rule.getName();
-            if (configuredNode == null) {
-                continue;
-            }
-
-            String configuredPath = CommandNode.path(configuredNode);
-            if (!configuredPath.startsWith(rootPath + ".")) {
-                continue;
-            }
-
-            String[] configuredParts = configuredPath.split("\\.");
-            if (configuredParts.length > commandParts.length) {
-                continue;
-            }
-
-            boolean matches = true;
-            for (int i = 0; i < configuredParts.length; i++) {
-                String actualPart = i == 0 ? rootPath : commandParts[i];
-                if (!configuredParts[i].equalsIgnoreCase(actualPart)) {
-                    matches = false;
-                    break;
-                }
-            }
-
-            if (matches && configuredParts.length > resolved.split("\\.").length) {
-                resolved = configuredPath;
-            }
-        }
-
-        return resolved;
-    }
 }

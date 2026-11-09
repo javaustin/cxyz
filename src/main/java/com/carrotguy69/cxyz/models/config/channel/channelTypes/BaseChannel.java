@@ -11,10 +11,13 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 import static com.carrotguy69.cxyz.CXYZ.gson;
@@ -96,6 +99,23 @@ public abstract class BaseChannel {
         return aliases;
     }
 
+    /**
+     * Returns the canonical permission namespace for this channel.
+     * Channel-specific permissions must remain below cxyz.channel so that
+     * access and bypass permissions can be managed consistently.
+     */
+    public String getPermissionNode(String action) {
+        return "cxyz.channel." + this.getName().toLowerCase() + "." + action;
+    }
+
+    public static void registerChannelPermissions(String channelName, PermissionDefault accessDefault) {
+        String prefix = "cxyz.channel." + channelName.toLowerCase();
+
+        registerPermission(prefix, accessDefault);
+        registerPermission(prefix + ".lock-bypass", PermissionDefault.OP);
+        registerPermission(prefix + ".cooldown-bypass", PermissionDefault.OP);
+    }
+
     public abstract void onChat(AsyncPlayerChatEvent e);
 
     public abstract void onSelect(NetworkPlayer np);
@@ -174,6 +194,11 @@ public abstract class BaseChannel {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof BaseChannel && Objects.equals(((BaseChannel) obj).channelName.toUpperCase(), this.channelName.toUpperCase());
     }
 
     public String toString() {

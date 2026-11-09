@@ -1,14 +1,17 @@
 package com.carrotguy69.cxyz.other;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
-import com.carrotguy69.cxyz.models.config.CommandCooldownRule;
+import com.carrotguy69.cxyz.models.config.cooldowns.ChatCooldownRule;
+import com.carrotguy69.cxyz.models.config.cooldowns.CommandCooldownRule;
 import com.carrotguy69.cxyz.models.config.cosmetics.ActiveCosmetic;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CustomChannel;
+import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.registry.ChannelRegistry;
 import com.carrotguy69.cxyz.models.config.shorthand.Shorthand;
 import org.bukkit.configuration.ConfigurationSection;
@@ -164,6 +167,10 @@ public class Constants {
         Logger.log(channelLog.substring(0, channelLog.length() - 2));
 
         chatFilterRules.addAll(ChatFilterRule.getChatFilterRules());
+        CXYZ.registerPermission("cxyz.chat-filter-bypass.*", org.bukkit.permissions.PermissionDefault.OP);
+        for (ChatFilterRule rule : chatFilterRules) {
+            CXYZ.registerPermission("cxyz.chat-filter-bypass." + rule.getName(), org.bukkit.permissions.PermissionDefault.OP);
+        }
         Logger.log("Loaded chat filter rules: " + chatFilterRules.stream().map(ChatFilterRule::getName).collect(Collectors.joining(", ")));
 
         shorthandCommands = Shorthand.getShorthandCommands();
@@ -174,7 +181,10 @@ public class Constants {
 
         globalCooldownRules = CommandCooldownRule.getGlobalRules();
         perCommandCooldownRules = CommandCooldownRule.getPerCommandRules();
-        Logger.log("Loaded %d cooldown rules.".formatted(globalCooldownRules.size() + perCommandCooldownRules.size()));
+        Logger.log("Loaded %d command cooldown rules.".formatted(perCommandCooldownRules.size()));
+
+        chatCooldownRules = ChatCooldownRule.getGlobalRules();
+        Logger.log("Loaded %d chat cooldown rules.".formatted(chatCooldownRules.size()));
     }
 
     private static String processIfENV(String s) {

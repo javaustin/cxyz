@@ -33,8 +33,7 @@ public class _RankExecutor implements CommandExecutor {
             return true;
 
         if (args.length == 0) {
-            MessageUtils.sendParsedMessage(sender, MessageKey.RANK_AVAILABLE_SUBCOMMANDS, Map.of());
-            return true;
+            args = new String[]{"list"};
         }
 
         String subCommand = args[0].toLowerCase();

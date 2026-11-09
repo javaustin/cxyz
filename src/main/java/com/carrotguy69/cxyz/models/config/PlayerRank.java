@@ -6,24 +6,22 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.carrotguy69.cxyz.CXYZ.*;
 
 public class PlayerRank {
+
     private final String name;
     private final String prefix;
     private final String color;
     private final int hierarchy;
-    private final int chatCooldown;
     private final String defaultChatColor;
 
-    public PlayerRank (String name, String prefix, String color, int hierarchy, int chatCooldown, String defaultChatColor) {
+    public PlayerRank (String name, String prefix, String color, int hierarchy, String defaultChatColor) {
         this.name = name.toLowerCase();
         this.prefix = prefix;
         this.color = color;
         this.hierarchy = hierarchy;
-        this.chatCooldown = chatCooldown;
         this.defaultChatColor = defaultChatColor;
     }
 
@@ -40,10 +38,9 @@ public class PlayerRank {
                     String prefix = rankData.getString("prefix", "");
                     String color = rankData.getString("color", "&f");
                     String defaultChatColor = rankData.getString("default-chat-color", "&7");
-                    int chatCooldown = rankData.getInt("chat-cooldown", 3);
                     int hierarchy = rankData.getInt("hierarchy", 0);
 
-                    PlayerRank r = new PlayerRank(rank, prefix, color, hierarchy, chatCooldown, defaultChatColor);
+                    PlayerRank r = new PlayerRank(rank, prefix, color, hierarchy, defaultChatColor);
 
                     results.add(r);
 
@@ -55,7 +52,7 @@ public class PlayerRank {
         }
 
         if (results.isEmpty()) {
-            PlayerRank fallback = new PlayerRank("default", "", "&f", 0, 3, "&7");
+            PlayerRank fallback = new PlayerRank("default", "", "&f", 0, "&7");
             results.add(fallback);
             defaultRank = fallback;
 
@@ -100,10 +97,6 @@ public class PlayerRank {
         return hierarchy;
     }
 
-    public int getChatCooldown() {
-        return chatCooldown;
-    }
-
     public String getDefaultChatColor() {
         return defaultChatColor;
     }
@@ -115,7 +108,6 @@ public class PlayerRank {
                 ", prefix='" + prefix + '\'' +
                 ", color='" + color + '\'' +
                 ", hierarchy=" + hierarchy +
-                ", chatCooldown=" + chatCooldown +
                 ", defaultChatColor='" + defaultChatColor + '\'' +
                 '}';
     }

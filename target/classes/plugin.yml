@@ -433,6 +433,8 @@ permissions:
     default: true
   cxyz.message.send:
     default: true
+  cxyz.message.color-bypass:
+    default: op
 
   cxyz.party:
     default: true

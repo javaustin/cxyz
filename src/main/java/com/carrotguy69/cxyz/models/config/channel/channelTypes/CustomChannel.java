@@ -4,15 +4,16 @@ import com.carrotguy69.cxyz.exceptions.InvalidConfigException;
 import com.carrotguy69.cxyz.messages.MessageKey;
 import com.carrotguy69.cxyz.messages.MessageUtils;
 import com.carrotguy69.cxyz.messages.utils.MapFormatters;
+import com.carrotguy69.cxyz.models.config.cooldowns.ChatCooldownRule;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
+import com.carrotguy69.cxyz.utils.TimeUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import java.util.ArrayList;
@@ -20,8 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.carrotguy69.cxyz.CXYZ.chatCooldownRules;
 import static com.carrotguy69.cxyz.CXYZ.configYaml;
 import static com.carrotguy69.cxyz.CXYZ.f;
+import static com.carrotguy69.cxyz.CXYZ.lastMessage;
 
 public class CustomChannel extends BaseChannel {
 
@@ -73,17 +76,7 @@ public class CustomChannel extends BaseChannel {
                 boolean locked = configYaml.getBoolean(channelNode + ".locked");
                 List<String> aliases = configYaml.getStringList(channelNode + ".aliases");
 
-                Permission channelPerm = new Permission("cxyz.channel." + name.toLowerCase());
-                channelPerm.setDefault(PermissionDefault.OP);
-
-                Permission lockOverridePerm = new Permission("cxyz.channel." + name.toLowerCase() + ".lock-bypass");
-                lockOverridePerm.setDefault(PermissionDefault.OP);
-
-                if (Bukkit.getPluginManager().getPermission(channelPerm.getName()) == null)
-                    Bukkit.getPluginManager().addPermission(channelPerm);
-
-                if (Bukkit.getPluginManager().getPermission(lockOverridePerm.getName()) == null)
-                    Bukkit.getPluginManager().addPermission(lockOverridePerm);
+                BaseChannel.registerChannelPermissions(name, PermissionDefault.OP);
 
                 CustomChannel ch = new CustomChannel(name, prefix, chatFormat, webhookURL, triggerPrefix, console, ignorable, lockable, locked, readOnly, aliases);
 
@@ -126,7 +119,7 @@ public class CustomChannel extends BaseChannel {
             return;
         }
 
-        if (this.isLockable() && this.isLocked() && !p.hasPermission(String.format("cxyz.channel.%s.lock-bypass", this.getName().toLowerCase())) && !p.isOp()) {
+        if (this.isLockable() && this.isLocked() && !p.hasPermission(this.getPermissionNode("lock-bypass"))) {
             MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_IS_LOCKED, commonMap);
             return;
         }
@@ -145,6 +138,35 @@ public class CustomChannel extends BaseChannel {
             MessageUtils.sendParsedMessage(p, MessageKey.MISSING_CONTENT, commonMap);
             return;
         }
+
+        if (np.isMuted()) {
+            Punishment punishment = Punishment.getActivePunishment(np, Punishment.PunishmentType.MUTE);
+
+            if (punishment != null) {
+                MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.PUNISHMENT_MUTE_PLAYER_MESSAGE, MapFormatters.punishmentFormatter(np.getPlayer(), punishment));
+                return;
+            }
+        }
+
+        if (lastMessage.containsKey(np.getUUID())) { // Cooldown checker
+
+            long cooldown = 0;
+            // Find the chat cooldown rule with the highest duration.
+            for (ChatCooldownRule rule : chatCooldownRules) {
+                if (rule.appliesTo(np, this)) {
+                    cooldown = Math.max(cooldown, rule.getCooldown());
+                }
+            }
+
+            long remainingSeconds = lastMessage.get(np.getUUID()) - TimeUtils.unixTimeNow() + cooldown;
+
+            if (!p.hasPermission(this.getPermissionNode("cooldown-bypass")) && remainingSeconds > 0) {
+                MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.CHAT_COOLDOWN, Map.of("remaining-seconds", remainingSeconds));
+                return;
+            }
+        }
+
+        lastMessage.put(np.getUUID(), TimeUtils.unixTimeNow());
 
         this.sendChannelMessage(this.getChatFormat(), commonMap, true);
     }

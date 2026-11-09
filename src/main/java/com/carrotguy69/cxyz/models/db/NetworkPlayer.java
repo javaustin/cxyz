@@ -656,7 +656,7 @@ public class NetworkPlayer {
 
         if (channel instanceof CoreChannel) {
             for (PermissionAttachmentInfo info : this.getPlayer().getEffectivePermissions()) {
-                if (info.getPermission().equalsIgnoreCase("cxyz.channel." + channel.getName())) {
+                if (info.getPermission().equalsIgnoreCase("cxyz.channel." + channel.getName().toLowerCase())) {
                     return info.getValue();
                 }
             }

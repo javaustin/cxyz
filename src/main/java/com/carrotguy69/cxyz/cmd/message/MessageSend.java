@@ -22,7 +22,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.carrotguy69.cxyz.CXYZ.defaultRank;
 import static com.carrotguy69.cxyz.CXYZ.messageMap;
 
 public class MessageSend implements CommandExecutor {
@@ -115,7 +114,7 @@ public class MessageSend implements CommandExecutor {
         }
 
 
-        if (Objects.equals(sender.getTopRank().getName(), defaultRank.getName())) { // update when more robust perks/permissions happen
+        if (!sender.getPlayer().hasPermission("cxyz.message.color-bypass")) {
             String stripped = ChatColor.stripColor(content);
             commonMap.put("content", stripped);
         }

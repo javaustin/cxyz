@@ -1,10 +1,13 @@
 package com.carrotguy69.cxyz.models.config.channel.coreChannels;
 
+import com.carrotguy69.cxyz.CXYZ;
 import com.carrotguy69.cxyz.events.custom.PublicChatEvent;
 import com.carrotguy69.cxyz.events.custom.service.EventService;
 import com.carrotguy69.cxyz.messages.MessageParser;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.CoreChannel;
+import com.carrotguy69.cxyz.models.config.cooldowns.ChatCooldownRule;
+import com.carrotguy69.cxyz.models.config.cooldowns.CommandCooldownRule;
 import com.carrotguy69.cxyz.models.db.NetworkPlayer;
 import com.carrotguy69.cxyz.models.db.Punishment;
 import com.carrotguy69.cxyz.other.Logger;
@@ -65,7 +68,7 @@ public class PublicChannel extends CoreChannel {
             return;
         }
 
-        if (this.isLockable() && this.isLocked() && !p.hasPermission(String.format("cxyz.channel.%s.lock-bypass", this.getName().toLowerCase())) && !p.isOp()) {
+        if (this.isLockable() && this.isLocked() && !p.hasPermission(this.getPermissionNode("lock-bypass"))) {
             MessageUtils.sendParsedMessage(p, MessageKey.CHAT_CHANNEL_IS_LOCKED, commonMap);
             return;
         }
@@ -95,9 +98,18 @@ public class PublicChannel extends CoreChannel {
         }
 
         if (lastMessage.containsKey(np.getUUID())) { // Cooldown checker
-            long remainingSeconds = lastMessage.get(np.getUUID()) - TimeUtils.unixTimeNow() + np.getTopRank().getChatCooldown();
 
-            if (!p.hasPermission("cxyz." + this.getName() + ".cooldown-bypass") && remainingSeconds > 0) {
+            long cooldown = 0;
+            // Find the chat cooldown rule with the highest duration.
+            for (ChatCooldownRule rule : chatCooldownRules) {
+                if (rule.appliesTo(np, this)) {
+                    cooldown = Math.max(cooldown, rule.getCooldown());
+                }
+            }
+
+            long remainingSeconds = lastMessage.get(np.getUUID()) - TimeUtils.unixTimeNow() + cooldown;
+
+            if (!p.hasPermission(this.getPermissionNode("cooldown-bypass")) && remainingSeconds > 0) {
                 MessageUtils.sendParsedMessage(np.getPlayer(), MessageKey.CHAT_COOLDOWN, Map.of("remaining-seconds", remainingSeconds));
                 return;
             }

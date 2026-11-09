@@ -6,7 +6,8 @@ import com.carrotguy69.cxyz.http.Listener;
 import com.carrotguy69.cxyz.http.Request;
 import com.carrotguy69.cxyz.models.config.Announcement;
 import com.carrotguy69.cxyz.models.config.ChatFilterRule;
-import com.carrotguy69.cxyz.models.config.CommandCooldownRule;
+import com.carrotguy69.cxyz.models.config.cooldowns.ChatCooldownRule;
+import com.carrotguy69.cxyz.models.config.cooldowns.CommandCooldownRule;
 import com.carrotguy69.cxyz.models.config.PlayerRank;
 import com.carrotguy69.cxyz.models.config.channel.channelTypes.BaseChannel;
 import com.carrotguy69.cxyz.models.config.cosmetics.Cosmetic;
@@ -45,6 +46,8 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -107,9 +110,12 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static List<PlayerRank> ranks = new ArrayList<>();
     public static List<ChatFilterRule> chatFilterRules = new ArrayList<>();
     public static List<Announcement> announcements = new ArrayList<>();
-    public static List<CommandCooldownRule> globalCooldownRules = new ArrayList<>();
     public static List<CommandCooldownRule> perCommandCooldownRules = new ArrayList<>();
+    public static List<ChatCooldownRule> chatCooldownRules = new ArrayList<>();
 
+    public static CommandCooldownRule globalCooldownRules = null;
+
+    public static List<String> cooldownExemptCommands = new ArrayList<>();
     public static List<String> enabledDebugs = new ArrayList<>();
     public static List<String> muteRestrictions = new ArrayList<>();
     public static List<Cosmetic.CosmeticType> enabledCosmeticTypes = new ArrayList<>();
@@ -117,7 +123,7 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
     public static Map<String, String> colorMap = new HashMap<>();
     public static Map<UUID, Long> lastMessage = new HashMap<>();
     public static Map<UUID, Long> lastCommand = new ConcurrentHashMap<>();
-    public static Map<UUID, Map<String, Long>> lastCommandByNode = new ConcurrentHashMap<>();
+    public static Map<UUID, Map<String, Long>> lastCommandByLine = new ConcurrentHashMap<>();
 
     public static int punishmentSeq = 0;
     public static int partyInvitesExpireAfter;
@@ -230,6 +236,15 @@ public final class CXYZ extends JavaPlugin implements org.bukkit.event.Listener 
         Field f = SimpleCommandMap.class.getDeclaredField("knownCommands");
         f.setAccessible(true);
         return (Map<String, Command>) f.get(commandMap);
+    }
+
+    public static void registerPermission(String node, PermissionDefault permissionDefault) {
+        if (Bukkit.getPluginManager().getPermission(node) != null)
+            return;
+
+        Permission permission = new Permission(node);
+        permission.setDefault(permissionDefault);
+        Bukkit.getPluginManager().addPermission(permission);
     }
 
     @Override

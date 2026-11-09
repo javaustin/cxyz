@@ -28,6 +28,7 @@ com\carrotguy69\cxyz\cmd\Dispose.class
 com\carrotguy69\cxyz\cmd\level\LevelRemove.class
 com\carrotguy69\cxyz\utils\BroadcastUtils.class
 com\carrotguy69\cxyz\cmd\punishment\Ban.class
+com\carrotguy69\cxyz\models\config\cooldowns\CommandCooldownRule.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PunishmentShipmentWrapper.class
 com\carrotguy69\cxyz\models\config\shorthand\utils\ShorthandUtils.class
 com\carrotguy69\cxyz\other\Tasks$8.class
@@ -204,7 +205,6 @@ com\carrotguy69\cxyz\other\Logger$DefaultChannelType.class
 com\carrotguy69\cxyz\cmd\Smite.class
 com\carrotguy69\cxyz\cmd\Location.class
 com\carrotguy69\cxyz\models\config\shorthand\Shorthand.class
-com\carrotguy69\cxyz\models\config\CommandCooldownRule.class
 com\carrotguy69\cxyz\tabCompleters\CoinsXPLevel.class
 com\carrotguy69\cxyz\events\bukkit\ChatEvent.class
 com\carrotguy69\cxyz\models\db\Party.class
@@ -224,6 +224,7 @@ com\carrotguy69\cxyz\cmd\party\PartyDisband.class
 com\carrotguy69\cxyz\other\Constants.class
 com\carrotguy69\cxyz\http\ShipmentDelivery.class
 com\carrotguy69\cxyz\tabCompleters\Unequip.class
+com\carrotguy69\cxyz\models\config\cooldowns\CommandCooldownRule$Scope.class
 com\carrotguy69\cxyz\cmd\cosmetic\CosmeticList.class
 com\carrotguy69\cxyz\tabCompleters\Friend.class
 com\carrotguy69\cxyz\other\Startup.class
@@ -257,7 +258,6 @@ com\carrotguy69\cxyz\cmd\friend\FriendList.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PunishmentDeliveryWrapper.class
 com\carrotguy69\cxyz\messages\utils\MessageGrabber.class
 com\carrotguy69\cxyz\other\Tasks$5.class
-com\carrotguy69\cxyz\models\config\CommandCooldownRule$Scope.class
 com\carrotguy69\cxyz\cmd\Info.class
 com\carrotguy69\cxyz\cmd\party\PartyJoin.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PartyInviteShipmentWrapper.class
@@ -267,6 +267,7 @@ com\carrotguy69\cxyz\events\bukkit\LeaveEvent.class
 com\carrotguy69\cxyz\http\ShipmentDelivery$PartyInviteDeliveryWrapper.class
 com\carrotguy69\cxyz\tabCompleters\Ban.class
 com\carrotguy69\cxyz\cmd\Fly.class
+com\carrotguy69\cxyz\models\config\cooldowns\ChatCooldownRule.class
 com\carrotguy69\cxyz\cmd\punishment\manager\PunishmentDelete.class
 com\carrotguy69\cxyz\models\config\cosmetics\ActiveCosmeticLoader$1.class
 com\carrotguy69\cxyz\cmd\punishment\Kick.class
